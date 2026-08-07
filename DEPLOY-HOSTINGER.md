@@ -1,170 +1,161 @@
 # Deploying to Hostinger
 
-Target: **Hostinger Node.js Web App → Hostinger MySQL**.
+Stack: **Laravel + MySQL on Hostinger Web Hosting**.
 
-This is a stock Next.js app — one process, no second server, no shell steps.
-Deployment is: connect the repository, paste environment variables, done. The
-app builds with `next build`, runs with `next start`, and creates its own
-database tables on first use.
+This runs on ordinary PHP shared hosting — the Unlimited/Premium plans included.
+It does **not** need a Node.js Web App, and it does not need the Business plan.
 
-## 0. Check the plan first
+---
 
-**Node.js Web Apps are not available on Premium / Unlimited shared plans.**
+## What makes this different from a normal Laravel deploy
 
-| Plan | Node.js Web Apps |
-| --- | --- |
-| Premium / **Unlimited** (legacy shared) | ❌ not supported |
-| **Business** | ✅ 5 web apps |
-| **Cloud Startup** and above | ✅ 10 web apps |
-| VPS | ✅ but you configure and supervise Node yourself |
+Two things, and both will silently break the site if missed:
 
-Managed MySQL is included on Business and Cloud, so one plan covers both halves
-of this app.
+1. **The document root must point at `public/`.** Laravel's front controller is
+   `public/index.php`; everything above it — `.env`, `storage/`, `vendor/` — must
+   never be web-reachable. Uploading the project straight into `public_html`
+   exposes your database password to anyone who guesses the URL.
 
-To confirm your own plan: hPanel → **Websites → Web Apps**. If the plan does not
-include it you get an upgrade prompt instead of a "create app" flow.
-
-### Known limitation: the filesystem is ephemeral
-
-The Web Apps runtime resets the filesystem on every redeploy. Pages, the enquiry
-form, and everything in MySQL are unaffected — the database is a separate
-managed service.
-
-It does affect `STORAGE_DIR`, which holds client project images and reports:
-uploads are wiped on the next deploy. Before the client portal is used,
-`lib/storage.ts` needs to point at object storage (any S3-compatible bucket)
-instead of local disk. Every call site goes through that one module and the
-stored path format is unchanged, so it is a contained edit.
-
-The landing page and enquiries never touch storage, so they can go live now.
+2. **Built assets are committed to the repository.** Shared hosting has no Node
+   runtime, so `npm run build` cannot run on the server. `public/build/` is
+   therefore tracked in git (see `.gitignore`). Build locally and commit before
+   deploying, or the site loads with no CSS and no JavaScript.
 
 ---
 
 ## 1. Create the database
 
-hPanel → **Databases → Management → Create new database**.
-
-Note the values Hostinger generates — database and user names are prefixed with
-your account id (`u123456789_…`). You do **not** need to import a schema; the
-app creates its own tables on first request.
+hPanel → **Databases → Management → Create new database**. Note the four values;
+the database and user names are prefixed with your account id.
 
 ## 2. Create the mailbox
 
-hPanel → **Emails** → create `info@samaaltariq.org` (or your address). Needed for
-`SMTP_USER` / `SMTP_PASS`.
+hPanel → **Emails** → create `info@samaaltariq.org` (or your address).
 
-## 3. Create the Node.js web app
+## 3. Upload the code
 
-hPanel → **Websites → Web Apps → Add website → Node.js**, then connect:
+Over SSH (hPanel → **Advanced → SSH Access** for the credentials):
 
-```
-https://github.com/webdevdao-git/SamaAlTariq_Website
-```
-
-Every push to `main` redeploys automatically.
-
-| Field | Value |
-| --- | --- |
-| Framework | Next.js (auto-detected) |
-| Node version | 20.x or newer |
-| Branch | `main` |
-| Build command | `npm run build` |
-| Start command | `npm start` |
-| Output directory | `.next` |
-
-These are the stock Next.js commands, which is what the platform's auto-detection
-expects — there is nothing custom to configure.
-
-## 4. Environment variables
-
-hPanel → **Websites → Web Apps → your app → Environment variables**. Use the
-dashboard rather than a `.env` file: the filesystem resets on redeploy, so an
-uploaded `.env` disappears.
-
-```
-NEXT_PUBLIC_SITE_URL=https://samaaltariq.org
-
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_DATABASE=u123456789_samaaltariq
-MYSQL_USER=u123456789_sama
-MYSQL_PASSWORD=…
-
-AUTH_SECRET=…                     # openssl rand -base64 48
-
-ADMIN_EMAIL=admin@samaaltariq.org
-ADMIN_NAME=Site Admin
-ADMIN_PASSWORD=…                  # remove after first boot
-
-SMTP_HOST=smtp.hostinger.com
-SMTP_PORT=465
-SMTP_SECURE=true
-SMTP_USER=info@samaaltariq.org
-SMTP_PASS=…
-SMTP_FROM=info@samaaltariq.org
-SMTP_FROM_NAME=Sama Al Tariq
-ENQUIRY_TO=info@samaaltariq.org
+```bash
+ssh -p 65002 uXXXXXXXX@your-server-ip
+cd ~/domains/samaaltariq.org
+git clone https://github.com/webdevdao-git/SamaAlTariq_Website.git app
+cd app
+composer install --no-dev --optimize-autoloader
 ```
 
-- **`AUTH_SECRET`** must be ≥32 characters. Changing it signs everyone out.
-- **`ADMIN_EMAIL` / `ADMIN_PASSWORD`** create the first administrator on first
-  boot, and only when no admin exists — so this can never overwrite a real
-  account. Delete `ADMIN_PASSWORD` once the account is created.
-- **`STORAGE_DIR`** only matters once storage moves off local disk (section 0).
+`--no-dev` matters: it skips the test and debug packages, which have no business
+on a production host.
 
-## 5. Deploy
+## 4. Point the domain at `public/`
 
-The app builds and starts automatically. Use **Restart** in the Web Apps
-dashboard after changing environment variables.
+hPanel → **Websites → your domain → Advanced → Document root**, set it to:
 
-On the first request that touches the database, the app creates its tables and
-seeds the administrator, then logs `[migrate] schema ready`. Nothing to run by
-hand.
+```
+domains/samaaltariq.org/app/public
+```
 
-Verify:
+If your plan does not expose that setting, the fallback is to put the contents
+of `app/public/` into `public_html/` and edit the two paths near the bottom of
+`public_html/index.php` to point up at `../app`. Changing the document root is
+cleaner — do that if you can.
+
+## 5. Configure
+
+```bash
+cp .env.example .env
+php artisan key:generate
+nano .env          # fill in DB_*, MAIL_*, ADMIN_*, APP_URL
+```
+
+`APP_DEBUG=false` in production, always. With it on, a stack trace on any error
+page will display your environment variables.
+
+## 6. Migrate and seed
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force        # creates the first administrator
+```
+
+`db:seed` prints a temporary password and flags the account so it must be
+changed at first sign-in. It refuses to touch an account that already exists, so
+re-running it is safe.
+
+## 7. Cache for production
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan storage:link
+```
+
+Re-run `config:cache` after any `.env` change — once the config is cached,
+`.env` is no longer read at runtime and edits appear to do nothing.
+
+## 8. Check permissions
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+These are the only directories the web server writes to. Uploaded client files
+live in `storage/app/private`, outside the document root, reachable only through
+the authorised `/portal/files/...` route.
+
+---
+
+## Verify
 
 ```bash
 curl -I https://samaaltariq.org
-curl -X POST https://samaaltariq.org/api/enquiries \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Test","email":"you@example.com","phone":"+971500000000","projectType":"Villa"}'
 ```
 
-A `200` and a row in `enquiries` means the database, the API, and SMTP are all
-wired up.
+Then submit the enquiry form and confirm a row appears in `enquiries`
+(hPanel → Databases → phpMyAdmin). That single test proves PHP, MySQL, the
+routes, and SMTP are all wired.
 
 ---
 
 ## Redeploying
 
-Push to `main`. The GitHub integration rebuilds and restarts.
+```bash
+cd ~/domains/samaaltariq.org/app
+git pull
+composer install --no-dev --optimize-autoloader
+php artisan migrate --force
+php artisan config:cache && php artisan route:cache && php artisan view:cache
+```
+
+If you changed anything under `resources/`, run `npm run build` **locally** and
+commit `public/build/` first — the server cannot build it.
 
 ---
 
 ## Troubleshooting
 
-**App will not start.** Check the deploy log in hPanel → Websites → Web Apps.
+**500 with a blank page.** Check `storage/logs/laravel.log`. Nine times in ten
+it is permissions on `storage/` or a missing `APP_KEY`.
 
-**Site renders unstyled.** The build did not complete — check the deploy log for
-a failed `npm run build`.
+**Site renders unstyled.** `public/build/` was not committed, or the build is
+stale. Run `npm run build` locally, commit, pull on the server.
 
-**`AUTH_SECRET is missing or shorter than 32 characters`.** Set it and restart;
-it is read per request, not at build time.
+**"No application encryption key has been specified."** Run
+`php artisan key:generate`, then `php artisan config:cache`.
 
-**Enquiries return 500.** MySQL is unreachable, or the credentials are wrong.
-Confirm `MYSQL_HOST=localhost` and that the user is attached to the database in
-hPanel. The log shows the underlying driver error; the response never does.
+**Changes to `.env` do nothing.** The config is cached. Run
+`php artisan config:cache` again.
 
-**Tables are not being created.** Look for `[migrate]` lines in the log. The
-schema runs on the first database request, not at boot, so hit
-`/api/enquiries` once. If `AUTO_MIGRATE=false` is set, it is disabled on purpose.
+**Enquiries save but no email arrives.** Look for the logged exception in
+`storage/logs/laravel.log`. The enquiry is stored before the email is attempted,
+so a mail failure never loses the lead. Port 465 needs `MAIL_SCHEME=smtps`;
+port 587 needs `MAIL_SCHEME=smtp`.
 
-**Enquiries save but no email arrives.** Look for `[enquiries] SMTP send failed`.
-Port 465 with `SMTP_SECURE=true` is the reliable combination on Hostinger; 587
-needs `SMTP_SECURE=false`.
+**`.env` is downloadable in the browser.** The document root is wrong — it is
+pointing at the project root instead of `public/`. Fix it immediately and rotate
+the database password.
 
-**Uploads vanish after a deploy.** Expected — the filesystem is ephemeral. Move
-`lib/storage.ts` to object storage (section 0).
-
-**Too many connections.** Lower `MYSQL_POOL_SIZE` (default 5); shared plans
-commonly cap at 25.
+**Uploaded files 404 for a client.** Expected if the project was archived or
+belongs to someone else — that is `ProjectPolicy` doing its job. Check with an
+admin account.

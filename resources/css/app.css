@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../js';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/* ------------------------------------------------------------------
+   Design tokens — Sama Al Tariq landing page
+   Source: Figma "Landing Page redesign" (node 50:2119, frame 1195:2)
+
+   The Figma frame is 1728px wide with 80px gutters, giving a 1568px content
+   column. Type is expressed as clamp(min, <figma px / 1728 * 100>vw, max) so
+   the design scales proportionally instead of snapping at breakpoints.
+------------------------------------------------------------------- */
+
+@theme {
+    --color-teal: #3fa7b3;
+    --color-teal-dark: #35919c;
+    --color-ink: #171717;
+    --color-ink-muted: rgba(23, 23, 23, 0.6);
+    --color-night: #161616;
+    --color-hairline: #efe6e6;
+    --color-mist: #f9f9f9;
+
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    /* "Juana Alt Medium" in Figma is a commercial Latinotype face and the file
+       uses the demo. Playfair Display is the closest freely-licensed match for
+       the same high-contrast serif voice. Swap it here and nowhere else. */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-wordmark: 'Cormorant Garamond', Georgia, serif;
+
+    --text-fluid-hero: clamp(2.75rem, 6.25vw, 108px);
+    --text-fluid-mega: clamp(3.25rem, 7.41vw, 128px);
+    --text-fluid-section: clamp(2.5rem, 5.79vw, 100px);
+    --text-fluid-h2: clamp(1.75rem, 2.78vw, 48px);
+    --text-fluid-label: clamp(1.125rem, 1.62vw, 28px);
+    --text-fluid-lead: clamp(1rem, 1.39vw, 24px);
+    --text-fluid-body: clamp(0.9375rem, 1.16vw, 20px);
+    --text-fluid-sm: clamp(0.875rem, 1.04vw, 18px);
+    --text-fluid-stat: clamp(2.25rem, 3.24vw, 56px);
+
+    --spacing-gutter: clamp(1.25rem, 4.63vw, 80px);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        background: #fff;
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        overflow-x: hidden;
+    }
+
+    /* Lenis animates scrollTop itself; native smooth scrolling animates the
+       same value, and with both on an anchor click stutters to its target. */
+    html.lenis-active {
+        scroll-behavior: auto;
+    }
+
+    ::selection {
+        background: var(--color-teal);
+        color: #fff;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-teal);
+        outline-offset: 3px;
+    }
+
+    /*
+     * Entry curtain. Rendered in the HTML and visible by default so it paints
+     * with the page rather than dropping over content that is already showing.
+     * JavaScript only flips data-lifting.
+     *
+     * Declared here rather than as utility classes: utilities sit in a later
+     * cascade layer, so a `flex` utility would beat the display:none in the
+     * reduced-motion query below and the curtain would show anyway.
+     */
+    .intro-curtain {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-teal);
+        pointer-events: none;
+        clip-path: inset(0 0 0 0);
+        transition: clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .intro-curtain[data-lifting='true'] {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    .intro-curtain__mark {
+        opacity: 1;
+        transition:
+            opacity 450ms ease-out,
+            transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .intro-curtain[data-lifting='true'] .intro-curtain__mark {
+        opacity: 0;
+        transform: translateY(-24px);
+    }
+
+    /*
+     * Scroll lock while the curtain is up, in CSS so it holds from first paint.
+     * Locked on <html> because body already carries overflow-x, which makes a
+     * body-level lock unreliable under the overflow-propagation rules.
+     */
+    @media (prefers-reduced-motion: no-preference) {
+        html:has(.intro-curtain:not([data-lifting='true'])) {
+            overflow: hidden;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .intro-curtain {
+            display: none;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+    }
+}
+
+@layer components {
+    /* The cap belongs on the frame, not the column: putting 1568 here and then
+       adding padding would indent everything by a second gutter. */
+    .shell {
+        width: 100%;
+        max-width: 1728px;
+        margin-inline: auto;
+        padding-inline: var(--spacing-gutter);
+    }
+
+    /* Blocks that run closer to the edge than the standard gutter. */
+    .shell-flush {
+        width: 100%;
+        max-width: 1728px;
+        margin-inline: auto;
+        padding-inline: clamp(1rem, 1.39vw, 24px);
+    }
+
+    .display {
+        font-family: var(--font-display);
+        font-weight: 500;
+        line-height: 0.95;
+        letter-spacing: -0.01em;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 44px;
+        padding-inline: 32px;
+        border-radius: 100px;
+        background: var(--color-teal);
+        color: #fff;
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        text-transform: capitalize;
+        transition:
+            background-color 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    .pill:hover {
+        background: var(--color-teal-dark);
+        transform: translateY(-1px);
+    }
+
+    /* Underlined form field, matching the Figma inquiry card. */
+    .field {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--color-hairline);
+        background: transparent;
+        padding: 0 0 14px;
+        font-size: var(--text-fluid-body);
+        color: var(--color-ink);
+        transition: border-color 0.2s ease;
+    }
+
+    .field:focus {
+        outline: none;
+        border-bottom-color: var(--color-teal);
+    }
+
+    .field[aria-invalid='true'] {
+        border-bottom-color: #c0392b;
+    }
+
+    .field-label {
+        display: block;
+        margin-bottom: clamp(1.25rem, 2.3vw, 40px);
+        font-size: var(--text-fluid-body);
+        color: var(--color-ink);
+    }
+
+    .field-error {
+        margin-top: 0.5rem;
+        display: block;
+        font-size: 0.875rem;
+        color: #c0392b;
+    }
+}
+
+@layer utilities {
+    /*
+     * Scroll reveal. Hidden by default; JavaScript adds .is-visible. A
+     * <noscript> rule in the layout reverses this, so a browser without
+     * JavaScript renders every section rather than a blank page.
+     */
+    .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+            opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Line masks for the split-text reveal. */
+    .line-mask {
+        display: block;
+        overflow: clip;
+    }
+
+    .line-mask > span {
+        display: block;
+        transform: translateY(105%);
+        transition: transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+    }
+
+    .is-visible .line-mask > span,
+    .line-mask.is-visible > span {
+        transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
+
+        .line-mask > span {
+            transform: none;
+            transition: none;
+        }
+    }
+}
