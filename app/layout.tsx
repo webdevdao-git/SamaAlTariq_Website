@@ -82,13 +82,18 @@ export default function RootLayout({
     >
       <head>
         {/*
-          Marks the document as JS-capable before first paint. The scroll-reveal
-          styles hang off `.js`, so a browser without JavaScript renders every
-          section at full opacity instead of a blank page.
+          Scroll-reveal fallback. `.reveal` starts at opacity 0 and JavaScript
+          adds `.is-visible`; without JavaScript nothing ever would, so the page
+          would read as blank. This reverses the hidden state for those visitors.
+
+          Deliberately a <noscript> style rather than a script that stamps a
+          class onto <html>: mutating the root element before hydration changes
+          markup React already rendered on the server, which is a hydration
+          mismatch. Nothing here touches the DOM, so server and client agree.
         */}
-        <script
+        <noscript
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js')`,
+            __html: `<style>.reveal{opacity:1 !important;transform:none !important}</style>`,
           }}
         />
       </head>

@@ -150,25 +150,26 @@
 
 @layer utilities {
   /*
-   * Scoped to .js, which an inline script in <head> sets before first paint.
-   * Without JavaScript the hidden state is never applied at all, so the page
-   * renders fully — the animation is an enhancement, never a prerequisite
-   * for reading the content.
+   * The hidden state is plain CSS with no JS hook, so the server and client
+   * markup are identical — nothing mutates <html> before hydration.
+   * A <noscript> block in <head> (see app/layout.tsx) reverses this for
+   * visitors without JavaScript, since nothing would ever add .is-visible
+   * for them.
    */
-  .js .reveal {
+  .reveal {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .js .reveal.is-visible {
+  .reveal.is-visible {
     opacity: 1;
     transform: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .js .reveal {
+    .reveal {
       opacity: 1;
       transform: none;
       transition: none;

@@ -32,14 +32,20 @@ export function About() {
         </Reveal>
 
         <Reveal className="mt-[clamp(2.5rem,5.79vw,100px)] flex justify-center md:justify-start md:pl-[54%]">
-          <Image
-            src={about.image}
-            alt="Curved timber-ribbed interior with a sculpted lounge chair"
-            width={389}
-            height={272}
-            sizes="(max-width: 768px) 90vw, 389px"
-            className="h-auto w-full max-w-[389px] object-cover"
-          />
+          {/*
+            Figma draws this as a fixed 389×272 crop, so the box owns the
+            aspect ratio and the image fills it. Passing width/height while CSS
+            drives only one axis makes next/image warn about a distorted ratio.
+          */}
+          <div className="relative aspect-[389/272] w-full max-w-[389px] overflow-hidden">
+            <Image
+              src={about.image}
+              alt="Curved timber-ribbed interior with a sculpted lounge chair"
+              fill
+              sizes="(max-width: 768px) 90vw, 389px"
+              className="object-cover"
+            />
+          </div>
         </Reveal>
 
         <div className="mt-[clamp(2rem,2.31vw,40px)] border-t border-black/10 pt-[clamp(2rem,2.31vw,40px)]">
