@@ -91,11 +91,12 @@ file for why that matters. If the platform's Next.js preset insists on running
 `next start` instead, remove `output: "standalone"` from `next.config.ts` and
 set the start command to `next start`; everything else is unaffected.
 
-## 5. Environment variables
+## 4. Environment variables
 
-Set these in hPanel → Node.js → your app → **Environment variables** (preferred:
-they survive redeploys and stay out of the filesystem), or in a `.env` file in
-the application root. Real environment variables always win.
+Set these in hPanel → **Websites → Web Apps → your app → Environment variables**.
+Use the dashboard rather than a `.env` file: the filesystem is reset on every
+redeploy, so a committed or uploaded `.env` either disappears or has to live in
+the repository. Real environment variables always win over a `.env` file.
 
 ```
 NEXT_PUBLIC_SITE_URL=https://samaaltariq.org
@@ -125,7 +126,7 @@ Two that matter:
 - **`STORAGE_DIR`** is only meaningful once storage moves off local disk — see
   the ephemeral-filesystem note in section 0. Leave it at the default until then.
 
-## 6. Migrate the database and seed the admin
+## 5. Migrate the database and seed the admin
 
 The build itself runs on Hostinger. These two are one-off commands you run
 against the same database — from your own machine with the Hostinger MySQL
@@ -144,7 +145,7 @@ afterwards.
 `admin:create` prints a temporary password and flags the account to require a
 change at first sign-in. Run it once.
 
-## 7. Start
+## 6. Start
 
 The app starts automatically after the first successful deploy; use **Restart**
 in the Web Apps dashboard after changing environment variables. Hostinger
