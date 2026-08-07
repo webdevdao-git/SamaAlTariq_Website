@@ -25,14 +25,20 @@ php artisan key:generate
 touch database/database.sqlite
 php artisan migrate --seed        # prints the admin password once
 
-npm run build                     # or: npm run dev
-php artisan serve
+composer run dev                  # → http://localhost:8000
 ```
+
+`composer run dev` starts everything at once: the PHP server, the Vite dev
+server, the queue listener and log tailing.
+
+**Open `http://localhost:8000`, not `:5173`.** Vite only serves the compiled
+CSS and JS — Laravel serves the site and pulls assets from Vite in dev.
 
 | Command | What it does |
 | --- | --- |
-| `php artisan serve` | Development server |
-| `npm run dev` | Vite dev server with hot reload |
+| `composer run dev` | Everything: PHP server + Vite + queue + logs |
+| `php artisan serve` | PHP server only (assets need `npm run dev` too) |
+| `npm run dev` | Vite dev server only — does **not** serve the site |
 | `npm run build` | Compile assets — **commit `public/build/`**, see below |
 | `php artisan test` | Full test suite |
 | `php artisan migrate --seed` | Schema + first administrator |
