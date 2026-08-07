@@ -11,10 +11,12 @@ It does **not** need a Node.js Web App, and it does not need the Business plan.
 
 Two things, and both will silently break the site if missed:
 
-1. **The document root must point at `public/`.** Laravel's front controller is
-   `public/index.php`; everything above it — `.env`, `storage/`, `vendor/` — must
-   never be web-reachable. Uploading the project straight into `public_html`
-   exposes your database password to anyone who guesses the URL.
+1. **The web root has to reach Laravel's `public/`, and Hostinger shared plans
+   will not let you move the document root.** Every site is served from a fixed
+   `public_html`. Step 4 handles this with a purpose-built front controller.
+   What must never happen is uploading the project itself into `public_html` —
+   that exposes `.env`, and with it your database password, to anyone who
+   guesses the URL.
 
 2. **Built assets are committed to the repository.** Shared hosting has no Node
    runtime, so `npm run build` cannot run on the server. `public/build/` is
@@ -47,18 +49,43 @@ composer install --no-dev --optimize-autoloader
 `--no-dev` matters: it skips the test and debug packages, which have no business
 on a production host.
 
-## 4. Point the domain at `public/`
+## 4. Wire `public_html` to the app
 
-hPanel → **Websites → your domain → Advanced → Document root**, set it to:
+Hostinger's shared plans serve every site from a fixed `public_html` and give
+you no way to move the document root, so Laravel's `public/` cannot become the
+web root directly. `deploy/hostinger/` in this repo contains a front controller
+built for exactly that layout.
+
+Target structure:
 
 ```
-domains/samaaltariq.org/app/public
+~/domains/samaaltariq.org/
+    app/            ← this repository
+    public_html/    ← index.php, .htaccess, and everything from app/public/
 ```
 
-If your plan does not expose that setting, the fallback is to put the contents
-of `app/public/` into `public_html/` and edit the two paths near the bottom of
-`public_html/index.php` to point up at `../app`. Changing the document root is
-cleaner — do that if you can.
+```bash
+cd ~/domains/samaaltariq.org
+cp app/deploy/hostinger/index.php   public_html/
+cp app/deploy/hostinger/.htaccess   public_html/
+cp -R app/public/build              public_html/
+cp -R app/public/images             public_html/
+cp app/public/favicon.ico app/public/robots.txt public_html/ 2>/dev/null
+```
+
+That front controller calls `usePublicPath(__DIR__)`, which is the part people
+usually miss: without it Laravel keeps generating asset URLs against
+`app/public`, and every stylesheet and script 404s even though the page renders.
+
+Nothing inside the application is modified, so `git pull` never conflicts.
+
+**Do not** upload the project itself into `public_html`. Everything above
+`public/` — `.env`, `storage/`, `vendor/` — must stay out of the web root. This
+layout was tested by serving `public_html` alone: the site renders, assets load,
+the enquiry form submits, and `/.env` returns 404.
+
+*If your plan does allow a custom document root* (Business and Cloud do), point
+it at `app/public` instead and skip this step entirely — it is cleaner.
 
 ## 5. Configure
 
@@ -88,8 +115,12 @@ re-running it is safe.
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-php artisan storage:link
 ```
+
+There is no `storage:link` step. Client files are served through an authorised
+controller rather than a public symlink, which sidesteps the symlink
+restrictions common on shared hosting — and keeps the files private, which was
+the point.
 
 Re-run `config:cache` after any `.env` change — once the config is cached,
 `.env` is no longer read at runtime and edits appear to do nothing.
@@ -126,6 +157,9 @@ git pull
 composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 php artisan config:cache && php artisan route:cache && php artisan view:cache
+
+# assets changed? refresh the copy in the web root
+cp -R public/build ../public_html/
 ```
 
 If you changed anything under `resources/`, run `npm run build` **locally** and
@@ -138,8 +172,13 @@ commit `public/build/` first — the server cannot build it.
 **500 with a blank page.** Check `storage/logs/laravel.log`. Nine times in ten
 it is permissions on `storage/` or a missing `APP_KEY`.
 
-**Site renders unstyled.** `public/build/` was not committed, or the build is
-stale. Run `npm run build` locally, commit, pull on the server.
+**Site renders unstyled.** Either `public/build/` was not committed, or it was
+not copied into `public_html/` after the last pull. Check that
+`public_html/build/` exists and matches `app/public/build/`.
+
+**Page loads but every asset 404s.** `usePublicPath(__DIR__)` is missing from
+`public_html/index.php` — you are probably using a stock copy of Laravel's
+front controller instead of the one in `deploy/hostinger/`.
 
 **"No application encryption key has been specified."** Run
 `php artisan key:generate`, then `php artisan config:cache`.
@@ -152,9 +191,9 @@ stale. Run `npm run build` locally, commit, pull on the server.
 so a mail failure never loses the lead. Port 465 needs `MAIL_SCHEME=smtps`;
 port 587 needs `MAIL_SCHEME=smtp`.
 
-**`.env` is downloadable in the browser.** The document root is wrong — it is
-pointing at the project root instead of `public/`. Fix it immediately and rotate
-the database password.
+**`.env` is downloadable in the browser.** The project was uploaded into
+`public_html` instead of beside it. Move it out immediately and rotate the
+database password — assume it was read.
 
 **Uploaded files 404 for a client.** Expected if the project was archived or
 belongs to someone else — that is `ProjectPolicy` doing its job. Check with an
