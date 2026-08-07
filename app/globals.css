@@ -53,6 +53,80 @@
     overflow-x: hidden;
   }
 
+  /*
+   * Lenis animates scrollTop itself. Native smooth scrolling animates the same
+   * value, so with both on, an anchor click has two animations fighting over
+   * one property and the page stutters to the target.
+   */
+  html.lenis-active {
+    scroll-behavior: auto;
+  }
+
+  /*
+   * Scroll lock while the curtain is up.
+   *
+   * Driven by CSS rather than a class JavaScript adds on mount, so it applies
+   * from first paint — otherwise there is a window between paint and hydration
+   * where the page is covered but still scrollable, and the visitor is dropped
+   * mid-page when the curtain lifts.
+   *
+   * Locked on <html>, not <body>: body already carries overflow-x, so the
+   * overflow-propagation rules make a body-level lock unreliable.
+   *
+   * Both escape hatches matter — under reduced motion the curtain is display:none
+   * but still in the DOM, so :has() would otherwise match forever; and the
+   * <noscript> block in layout.tsx unlocks for a page whose JS never runs.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    html:has(.intro-curtain:not([data-lifting="true"])) {
+      overflow: hidden;
+    }
+  }
+
+  /*
+   * Entry curtain. Visible by default so it is already painted in the
+   * server-rendered HTML; JavaScript only flips data-lifting to wipe it away.
+   *
+   * Every property is declared here rather than as utility classes on the
+   * element. Utilities sit in a later cascade layer than base, so a `flex`
+   * utility would win over the `display: none` in the reduced-motion query
+   * below and the curtain would show anyway.
+   */
+  .intro-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-teal);
+    pointer-events: none;
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .intro-curtain[data-lifting="true"] {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .intro-curtain__mark {
+    opacity: 1;
+    transition: opacity 450ms ease-out,
+      transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .intro-curtain[data-lifting="true"] .intro-curtain__mark {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+
+  /* Never show an intro to someone who asked for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-curtain {
+      display: none;
+    }
+  }
+
   /* The design is a single fixed-palette page — opt out of UA dark mode. */
   @media (prefers-color-scheme: dark) {
     :root {

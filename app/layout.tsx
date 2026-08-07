@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Playfair_Display, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { Preloader } from "@/components/motion/preloader";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -93,11 +95,19 @@ export default function RootLayout({
         */}
         <noscript
           dangerouslySetInnerHTML={{
-            __html: `<style>.reveal{opacity:1 !important;transform:none !important}</style>`,
+            __html: `<style>
+              .reveal{opacity:1 !important;transform:none !important}
+              .intro-curtain{display:none !important}
+              html{overflow:visible !important}
+            </style>`,
           }}
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <SmoothScroll />
+        <Preloader />
+        {children}
+      </body>
     </html>
   );
 }
