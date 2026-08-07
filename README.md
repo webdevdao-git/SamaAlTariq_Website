@@ -16,20 +16,20 @@ Next.js 16 (App Router) + Node.js, built from the Figma file
 
 ```bash
 npm install
-cp .env.example .env      # fill in MYSQL_*, AUTH_SECRET, SMTP_*
-npm run db:init           # creates the tables
-npm run admin:create -- admin@samaaltariq.org "Site Admin"
+cp .env.example .env      # fill in MYSQL_*, AUTH_SECRET, ADMIN_*, SMTP_*
 npm run dev               # http://localhost:3000
 ```
+
+There is no migration or seed step. The app creates its own tables on the first
+request that touches the database, and seeds the first administrator from
+`ADMIN_EMAIL` / `ADMIN_PASSWORD` — see [Backend](#backend).
 
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Development server |
-| `npm run build` | Production build; `postbuild` copies `public/` and `.next/static` into the standalone output |
-| `npm start` | Runs `.next/standalone/server.js` — the process Hostinger keeps alive |
+| `npm run build` | Production build |
+| `npm start` | Production server — the process Hostinger keeps alive |
 | `npm run check` | typecheck → lint → build |
-| `npm run db:init` | Applies `db/schema.sql` (idempotent) |
-| `npm run admin:create` | Seeds the first administrator |
 
 Deployment: **[DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md)**.
 
@@ -41,7 +41,7 @@ Deployment: **[DEPLOY-HOSTINGER.md](DEPLOY-HOSTINGER.md)**.
 
 ```
 app/
-  layout.tsx            fonts, metadata, the .js class for scroll reveals
+  layout.tsx            fonts, metadata, smooth scroll, entry curtain
   page.tsx              composes the nine sections
   globals.css           design tokens + component classes
   api/                  the Node backend (see below)
@@ -52,10 +52,11 @@ components/
   inquiry-form.tsx      the contact form, posts to /api/enquiries
   icons.tsx             SVGs transcribed from the Figma exports
   reveal.tsx            shared scroll-reveal observer
+  motion/               preloader, smooth scroll, parallax, split-lines
 content/site.ts         every string and image path on the page
 lib/                    db, auth, repositories, storage, mail, validation
-db/schema.sql           MySQL schema
-scripts/                db:init, admin:create, standalone packaging
+lib/schema.ts           MySQL schema, as statements the app runs itself
+lib/migrate.ts          self-migration + first-admin seeding
 ```
 
 All copy lives in `content/site.ts` — edit that, not the components.
@@ -170,6 +171,7 @@ Supabase/Postgres backend. Same tables, same access rules, same two emails.
 | Storage bucket + object policies | private files under `STORAGE_DIR` | served only via `/api/files`, which checks project access |
 | Edge Functions | route handlers | `send-enquiry` → `POST /api/enquiries`, `create-client` → `POST /api/admin/clients`, `update-client` → `PATCH /api/admin/clients/:id` |
 | `denomailer` | `nodemailer` | same SMTP mailbox |
+| `supabase db push` | self-migration on first query | no deploy hook or shell needed on managed hosting |
 
 **The authorization rules did not change.** Because MySQL cannot enforce them,
 they are enforced in one layer instead: every read goes through a repository

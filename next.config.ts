@@ -1,13 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /**
-   * `standalone` emits .next/standalone/server.js — a self-contained Node
-   * server with only the packages it actually needs. That is what Hostinger's
-   * Node.js app manager runs, and it keeps the uploaded bundle small enough to
-   * deploy over their file manager or SSH. See DEPLOY-HOSTINGER.md.
+  /*
+   * No `output: "standalone"`.
+   *
+   * Standalone suits a Node process you supervise yourself, but it needs a
+   * postbuild step to copy public/ and .next/static into the output, and it
+   * breaks `next start`. Hostinger's Web Apps runtime auto-detects Next.js and
+   * runs the stock build/start pair, so the plain output is both simpler and
+   * the one the platform expects.
    */
-  output: "standalone",
 
   images: {
     // All imagery is bundled in /public, so no remote patterns are needed.

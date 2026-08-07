@@ -1,5 +1,6 @@
 import "server-only";
 import mysql from "mysql2/promise";
+import { ensureSchema } from "@/lib/migrate";
 
 /**
  * MySQL connection pool for the Hostinger-managed database.
@@ -62,9 +63,22 @@ function bind(params: unknown[]): SqlValue[] {
   return params.map((value) => (value === undefined ? null : value)) as SqlValue[];
 }
 
+/**
+ * The pool, with the schema guaranteed to exist.
+ *
+ * Every query in the app goes through here, so the migration runs exactly once
+ * per process on whichever request happens to touch the database first — no
+ * deploy hook and no shell step required. See lib/migrate.ts.
+ */
+async function pool(): Promise<mysql.Pool> {
+  const p = getPool();
+  await ensureSchema(p);
+  return p;
+}
+
 /** Typed SELECT helper. Values are always bound, never interpolated. */
 export async function query<T>(sql: string, params: unknown[] = []): Promise<T[]> {
-  const [rows] = await getPool().query(sql, bind(params));
+  const [rows] = await (await pool()).query(sql, bind(params));
   return rows as T[];
 }
 
@@ -82,7 +96,7 @@ export async function execute(
   sql: string,
   params: unknown[] = [],
 ): Promise<mysql.ResultSetHeader> {
-  const [result] = await getPool().execute(sql, bind(params));
+  const [result] = await (await pool()).execute(sql, bind(params));
   return result as mysql.ResultSetHeader;
 }
 
@@ -90,7 +104,7 @@ export async function execute(
 export async function transaction<T>(
   fn: (conn: mysql.PoolConnection) => Promise<T>,
 ): Promise<T> {
-  const conn = await getPool().getConnection();
+  const conn = await (await pool()).getConnection();
   try {
     await conn.beginTransaction();
     const result = await fn(conn);

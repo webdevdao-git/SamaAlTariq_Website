@@ -5,13 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node .next/standalone/server.js",
-    "postbuild": "node scripts/prepare-standalone.mjs",
+    "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run build",
-    "db:init": "node scripts/db-init.mjs",
-    "admin:create": "node scripts/create-admin.mjs"
+    "check": "npm run typecheck && npm run lint && npm run build"
   },
   "engines": {
     "node": ">=20.9.0"
