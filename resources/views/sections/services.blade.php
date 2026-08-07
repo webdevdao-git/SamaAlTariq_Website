@@ -1,11 +1,18 @@
 @php($services = config('site.services'))
 
 {{--
-    Figma: frame 1224:548, 1728×2510.
-    The file stacks two flattened 1728×980 panels that differ only in which tab
-    pill is active and which headline shows — two states of one tabbed
-    switcher, not two blocks. Built here as the switcher, with all six tab
-    labels from the design.
+    Our Expertise.
+
+    Figma stacks two flattened 1728×980 panels that differ only in which tab
+    pill is active — two states of one component. The interaction model here is
+    modelled on mino.works: instead of clicking to swap content in place, each
+    service is its own full-viewport panel and scrolling moves between them.
+    Every panel carries the same tab row with its own pill active, so the row
+    doubles as a position indicator and as navigation.
+
+    That makes the whole thing work without JavaScript: the "active" state is
+    just markup, and the tabs are anchor links. Lenis eases the jump when it is
+    running; native anchor scrolling handles it when it is not.
 --}}
 <section id="services" class="bg-white pt-[clamp(3rem,4.63vw,80px)]">
     <div class="shell">
@@ -15,42 +22,56 @@
         </div>
     </div>
 
-    <div class="reveal relative isolate w-full overflow-hidden" data-services>
-        <div class="relative min-h-[clamp(420px,56.7vw,980px)] w-full">
-            @foreach ($services['items'] as $i => $item)
-                <img src="{{ asset($item['image']) }}" alt="" loading="lazy" decoding="async"
-                     data-service-image="{{ $i }}"
-                     @if ($i !== 0) aria-hidden="true" @endif
-                     class="absolute inset-0 h-full w-full object-cover transition-opacity duration-[900ms] ease-out {{ $i === 0 ? 'opacity-100' : 'opacity-0' }}">
-            @endforeach
+    @foreach ($services['items'] as $i => $item)
+        @php($number = str_pad($i + 1, 2, '0', STR_PAD_LEFT))
 
-            <div aria-hidden="true" class="absolute inset-0"
-                 style="background:linear-gradient(180deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.15) 45%,rgba(0,0,0,0.35) 100%)"></div>
+        <article id="service-{{ $i + 1 }}"
+                 class="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden
+                        px-[var(--spacing-gutter)] py-[clamp(2rem,5vw,88px)]"
+                 aria-labelledby="service-heading-{{ $i + 1 }}">
 
-            <div class="relative flex min-h-[clamp(420px,56.7vw,980px)] flex-col gap-[clamp(1.5rem,4.7vw,80px)] px-[var(--spacing-gutter)] py-[clamp(2rem,5.5vw,96px)]">
-                <div role="tablist" aria-label="Our areas of expertise"
-                     class="-mx-[var(--spacing-gutter)] flex snap-x gap-1 overflow-x-auto px-[var(--spacing-gutter)] pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    @foreach ($services['items'] as $i => $item)
-                        <button type="button" role="tab" id="service-tab-{{ $i }}"
-                                data-service-tab="{{ $i }}"
-                                aria-selected="{{ $i === 0 ? 'true' : 'false' }}" aria-controls="service-panel"
-                                class="shrink-0 snap-start rounded-full px-[clamp(0.9rem,1.3vw,22px)] py-[clamp(0.45rem,0.7vw,12px)] text-[clamp(0.75rem,0.93vw,16px)] font-medium whitespace-nowrap transition-colors duration-300 {{ $i === 0 ? 'bg-white text-ink' : 'text-white/85 hover:bg-white/15 hover:text-white' }}">
-                            {{ $item['tab'] }}
-                        </button>
-                    @endforeach
-                </div>
+            <img src="{{ asset($item['image']) }}" alt=""
+                 loading="{{ $i === 0 ? 'eager' : 'lazy' }}" decoding="async"
+                 class="absolute inset-0 -z-20 h-full w-full object-cover">
 
-                <h3 id="service-panel" role="tabpanel" aria-labelledby="service-tab-0"
+            <div aria-hidden="true" class="absolute inset-0 -z-10"
+                 style="background:linear-gradient(180deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.15) 45%,rgba(0,0,0,0.5) 100%)"></div>
+
+            {{--
+                The row repeats in every panel as a visual device, but there is
+                only one navigation here. The first copy is the real one; the
+                rest are hidden from assistive tech and taken out of the tab
+                order, so a screen reader or keyboard user gets one clean list
+                instead of the same six links six times over.
+            --}}
+            <nav class="-mx-[var(--spacing-gutter)] flex snap-x gap-1 overflow-x-auto px-[var(--spacing-gutter)] pb-1
+                        [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                 @if ($i === 0) aria-label="Our areas of expertise" @else aria-hidden="true" @endif>
+                @foreach ($services['items'] as $j => $tab)
+                    <a href="#service-{{ $j + 1 }}"
+                       @if ($i !== 0) tabindex="-1" @endif
+                       @if ($i === $j) aria-current="true" @endif
+                       class="shrink-0 snap-start rounded-full px-[clamp(0.9rem,1.3vw,22px)] py-[clamp(0.45rem,0.7vw,12px)]
+                              text-[clamp(0.75rem,0.93vw,16px)] font-medium whitespace-nowrap transition-colors duration-300
+                              {{ $i === $j ? 'bg-white text-ink' : 'text-white/85 hover:bg-white/15 hover:text-white' }}">
+                        {{ $tab['tab'] }}
+                    </a>
+                @endforeach
+            </nav>
+
+            <div class="mt-auto flex flex-col gap-[clamp(0.75rem,1.4vw,24px)]">
+                <h3 id="service-heading-{{ $i + 1 }}"
                     class="display text-[clamp(1.5rem,2.55vw,44px)] uppercase text-white">
                     <span class="block">
-                        <span data-service-title-1>{{ $services['items'][0]['title'][0] }}</span>
-                        <sup data-service-number class="ml-2 align-super text-[0.42em] tracking-wide">(01)</sup>
+                        {{ $item['title'][0] }}<sup class="ml-2 align-super text-[0.42em] tracking-wide">({{ $number }})</sup>
                     </span>
-                    <span data-service-title-2 class="block">{{ $services['items'][0]['title'][1] }}</span>
+                    <span class="block">{{ $item['title'][1] }}</span>
                 </h3>
+
+                <p class="max-w-[46ch] text-fluid-body font-medium text-white/80">{{ $item['description'] }}</p>
             </div>
-        </div>
-    </div>
+        </article>
+    @endforeach
 
     <div class="flex justify-center py-[clamp(2.5rem,4.63vw,80px)]">
         <a href="{{ $services['cta']['href'] }}" class="pill group">
@@ -59,7 +80,3 @@
         </a>
     </div>
 </section>
-
-@push('data')
-    <script type="application/json" id="services-data">@json(array_map(fn ($i) => $i['title'], $services['items']))</script>
-@endpush

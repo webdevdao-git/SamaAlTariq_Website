@@ -126,32 +126,40 @@ return [
         'items' => [
             [
                 'tab' => 'Fit-Out Contracting',
+                'description' => 'Turnkey delivery from bare shell to handover, coordinated under one contract.',
                 'title' => ['Fit Out Contracting', 'And Turnkey Solutions'],
                 'image' => 'images/services/fit-out-contracting.webp',
             ],
             [
                 'tab' => 'Design & Build',
+                'description' => 'One team from concept drawings through to construction, with no handover gaps.',
                 'title' => ['Design And Build', 'Interior And Architecture'],
                 'image' => 'images/services/design-and-build.webp',
             ],
-            // PLACEHOLDER titles below — Figma names the tabs but writes no headline.
+            // PLACEHOLDER titles below — Figma names the tabs but writes no
+            // headline. Every `description` is PLACEHOLDER too: the panels in
+            // the Figma file carry no body copy.
             [
                 'tab' => 'Commercial & Office',
+                'description' => 'Workplaces delivered around live operations, phased to keep your business running.',
                 'title' => ['Commercial And Office', 'Fit-Out Delivery'],
                 'image' => 'images/services/commercial-and-office.webp',
             ],
             [
                 'tab' => 'Villa Renovation',
+                'description' => 'Structural and finish upgrades that respect the original architecture.',
                 'title' => ['Villa Renovation', 'And Refurbishment'],
                 'image' => 'images/services/villa-renovation.webp',
             ],
             [
                 'tab' => 'Custom Joinery',
+                'description' => 'Bespoke cabinetry and fixtures built in our own workshop to millimetre tolerances.',
                 'title' => ['Custom Joinery', 'And Bespoke Furniture'],
                 'image' => 'images/services/custom-joinery.webp',
             ],
             [
                 'tab' => 'Carpentry & Millwork',
+                'description' => 'Precision fabrication and installation for feature walls, ceilings and detailing.',
                 'title' => ['Carpentry And Millwork', 'Precision Fabrication'],
                 'image' => 'images/services/carpentry-and-millwork.webp',
             ],

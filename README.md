@@ -113,7 +113,16 @@ Two sections are drawn in Figma as stacked static states, and are built as the
 component those states imply:
 
 - **Our Expertise** — two 1728×980 panels differing only in the active tab pill
-  and headline. Built as one tabbed switcher with all six services.
+  and headline. Built as six full-viewport panels you scroll through, following
+  the pattern on [mino.works](https://mino.works/): each panel carries the same
+  tab row with its own pill active, so the row is both a position indicator and
+  navigation. The active state is therefore plain markup — no JavaScript is
+  involved, and the tabs are anchor links that work with Lenis or without it.
+
+  The row repeats visually in all six panels, but only the first is exposed to
+  assistive tech; the rest are `aria-hidden` with their links removed from the
+  tab order, so a screen reader or keyboard user gets one clean list instead of
+  the same six links six times over.
 - **Our Process** — one step (`01`) is drawn. Built as a stepper.
 
 ---
@@ -130,6 +139,7 @@ of the markup or styling is.
 | Hero | Section sinks at `scrollY × 0.25`; photo pushes in `1 → 1.1` over one viewport |
 | Headings | Lines rise out of clipping masks on a stagger |
 | Projects | Per-card vertical drift keyed to viewport progress |
+| Services | Six full-viewport scroll panels, active pill per panel (no JS) |
 | Page | Lenis smooth scroll |
 
 Everything scroll-driven shares one rAF loop (`motion/scroll-engine.js`) that

@@ -1,13 +1,12 @@
 /**
- * The two tabbed sections: Our Expertise and Our Process.
+ * Our Process — a switcher over the numbered steps.
  *
- * Both are drawn in Figma as stacked static states — Expertise shows two panels
- * differing only in the active pill and headline, Process draws one numbered
- * step. Those are states of one component, not separate blocks, so both are
- * built as switchers.
+ * Figma draws only step 01; those are states of one component, so it is built
+ * as a stepper. Content comes from a JSON script tag rendered by the Blade
+ * view, so the copy stays in config/site.php and is never duplicated here.
  *
- * Content comes from a JSON script tag rendered by the Blade view, so the copy
- * stays in config/site.php and is never duplicated in JavaScript.
+ * (Our Expertise used to live here too. It is now six scrolling panels, each
+ * rendering its own active pill, so it needs no JavaScript at all.)
  */
 
 function readJson(id) {
@@ -18,47 +17,6 @@ function readJson(id) {
     } catch {
         return null;
     }
-}
-
-export function initServiceTabs() {
-    const root = document.querySelector('[data-services]');
-    const titles = readJson('services-data');
-    if (!root || !titles) return;
-
-    const tabs = Array.from(root.querySelectorAll('[data-service-tab]'));
-    const images = Array.from(root.querySelectorAll('[data-service-image]'));
-    const line1 = root.querySelector('[data-service-title-1]');
-    const line2 = root.querySelector('[data-service-title-2]');
-    const number = root.querySelector('[data-service-number]');
-    const panel = root.querySelector('#service-panel');
-
-    const activate = (index) => {
-        tabs.forEach((tab, i) => {
-            const active = i === index;
-            tab.setAttribute('aria-selected', active ? 'true' : 'false');
-            tab.classList.toggle('bg-white', active);
-            tab.classList.toggle('text-ink', active);
-            tab.classList.toggle('text-white/85', !active);
-            tab.classList.toggle('hover:bg-white/15', !active);
-            tab.classList.toggle('hover:text-white', !active);
-        });
-
-        images.forEach((img, i) => {
-            const active = i === index;
-            img.classList.toggle('opacity-100', active);
-            img.classList.toggle('opacity-0', !active);
-            // Only the visible panel should be reachable by assistive tech.
-            if (active) img.removeAttribute('aria-hidden');
-            else img.setAttribute('aria-hidden', 'true');
-        });
-
-        line1.textContent = titles[index][0];
-        line2.textContent = titles[index][1];
-        number.textContent = `(${String(index + 1).padStart(2, '0')})`;
-        panel?.setAttribute('aria-labelledby', `service-tab-${index}`);
-    };
-
-    tabs.forEach((tab, i) => tab.addEventListener('click', () => activate(i)));
 }
 
 export function initProcessTabs() {

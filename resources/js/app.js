@@ -3,7 +3,7 @@ import { initSmoothScroll } from './motion/smooth-scroll';
 import { initReveal } from './motion/reveal';
 import { initParallax, initHeroParallax } from './motion/parallax';
 import { initSplitLines } from './motion/split-lines';
-import { initServiceTabs, initProcessTabs } from './motion/tabs';
+import { initProcessTabs } from './motion/tabs';
 import { initMenu } from './motion/menu';
 import { initFitText } from './motion/fit-text';
 
@@ -15,7 +15,6 @@ import { initFitText } from './motion/fit-text';
 function boot() {
     initPreloader();
     initMenu();
-    initServiceTabs();
     initProcessTabs();
     initFitText();
 

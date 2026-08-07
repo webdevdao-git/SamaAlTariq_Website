@@ -15,9 +15,9 @@
     "file": "assets/cormorant-garamond-600-normal-Co1r35X9.woff2",
     "src": "_cormorant-garamond-600-normal-Co1r35X9.woff2"
   },
-  "_fonts-6iXHZ6B1.css": {
-    "file": "assets/fonts-6iXHZ6B1.css",
-    "src": "_fonts-6iXHZ6B1.css"
+  "_fonts-CyV9qeKX.css": {
+    "file": "assets/fonts-CyV9qeKX.css",
+    "src": "_fonts-CyV9qeKX.css"
   },
   "_manrope-400-normal-8tf8FM3T.woff": {
     "file": "assets/manrope-400-normal-8tf8FM3T.woff",
@@ -76,7 +76,7 @@
     "src": "_playfair-display-600-normal-CxxueQ0Z.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BY_Sm69O.css",
+    "file": "assets/app-B-f6qajT.css",
     "name": "app",
     "names": [
       "app.css"
@@ -85,7 +85,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-D64-Lhwp.js",
+    "file": "assets/app-ChlWVUPa.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
