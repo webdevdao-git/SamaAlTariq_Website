@@ -217,6 +217,18 @@ cp app/deploy/hostinger/.htaccess public_html/.htaccess
 # then re-add the PHP 8.4 handler block at the top (see section 4)
 ```
 
+**A replaced image or icon still shows the old one.** Hostinger's CDN caches
+static files for seven days (`cache-control: max-age=604800`). Confirm with:
+
+```bash
+curl -sD- -o /dev/null https://your-domain/favicon.ico | grep -i hcdn-cache
+```
+
+`HIT` with a non-zero `age` means the CDN, not your deploy. The icon `<link>`
+tags carry an mtime query string so they bust automatically, but the bare
+`/favicon.ico` that browsers request without reading the HTML does not — purge
+it in hPanel → the site dashboard → **Clear cache**.
+
 **Page loads but every asset 404s.** `usePublicPath(__DIR__)` is missing from
 `public_html/index.php` — you are probably using a stock copy of Laravel's
 front controller instead of the one in `deploy/hostinger/`.
