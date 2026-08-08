@@ -89,8 +89,13 @@
 <div id="site-menu" data-menu role="dialog" aria-modal="true" aria-label="Site navigation"
      class="pointer-events-none fixed inset-0 z-50 bg-night/95 opacity-0 backdrop-blur-sm transition-opacity duration-500">
     <div class="shell flex h-full flex-col py-[clamp(1.25rem,2.55vw,44px)]">
-        <div class="flex items-center justify-between">
-            <span class="text-fluid-body font-semibold uppercase text-white/60">Navigation</span>
+        {{--
+            justify-end, not justify-between: the "Navigation" label that used to
+            sit opposite Close is gone, and justify-between would drop the button
+            to the left edge. The dialog still carries aria-label="Site
+            navigation", so nothing is lost for assistive tech.
+        --}}
+        <div class="flex items-center justify-end">
             <button type="button" data-menu-close
                     class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">Close</button>
         </div>
