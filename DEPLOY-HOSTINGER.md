@@ -72,10 +72,15 @@ cp -R app/public/build              public_html/
 cp -R app/public/images             public_html/
 
 # every other root-level public file — favicons, robots.txt, the manifest.
-# `! -name index.php` is load-bearing: app/public/index.php is Laravel's stock
-# front controller, and copying it here would overwrite the one from
-# deploy/hostinger and take the site down.
-find app/public -maxdepth 1 -type f ! -name index.php -exec cp {} public_html/ \;
+#
+# Both exclusions are load-bearing. app/public/ ships Laravel's own index.php
+# AND its own .htaccess; copying either into public_html overwrites the
+# Hostinger versions from deploy/hostinger and takes the site down — the
+# .htaccess one silently, because losing it drops the site back to PHP 8.3 and
+# every page 500s on the platform check.
+find app/public -maxdepth 1 -type f \
+     ! -name index.php ! -name .htaccess \
+     -exec cp {} public_html/ \;
 ```
 
 That front controller calls `usePublicPath(__DIR__)`, which is the part people
@@ -167,7 +172,8 @@ php artisan config:cache && php artisan route:cache && php artisan view:cache
 # rm first: Vite hashes filenames, so copying over the top leaves every old
 # hash behind and public_html/build grows with each deploy
 rm -rf ../public_html/build && cp -R public/build ../public_html/
-find public -maxdepth 1 -type f ! -name index.php -exec cp {} ../public_html/ \;
+find public -maxdepth 1 -type f ! -name index.php ! -name .htaccess \
+     -exec cp {} ../public_html/ \;
 ```
 
 If you changed anything under `resources/`, run `npm run build` **locally** and
@@ -200,6 +206,16 @@ it is permissions on `storage/` or a missing `APP_KEY`.
 **Site renders unstyled.** Either `public/build/` was not committed, or it was
 not copied into `public_html/` after the last pull. Check that
 `public_html/build/` exists and matches `app/public/build/`.
+
+**Every page 500s right after a deploy.** The most likely cause is
+`public_html/.htaccess` having been overwritten by Laravel's own copy from
+`app/public/.htaccess`, which drops the site back to PHP 8.3. Restore it:
+
+```bash
+cd ~/domains/<your-domain>
+cp app/deploy/hostinger/.htaccess public_html/.htaccess
+# then re-add the PHP 8.4 handler block at the top (see section 4)
+```
 
 **Page loads but every asset 404s.** `usePublicPath(__DIR__)` is missing from
 `public_html/index.php` — you are probably using a stock copy of Laravel's
