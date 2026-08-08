@@ -122,19 +122,23 @@
         </div>
 
         {{-- Wordmark lock-up --}}
-        <div class="mt-[clamp(2.5rem,4.63vw,80px)] border-t border-white/20 pt-[clamp(1.5rem,2.55vw,44px)]">
+        <div class="mt-[clamp(2.5rem,4.63vw,80px)] border-t border-white/20 pt-[clamp(2.25rem,3.7vw,64px)] pb-[clamp(1.5rem,2.55vw,44px)]">
             {{--
                 Sized by measurement (see motion/fit-text.js). The vw values are
                 only the no-JavaScript fallback, set low enough not to overflow
                 with a wider fallback face.
 
-                `pb` on the first line gives the Q descender somewhere to go —
-                at leading 0.78 it otherwise crosses into the tracked line below.
+                Spacing is set in `em` so it scales with the measured font size
+                rather than the viewport — the lock-up keeps the same optical
+                proportions whatever width fit-text lands on.
+
+                `pb` on the first line clears the Q descender, which at leading
+                0.78 otherwise runs into the tracked line below.
             --}}
-            <p data-fit-text class="font-wordmark text-[10.5vw] leading-[0.78] font-semibold whitespace-nowrap pb-[0.06em]">
+            <p data-fit-text class="font-wordmark text-[10.5vw] leading-[0.78] font-semibold whitespace-nowrap pb-[0.12em]">
                 {{ Str::upper($footer['wordmark']) }}
             </p>
-            <p data-fit-text class="mt-[clamp(0.15rem,0.35vw,6px)] font-wordmark text-[2.5vw] leading-none tracking-[0.72em] whitespace-nowrap">
+            <p data-fit-text class="mt-[0.34em] font-wordmark text-[2.5vw] leading-none tracking-[0.72em] whitespace-nowrap">
                 {{ Str::upper($footer['wordmark_sub']) }}
             </p>
         </div>
