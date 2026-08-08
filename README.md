@@ -236,6 +236,10 @@ Marked `PLACEHOLDER` in `config/site.php`:
   headlines for Fit-Out Contracting and Design & Build.
 - **Process steps 02–04** — only "Tender And Cost Estimation" exists.
 - **Social URLs** — the footer links to network home pages.
+- **Phone and address** — `site.contact.phone` and `site.contact.address` are
+  `null`, and each footer line renders only when set, so nothing invented is
+  ever shown. Fill them in and they appear. The email is real: it is the mailbox
+  the enquiry form already delivers to.
 - **Service and process photography** — `public/images/services/*` and
   `public/images/process/*` reuse project photography. The originals are
   flattened into the Figma frames with captions baked in, so they could not be

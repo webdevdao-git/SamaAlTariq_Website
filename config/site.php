@@ -221,6 +221,20 @@ return [
         ],
     ],
 
+    /*
+     * Footer contact block. Only `email` is known — it is the mailbox the
+     * enquiry form already delivers to. `phone` and `address` are deliberately
+     * null rather than invented: the Figma file contains neither, and the
+     * footer renders each line only when it is set, so filling them in here is
+     * the only step needed to show them.
+     */
+    'contact' => [
+        'heading' => 'Get in touch',
+        'email' => env('ENQUIRY_TO', 'info@samaaltariq.org'),
+        'phone' => null,
+        'address' => null,
+    ],
+
     'footer' => [
         'recent' => [
             'label' => 'Recently Completed',
