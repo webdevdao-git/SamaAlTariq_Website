@@ -3,7 +3,7 @@ import { initSmoothScroll } from './motion/smooth-scroll';
 import { initReveal } from './motion/reveal';
 import { initParallax, initHeroParallax } from './motion/parallax';
 import { initSplitLines } from './motion/split-lines';
-import { initProcessTabs } from './motion/tabs';
+import { initProcessScroll } from './motion/process';
 import { initMenu } from './motion/menu';
 import { initFitText } from './motion/fit-text';
 
@@ -15,7 +15,7 @@ import { initFitText } from './motion/fit-text';
 function boot() {
     initPreloader();
     initMenu();
-    initProcessTabs();
+    initProcessScroll();
     initFitText();
 
     // Split before reveal: splitting rewrites the element's children, and doing

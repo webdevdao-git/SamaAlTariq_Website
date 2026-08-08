@@ -235,6 +235,25 @@
         transform: none;
     }
 
+    /*
+     * Process steps. In normal flow by default so the section is a readable
+     * list without JavaScript; motion/process.js adds .is-stacked to collapse
+     * them for the cross-fade.
+     */
+    .process-step + .process-step {
+        margin-top: clamp(2rem, 3.7vw, 64px);
+    }
+
+    .is-stacked .process-step {
+        grid-area: 1 / 1;
+        margin-top: 0;
+        transition: opacity 260ms linear;
+    }
+
+    .is-stacked {
+        display: grid;
+    }
+
     /* Line masks for the split-text reveal. */
     .line-mask {
         display: block;

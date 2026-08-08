@@ -66,7 +66,7 @@ resources/views/
   sections/               the nine landing-page sections
   components/             icon, project-card
 resources/js/motion/      preloader, smooth-scroll, parallax, split-lines,
-                          reveal, tabs, menu, fit-text
+                          reveal, process, menu, fit-text
 database/migrations/      schema
 tests/Feature/            enquiry + authorization coverage
 ```
@@ -123,7 +123,18 @@ component those states imply:
   assistive tech; the rest are `aria-hidden` with their links removed from the
   tab order, so a screen reader or keyboard user gets one clean list instead of
   the same six links six times over.
-- **Our Process** — one step (`01`) is drawn. Built as a stepper.
+- **Our Process** — one step (`01`) is drawn. Built as a sticky text column
+  that cross-fades between the four steps while their images scroll past,
+  following the pattern on
+  [concept-interiors-pearl.vercel.app](https://concept-interiors-pearl.vercel.app/).
+  Measured first: the reference blends adjacent steps continuously rather than
+  snapping, so opacity is a function of each image's distance from the text,
+  not of an active index.
+
+  The steps are an ordinary readable list in the markup; JavaScript adds
+  `.is-stacked` to collapse them. Without JavaScript, under reduced motion, or
+  below the `lg` breakpoint where the column is not sticky, the section stays
+  that list.
 
 ---
 
@@ -140,6 +151,7 @@ of the markup or styling is.
 | Headings | Lines rise out of clipping masks on a stagger |
 | Projects | Per-card vertical drift keyed to viewport progress |
 | Services | Six full-viewport scroll panels, active pill per panel (no JS) |
+| Process | Sticky text column cross-fading as step images scroll past |
 | Page | Lenis smooth scroll |
 
 Everything scroll-driven shares one rAF loop (`motion/scroll-engine.js`) that
