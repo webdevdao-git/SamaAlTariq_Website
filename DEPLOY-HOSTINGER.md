@@ -158,14 +158,33 @@ composer install --no-dev --optimize-autoloader
 php artisan migrate --force
 php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# assets changed? refresh the copy in the web root
-cp -R public/build ../public_html/
+# assets changed? replace the copy in the web root
+# rm first: Vite hashes filenames, so copying over the top leaves every old
+# hash behind and public_html/build grows with each deploy
+rm -rf ../public_html/build && cp -R public/build ../public_html/
 ```
 
 If you changed anything under `resources/`, run `npm run build` **locally** and
 commit `public/build/` first — the server cannot build it.
 
 ---
+
+## Notes from the first deploy
+
+Three things on this host that a generic Laravel guide will not warn you about:
+
+- **`proc_open` is disabled** in php.ini, so bare `php artisan` and
+  `composer install` both fail. Prefix artisan with
+  `php -d disable_functions= artisan …`, and pass `--no-scripts` to Composer
+  (then run `php -d disable_functions= artisan package:discover` yourself).
+- **CLI is PHP 8.4 but the web SAPI defaults to 8.3.** `composer.lock` resolved
+  against 8.4 requires ≥ 8.4.1, so the site 500s in a browser while rendering
+  perfectly from the shell. `public_html/.htaccess` selects 8.4 with
+  `SetHandler application/x-lsphp84`; hPanel → PHP Configuration does the same.
+- **`SESSION_DRIVER=database` means every request hits MySQL**, so the static
+  landing page 500s before a database exists. This deploy uses `file` for both
+  sessions and cache, which suits a single shared host and removes the
+  dependency.
 
 ## Troubleshooting
 
