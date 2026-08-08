@@ -4,10 +4,16 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  * Our Process — a sticky text column that cross-fades as the step images scroll
  * past it.
  *
- * Each step's weight is how close its image is to the sticky text, falling off
- * linearly to zero one image-spacing away. Adjacent steps therefore blend
- * rather than snapping, which is what the reference does: mid-transition it
- * measured 0.47 / 0.53 across two steps rather than 0 / 1.
+ * Each step's weight is how close its image is to the sticky text, reaching
+ * zero one image-spacing away. Adjacent steps blend rather than snapping, which
+ * is what the reference does — mid-transition it measured 0.47 / 0.53 across
+ * two steps rather than 0 / 1.
+ *
+ * The falloff is cubed before normalising, though. A straight linear blend
+ * parks two steps at ~0.5 through every handover, and two serif headings at
+ * half opacity on top of each other read as a misprint. Cubing keeps one step
+ * dominant for most of the travel and compresses the overlap into a short
+ * window; a small opposed translate does the rest of the separating.
  *
  * The stacking is added here, not in the markup. Left alone, the four steps are
  * an ordinary readable list — so with JavaScript off, or motion reduced, the
@@ -21,6 +27,9 @@ export function initProcessScroll() {
     const stack = root.querySelector('[data-process-stack]');
     const steps = [...root.querySelectorAll('[data-process-step]')];
     const images = [...root.querySelectorAll('[data-process-image]')];
+    // The Figma layout carries no progress rail, so these are normally empty.
+    // Kept as lookups rather than deleted: the forEach calls below no-op on an
+    // empty list, so a rail can be reinstated in the Blade view with no JS change.
     const rails = [...root.querySelectorAll('[data-process-rail]')];
     const railLines = [...root.querySelectorAll('[data-process-rail-line]')];
 
@@ -45,6 +54,7 @@ export function initProcessScroll() {
         // other — until the first scroll near them.
         steps.forEach((s, i) => {
             s.style.opacity = i === 0 ? '1' : '0';
+            s.style.transform = '';
             if (i === 0) s.removeAttribute('aria-hidden');
             else s.setAttribute('aria-hidden', 'true');
         });
@@ -55,6 +65,7 @@ export function initProcessScroll() {
         stack.classList.remove('is-stacked');
         steps.forEach((s) => {
             s.style.opacity = '';
+            s.style.transform = '';
             s.removeAttribute('aria-hidden');
         });
         dominant = -1;
@@ -84,7 +95,16 @@ export function initProcessScroll() {
             ? Math.abs(centres[1] - centres[0])
             : vh;
 
-        const weights = centres.map((c) => Math.max(0, 1 - Math.abs(c - reference) / spacing));
+        /*
+         * Linear falloff would leave two steps at ~0.5 through the middle of
+         * every handover, and two headings at half opacity on top of each other
+         * read as a misprint rather than a transition. Cubing the weight before
+         * normalising keeps one step dominant for most of the travel and
+         * compresses the blend into a short window, without turning it into a
+         * hard snap.
+         */
+        const linear = centres.map((c) => Math.max(0, 1 - Math.abs(c - reference) / spacing));
+        const weights = linear.map((w) => w * w * w);
         const total = weights.reduce((a, w) => a + w, 0);
 
         // Before the first image reaches the text and after the last has left,
@@ -99,8 +119,12 @@ export function initProcessScroll() {
         let best = 0;
 
         weights.forEach((w, i) => {
-            const opacity = w / sum;
-            steps[i].style.opacity = opacity.toFixed(3);
+            steps[i].style.opacity = (w / sum).toFixed(3);
+            // A small slide in the scroll direction, so the outgoing step lifts
+            // away while the incoming one rises — motion separates the two even
+            // during the moment they overlap.
+            const drift = Math.max(-1, Math.min(1, (centres[i] - reference) / spacing));
+            steps[i].style.transform = `translate3d(0, ${(drift * 26).toFixed(1)}px, 0)`;
             if (w > weights[best]) best = i;
         });
 

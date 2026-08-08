@@ -247,7 +247,7 @@
     .is-stacked .process-step {
         grid-area: 1 / 1;
         margin-top: 0;
-        transition: opacity 260ms linear;
+        will-change: opacity, transform;
     }
 
     .is-stacked {
