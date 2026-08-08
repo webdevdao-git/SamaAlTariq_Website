@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\PageController;
@@ -32,6 +34,19 @@ Route::post('/enquiries', [EnquiryController::class, 'store'])
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->middleware('throttle:10,15');
+
+    /*
+     * Password reset, matching the forgot-password / reset-password pair in the
+     * Supabase app. Throttled hard: the request form emails a real person and
+     * accepts any address, so it is the most abusable endpoint on the site.
+     */
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->middleware('throttle:5,15')->name('password.email');
+
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->middleware('throttle:5,15')->name('password.store');
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])

@@ -29,5 +29,9 @@
 
             <button type="submit" class="pill w-fit">Sign in</button>
         </form>
+
+        <p class="mt-6 text-sm">
+            <a href="{{ route('password.request') }}" class="text-teal hover:underline">Forgotten your password?</a>
+        </p>
     </div>
 @endsection

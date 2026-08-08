@@ -45,10 +45,22 @@
                     </span>
                 </a>
 
-                <a href="#contact"
-                   class="shrink-0 text-fluid-body font-semibold uppercase text-white underline underline-offset-4 transition-opacity hover:opacity-70">
-                    Enquire
-                </a>
+                <div class="flex shrink-0 items-center gap-[clamp(1rem,1.85vw,32px)]">
+                    {{--
+                        Signed-in visitors get the portal instead of a login
+                        link — a client who is already authenticated has no use
+                        for a sign-in page, and it saves a redirect.
+                    --}}
+                    <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}"
+                       class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">
+                        {{ auth()->check() ? 'Portal' : 'Login' }}
+                    </a>
+
+                    <a href="#contact"
+                       class="text-fluid-body font-semibold uppercase text-white underline underline-offset-4 transition-opacity hover:opacity-70">
+                        Enquire
+                    </a>
+                </div>
             </div>
         </header>
 
