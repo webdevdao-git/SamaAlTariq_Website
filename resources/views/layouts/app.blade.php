@@ -11,15 +11,21 @@
     <link rel="canonical" href="{{ url()->current() }}">
 
     {{--
-        The logo mark is near-white, so every icon here is the mark on the brand
-        teal rather than on transparency — on a light tab bar a transparent
-        version is invisible. Regenerate with deploy/make-favicons.py after
-        changing public/images/logo-mark.png.
+        Regenerate with deploy/make-favicons.py after changing
+        public/images/logo-mark.png.
+
+        The ?v= is the file's mtime. Hostinger's CDN caches these for seven days
+        (max-age=604800), so without it a replaced icon keeps serving the old
+        one for a week — which is exactly what happened the first time these
+        were swapped. Changing the file changes the URL, so the CDN treats it as
+        a new resource.
     --}}
-    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
-    <link rel="icon" type="image/png" href="{{ asset('icon-32.png') }}" sizes="32x32">
-    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    @php($iconVersion = fn (string $file) => asset($file).'?v='.(@filemtime(public_path($file)) ?: 1))
+
+    <link rel="icon" href="{{ $iconVersion('favicon.ico') }}" sizes="48x48">
+    <link rel="icon" type="image/png" href="{{ $iconVersion('icon-32.png') }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ $iconVersion('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ $iconVersion('site.webmanifest') }}">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ config('site.legal_name') }}">
