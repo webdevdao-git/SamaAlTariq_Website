@@ -29,10 +29,11 @@ return [
     ],
 
     // PLACEHOLDER urls — the Figma file names the networks but not the profiles.
+    // `icon` maps to a case in resources/views/components/icon.blade.php.
     'social' => [
-        ['label' => 'Instagram', 'href' => 'https://instagram.com'],
-        ['label' => 'Facebook', 'href' => 'https://facebook.com'],
-        ['label' => 'LinkedIn', 'href' => 'https://linkedin.com'],
+        ['label' => 'Instagram', 'icon' => 'instagram', 'href' => 'https://instagram.com'],
+        ['label' => 'Facebook', 'icon' => 'facebook', 'href' => 'https://facebook.com'],
+        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => 'https://linkedin.com'],
     ],
 
     'hero' => [

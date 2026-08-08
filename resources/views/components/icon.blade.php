@@ -84,4 +84,34 @@
         </svg>
         @break
 
+    {{-- Social marks. Drawn at 24×24 on `currentColor` so they inherit the
+         surrounding text colour and its hover transition. --}}
+    @case('instagram')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/>
+        </svg>
+        @break
+
+    @case('facebook')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M13.5 21.5V13H16.2L16.7 9.8H13.5V7.8C13.5 6.9 13.8 6.3 15.1 6.3H16.8V3.4C16.2 3.3 15.3 3.2 14.3 3.2C12.1 3.2 10.5 4.6 10.5 7.2V9.8H7.8V13H10.5V21.5H13.5Z"
+                  fill="currentColor"/>
+        </svg>
+        @break
+
+    @case('linkedin')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="3" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M7.2 10.2V17M7.2 7.3V7.31" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <path d="M11.3 17V12.9C11.3 11.6 12.2 10.6 13.5 10.6C14.8 10.6 15.7 11.6 15.7 12.9V17"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.3 10.4V17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
 @endswitch

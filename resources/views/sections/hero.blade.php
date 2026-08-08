@@ -122,11 +122,22 @@
             @endforeach
         </nav>
 
-        <div class="flex flex-wrap gap-x-10 gap-y-3">
+        {{--
+            Icons carry no text, so each link needs an accessible name of its
+            own — aria-label supplies it and the mark itself stays aria-hidden.
+            The 44px box is the tap target: the glyph is ~24px, which is below
+            the size a thumb can reliably hit.
+        --}}
+        <ul class="flex flex-wrap items-center gap-x-2 gap-y-1">
             @foreach ($social as $s)
-                <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
-                   class="text-fluid-sm text-white/60 transition-colors hover:text-white">{{ $s['label'] }}</a>
+                <li>
+                    <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
+                       aria-label="{{ $s['label'] }} — opens in a new tab"
+                       class="grid size-11 place-items-center rounded-full text-white/60 transition-colors duration-300 hover:bg-white/10 hover:text-white">
+                        <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
+                    </a>
+                </li>
             @endforeach
-        </div>
+        </ul>
     </div>
 </div>
