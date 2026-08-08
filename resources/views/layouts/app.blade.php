@@ -10,6 +10,17 @@
 
     <link rel="canonical" href="{{ url()->current() }}">
 
+    {{--
+        The logo mark is near-white, so every icon here is the mark on the brand
+        teal rather than on transparency — on a light tab bar a transparent
+        version is invisible. Regenerate with deploy/make-favicons.py after
+        changing public/images/logo-mark.png.
+    --}}
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
+    <link rel="icon" type="image/png" href="{{ asset('icon-32.png') }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ config('site.legal_name') }}">
     <meta property="og:title" content="Building With Precision — {{ config('site.name') }}">

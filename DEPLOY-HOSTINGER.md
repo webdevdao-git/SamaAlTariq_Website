@@ -70,7 +70,12 @@ cp app/deploy/hostinger/index.php   public_html/
 cp app/deploy/hostinger/.htaccess   public_html/
 cp -R app/public/build              public_html/
 cp -R app/public/images             public_html/
-cp app/public/favicon.ico app/public/robots.txt public_html/ 2>/dev/null
+
+# every other root-level public file — favicons, robots.txt, the manifest.
+# `! -name index.php` is load-bearing: app/public/index.php is Laravel's stock
+# front controller, and copying it here would overwrite the one from
+# deploy/hostinger and take the site down.
+find app/public -maxdepth 1 -type f ! -name index.php -exec cp {} public_html/ \;
 ```
 
 That front controller calls `usePublicPath(__DIR__)`, which is the part people
@@ -162,6 +167,7 @@ php artisan config:cache && php artisan route:cache && php artisan view:cache
 # rm first: Vite hashes filenames, so copying over the top leaves every old
 # hash behind and public_html/build grows with each deploy
 rm -rf ../public_html/build && cp -R public/build ../public_html/
+find public -maxdepth 1 -type f ! -name index.php -exec cp {} ../public_html/ \;
 ```
 
 If you changed anything under `resources/`, run `npm run build` **locally** and
