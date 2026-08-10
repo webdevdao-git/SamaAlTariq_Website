@@ -114,6 +114,26 @@
         </svg>
         @break
 
+    {{-- Filled, like the Facebook mark: TikTok's note is built from curves that
+         close on themselves, and an outline of it turns to mush at 24px. --}}
+    @case('tiktok')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15.6 3h2.7c0.2 1.5 0.9 2.6 2 3.3 0.7 0.5 1.4 0.7 2.1 0.8v2.7c-1.5-0.1-2.9-0.5-4.1-1.3v5.9c0 1.4-0.4 2.6-1.2 3.6-1.1 1.4-2.7 2.1-4.4 2.1-3.1 0-5.6-2.5-5.6-5.6s2.5-5.6 5.6-5.6c0.3 0 0.5 0 0.8 0.1v2.8c-0.2-0.1-0.5-0.1-0.8-0.1-1.5 0-2.8 1.2-2.8 2.8s1.2 2.8 2.8 2.8 2.8-1.2 2.8-2.8V3Z"
+                  fill="currentColor"/>
+        </svg>
+        @break
+
+    @case('whatsapp')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20.4 12a8.4 8.4 0 1 0-15.5 4.5L3.6 20.4l4-1.2A8.4 8.4 0 0 0 20.4 12Z"
+                  stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9.2 8.4c0.3-0.1 0.6 0 0.8 0.3l0.8 1.3c0.1 0.2 0.1 0.5 0 0.7l-0.5 0.7c-0.1 0.2-0.1 0.4 0 0.6 0.5 0.9 1.2 1.6 2.1 2.1 0.2 0.1 0.4 0.1 0.6 0l0.7-0.5c0.2-0.1 0.5-0.2 0.7 0l1.3 0.8c0.3 0.2 0.4 0.5 0.3 0.8-0.2 0.7-0.8 1.2-1.5 1.3-1 0.1-2.6-0.2-4.4-2s-2.1-3.4-2-4.4c0.1-0.7 0.6-1.3 1.3-1.5Z"
+                  fill="currentColor"/>
+        </svg>
+        @break
+
     {{-- Portal / admin UI icons. 24×24 on currentColor, 1.6 stroke to match
          the weight of the social marks above. --}}
     @case('user')

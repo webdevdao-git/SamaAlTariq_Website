@@ -28,12 +28,20 @@ return [
         ['label' => 'Contact', 'href' => '#contact'],
     ],
 
-    // PLACEHOLDER urls — the Figma file names the networks but not the profiles.
-    // `icon` maps to a case in resources/views/components/icon.blade.php.
+    /*
+     * `icon` maps to a case in resources/views/components/icon.blade.php — the
+     * hero renders these as icons only, so a label without a matching case
+     * would render an empty tap target.
+     *
+     * The WhatsApp link carries a prefilled greeting, which is why it is a
+     * long api.whatsapp.com URL rather than wa.me/<number>.
+     */
     'social' => [
-        ['label' => 'Instagram', 'icon' => 'instagram', 'href' => 'https://instagram.com'],
-        ['label' => 'Facebook', 'icon' => 'facebook', 'href' => 'https://facebook.com'],
-        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => 'https://linkedin.com'],
+        ['label' => 'Instagram', 'icon' => 'instagram', 'href' => 'https://www.instagram.com/samaaltariqcontracting'],
+        ['label' => 'Facebook', 'icon' => 'facebook', 'href' => 'https://www.facebook.com/samaaltariq/'],
+        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => 'https://www.linkedin.com/company/sama-al-tariq'],
+        ['label' => 'TikTok', 'icon' => 'tiktok', 'href' => 'https://www.tiktok.com/@samaaltariq'],
+        ['label' => 'WhatsApp', 'icon' => 'whatsapp', 'href' => 'https://api.whatsapp.com/send/?phone=971543190845&text=Welcome%20To%20Sama%20Al%20Tariq%2C%20How%20can%20we%20help%20you%3F&type=phone_number&app_absent=0'],
     ],
 
     'hero' => [
