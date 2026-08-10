@@ -114,7 +114,11 @@
                 </span>
                 <span class="min-w-0">
                     <span class="block truncate text-[15px] font-semibold text-portal-ink">{{ auth()->user()->name }}</span>
-                    <span class="block text-[12px] text-ink-muted">{{ auth()->user()->isAdmin() ? 'Administrator' : 'Client' }}</span>
+                    {{-- Always "Client" here: this label names the area you are
+                         in, not the account you signed in with. An admin
+                         opening the portal is looking at the client view, and
+                         the admin layout already says "Administrator". --}}
+                    <span class="block text-[12px] text-ink-muted">Client</span>
                 </span>
             </div>
 
