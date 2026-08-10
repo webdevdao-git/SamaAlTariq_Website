@@ -4,16 +4,19 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  * Our Process — a sticky text column that cross-fades as the step images scroll
  * past it.
  *
- * Each step's weight is how close its image is to the sticky text, reaching
- * zero one image-spacing away. Adjacent steps blend rather than snapping, which
- * is what the reference does — mid-transition it measured 0.47 / 0.53 across
- * two steps rather than 0 / 1.
+ * One step is shown at a time — whichever image is nearest the sticky text —
+ * and the change is handed to CSS to animate.
  *
- * The falloff is cubed before normalising, though. A straight linear blend
- * parks two steps at ~0.5 through every handover, and two serif headings at
- * half opacity on top of each other read as a misprint. Cubing keeps one step
- * dominant for most of the travel and compresses the overlap into a short
- * window; a small opposed translate does the rest of the separating.
+ * It used to derive each step's opacity from how close its image was to the
+ * text, cubed and normalised across all four. That cannot work: normalising two
+ * equal weights always returns 0.5 / 0.5, so every handover passed through a
+ * point where two serif headings sat at half opacity on top of each other, and
+ * a slow scroll could park there indefinitely. Cubing narrowed that window but
+ * could not move the midpoint.
+ *
+ * Driving opacity from time instead of scroll position fixes it at the source:
+ * the fade lasts as long as the CSS transition and no scroll position can hold
+ * two steps half-visible.
  *
  * The stacking is added here, not in the markup. Left alone, the four steps are
  * an ordinary readable list — so with JavaScript off, or motion reduced, the
@@ -54,7 +57,7 @@ export function initProcessScroll() {
         // other — until the first scroll near them.
         steps.forEach((s, i) => {
             s.style.opacity = i === 0 ? '1' : '0';
-            s.style.transform = '';
+            s.style.transform = i === 0 ? 'translate3d(0,0,0)' : 'translate3d(0,26px,0)';
             if (i === 0) s.removeAttribute('aria-hidden');
             else s.setAttribute('aria-hidden', 'true');
         });
@@ -95,45 +98,37 @@ export function initProcessScroll() {
             ? Math.abs(centres[1] - centres[0])
             : vh;
 
-        /*
-         * Linear falloff would leave two steps at ~0.5 through the middle of
-         * every handover, and two headings at half opacity on top of each other
-         * read as a misprint rather than a transition. Cubing the weight before
-         * normalising keeps one step dominant for most of the travel and
-         * compresses the blend into a short window, without turning it into a
-         * hard snap.
-         */
-        const linear = centres.map((c) => Math.max(0, 1 - Math.abs(c - reference) / spacing));
-        const weights = linear.map((w) => w * w * w);
-        const total = weights.reduce((a, w) => a + w, 0);
-
-        // Before the first image reaches the text and after the last has left,
-        // every weight is 0 — pin to the nearest end rather than fading to
-        // nothing, which would leave an empty column.
-        if (total === 0) {
-            const nearest = reference < centres[0] ? 0 : centres.length - 1;
-            weights[nearest] = 1;
-        }
-
-        const sum = weights.reduce((a, w) => a + w, 0);
+        // Whichever image is nearest the text is the one being read. Outside
+        // the section this still resolves to the first or last step, so the
+        // column is never left empty.
         let best = 0;
-
-        weights.forEach((w, i) => {
-            steps[i].style.opacity = (w / sum).toFixed(3);
-            // A small slide in the scroll direction, so the outgoing step lifts
-            // away while the incoming one rises — motion separates the two even
-            // during the moment they overlap.
-            const drift = Math.max(-1, Math.min(1, (centres[i] - reference) / spacing));
-            steps[i].style.transform = `translate3d(0, ${(drift * 26).toFixed(1)}px, 0)`;
-            if (w > weights[best]) best = i;
+        centres.forEach((c, i) => {
+            if (Math.abs(c - reference) < Math.abs(centres[best] - reference)) best = i;
         });
+
+        /*
+         * Hysteresis. Exactly at a handover the two images are equidistant, so
+         * a scroll that hovers there would otherwise flip between them on every
+         * frame and re-trigger the fade each time. Hold the current step until
+         * the challenger is clearly nearer.
+         */
+        if (dominant >= 0 && best !== dominant) {
+            const gain = Math.abs(centres[dominant] - reference) - Math.abs(centres[best] - reference);
+            if (gain < spacing * 0.08) best = dominant;
+        }
 
         if (best === dominant) return;
         dominant = best;
 
-        // Only the step actually being read is exposed; the rest are decorative
-        // duplicates stacked underneath it.
         steps.forEach((s, i) => {
+            s.style.opacity = i === best ? '1' : '0';
+            // Steps still to come wait below, ones already read lift away, so
+            // the fade carries a direction rather than dissolving in place.
+            const side = i === best ? 0 : (centres[i] < reference ? -1 : 1);
+            s.style.transform = `translate3d(0, ${side * 26}px, 0)`;
+
+            // Only the step actually being read is exposed; the rest are
+            // decorative duplicates stacked underneath it.
             if (i === best) s.removeAttribute('aria-hidden');
             else s.setAttribute('aria-hidden', 'true');
         });

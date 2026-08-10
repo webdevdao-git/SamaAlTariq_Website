@@ -285,6 +285,17 @@
         grid-area: 1 / 1;
         margin-top: 0;
         will-change: opacity, transform;
+
+        /*
+         * The cross-fade is timed here rather than tied to scroll position.
+         * Scroll-proportional opacity put two steps at 0.5 each through every
+         * handover — two headings legible at once — and a slow scroll could
+         * hold them there. A transition passes through that state too quickly
+         * to read, whatever the scroll does.
+         */
+        transition:
+            opacity 300ms ease,
+            transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .is-stacked {
