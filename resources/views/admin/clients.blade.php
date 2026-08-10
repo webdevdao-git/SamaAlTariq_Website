@@ -22,51 +22,6 @@
                 <div class="flex items-start gap-4">
                     <span class="grid size-9 shrink-0 place-items-center rounded-full bg-portal/15 text-[14px] font-bold text-portal">1</span>
                     <div>
-                        <h3 class="text-[15px] font-semibold tracking-[0.06em] text-portal">PROJECT ACCESS ASSIGNMENT</h3>
-                        <p class="mt-0.5 text-[14px] text-ink-muted">Select the projects and set permission level for this client.</p>
-                    </div>
-                </div>
-
-                <fieldset class="mt-6">
-                    <legend class="mb-2 text-[14px] text-portal-ink">Select projects this client can view <span class="text-red-500">*</span></legend>
-                    {{-- Checkboxes rather than the reference's dropdown: the
-                         selection is multiple and needs to stay visible, and a
-                         native list keeps it usable without JavaScript. --}}
-                    <div class="grid gap-2 rounded-xl border border-portal-ink/12 p-4 sm:grid-cols-2 lg:grid-cols-3">
-                        @forelse ($projects as $project)
-                            <label class="flex items-center gap-2.5 text-[14px] text-portal-ink">
-                                <input type="checkbox" name="projects[]" value="{{ $project->id }}"
-                                       class="size-[17px] rounded-[4px] border-ink/25 text-portal focus:ring-portal">
-                                <span class="truncate">{{ $project->title }}</span>
-                            </label>
-                        @empty
-                            <p class="text-[14px] text-ink-muted">No projects yet.</p>
-                        @endforelse
-                    </div>
-                </fieldset>
-
-                <fieldset class="mt-6">
-                    <legend class="mb-2 text-[14px] text-portal-ink">Permission Level <span class="text-red-500">*</span></legend>
-                    <div class="grid gap-3 sm:grid-cols-2 lg:max-w-[620px]">
-                        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-portal-ink/14 px-4 py-3.5 has-checked:border-portal has-checked:bg-portal/6">
-                            <input type="radio" name="can_download" value="0" checked class="size-[17px] text-portal focus:ring-portal">
-                            <x-icon name="eye" size="19" class="text-portal"/>
-                            <span class="text-[15px] text-portal-ink">View Only</span>
-                        </label>
-                        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-portal-ink/14 px-4 py-3.5 has-checked:border-portal has-checked:bg-portal/6">
-                            <input type="radio" name="can_download" value="1" class="size-[17px] text-portal focus:ring-portal">
-                            <x-icon name="download" size="19" class="text-portal"/>
-                            <span class="text-[15px] text-portal-ink">View &amp; Download</span>
-                        </label>
-                    </div>
-                    <p class="mt-2 text-[13px] text-ink-muted">Client can view projects and media based on the selected permission.</p>
-                </fieldset>
-            </div>
-
-            <div class="mt-5 rounded-xl border border-portal-ink/12 p-[clamp(1rem,1.6vw,24px)]">
-                <div class="flex items-start gap-4">
-                    <span class="grid size-9 shrink-0 place-items-center rounded-full bg-portal/15 text-[14px] font-bold text-portal">2</span>
-                    <div>
                         <h3 class="text-[15px] font-semibold tracking-[0.06em] text-portal">CREATE CLIENT ACCOUNT</h3>
                         <p class="mt-0.5 text-[14px] text-ink-muted">Enter client details and set a temporary password.</p>
                     </div>
@@ -125,12 +80,57 @@
                     Clients can view only the projects you assign.
                 </p>
 
+            </div>
+            <div class="mt-5 rounded-xl border border-portal-ink/12 p-[clamp(1rem,1.6vw,24px)]">
+                <div class="flex items-start gap-4">
+                    <span class="grid size-9 shrink-0 place-items-center rounded-full bg-portal/15 text-[14px] font-bold text-portal">2</span>
+                    <div>
+                        <h3 class="text-[15px] font-semibold tracking-[0.06em] text-portal">PROJECT ACCESS ASSIGNMENT</h3>
+                        <p class="mt-0.5 text-[14px] text-ink-muted">Select the projects and set permission level for this client.</p>
+                    </div>
+                </div>
+
+                <fieldset class="mt-6">
+                    <legend class="mb-2 text-[14px] text-portal-ink">Select projects this client can view <span class="text-red-500">*</span></legend>
+                    {{-- Checkboxes rather than the reference's dropdown: the
+                         selection is multiple and needs to stay visible, and a
+                         native list keeps it usable without JavaScript. --}}
+                    <div class="grid gap-2 rounded-xl border border-portal-ink/12 p-4 sm:grid-cols-2 lg:grid-cols-3">
+                        @forelse ($projects as $project)
+                            <label class="flex items-center gap-2.5 text-[14px] text-portal-ink">
+                                <input type="checkbox" name="projects[]" value="{{ $project->id }}"
+                                       class="size-[17px] rounded-[4px] border-ink/25 text-portal focus:ring-portal">
+                                <span class="truncate">{{ $project->title }}</span>
+                            </label>
+                        @empty
+                            <p class="text-[14px] text-ink-muted">No projects yet.</p>
+                        @endforelse
+                    </div>
+                </fieldset>
+
+                <fieldset class="mt-6">
+                    <legend class="mb-2 text-[14px] text-portal-ink">Permission Level <span class="text-red-500">*</span></legend>
+                    <div class="grid gap-3 sm:grid-cols-2 lg:max-w-[620px]">
+                        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-portal-ink/14 px-4 py-3.5 has-checked:border-portal has-checked:bg-portal/6">
+                            <input type="radio" name="can_download" value="0" checked class="size-[17px] text-portal focus:ring-portal">
+                            <x-icon name="eye" size="19" class="text-portal"/>
+                            <span class="text-[15px] text-portal-ink">View Only</span>
+                        </label>
+                        <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-portal-ink/14 px-4 py-3.5 has-checked:border-portal has-checked:bg-portal/6">
+                            <input type="radio" name="can_download" value="1" class="size-[17px] text-portal focus:ring-portal">
+                            <x-icon name="download" size="19" class="text-portal"/>
+                            <span class="text-[15px] text-portal-ink">View &amp; Download</span>
+                        </label>
+                    </div>
+                    <p class="mt-2 text-[13px] text-ink-muted">Client can view projects and media based on the selected permission.</p>
+                </fieldset>
+            </div>
+
                 <div class="mt-5 flex flex-wrap justify-end gap-3">
                     <button type="submit" class="flex items-center gap-2.5 rounded-[10px] bg-portal px-6 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-portal-dark">
                         <x-icon name="user-cog" size="18"/> Create Client
                     </button>
                 </div>
-            </div>
         </form>
     </section>
 
