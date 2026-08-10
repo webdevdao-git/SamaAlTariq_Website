@@ -21,17 +21,16 @@
         </div>
 
         {{--
-            The image shares the grid of the block below rather than being
-            pushed across with a percentage. `pl-[54%]` put its left edge at 54%
-            of the shell, while the body copy underneath starts at 50% plus half
-            the column gap — close enough to look like a mistake rather than a
-            choice, and the two drifted further apart as the gap clamped up with
-            the viewport. Same columns, same gap token, so they share one edge
-            at every width.
-        --}}
-        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)] grid gap-[clamp(2rem,3vw,52px)] md:grid-cols-2">
-            <div aria-hidden="true" class="hidden md:block"></div>
+            Flush left, so the image shares an edge with the label above it and
+            the subheading and stats below. It was previously pushed across with
+            `pl-[54%]`, which lined it up with nothing: the body copy under it
+            starts at 50% plus half the column gap, and the two drifted further
+            apart as the gap clamped up with the viewport.
 
+            Centred below md, where the section is a single column and a
+            389px image against the left edge reads as a mistake.
+        --}}
+        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)]">
             <div class="relative mx-auto aspect-[389/272] w-full max-w-[389px] overflow-hidden md:mx-0">
                 <img src="{{ asset($about['image']) }}" alt="{{ $about['alt'] }}" loading="lazy" decoding="async"
                      class="absolute inset-0 h-full w-full object-cover">
