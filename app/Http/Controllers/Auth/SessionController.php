@@ -16,6 +16,12 @@ class SessionController extends Controller
         return view('auth.login');
     }
 
+    /** The staff entrance. Same credentials, different door and branding. */
+    public function createAdmin(): View
+    {
+        return view('auth.admin-login');
+    }
+
     /**
      * Sign in with either an email address or a username.
      *
@@ -43,9 +49,20 @@ class SessionController extends Controller
         }
 
         $request->session()->regenerate();
-        $request->user()->forceFill(['last_login_at' => now()])->save();
 
-        return redirect()->intended(route('portal.dashboard'));
+        $user = $request->user();
+        $user->forceFill(['last_login_at' => now()])->save();
+
+        /*
+         * Land where the account actually belongs. An administrator signing in
+         * previously arrived in the client portal and had to type /admin by
+         * hand; a client reaching the staff door is sent to their own portal
+         * rather than refused, which avoids confirming who is and is not an
+         * administrator.
+         */
+        return redirect()->intended(
+            $user->isAdmin() ? route('admin.dashboard') : route('portal.dashboard')
+        );
     }
 
     public function destroy(Request $request): RedirectResponse

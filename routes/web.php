@@ -39,6 +39,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->middleware('throttle:10,15');
 
+    // Staff entrance. Same POST handler and the same throttle bucket, so using
+    // two doors does not double the number of attempts an attacker gets.
+    Route::get('/admin/login', [SessionController::class, 'createAdmin'])->name('admin.login');
+    Route::post('/admin/login', [SessionController::class, 'store'])->middleware('throttle:10,15');
+
     /*
      * Password reset, matching the forgot-password / reset-password pair in the
      * Supabase app. Throttled hard: the request form emails a real person and

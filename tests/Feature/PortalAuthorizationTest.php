@@ -44,7 +44,8 @@ class PortalAuthorizationTest extends TestCase
         $this->get(route('portal.dashboard'))->assertRedirect(route('login'));
         $this->get(route('portal.images'))->assertRedirect(route('login'));
         $this->get(route('portal.documents'))->assertRedirect(route('login'));
-        $this->get(route('admin.settings'))->assertRedirect(route('login'));
+        // Admin URLs now bounce to the staff door — see the test below.
+        $this->get(route('admin.settings'))->assertRedirect(route('admin.login'));
     }
 
     public function test_a_client_sees_only_their_own_projects(): void
@@ -99,6 +100,31 @@ class PortalAuthorizationTest extends TestCase
             $this->actingAs($this->owner)->get(route($route))->assertForbidden();
             $this->actingAs($this->admin)->get(route($route))->assertOk();
         }
+    }
+
+    /** A guest deep-linking an admin URL lands on the staff door, not the client one. */
+    public function test_guests_are_bounced_to_the_matching_login(): void
+    {
+        $this->get(route('admin.dashboard'))->assertRedirect(route('admin.login'));
+        $this->get(route('admin.settings'))->assertRedirect(route('admin.login'));
+        $this->get(route('portal.dashboard'))->assertRedirect(route('login'));
+    }
+
+    /** Signing in lands each role where it belongs, from either door. */
+    public function test_sign_in_lands_on_the_right_home(): void
+    {
+        $this->post(route('admin.login'), ['identifier' => $this->admin->email, 'password' => 'password'])
+            ->assertRedirect(route('admin.dashboard'));
+        $this->post(route('logout'));
+
+        // A client reaching the staff door is sent to their portal rather than
+        // refused, so the response cannot be used to discover who is an admin.
+        $this->post(route('admin.login'), ['identifier' => $this->owner->email, 'password' => 'password'])
+            ->assertRedirect(route('portal.dashboard'));
+        $this->post(route('logout'));
+
+        $this->post(route('login'), ['identifier' => $this->admin->email, 'password' => 'password'])
+            ->assertRedirect(route('admin.dashboard'));
     }
 
     /** The edit screen is reachable by an admin and refused to a client. */
