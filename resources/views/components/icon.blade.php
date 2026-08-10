@@ -114,4 +114,84 @@
         </svg>
         @break
 
+    {{-- Portal / admin UI icons. 24×24 on currentColor, 1.6 stroke to match
+         the weight of the social marks above. --}}
+    @case('user')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M4.8 20c0-3.4 3.2-5.6 7.2-5.6s7.2 2.2 7.2 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('lock')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M8.2 10.2V7.8a3.8 3.8 0 0 1 7.6 0v2.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('eye')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2.6 12S6 5.8 12 5.8 21.4 12 21.4 12 18 18.2 12 18.2 2.6 12 2.6 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3.1" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+        @break
+
+    @case('eye-off')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2.6 12S6 5.8 12 5.8c1.4 0 2.7.34 3.8.88M19 9.1c1.6 1.6 2.4 2.9 2.4 2.9S18 18.2 12 18.2c-1.7 0-3.2-.5-4.4-1.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('shield-check')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 22 }}" height="{{ $size ?? 22 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2.9 4.8 5.6v5.5c0 4.3 2.9 8.1 7.2 9.9 4.3-1.8 7.2-5.6 7.2-9.9V5.6L12 2.9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="m8.9 11.9 2.2 2.2 4-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('chart')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5.4 19V11M12 19V5.6M18.6 19v-5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('document')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M13.6 3.2H7a2 2 0 0 0-2 2v13.6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.6l-5.4-5.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M13.4 3.4v5.2h5.2M8.6 13h6.8M8.6 16.4h4.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('gallery')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.2" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="9" cy="10" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="m4.4 17 4.6-4.2 3.4 3 3-2.6 5 4.4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('chevron-right')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 16 }}" height="{{ $size ?? 16 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m9.4 5.6 6.4 6.4-6.4 6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('arrow-long-right')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4.6 12h14.2m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
 @endswitch

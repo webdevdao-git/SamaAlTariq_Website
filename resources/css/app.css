@@ -23,6 +23,17 @@
     --color-hairline: #efe6e6;
     --color-mist: #f9f9f9;
 
+    /*
+     * Portal palette. The signed-in area is ported from the previous app and
+     * keeps its own, softer teal — #71B0B9 rather than the landing page's
+     * #3FA7B3. They are deliberately separate tokens: the two areas were
+     * designed apart, and collapsing them would shift every portal surface.
+     */
+    --color-portal: #71b0b9;
+    --color-portal-dark: #5e9ba4;
+    --color-portal-ink: #1f3a44;
+    --color-alabaster: #f5f3ef;
+
     --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     /* "Juana Alt Medium" in Figma is a commercial Latinotype face and the file
        uses the demo. Playfair Display is the closest freely-licensed match for
@@ -206,6 +217,32 @@
         margin-bottom: clamp(1.25rem, 2.3vw, 40px);
         font-size: var(--text-fluid-body);
         color: var(--color-ink);
+    }
+
+    /* Boxed input used across the portal and admin, as in the previous app. */
+    .portal-field {
+        width: 100%;
+        border: 1px solid rgba(31, 58, 68, 0.14);
+        border-radius: 10px;
+        background: #fff;
+        padding: 14px 16px;
+        font-size: 15px;
+        color: var(--color-ink);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .portal-field::placeholder {
+        color: rgba(23, 23, 23, 0.42);
+    }
+
+    .portal-field:focus {
+        outline: none;
+        border-color: var(--color-portal);
+        box-shadow: 0 0 0 3px rgba(113, 176, 185, 0.18);
+    }
+
+    .portal-field[aria-invalid='true'] {
+        border-color: #c0392b;
     }
 
     .field-error {
