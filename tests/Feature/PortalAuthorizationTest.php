@@ -42,7 +42,8 @@ class PortalAuthorizationTest extends TestCase
     public function test_guests_are_sent_to_login(): void
     {
         $this->get(route('portal.dashboard'))->assertRedirect(route('login'));
-        $this->get(route('portal.projects.show', $this->project))->assertRedirect(route('login'));
+        $this->get(route('portal.images'))->assertRedirect(route('login'));
+        $this->get(route('portal.documents'))->assertRedirect(route('login'));
         $this->get(route('admin.clients.index'))->assertRedirect(route('login'));
     }
 
@@ -59,23 +60,37 @@ class PortalAuthorizationTest extends TestCase
             ->assertOk()
             ->assertSee('Emirates Hills Villa')
             ->assertDontSee('Someone Else Tower');
-
-        $this->actingAs($this->owner)
-            ->get(route('portal.projects.show', $other))
-            ->assertForbidden();
     }
 
-    public function test_a_soft_deleted_project_disappears_for_its_client_but_not_for_an_admin(): void
+    /**
+     * Asking for someone else's project falls back to your own rather than
+     * 403-ing. A refusal would confirm the id exists; a silent fallback tells
+     * an attacker nothing, and the content proves the scope held.
+     */
+    public function test_requesting_another_clients_project_falls_back_to_your_own(): void
+    {
+        $other = Project::create([
+            'client_id' => $this->stranger->id,
+            'title' => 'Someone Else Tower',
+            'status' => 'Planning',
+        ]);
+
+        $this->actingAs($this->owner)
+            ->get(route('portal.dashboard', ['project' => $other->id]))
+            ->assertOk()
+            ->assertSee('Emirates Hills Villa')
+            ->assertDontSee('Someone Else Tower');
+    }
+
+    public function test_a_soft_deleted_project_disappears_for_its_client(): void
     {
         $this->project->delete();
 
         $this->actingAs($this->owner)
-            ->get(route('portal.projects.show', $this->project))
-            ->assertForbidden();
-
-        $this->actingAs($this->admin)
-            ->get(route('portal.projects.show', $this->project))
-            ->assertOk();
+            ->get(route('portal.dashboard', ['project' => $this->project->id]))
+            ->assertOk()
+            ->assertDontSee('Emirates Hills Villa')
+            ->assertSee('No projects have been assigned');
     }
 
     public function test_clients_cannot_reach_the_admin_area(): void

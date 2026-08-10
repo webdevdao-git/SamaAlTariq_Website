@@ -28,8 +28,36 @@ function initPasswordToggles() {
     }
 }
 
+/**
+ * Sidebar slide-over below `lg`.
+ *
+ * The sidebar is 300px wide and always visible from `lg` up; below that it sits
+ * off-canvas until opened. Scroll is locked while it is open so the page behind
+ * does not move under the panel.
+ */
+function initSidebar() {
+    const sidebar = document.querySelector('[data-sidebar]');
+    const backdrop = document.querySelector('[data-sidebar-backdrop]');
+    const openButton = document.querySelector('[data-sidebar-open]');
+    if (!sidebar || !openButton) return;
+
+    const setOpen = (open) => {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        backdrop?.classList.toggle('opacity-0', !open);
+        backdrop?.classList.toggle('pointer-events-none', !open);
+        openButton.setAttribute('aria-expanded', String(open));
+        document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    openButton.addEventListener('click', () => setOpen(true));
+    document.querySelector('[data-sidebar-close]')?.addEventListener('click', () => setOpen(false));
+    backdrop?.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+}
+
 function boot() {
     initPasswordToggles();
+    initSidebar();
 }
 
 if (document.readyState === 'loading') {

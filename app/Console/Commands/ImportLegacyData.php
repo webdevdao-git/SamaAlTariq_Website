@@ -99,6 +99,23 @@ class ImportLegacyData extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Restores a row's original created_at.
+     *
+     * `created_at` is not fillable on any of these models, so passing it to
+     * firstOrCreate() is silently dropped and every imported row lands with
+     * today's date. That is invisible until a date shows up in the UI — the
+     * portal was captioning June photographs with today's date.
+     */
+    private function restoreTimestamp(\Illuminate\Database\Eloquent\Model $model, ?string $createdAt): void
+    {
+        if (! $createdAt || ! $model->wasRecentlyCreated) {
+            return;
+        }
+
+        $model->forceFill(['created_at' => $createdAt, 'updated_at' => $createdAt])->saveQuietly();
+    }
+
     private function importUsers(array $rows, array $passwords): void
     {
         foreach ($rows as $row) {
@@ -169,15 +186,15 @@ class ImportLegacyData extends Command
             $projectId = $this->projectMap[$row['project_id']] ?? null;
             if (! $projectId) continue;
 
-            ProjectStage::firstOrCreate(
+            $stage = ProjectStage::firstOrCreate(
                 ['project_id' => $projectId, 'name' => $row['name']],
                 [
                     'status' => $row['status'] ?: 'Pending',
                     'target_date' => $row['target_date'] ?: null,
                     'sort_order' => (int) ($row['sort_order'] ?? 0),
-                    'created_at' => $row['created_at'],
                 ]
             );
+            $this->restoreTimestamp($stage, $row['created_at'] ?? null);
         }
         $this->line('  stages  '.count($rows).' imported');
     }
@@ -188,10 +205,8 @@ class ImportLegacyData extends Command
             $projectId = $this->projectMap[$row['project_id']] ?? null;
             if (! $projectId) continue;
 
-            ProjectUpdate::firstOrCreate(
-                ['project_id' => $projectId, 'note' => $row['note']],
-                ['created_at' => $row['created_at']]
-            );
+            $update = ProjectUpdate::firstOrCreate(['project_id' => $projectId, 'note' => $row['note']]);
+            $this->restoreTimestamp($update, $row['created_at'] ?? null);
         }
         $this->line('  updates '.count($rows).' imported');
     }
@@ -236,10 +251,11 @@ class ImportLegacyData extends Command
             $target = $move($row['storage_path'], $projectId);
             if (! $target) continue;
 
-            ProjectImage::firstOrCreate(
+            $image = ProjectImage::firstOrCreate(
                 ['project_id' => $projectId, 'storage_path' => $target],
-                ['caption' => $row['caption'] ?: null, 'created_at' => $row['created_at']]
+                ['caption' => $row['caption'] ?: null]
             );
+            $this->restoreTimestamp($image, $row['created_at'] ?? null);
         }
 
         foreach ($documents as $row) {
@@ -248,10 +264,11 @@ class ImportLegacyData extends Command
             $target = $move($row['storage_path'], $projectId, 'reports');
             if (! $target) continue;
 
-            ProjectDocument::firstOrCreate(
+            $document = ProjectDocument::firstOrCreate(
                 ['project_id' => $projectId, 'storage_path' => $target],
-                ['name' => $row['name'] ?: basename($target), 'created_at' => $row['created_at']]
+                ['name' => $row['name'] ?: basename($target)]
             );
+            $this->restoreTimestamp($document, $row['created_at'] ?? null);
         }
 
         $this->line("  files   {$copied} copied".($missing ? ", {$missing} MISSING from the export" : ''));
@@ -260,10 +277,9 @@ class ImportLegacyData extends Command
     private function importEnquiries(array $rows): void
     {
         foreach ($rows as $row) {
-            Enquiry::firstOrCreate(
-                ['email' => $row['email'], 'created_at' => $row['created_at']],
+            $enquiry = Enquiry::firstOrCreate(
+                ['email' => $row['email'], 'name' => $row['name']],
                 [
-                    'name' => $row['name'],
                     'phone' => $row['phone'] ?: null,
                     'location' => $row['location'] ?: null,
                     'project_type' => $row['project_type'] ?: null,
@@ -271,6 +287,7 @@ class ImportLegacyData extends Command
                     'status' => in_array($row['status'] ?? 'new', ['new','read','archived'], true) ? $row['status'] : 'new',
                 ]
             );
+            $this->restoreTimestamp($enquiry, $row['created_at'] ?? null);
         }
         $this->line('  enquiries '.count($rows).' imported');
     }

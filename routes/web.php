@@ -62,17 +62,9 @@ Route::post('/logout', [SessionController::class, 'destroy'])
 */
 
 Route::middleware('auth')->prefix('portal')->name('portal.')->group(function () {
-    Route::get('/', [ProjectController::class, 'index'])->name('dashboard');
-    /*
-     * `withTrashed()` so an archived project still resolves, and the decision
-     * is left to ProjectPolicy: an admin can review it, its client cannot.
-     * Without this, route-model binding 404s before the policy ever runs and
-     * admins lose access to archived work.
-     */
-    Route::get('/projects/{project}', [ProjectController::class, 'show'])
-        ->withTrashed()
-        ->name('projects.show');
-
+    Route::get('/', [ProjectController::class, 'overview'])->name('dashboard');
+    Route::get('/images', [ProjectController::class, 'images'])->name('images');
+    Route::get('/documents', [ProjectController::class, 'documents'])->name('documents');
     Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
 
     // `where` allows slashes so the whole storage path arrives as one segment.

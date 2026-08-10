@@ -194,4 +194,50 @@
         </svg>
         @break
 
+    @case('home')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 22 }}" height="{{ $size ?? 22 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 10.4 12 4l8 6.4V19a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 19v-8.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9.6 20.6v-6h4.8v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('map-pin')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 16 }}" height="{{ $size ?? 16 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21s6.4-5.1 6.4-10a6.4 6.4 0 1 0-12.8 0c0 4.9 6.4 10 6.4 10Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <circle cx="12" cy="10.6" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        @break
+
+    @case('calendar')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 16 }}" height="{{ $size ?? 16 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.6" y="5.4" width="16.8" height="15" rx="2.2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M3.6 10h16.8M8.4 3.4v4M15.6 3.4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
+    @case('download')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.8v11m0 0-4-4m4 4 4-4M4.4 19.4h15.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('logout')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 22 }}" height="{{ $size ?? 22 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9.4 4.6H5.8A1.8 1.8 0 0 0 4 6.4v11.2a1.8 1.8 0 0 0 1.8 1.8h3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M15.4 15.6 19.6 12l-4.2-3.6M19.2 12H9.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
+    @case('chevron-down-sm')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 18 }}" height="{{ $size ?? 18 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m6.4 9.4 5.6 5.6 5.6-5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
 @endswitch
