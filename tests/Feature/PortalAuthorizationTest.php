@@ -44,7 +44,7 @@ class PortalAuthorizationTest extends TestCase
         $this->get(route('portal.dashboard'))->assertRedirect(route('login'));
         $this->get(route('portal.images'))->assertRedirect(route('login'));
         $this->get(route('portal.documents'))->assertRedirect(route('login'));
-        $this->get(route('admin.clients.index'))->assertRedirect(route('login'));
+        $this->get(route('admin.settings'))->assertRedirect(route('login'));
     }
 
     public function test_a_client_sees_only_their_own_projects(): void
@@ -95,8 +95,22 @@ class PortalAuthorizationTest extends TestCase
 
     public function test_clients_cannot_reach_the_admin_area(): void
     {
-        $this->actingAs($this->owner)->get(route('admin.clients.index'))->assertForbidden();
-        $this->actingAs($this->admin)->get(route('admin.clients.index'))->assertOk();
+        foreach (['admin.dashboard', 'admin.settings', 'admin.projects'] as $route) {
+            $this->actingAs($this->owner)->get(route($route))->assertForbidden();
+            $this->actingAs($this->admin)->get(route($route))->assertOk();
+        }
+    }
+
+    /** The edit screen is reachable by an admin and refused to a client. */
+    public function test_only_an_admin_can_edit_a_project(): void
+    {
+        $this->actingAs($this->owner)
+            ->get(route('admin.projects.edit', $this->project))
+            ->assertForbidden();
+
+        $this->actingAs($this->admin)
+            ->get(route('admin.projects.edit', $this->project))
+            ->assertOk();
     }
 
     public function test_an_admin_cannot_delete_their_own_account(): void

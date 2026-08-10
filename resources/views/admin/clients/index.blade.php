@@ -1,9 +1,10 @@
-@extends('layouts.portal')
-@section('title', 'Clients')
+@extends('layouts.admin')
+@section('title', 'Profile Settings')
+@section('icon', 'user-cog')
+@section('heading', 'Profile Settings')
+@section('subheading', 'Manage admin profile, client accounts, and access permissions.')
 
 @section('content')
-    <h1 class="display text-4xl text-ink">Clients</h1>
-
     <form method="POST" action="{{ route('admin.clients.store') }}"
           class="mt-8 grid gap-4 rounded-xl bg-white p-6 sm:grid-cols-2">
         @csrf

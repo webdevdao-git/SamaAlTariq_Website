@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -85,6 +87,17 @@ Route::middleware(['auth', 'can:viewAny,App\Models\User'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects');
+        Route::get('/projects/{project}/edit', [AdminProjectController::class, 'edit'])->name('projects.edit');
+        Route::put('/projects/{project}', [AdminProjectController::class, 'update'])->name('projects.update');
+        Route::delete('/projects/{project}', [AdminProjectController::class, 'destroy'])->name('projects.destroy');
+
+        Route::view('/images', 'admin.placeholder', ['screen' => 'Images Upload'])->name('images');
+        Route::view('/reports', 'admin.placeholder', ['screen' => 'Reports Upload'])->name('reports');
+
+        Route::get('/settings', [ClientController::class, 'index'])->name('settings');
         Route::resource('clients', ClientController::class)
-            ->only(['index', 'store', 'update', 'destroy']);
+            ->only(['store', 'update', 'destroy']);
     });

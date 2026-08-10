@@ -61,6 +61,26 @@ class Project extends Model
     }
 
     /**
+     * How a status is shown in the admin list.
+     *
+     * The stored value is the operational one; the label is what the previous
+     * admin displayed — "In Progress" reads as "On Track", "On Hold" as
+     * "Delayed". Kept as a mapping rather than renaming the enum, because the
+     * client portal and the imported data both use the stored wording.
+     *
+     * @return array{label:string, classes:string}
+     */
+    public function statusBadge(): array
+    {
+        return match ($this->status) {
+            'In Progress' => ['label' => 'On Track', 'classes' => 'bg-portal/12 text-portal'],
+            'On Hold' => ['label' => 'Delayed', 'classes' => 'bg-amber-50 text-amber-700'],
+            'Completed' => ['label' => 'Completed', 'classes' => 'bg-emerald-50 text-emerald-700'],
+            default => ['label' => 'Planning', 'classes' => 'bg-sky-50 text-sky-700'],
+        };
+    }
+
+    /**
      * The old Postgres `projects_select` policy, as a query scope: an admin sees
      * everything, a client sees only their own live projects.
      *
