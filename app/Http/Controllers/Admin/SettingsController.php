@@ -23,9 +23,16 @@ use Illuminate\View\View;
  */
 class SettingsController extends Controller
 {
+    /** Profile Settings — the administrator's own account only. */
     public function index(): View
     {
-        return view('admin.settings', [
+        return view('admin.settings');
+    }
+
+    /** Add Clients — account creation and the access overview. */
+    public function clients(): View
+    {
+        return view('admin.clients', [
             'projects' => Project::orderBy('title')->get(['id', 'title']),
             'clients' => User::where('role', 'client')
                 ->withCount('projects')

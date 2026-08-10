@@ -51,6 +51,7 @@
             @foreach ([
                 ['admin.dashboard', 'grid',       'Dashboard'],
                 ['admin.projects',  'file-plus',  'Add Projects'],
+                ['admin.clients',   'user-plus',  'Add Clients'],
                 ['admin.images',    'image-plus', 'Images Upload'],
                 ['admin.reports',   'document',   'Reports Upload'],
                 ['admin.settings',  'user-cog',   'Profile Settings'],

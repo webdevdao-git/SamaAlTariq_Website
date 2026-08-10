@@ -111,6 +111,7 @@ Route::middleware(['auth', 'can:viewAny,App\Models\User'])
         Route::delete('/reports/{document}', [MediaController::class, 'destroyReport'])->name('reports.destroy');
 
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+        Route::get('/clients', [SettingsController::class, 'clients'])->name('clients');
         Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
 
         Route::post('/clients', [SettingsController::class, 'storeClient'])->name('clients.store');

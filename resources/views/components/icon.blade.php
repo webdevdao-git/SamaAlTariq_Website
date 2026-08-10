@@ -328,4 +328,13 @@
         </svg>
         @break
 
+    @case('user-plus')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 22 }}" height="{{ $size ?? 22 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9.6" cy="7.6" r="3.6" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M3.2 19.8c0-3.3 2.9-5.6 6.4-5.6 1.5 0 2.9.4 4 1.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M17.6 13.6v6.4M14.4 16.8h6.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        @break
+
 @endswitch
