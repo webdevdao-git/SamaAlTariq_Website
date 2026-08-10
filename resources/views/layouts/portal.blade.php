@@ -107,13 +107,26 @@
             @endforeach
         </nav>
 
+        {{--
+            The account block names the client whose portal this is, not the
+            session viewing it. For a client those are the same person. For an
+            admin opening a client's project they are not, and showing the
+            admin's own name under the word "Client" described nobody.
+
+            Falls back to the signed-in user only when no project is selected —
+            a client with nothing assigned yet still sees their own name.
+        --}}
+        @php($account = $current ? $current->client : auth()->user())
+
         <div class="mt-auto border-t border-portal-ink/10 px-6 py-5">
             <div class="flex items-center gap-3">
                 <span class="grid size-10 shrink-0 place-items-center rounded-full bg-portal/15 text-[13px] font-bold text-portal">
-                    {{ Str::upper(Str::substr(auth()->user()->name, 0, 2)) }}
+                    {{ $account ? Str::upper(Str::substr($account->name, 0, 2)) : '—' }}
                 </span>
                 <span class="min-w-0">
-                    <span class="block truncate text-[15px] font-semibold text-portal-ink">{{ auth()->user()->name }}</span>
+                    <span class="block truncate text-[15px] font-semibold text-portal-ink">
+                        {{ $account?->name ?? 'No client assigned' }}
+                    </span>
                     {{-- Always "Client" here: this label names the area you are
                          in, not the account you signed in with. An admin
                          opening the portal is looking at the client view, and
