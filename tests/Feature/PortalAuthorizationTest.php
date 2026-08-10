@@ -147,4 +147,57 @@ class PortalAuthorizationTest extends TestCase
 
         $this->assertDatabaseHas('users', ['id' => $this->admin->id]);
     }
+
+    /**
+     * Revoking access has to actually revoke it. Unticking a project sets
+     * client_id back to null, and a null owner must match nobody — if that ever
+     * degrades to "visible to everyone", every client sees every unassigned
+     * project and the access overview becomes a lie.
+     */
+    public function test_a_revoked_project_is_visible_to_nobody(): void
+    {
+        $this->actingAs($this->admin)
+            ->put(route('admin.clients.access', $this->owner), ['projects' => []])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('projects', ['id' => $this->project->id, 'client_id' => null]);
+
+        foreach ([$this->owner, $this->stranger] as $client) {
+            $this->actingAs($client)
+                ->get(route('portal.dashboard', ['project' => $this->project->id]))
+                ->assertOk()
+                ->assertDontSee('Emirates Hills Villa');
+        }
+    }
+
+    /** A client removed from the access overview loses the ability to sign in. */
+    public function test_a_removed_client_can_no_longer_sign_in(): void
+    {
+        $this->actingAs($this->admin)
+            ->delete(route('admin.clients.destroy', $this->owner))
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('users', ['id' => $this->owner->id]);
+
+        // The login form is behind `guest`, so drop the admin session first —
+        // otherwise the POST is bounced before the credentials are ever checked.
+        $this->post(route('logout'));
+
+        $this->post(route('login'), ['identifier' => $this->owner->email, 'password' => 'password'])
+            ->assertSessionHasErrors('identifier');
+
+        $this->assertGuest();
+    }
+
+    /**
+     * Accounts exist only because an admin created one. If a self-service
+     * registration route is ever added, the access overview stops being the
+     * complete list of who can reach the portal.
+     */
+    public function test_there_is_no_self_service_registration(): void
+    {
+        foreach (['register', 'signup', 'sign-up'] as $path) {
+            $this->get("/{$path}")->assertNotFound();
+        }
+    }
 }
