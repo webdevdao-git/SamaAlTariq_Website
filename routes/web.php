@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -97,7 +98,10 @@ Route::middleware(['auth', 'can:viewAny,App\Models\User'])
         Route::view('/images', 'admin.placeholder', ['screen' => 'Images Upload'])->name('images');
         Route::view('/reports', 'admin.placeholder', ['screen' => 'Reports Upload'])->name('reports');
 
-        Route::get('/settings', [ClientController::class, 'index'])->name('settings');
-        Route::resource('clients', ClientController::class)
-            ->only(['store', 'update', 'destroy']);
+        Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+        Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
+
+        Route::post('/clients', [SettingsController::class, 'storeClient'])->name('clients.store');
+        Route::put('/clients/{client}/access', [SettingsController::class, 'updateAccess'])->name('clients.access');
+        Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
     });

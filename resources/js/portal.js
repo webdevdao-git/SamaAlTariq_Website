@@ -62,10 +62,33 @@ function initAutoSubmit() {
     }
 }
 
+/**
+ * Generates a temporary password into the named fields.
+ *
+ * Uses crypto.getRandomValues rather than Math.random — this string is a real
+ * credential, and Math.random is not a cryptographic source.
+ */
+function initPasswordGenerator() {
+    const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+
+    for (const button of document.querySelectorAll('[data-generate-password]')) {
+        button.addEventListener('click', () => {
+            const bytes = crypto.getRandomValues(new Uint8Array(16));
+            const password = [...bytes].map((b) => ALPHABET[b % ALPHABET.length]).join('');
+
+            for (const id of button.dataset.generatePassword.split(',')) {
+                const field = document.getElementById(id.trim());
+                if (field) field.value = password;
+            }
+        });
+    }
+}
+
 function boot() {
     initPasswordToggles();
     initSidebar();
     initAutoSubmit();
+    initPasswordGenerator();
 }
 
 if (document.readyState === 'loading') {
