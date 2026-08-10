@@ -117,21 +117,60 @@ class SettingsController extends Controller
         ));
     }
 
-    /** Changes which projects an existing client can see, and their download right. */
+    /**
+     * Edits an existing client: their details, their password, which projects
+     * they can see, and their download right.
+     *
+     * The password is optional and blank means "leave it alone" — an admin
+     * changing a phone number must not have to reissue credentials to do it.
+     * When one is set it is admin-issued, so the account is flagged to replace
+     * it, exactly as account creation does.
+     *
+     * `role` is deliberately not editable here. Everything on this screen is a
+     * client by definition, and letting a row on it grant admin rights would
+     * put privilege escalation behind a pencil icon.
+     */
     public function updateAccess(Request $request, User $client): RedirectResponse
     {
         $this->authorize('update', $client);
 
         $validated = $request->validate([
+            'name' => ['required', 'string', 'max:160'],
+            'email' => ['required', 'email:rfc', 'max:254', Rule::unique('users', 'email')->ignore($client)],
+            'phone' => ['nullable', 'string', 'max:32'],
+            'password' => ['nullable', PasswordRule::min(10)],
             'can_download' => ['boolean'],
             'projects' => ['array'],
             'projects.*' => [Rule::exists('projects', 'id')],
         ]);
 
-        $client->update(['can_download' => $request->boolean('can_download')]);
+        $client->fill([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            // Absent and blank both mean "no phone number" — `nullable` leaves
+            // the key out entirely when the field is not submitted.
+            'phone' => filled($validated['phone'] ?? null) ? $validated['phone'] : null,
+            'can_download' => $request->boolean('can_download'),
+        ]);
+
+        $reissued = filled($validated['password'] ?? null);
+
+        if ($reissued) {
+            $client->password = $validated['password'];
+            $client->must_change_password = true;
+        }
+
+        $client->save();
+
         $assigned = $this->assign($client, $validated['projects'] ?? []);
 
-        return back()->with('status', "Access updated — {$client->name} can see {$assigned} ".Str::plural('project', $assigned).'.');
+        return back()->with('status', sprintf(
+            '%s updated — %d %s%s.',
+            $client->name,
+            $assigned,
+            Str::plural('project', $assigned),
+            $reissued ? ', password changed' : ''
+        ));
     }
 
     /**

@@ -181,15 +181,61 @@
                                 {{ $client->can_download ? 'Allowed' : 'View only' }}
                             </td>
                             <td class="py-4">
-                                <details class="relative text-right">
+                                {{--
+                                    `old()` is global, not per row, so it is only
+                                    read back into the client that actually
+                                    failed validation — otherwise one bad email
+                                    would repopulate every row in the table with
+                                    that client's values.
+                                --}}
+                                @php($editing = $errors->any() && (int) old('client_id') === $client->id)
+
+                                <details class="relative text-right" @if ($editing) open @endif>
                                     <summary class="inline-grid size-9 cursor-pointer list-none place-items-center rounded-lg text-ink-muted hover:bg-alabaster hover:text-portal">
                                         <x-icon name="pencil" size="18"/>
                                     </summary>
                                     <form method="POST" action="{{ route('admin.clients.access', $client) }}"
-                                          class="absolute right-0 z-20 mt-2 w-[300px] rounded-xl border border-portal-ink/12 bg-white p-4 text-left shadow-lg">
+                                          class="absolute right-0 z-20 mt-2 max-h-[75vh] w-[340px] overflow-y-auto rounded-xl border border-portal-ink/12 bg-white p-4 text-left shadow-lg">
                                         @csrf
                                         @method('PUT')
-                                        <p class="mb-3 text-[13px] font-semibold text-portal-ink">Projects this client can see</p>
+
+                                        {{-- Names the row this submission came from, so a failed
+                                             one can be reopened with its values still in it. --}}
+                                        <input type="hidden" name="client_id" value="{{ $client->id }}">
+
+                                        @foreach ([
+                                            ['name', 'Full Name', 'text', $client->name],
+                                            ['email', 'Email Address', 'email', $client->email],
+                                            ['phone', 'Phone Number', 'text', $client->phone],
+                                        ] as [$field, $label, $type, $value])
+                                            <label for="{{ $field }}-{{ $client->id }}" class="mb-1.5 block text-[13px] text-portal-ink">{{ $label }}</label>
+                                            <input id="{{ $field }}-{{ $client->id }}" name="{{ $field }}" type="{{ $type }}"
+                                                   value="{{ $editing ? old($field, $value) : $value }}"
+                                                   class="portal-field mb-3 !py-2 !text-[14px]">
+                                            @if ($editing)
+                                                @error($field)<p class="-mt-2 mb-3 text-[12px] text-red-600">{{ $message }}</p>@enderror
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Blank leaves the current password untouched, so this
+                                             form is usable for an ordinary detail edit. --}}
+                                        <label for="password-{{ $client->id }}" class="mb-1.5 block text-[13px] text-portal-ink">New Password</label>
+                                        <div class="relative mb-3">
+                                            <input id="password-{{ $client->id }}" name="password" type="password"
+                                                   placeholder="Leave blank to keep current" autocomplete="new-password"
+                                                   class="portal-field !py-2 pr-10 !text-[14px]">
+                                            <button type="button" data-password-toggle="password-{{ $client->id }}"
+                                                    aria-label="Show password" aria-pressed="false"
+                                                    class="absolute inset-y-0 right-1 grid w-8 place-items-center rounded-lg text-ink-muted hover:text-portal-ink">
+                                                <x-icon name="eye" size="16" data-icon-show/>
+                                                <x-icon name="eye-off" size="16" class="hidden" data-icon-hide/>
+                                            </button>
+                                        </div>
+                                        @if ($editing)
+                                            @error('password')<p class="-mt-2 mb-3 text-[12px] text-red-600">{{ $message }}</p>@enderror
+                                        @endif
+
+                                        <p class="mb-3 border-t border-portal-ink/10 pt-3 text-[13px] font-semibold text-portal-ink">Projects this client can see</p>
                                         <div class="grid max-h-44 gap-2 overflow-y-auto">
                                             @foreach ($projects as $project)
                                                 <label class="flex items-center gap-2.5 text-[14px] text-portal-ink">
@@ -206,7 +252,7 @@
                                             Allow downloads
                                         </label>
                                         <button type="submit" class="mt-4 w-full rounded-lg bg-portal px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-portal-dark">
-                                            Save Access Permissions
+                                            Save Client
                                         </button>
                                     </form>
                                 </details>

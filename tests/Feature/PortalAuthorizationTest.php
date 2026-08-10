@@ -156,8 +156,16 @@ class PortalAuthorizationTest extends TestCase
      */
     public function test_a_revoked_project_is_visible_to_nobody(): void
     {
+        // Name and email ride along because the edit form posts the whole
+        // client, not just the tickboxes — omitting them fails validation and
+        // the revoke would silently never run.
         $this->actingAs($this->admin)
-            ->put(route('admin.clients.access', $this->owner), ['projects' => []])
+            ->put(route('admin.clients.access', $this->owner), [
+                'name' => $this->owner->name,
+                'email' => $this->owner->email,
+                'projects' => [],
+            ])
+            ->assertSessionHasNoErrors()
             ->assertRedirect();
 
         $this->assertDatabaseHas('projects', ['id' => $this->project->id, 'client_id' => null]);
