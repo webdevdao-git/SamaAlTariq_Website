@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -91,12 +92,18 @@ Route::middleware(['auth', 'can:viewAny,App\Models\User'])
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects');
+        Route::post('/projects', [AdminProjectController::class, 'store'])->name('projects.store');
         Route::get('/projects/{project}/edit', [AdminProjectController::class, 'edit'])->name('projects.edit');
         Route::put('/projects/{project}', [AdminProjectController::class, 'update'])->name('projects.update');
         Route::delete('/projects/{project}', [AdminProjectController::class, 'destroy'])->name('projects.destroy');
 
-        Route::view('/images', 'admin.placeholder', ['screen' => 'Images Upload'])->name('images');
-        Route::view('/reports', 'admin.placeholder', ['screen' => 'Reports Upload'])->name('reports');
+        Route::get('/images', [MediaController::class, 'images'])->name('images');
+        Route::post('/images', [MediaController::class, 'storeImages'])->name('images.store');
+        Route::delete('/images/{image}', [MediaController::class, 'destroyImage'])->name('images.destroy');
+
+        Route::get('/reports', [MediaController::class, 'reports'])->name('reports');
+        Route::post('/reports', [MediaController::class, 'storeReports'])->name('reports.store');
+        Route::delete('/reports/{document}', [MediaController::class, 'destroyReport'])->name('reports.destroy');
 
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
         Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');

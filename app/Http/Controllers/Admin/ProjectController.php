@@ -20,8 +20,58 @@ class ProjectController extends Controller
     public function index(): View
     {
         return view('admin.projects.index', [
-            'projects' => Project::with('client:id,name')->latest()->get(),
+            'projects' => Project::with(['client:id,name', 'images'])->latest()->get(),
+            'clients' => \App\Models\User::where('role', 'client')->orderBy('name')->get(['id', 'name', 'email']),
+            'statuses' => ['Planning', 'In Progress', 'On Hold', 'Completed'],
+            'activity' => $this->activity(),
         ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $this->validated($request);
+
+        $validated['stages'] = collect($request->input('stages', []))
+            ->map(fn ($name) => trim((string) $name))
+            ->filter()
+            ->values();
+
+        $project = Project::create(collect($validated)->except('stages')->all());
+
+        foreach ($validated['stages'] as $i => $name) {
+            $project->stages()->create(['name' => $name, 'status' => 'Pending', 'sort_order' => $i]);
+        }
+
+        return redirect()
+            ->route('admin.projects')
+            ->with('status', "“{$project->title}” created.");
+    }
+
+    /**
+     * A recent-activity feed assembled from the records themselves.
+     *
+     * There is no audit table, so this is derived from created_at across
+     * projects, images and documents rather than invented. That means it is
+     * accurate about *what* happened and *when*, but cannot attribute *who* —
+     * so it does not pretend to.
+     */
+    private function activity(int $limit = 8): \Illuminate\Support\Collection
+    {
+        $projects = Project::latest()->take($limit)->get()
+            ->map(fn ($p) => ['icon' => 'file-plus', 'text' => "New project “{$p->title}” was added.", 'at' => $p->created_at]);
+
+        $images = \App\Models\ProjectImage::with('project:id,title')->latest()->take($limit)->get()
+            ->map(fn ($i) => ['icon' => 'image-plus',
+                'text' => trim(($i->caption ?: 'An image').' was uploaded to “'.($i->project?->title ?? 'a project').'”.'),
+                'at' => $i->created_at]);
+
+        $documents = \App\Models\ProjectDocument::with('project:id,title')->latest()->take($limit)->get()
+            ->map(fn ($d) => ['icon' => 'document',
+                'text' => "“{$d->name}” was shared with “".($d->project?->title ?? 'a project').'”.',
+                'at' => $d->created_at]);
+
+        return $projects->concat($images)->concat($documents)
+            ->sortByDesc('at')->take($limit)->values();
     }
 
     public function edit(Project $project): View

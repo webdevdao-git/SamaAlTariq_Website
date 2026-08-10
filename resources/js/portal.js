@@ -84,11 +84,39 @@ function initPasswordGenerator() {
     }
 }
 
+/** Repeatable stage rows on the create-project form. */
+function initStageRows() {
+    for (const button of document.querySelectorAll('[data-stage-add]')) {
+        const rows = button.closest('[data-stage-list]')?.querySelector('[data-stage-rows]');
+        if (!rows) continue;
+
+        button.addEventListener('click', () => {
+            const field = rows.firstElementChild.cloneNode(true);
+            field.value = '';
+            rows.append(field);
+            field.focus();
+        });
+    }
+}
+
+/**
+ * File inputs that submit as soon as a file is chosen, so the drop zone needs
+ * no separate Upload button. A <noscript> button covers the case where this
+ * never runs.
+ */
+function initUploadOnChange() {
+    for (const input of document.querySelectorAll('[data-submit-on-change]')) {
+        input.addEventListener('change', () => input.files?.length && input.form?.submit());
+    }
+}
+
 function boot() {
     initPasswordToggles();
     initSidebar();
     initAutoSubmit();
     initPasswordGenerator();
+    initStageRows();
+    initUploadOnChange();
 }
 
 if (document.readyState === 'loading') {
