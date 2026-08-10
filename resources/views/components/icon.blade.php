@@ -240,4 +240,12 @@
         </svg>
         @break
 
+    @case('search')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.6" stroke="currentColor" stroke-width="1.7"/>
+            <path d="m15.8 15.8 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        @break
+
 @endswitch

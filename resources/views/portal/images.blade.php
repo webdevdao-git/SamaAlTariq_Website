@@ -7,12 +7,19 @@
         <p class="mt-1 text-[15px] text-ink-muted">Site and finish photography for {{ $current?->title ?? 'your project' }}.</p>
     </header>
 
+    <x-portal.filter-bar :action="route('portal.images')" placeholder="Search images..."/>
+
     <x-portal.card>
         @if (! $current || $current->images->isEmpty())
             <p class="text-ink-muted">No images have been shared yet.</p>
+        @elseif ($items->isEmpty())
+            <p class="text-ink-muted">No images match those filters.</p>
         @else
+            <p class="mb-5 text-[13px] text-ink-muted">
+                {{ $items->count() }} of {{ $current->images->count() }} {{ Str::plural('image', $current->images->count()) }}
+            </p>
             <ul class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                @foreach ($current->images as $image)
+                @foreach ($items as $image)
                     <li class="overflow-hidden rounded-xl border border-portal-ink/10">
                         <span class="relative block aspect-[4/3] bg-alabaster">
                             <img src="{{ route('portal.files.show', ['path' => $image->storage_path]) }}"

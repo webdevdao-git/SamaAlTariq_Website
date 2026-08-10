@@ -7,12 +7,19 @@
         <p class="mt-1 text-[15px] text-ink-muted">Progress reports and paperwork shared with you.</p>
     </header>
 
+    <x-portal.filter-bar :action="route('portal.documents')" placeholder="Search reports..."/>
+
     <x-portal.card>
         @if (! $current || $current->documents->isEmpty())
             <p class="text-ink-muted">No reports have been shared yet.</p>
+        @elseif ($items->isEmpty())
+            <p class="text-ink-muted">No reports match those filters.</p>
         @else
+            <p class="mb-5 text-[13px] text-ink-muted">
+                {{ $items->count() }} of {{ $current->documents->count() }} {{ Str::plural('report', $current->documents->count()) }}
+            </p>
             <ul class="grid gap-3">
-                @foreach ($current->documents as $document)
+                @foreach ($items as $document)
                     <li class="flex items-center gap-4 rounded-xl border border-portal-ink/10 p-4">
                         <span class="grid size-11 shrink-0 place-items-center rounded-lg bg-portal/10 text-portal">
                             <x-icon name="document"/>

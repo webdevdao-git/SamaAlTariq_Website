@@ -55,9 +55,17 @@ function initSidebar() {
     document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
 }
 
+/** Selects marked data-auto-submit apply as soon as they change. */
+function initAutoSubmit() {
+    for (const select of document.querySelectorAll('[data-auto-submit]')) {
+        select.addEventListener('change', () => select.form?.submit());
+    }
+}
+
 function boot() {
     initPasswordToggles();
     initSidebar();
+    initAutoSubmit();
 }
 
 if (document.readyState === 'loading') {
