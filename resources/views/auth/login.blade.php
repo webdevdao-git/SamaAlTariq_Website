@@ -10,31 +10,31 @@
         and on a phone a 1400×1867 image above the form would push the fields
         off screen for no benefit.
     --}}
-    <div class="w-full max-w-[1290px] overflow-hidden rounded-[20px] bg-white shadow-[0_24px_70px_-30px_rgba(31,58,68,0.35)]">
+    <div class="w-full max-w-[1060px] overflow-hidden rounded-[18px] bg-white shadow-[0_24px_70px_-30px_rgba(31,58,68,0.35)]">
         <div class="grid lg:grid-cols-2">
 
-            <div class="flex flex-col justify-center px-[clamp(1.5rem,4vw,74px)] py-[clamp(2.5rem,4vw,60px)]">
-                <div class="mx-auto w-full max-w-[470px]">
+            <div class="flex flex-col justify-center px-[clamp(1.25rem,3vw,52px)] py-[clamp(2rem,3vw,44px)]">
+                <div class="mx-auto w-full max-w-[392px]">
 
                     <div class="flex flex-col items-center text-center">
                         {{-- Teal variant: the stock mark is white and vanishes
                              on this card. --}}
                         <img src="{{ asset('images/logo-mark-teal.png') }}" alt="" width="540" height="462"
-                             class="h-auto w-[68px]">
-                        <p class="mt-3 text-[11px] font-semibold tracking-[0.3em] text-portal-ink">
+                             class="h-auto w-[54px]">
+                        <p class="mt-2.5 text-[10px] font-semibold tracking-[0.28em] text-portal-ink">
                             BUILDING CONTRACTING L.L.C
                         </p>
 
-                        <span aria-hidden="true" class="mt-5 block h-px w-14 bg-portal-ink/20"></span>
+                        <span aria-hidden="true" class="mt-4 block h-px w-12 bg-portal-ink/20"></span>
 
-                        <h1 class="mt-5 font-wordmark leading-[1.05]">
-                            <span class="block text-[clamp(1.9rem,3vw,40px)] tracking-[0.16em] text-portal-ink">PRIVATE</span>
+                        <h1 class="mt-4 font-wordmark leading-[1.05]">
+                            <span class="block text-[clamp(1.5rem,2.3vw,31px)] tracking-[0.16em] text-portal-ink">PRIVATE</span>
                             {{-- nowrap: the lock-up reads as two lines, PRIVATE over CLIENT PORTAL, so
                                  the second must not break again --}}
-                            <span class="mt-1 block whitespace-nowrap text-[clamp(1.7rem,3.1vw,44px)] tracking-[0.08em] text-portal">CLIENT PORTAL</span>
+                            <span class="mt-1 block whitespace-nowrap text-[clamp(1.35rem,2.45vw,34px)] tracking-[0.08em] text-portal">CLIENT PORTAL</span>
                         </h1>
 
-                        <p class="mt-4 max-w-[340px] text-[15px] leading-relaxed text-ink-muted">
+                        <p class="mt-3 max-w-[310px] text-[13.5px] leading-relaxed text-ink-muted">
                             Secure access to your project updates, progress reports and site information.
                         </p>
                     </div>
@@ -45,7 +45,7 @@
                         </p>
                     @endif
 
-                    <form method="POST" action="{{ route('login') }}" class="mt-8 flex flex-col gap-5">
+                    <form method="POST" action="{{ route('login') }}" class="mt-6 flex flex-col gap-4">
                         @csrf
 
                         <div>
@@ -101,25 +101,25 @@
                         </div>
 
                         <button type="submit"
-                                class="group mt-1 flex w-full items-center justify-center gap-3 rounded-[10px] bg-portal px-6 py-4
-                                       text-[13px] font-bold tracking-[0.18em] text-white transition-colors hover:bg-portal-dark">
+                                class="group mt-1 flex w-full items-center justify-center gap-3 rounded-[10px] bg-portal px-6 py-3.5
+                                       text-[12px] font-bold tracking-[0.18em] text-white transition-colors hover:bg-portal-dark">
                             ACCESS PORTAL
                             <x-icon name="arrow-long-right" class="transition-transform duration-300 group-hover:translate-x-1"/>
                         </button>
                     </form>
 
-                    <div class="mt-8 flex items-center gap-4" aria-hidden="true">
+                    <div class="mt-6 flex items-center gap-4" aria-hidden="true">
                         <span class="h-px flex-1 bg-portal-ink/12"></span>
                         <x-icon name="shield-check" class="text-portal"/>
                         <span class="h-px flex-1 bg-portal-ink/12"></span>
                     </div>
 
-                    <p class="mt-5 text-center text-[11px] font-semibold tracking-[0.16em]">
+                    <p class="mt-4 text-center text-[10px] font-semibold tracking-[0.16em]">
                         <span class="text-portal-ink">SECURE. PRIVATE. PROFESSIONAL.</span><br>
                         <span class="text-portal">BUILT ON TRUST</span>
                     </p>
 
-                    <ul class="mt-7 grid grid-cols-3 gap-2 border-t border-portal-ink/12 pt-6">
+                    <ul class="mt-5 grid grid-cols-3 gap-2 border-t border-portal-ink/12 pt-4">
                         @foreach ([
                             ['chart',    'TRACK',  'PROGRESS'],
                             ['document', 'VIEW',   'REPORTS'],
@@ -135,7 +135,7 @@
                         @endforeach
                     </ul>
 
-                    <p class="mt-6 flex items-center justify-center gap-2 text-[12px] text-ink-muted">
+                    <p class="mt-4 flex items-center justify-center gap-2 text-[11.5px] text-ink-muted">
                         <x-icon name="lock" size="14"/>
                         All data is encrypted and secure
                     </p>
