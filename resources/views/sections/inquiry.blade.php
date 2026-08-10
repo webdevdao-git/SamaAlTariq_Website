@@ -10,14 +10,14 @@
     without JavaScript — old input and errors come back from the session.
 --}}
 <section id="contact"
-         class="relative isolate border-t border-hairline px-[clamp(1rem,4.63vw,80px)] py-[clamp(2.5rem,4.63vw,80px)]">
+         class="relative isolate border-t border-hairline px-[clamp(1rem,4.63vw,80px)] py-[clamp(2rem,3.4vw,58px)]">
     <img src="{{ asset($inquiry['background']) }}" alt="" loading="lazy" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover">
 
-    <div class="reveal mx-auto w-full max-w-[1466px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.5rem,3.7vw,64px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
-        <div class="flex flex-col gap-[clamp(2.5rem,5.79vw,100px)] lg:flex-row">
-            <div class="flex w-full flex-col justify-between gap-[clamp(2rem,4vw,64px)] lg:w-[548px] lg:shrink-0">
-                <div class="flex flex-col gap-[clamp(1rem,2.31vw,40px)]">
+    <div class="reveal mx-auto w-full max-w-[1466px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.78vw,48px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
+        <div class="flex flex-col gap-[clamp(2rem,4vw,68px)] lg:flex-row">
+            <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,3vw,52px)] lg:w-[548px] lg:shrink-0">
+                <div class="flex flex-col gap-[clamp(0.875rem,1.5vw,26px)]">
                     <p class="text-fluid-label font-medium text-teal">{{ $inquiry['label'] }}</p>
                     <h2 class="display max-w-[444px] text-fluid-h2 leading-[1.3] text-ink">
                         @foreach ($inquiry['heading'] as $line)
@@ -31,10 +31,10 @@
             </div>
 
             <form method="POST" action="{{ route('enquiries.store') }}"
-                  class="flex flex-1 flex-col gap-[clamp(1.75rem,3.24vw,56px)]">
+                  class="flex flex-1 flex-col gap-[clamp(1.15rem,2vw,34px)]">
                 @csrf
 
-                <div class="grid gap-[clamp(1.75rem,3.24vw,56px)] sm:grid-cols-2 sm:gap-x-[clamp(1rem,1.29vw,22px)]">
+                <div class="grid gap-[clamp(1.15rem,2vw,34px)] sm:grid-cols-2 sm:gap-x-[clamp(1rem,1.29vw,22px)]">
                     <div>
                         <label for="name" class="field-label">Name</label>
                         <input id="name" name="name" type="text" autocomplete="name" required

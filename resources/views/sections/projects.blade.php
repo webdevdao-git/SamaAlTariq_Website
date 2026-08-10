@@ -19,7 +19,7 @@
         </h2>
     </div>
 
-    <div class="shell-flush mt-[clamp(2rem,3.4vw,58px)]">
+    <div class="shell mt-[clamp(2rem,3.4vw,58px)]">
         <div class="grid gap-6 lg:grid-cols-[992fr_660fr]">
             <x-project-card :project="$items[0]"/>
             <div class="grid gap-6 lg:grid-rows-2">

@@ -197,7 +197,7 @@
         border: 0;
         border-bottom: 1px solid var(--color-hairline);
         background: transparent;
-        padding: 0 0 14px;
+        padding: 0 0 clamp(0.5rem, 0.7vw, 12px);
         font-size: var(--text-fluid-body);
         color: var(--color-ink);
         transition: border-color 0.2s ease;
@@ -214,7 +214,7 @@
 
     .field-label {
         display: block;
-        margin-bottom: clamp(1.25rem, 2.3vw, 40px);
+        margin-bottom: clamp(0.625rem, 1.04vw, 18px);
         font-size: var(--text-fluid-body);
         color: var(--color-ink);
     }

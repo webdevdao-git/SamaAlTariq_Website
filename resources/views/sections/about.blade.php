@@ -7,13 +7,20 @@
 --}}
 <section id="about" class="bg-white py-[clamp(3.5rem,5.79vw,100px)]">
     <div class="shell">
-        <div class="reveal flex flex-col gap-[clamp(1rem,3.7vw,64px)] md:flex-row md:items-start">
-            <p class="shrink-0 text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
+        {{--
+            Same two columns and the same gap token as the image and body copy
+            below, so the heading starts on the identical grid line instead of
+            wherever the label happens to end. The section then reads on two
+            edges — label, subheading and stats on the left, heading, image and
+            body copy on the right — rather than three.
+        --}}
+        <div class="reveal grid gap-[clamp(2rem,3vw,52px)] md:grid-cols-2">
+            <p class="text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
 
             {{-- The designed line breaks only hold at the width they were set
                  for, so below md the spans go inline and the heading wraps
                  naturally instead of breaking twice. --}}
-            <h2 class="display max-w-[1042px] text-fluid-h2 leading-[1.3] text-ink">
+            <h2 class="display text-fluid-h2 leading-[1.3] text-ink">
                 @foreach ($about['heading'] as $line)
                     <span class="inline md:block">{{ $line }} </span>
                 @endforeach
@@ -21,19 +28,16 @@
         </div>
 
         {{--
-            Flush left, so the image shares an edge with the label above it and
-            the subheading and stats below. It was previously pushed across with
-            `pl-[54%]`, which lined it up with nothing: the body copy under it
-            starts at 50% plus half the column gap, and the two drifted further
-            apart as the gap clamped up with the viewport.
-
-            Centred below md, where the section is a single column and a
-            389px image against the left edge reads as a mistake.
+            The image sits on the same right-column grid line as the body copy
+            below it, matching the Figma guides.
         --}}
-        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)]">
-            <div class="relative mx-auto aspect-[389/272] w-full max-w-[389px] overflow-hidden md:mx-0">
-                <img src="{{ asset($about['image']) }}" alt="{{ $about['alt'] }}" loading="lazy" decoding="async"
-                     class="absolute inset-0 h-full w-full object-cover">
+        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)] grid gap-[clamp(2rem,3vw,52px)] md:grid-cols-2">
+            <div class="hidden md:block"></div>
+            <div>
+                <div class="relative aspect-[389/272] w-full max-w-[389px] overflow-hidden">
+                    <img src="{{ asset($about['image']) }}" alt="{{ $about['alt'] }}" loading="lazy" decoding="async"
+                         class="absolute inset-0 h-full w-full object-cover">
+                </div>
             </div>
         </div>
 

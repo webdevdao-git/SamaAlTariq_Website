@@ -24,15 +24,15 @@
 
         {{-- Header: MENU / lockup / ENQUIRE --}}
         <header class="absolute inset-x-0 top-0 z-40 pt-[clamp(1.25rem,2.55vw,44px)]">
-            <div class="shell flex items-center justify-between gap-4">
+            <div class="shell grid grid-cols-[1fr_auto_1fr] items-center gap-4">
                 <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
                         aria-label="Open navigation menu"
-                        class="flex shrink-0 items-center gap-1 text-white transition-opacity hover:opacity-70">
+                        class="flex shrink-0 items-center gap-1 justify-self-start text-white transition-opacity hover:opacity-70">
                     <x-icon name="menu" class="h-[clamp(20px,1.62vw,28px)] w-[clamp(20px,1.62vw,28px)]"/>
                     <span class="text-fluid-body font-semibold uppercase">Menu</span>
                 </button>
 
-                <a href="#top" aria-label="{{ config('site.name') }} — home" class="shrink-0">
+                <a href="#top" aria-label="{{ config('site.name') }} — home" class="shrink-0 justify-self-center">
                     <span class="flex flex-col items-center leading-none text-white">
                         <img src="{{ asset('images/logo-mark.png') }}" alt=""
                              width="540" height="462" class="h-auto w-[clamp(38px,3.94vw,68px)]">
@@ -45,7 +45,7 @@
                     </span>
                 </a>
 
-                <div class="flex shrink-0 items-center gap-[clamp(1rem,1.85vw,32px)]">
+                <div class="flex shrink-0 items-center justify-end gap-[clamp(1rem,1.85vw,32px)] justify-self-end">
                     {{--
                         Signed-in visitors get the portal instead of a login
                         link — a client who is already authenticated has no use
@@ -64,19 +64,19 @@
             </div>
         </header>
 
-        <div class="relative z-10 mt-auto flex flex-col gap-[clamp(2.5rem,17vh,17rem)] pt-[36vh] pb-[clamp(2.5rem,6vh,4.5rem)]">
+        <div class="relative z-10 mt-auto flex flex-col gap-[clamp(2.75rem,8vh,6.5rem)] pt-[clamp(12rem,36vh,24rem)] pb-[clamp(2rem,5.5vh,4.5rem)]">
             {{-- Intro row --}}
             <div class="shell">
                 <div class="border-t border-white/25 pt-[clamp(1.25rem,1.5vw,26px)]">
-                    <div class="grid gap-6 text-white md:grid-cols-12 md:items-start">
+                    <div class="grid gap-x-6 gap-y-5 text-white md:grid-cols-12 md:items-start">
                         <p data-split data-split-delay="520"
                            class="text-fluid-body font-semibold md:col-span-3 md:max-w-[170px]">{{ $hero['eyebrow'] }}</p>
 
                         <p data-split data-split-delay="600"
-                           class="text-fluid-lead font-medium md:col-span-6 md:max-w-[670px]">{{ $hero['intro'] }}</p>
+                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center md:text-center lg:max-w-[670px]">{{ $hero['intro'] }}</p>
 
                         <a href="{{ $hero['cta']['href'] }}"
-                           class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-end">
+                           class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right">
                             {{ $hero['cta']['label'] }}
                             <x-icon name="arrow-right" class="w-[clamp(20px,1.62vw,28px)] transition-transform duration-300 group-hover:translate-x-1"/>
                         </a>
@@ -86,12 +86,14 @@
 
             {{-- Display type --}}
             <h1 class="shell display text-fluid-hero uppercase text-white">
-                <span class="flex flex-wrap items-baseline justify-between gap-x-6">
-                    <span data-split data-split-delay="120" class="block">{{ $hero['words']['first'] }}</span>
-                    <span data-split data-split-delay="220" class="block">{{ $hero['words']['second'] }}</span>
+                <span class="grid gap-x-[clamp(1.5rem,4vw,4.5rem)] gap-y-[0.08em] md:grid-cols-12 md:items-baseline">
+                    <span data-split data-split-delay="120"
+                          class="block md:col-span-5">{{ $hero['words']['first'] }}</span>
+                    <span data-split data-split-delay="220"
+                          class="block md:col-span-7 md:text-right">{{ $hero['words']['second'] }}</span>
+                    <span data-split data-split-delay="320"
+                          class="block md:col-span-12 md:text-center">{{ $hero['words']['third'] }}</span>
                 </span>
-                <span data-split data-split-delay="320"
-                      class="mt-[0.06em] block pl-[max(0px,calc(27%-var(--spacing-gutter)))]">{{ $hero['words']['third'] }}</span>
             </h1>
         </div>
     </div>

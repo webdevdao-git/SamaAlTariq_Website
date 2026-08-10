@@ -44,16 +44,16 @@
                 order, so a screen reader or keyboard user gets one clean list
                 instead of the same six links six times over.
             --}}
-            <nav class="-mx-[var(--spacing-gutter)] flex snap-x gap-1 overflow-x-auto px-[var(--spacing-gutter)] pb-1
+            <nav class="-mx-[var(--spacing-gutter)] flex snap-x items-center gap-[clamp(1.25rem,4vw,72px)] overflow-x-auto px-[var(--spacing-gutter)] pb-1
                         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                  @if ($i === 0) aria-label="Our areas of expertise" @else aria-hidden="true" @endif>
                 @foreach ($services['items'] as $j => $tab)
                     <a href="#service-{{ $j + 1 }}"
                        @if ($i !== 0) tabindex="-1" @endif
                        @if ($i === $j) aria-current="true" @endif
-                       class="shrink-0 snap-start rounded-full px-[clamp(0.9rem,1.3vw,22px)] py-[clamp(0.45rem,0.7vw,12px)]
-                              text-[clamp(0.75rem,0.93vw,16px)] font-medium whitespace-nowrap transition-colors duration-300
-                              {{ $i === $j ? 'bg-white text-ink' : 'text-white/85 hover:bg-white/15 hover:text-white' }}">
+                       class="shrink-0 snap-start rounded-full border px-[clamp(1.25rem,2.2vw,38px)] py-[clamp(0.55rem,0.82vw,14px)]
+                              text-[clamp(0.875rem,1.16vw,20px)] font-medium whitespace-nowrap backdrop-blur-md transition duration-300
+                              {{ $i === $j ? 'border-white/25 bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_18px_36px_-26px_rgba(0,0,0,0.85)]' : 'border-transparent text-white/85 hover:border-white/20 hover:bg-white/10 hover:text-white' }}">
                         {{ $tab['tab'] }}
                     </a>
                 @endforeach
