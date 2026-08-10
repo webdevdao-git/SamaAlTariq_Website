@@ -11,8 +11,7 @@
 
     <title>@yield('title', 'Portal') · {{ config('site.name') }}</title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
-    <link rel="icon" type="image/png" href="{{ asset('icon-32.png') }}" sizes="32x32">
+    <x-favicons/>
 
     @vite(['resources/css/app.css', 'resources/js/portal.js'])
 </head>
