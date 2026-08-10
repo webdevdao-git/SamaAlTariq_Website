@@ -21,7 +21,7 @@
                 </span>
                 <div>
                     <p class="text-[19px] font-semibold text-portal-ink">{{ $me->name }}</p>
-                    <p class="text-[14px] text-ink-muted">System Administrator</p>
+                    <p class="text-[14px] text-ink-muted">Admin</p>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                 </div>
                 <div>
                     <label for="job_title" class="mb-2 block text-[14px] text-portal-ink">Job Title</label>
-                    <input id="job_title" name="job_title" value="{{ old('job_title', $me->job_title) }}" placeholder="Administrator" class="portal-field">
+                    <input id="job_title" name="job_title" value="{{ old('job_title', $me->job_title) }}" placeholder="Admin" class="portal-field">
                 </div>
             </div>
 

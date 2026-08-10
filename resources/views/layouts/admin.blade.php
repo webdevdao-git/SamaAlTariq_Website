@@ -73,7 +73,7 @@
                 </span>
                 <span class="min-w-0">
                     <span class="block truncate text-[15px] font-semibold text-portal-ink">{{ auth()->user()->name }}</span>
-                    <span class="block text-[12px] text-ink-muted">Administrator</span>
+                    <span class="block text-[12px] text-ink-muted">Admin</span>
                 </span>
             </div>
 
