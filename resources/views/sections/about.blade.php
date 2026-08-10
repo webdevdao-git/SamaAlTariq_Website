@@ -20,8 +20,19 @@
             </h2>
         </div>
 
-        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)] flex justify-center md:justify-start md:pl-[54%]">
-            <div class="relative aspect-[389/272] w-full max-w-[389px] overflow-hidden">
+        {{--
+            The image shares the grid of the block below rather than being
+            pushed across with a percentage. `pl-[54%]` put its left edge at 54%
+            of the shell, while the body copy underneath starts at 50% plus half
+            the column gap — close enough to look like a mistake rather than a
+            choice, and the two drifted further apart as the gap clamped up with
+            the viewport. Same columns, same gap token, so they share one edge
+            at every width.
+        --}}
+        <div class="reveal mt-[clamp(2.5rem,5.79vw,100px)] grid gap-[clamp(2rem,3vw,52px)] md:grid-cols-2">
+            <div aria-hidden="true" class="hidden md:block"></div>
+
+            <div class="relative mx-auto aspect-[389/272] w-full max-w-[389px] overflow-hidden md:mx-0">
                 <img src="{{ asset($about['image']) }}" alt="{{ $about['alt'] }}" loading="lazy" decoding="async"
                      class="absolute inset-0 h-full w-full object-cover">
             </div>
