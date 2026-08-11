@@ -60,6 +60,16 @@
     --text-fluid-stat: clamp(2.25rem, 3.24vw, 56px);
 
     --spacing-gutter: clamp(1.25rem, 4.63vw, 80px);
+
+    /*
+     * The two gaps that set the height of an inquiry field: the space under a
+     * label and the space between a control and its underline. Named because
+     * .field-select has to reproduce a label-plus-control stack out of a single
+     * control, and it can only stay level with the fields beside it if it is
+     * built from the same two numbers rather than a copy of them.
+     */
+    --field-label-gap: clamp(0.625rem, 1.04vw, 18px);
+    --field-underline-gap: clamp(0.5rem, 0.7vw, 12px);
 }
 
 /*
@@ -422,7 +432,7 @@
         border: 0;
         border-bottom: 1px solid var(--color-hairline);
         background: transparent;
-        padding: 0 0 clamp(0.5rem, 0.7vw, 12px);
+        padding: 0 0 var(--field-underline-gap);
         font-size: var(--text-fluid-body);
         color: var(--color-ink);
         transition: border-color 0.2s ease;
@@ -439,9 +449,65 @@
 
     .field-label {
         display: block;
-        margin-bottom: clamp(0.625rem, 1.04vw, 18px);
+        margin-bottom: var(--field-label-gap);
         font-size: var(--text-fluid-body);
         color: var(--color-ink);
+    }
+
+    /*
+     * The select. Its name has to sit on the label row to stay level with the
+     * field beside it, but a <label> there is the wrong element: clicking one
+     * focuses a select without opening it, so the row that looks like the
+     * control did nothing and the menu appeared unreachable.
+     *
+     * So the control itself occupies that row and carries its own name as the
+     * placeholder option. Everything below is dead space, which is why the
+     * underline and its states move to the wrapper — the control no longer
+     * reaches that far.
+     *
+     * Height is rebuilt rather than measured: the select contributes one line,
+     * the spacer contributes the second line plus the label gap, and the
+     * wrapper adds the underline gap. That totals the same as a label over a
+     * control, so the underlines agree at every width without a magic number.
+     *
+     * The select is deliberately left at its natural single-line height. Giving
+     * it the full height instead would centre its text in its own box and drop
+     * the name into the middle of the cell.
+     */
+    .field-select {
+        padding-bottom: var(--field-underline-gap);
+        border-bottom: 1px solid var(--color-hairline);
+        transition: border-color 0.2s ease;
+    }
+
+    .field-select:focus-within {
+        border-bottom-color: var(--color-teal);
+    }
+
+    .field-select:has(select[aria-invalid='true']) {
+        border-bottom-color: #c0392b;
+    }
+
+    .field-select select {
+        width: 100%;
+        appearance: none;
+        border: 0;
+        background: transparent;
+        /* Clear of the chevron, which is 22px and sits at the right edge. */
+        padding: 0 2rem 0 0;
+        font-size: var(--text-fluid-body);
+        color: var(--color-ink);
+        cursor: pointer;
+    }
+
+    .field-select select:focus {
+        outline: none;
+    }
+
+    /* Stands in for the empty control row the other fields show. */
+    .field-select__filler {
+        margin-bottom: var(--field-label-gap);
+        font-size: var(--text-fluid-body);
     }
 
     /* Boxed input used across the portal and admin, as in the previous app. */
