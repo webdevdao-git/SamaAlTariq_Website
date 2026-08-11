@@ -81,31 +81,36 @@
 
                          The filler below is the empty control row the other fields show; see
                          .field-select for how the two stacks end up the same height. --}}
-                    {{-- The native select is still the control: it holds the value, it is
-                         what the form submits, and it is what a browser without JavaScript
-                         shows. The button and menu below it are hidden until the script
-                         marks this wrapper, so nothing here depends on JavaScript to work —
-                         only to look like the rest of the page.
+                    {{-- Label above, control below — the same two rows every other field
+                         here has, so "Property Type" reads as a heading like "Email" and
+                         "Select" sits on the line you actually operate, with the chevron at
+                         the end of that line. The chevron belongs to the control, not to
+                         the heading.
 
-                         The placeholder is the select's empty option and the button's
-                         starting text. It is deliberately absent from the menu: it is not a
-                         property type, so offering it as a choice would let someone pick
-                         their way back to an empty required field. --}}
+                         The native select is still the control: it holds the value, it is
+                         what the form submits, and it is what a browser without JavaScript
+                         shows. The button and menu are hidden until the script marks this
+                         wrapper, so nothing here depends on JavaScript to work — only to
+                         look like the rest of the page.
+
+                         "Select" is the empty option and the button's starting text. It is
+                         deliberately absent from the menu: it is not a property type, so
+                         offering it would let someone choose their way back to an empty
+                         required field. --}}
                     <div>
-                        <label for="project_type" id="project_type-label" class="sr-only">Property Type</label>
+                        <label for="project_type" id="project_type-label" class="field-label">Property Type</label>
 
                         <div class="field-select" data-select>
                             {{-- Wraps the control alone, so it is exactly one row tall and
-                                 the chevron centres on that row rather than on the taller
-                                 stack. pointer-events-none lets the click through to
-                                 whichever control is beneath, so the chevron opens the menu
-                                 like the rest of the row. One chevron serves both the native
-                                 select and the button. --}}
+                                 the chevron centres on that row. pointer-events-none lets
+                                 the click through to whichever control is beneath, so the
+                                 chevron opens the menu like the rest of the row. One chevron
+                                 serves both the native select and the button. --}}
                             <div class="relative">
                                 <select id="project_type" name="project_type" required
                                         class="field-select__native" data-select-native
                                         @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
-                                    <option value="">Property Type</option>
+                                    <option value="">Select</option>
                                     @foreach ($inquiry['property_types'] as $type)
                                         <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
                                     @endforeach
@@ -116,7 +121,7 @@
                                         role="combobox" aria-haspopup="listbox" aria-expanded="false"
                                         aria-controls="project_type-listbox"
                                         aria-labelledby="project_type-label project_type-button">
-                                    <span data-select-value>Property Type</span>
+                                    <span data-select-value>Select</span>
                                 </button>
 
                                 <span aria-hidden="true"
@@ -132,8 +137,6 @@
                                         id="project_type-option-{{ $i }}" data-value="{{ $type }}">{{ $type }}</li>
                                 @endforeach
                             </ul>
-
-                            <div aria-hidden="true" class="field-select__filler">&nbsp;</div>
                         </div>
                         @error('project_type')<span id="project_type-error" class="field-error" role="alert">{{ $message }}</span>@enderror
                     </div>
