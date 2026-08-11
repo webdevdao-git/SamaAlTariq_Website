@@ -216,35 +216,32 @@ return [
         'submit' => 'Send Inquiry',
         'background' => 'images/inquiry-bg.webp',
         /*
-         * The services the company actually tenders for, replacing the six
-         * generic building types that were here before. An enquiry now says
-         * what work is wanted rather than what kind of building it is in,
-         * which is the question the estimator needs answered.
+         * Kinds of property, matching the field's label. These briefly held
+         * the service list instead, which asked what work was wanted under a
+         * heading that asked what the building was; the two now agree.
          *
          * This list is the whole validation rule: StoreEnquiryRequest applies
          * Rule::in() straight to it, so an option added here is accepted and
          * one removed is rejected, with no second list to keep in step. That
          * also means editing a string here invalidates that exact wording for
-         * future submissions — rows already stored keep the old text.
+         * future submissions — rows already stored keep the text they were
+         * saved with, including any left over from the service list.
          *
-         * Set as shown in the reference. They are stored verbatim, so this is
-         * also the casing that reaches the notification email, the admin table
-         * and the `enquiries` rows; the column holds 120 characters and the
-         * longest here is 48.
+         * Stored verbatim, so this is also the wording that reaches the
+         * notification email, the admin table and the `enquiries` rows. The
+         * column holds 120 characters; the longest here is 22.
          */
         'property_types' => [
-            'FIT-OUT CONTRACTING & TURNKEY SOLUTIONS',
-            'DESIGN & BUILD (INTERIOR & ARCHITECTURAL)',
-            'COMMERCIAL & OFFICE INTERIOR SOLUTIONS',
-            'VILLA RENOVATION & REFURBISHMENT',
-            'CUSTOM JOINERY MANUFACTURING',
-            'JOINERY, CARPENTRY & MILLWORK INSTALLATION',
-            'GYPSUM CEILING, BULKHEAD & PARTITION WORKS',
-            'MEP SERVICES (MECHANICAL, ELECTRICAL & PLUMBING)',
-            'AUTHORITY & DEPARTMENTAL APPROVALS',
-            'PROJECT MANAGEMENT, MEP COORDINATION & EXECUTION',
-            'MULTIPLE SERVICES',
-            'OTHERS',
+            'Villa',
+            'Apartment',
+            'Office',
+            'Retail / Shop',
+            'Restaurant / Café',
+            'Hotel / Hospitality',
+            'Commercial Building',
+            'Warehouse / Industrial',
+            'Residential Building',
+            'Other',
         ],
     ],
 
