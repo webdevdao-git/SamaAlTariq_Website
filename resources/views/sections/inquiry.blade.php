@@ -69,42 +69,34 @@
                         @error('email')<span id="email-error" class="field-error" role="alert">{{ $message }}</span>@enderror
                     </div>
 
-                    {{-- This field carries its name in the control itself: the placeholder
-                         option reads "Property Type" with the chevron beside it, so there is
-                         no label line above. The label still exists for screen readers —
-                         a placeholder is not an accessible name, and it stops being the
-                         visible text the moment someone picks a value.
+                    {{-- "Property Type" reads on the label row, level with Email beside it,
+                         and the chevron sits at the far end of that same row. The control
+                         below starts empty and fills with the chosen value, so this field
+                         keeps the label-above-control shape every other field has and the
+                         two underlines stay on one line.
 
-                         The spacer stands in for the label row the other fields have. Without
-                         it this cell is one line shorter than Email next to it and its
-                         underline floats above Email's. Reserving the space with .field-label
-                         itself rather than a measured margin means the two stay in step if
-                         the label's type or margin is ever changed, and it keeps the field
-                         aligned in the error state too, where a bottom-aligned cell would
-                         drift as the neighbour grows. --}}
+                         The name is a real label rather than a placeholder on the control.
+                         A placeholder cannot hold that row — a select centres its text in
+                         its own box, so a control tall enough to reach the shared underline
+                         would float the name into the middle of the cell instead of sitting
+                         level with Email. It would also vanish the moment someone chose a
+                         value, taking the field's only visible name with it.
+
+                         Hence the empty first option: it is the blank input line the other
+                         fields show, not a prompt. Wording it ("Select…") would put text on
+                         a row that reads as empty everywhere else in the form. --}}
                     <div>
-                        <label for="project_type" class="sr-only">Property Type</label>
-                        <div aria-hidden="true" class="field-label">&nbsp;</div>
-
-                        {{-- appearance-none removes the native arrow, so this overlay is the
-                             only thing marking the field as a select. pb matches .field's own
-                             bottom padding, which shrinks this box to exactly the text line
-                             and centres the icon on the value rather than on the field
-                             including the gap above its underline. pointer-events-none so the
-                             icon does not swallow the click that opens the menu. --}}
-                        <div class="relative">
-                            <select id="project_type" name="project_type" required class="field appearance-none pr-8"
-                                    @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
-                                <option value="">Property Type</option>
-                                @foreach ($inquiry['property_types'] as $type)
-                                    <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
-                                @endforeach
-                            </select>
-                            <span aria-hidden="true"
-                                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center pb-[clamp(0.5rem,0.7vw,12px)] text-ink">
-                                <x-icon name="chevron-down"/>
-                            </span>
-                        </div>
+                        <label for="project_type" class="field-label flex items-center justify-between gap-2">
+                            Property Type
+                            <x-icon name="chevron-down" class="text-ink"/>
+                        </label>
+                        <select id="project_type" name="project_type" required class="field appearance-none"
+                                @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
+                            <option value=""></option>
+                            @foreach ($inquiry['property_types'] as $type)
+                                <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
+                            @endforeach
+                        </select>
                         @error('project_type')<span id="project_type-error" class="field-error" role="alert">{{ $message }}</span>@enderror
                     </div>
                 </div>
