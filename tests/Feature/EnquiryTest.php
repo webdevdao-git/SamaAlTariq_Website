@@ -12,13 +12,26 @@ class EnquiryTest extends TestCase
 {
     use RefreshDatabase;
 
+    /*
+     * Taken from the configured list rather than written out, because that
+     * list is the validation rule — a hardcoded type turns every future edit
+     * to the service names into a failing suite, which is how this broke when
+     * the six building types became the service list. Which type is used does
+     * not matter here; that only a configured one is accepted is covered by
+     * test_property_type_must_come_from_the_configured_list.
+     */
+    private function validProjectType(): string
+    {
+        return config('site.inquiry.property_types')[0];
+    }
+
     private function payload(array $overrides = []): array
     {
         return array_merge([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'phone' => '+971501234567',
-            'project_type' => 'Villa',
+            'project_type' => $this->validProjectType(),
             'location' => 'Jumeirah',
             'project_brief' => 'New villa Fit-Out',
         ], $overrides);
@@ -34,7 +47,7 @@ class EnquiryTest extends TestCase
 
         $this->assertDatabaseHas('enquiries', [
             'email' => 'test@example.com',
-            'project_type' => 'Villa',
+            'project_type' => $this->validProjectType(),
             'status' => 'new',
         ]);
 

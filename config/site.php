@@ -215,13 +215,36 @@ return [
         'body' => "Every successful development begins with the right partner. Let's discuss your goals and create a solution tailored to your project's unique requirements",
         'submit' => 'Send Inquiry',
         'background' => 'images/inquiry-bg.webp',
+        /*
+         * The services the company actually tenders for, replacing the six
+         * generic building types that were here before. An enquiry now says
+         * what work is wanted rather than what kind of building it is in,
+         * which is the question the estimator needs answered.
+         *
+         * This list is the whole validation rule: StoreEnquiryRequest applies
+         * Rule::in() straight to it, so an option added here is accepted and
+         * one removed is rejected, with no second list to keep in step. That
+         * also means editing a string here invalidates that exact wording for
+         * future submissions — rows already stored keep the old text.
+         *
+         * Set as shown in the reference. They are stored verbatim, so this is
+         * also the casing that reaches the notification email, the admin table
+         * and the `enquiries` rows; the column holds 120 characters and the
+         * longest here is 48.
+         */
         'property_types' => [
-            'Villa',
-            'Apartment',
-            'Commercial / Office',
-            'Retail',
-            'Hospitality',
-            'Other',
+            'FIT-OUT CONTRACTING & TURNKEY SOLUTIONS',
+            'DESIGN & BUILD (INTERIOR & ARCHITECTURAL)',
+            'COMMERCIAL & OFFICE INTERIOR SOLUTIONS',
+            'VILLA RENOVATION & REFURBISHMENT',
+            'CUSTOM JOINERY MANUFACTURING',
+            'JOINERY, CARPENTRY & MILLWORK INSTALLATION',
+            'GYPSUM CEILING, BULKHEAD & PARTITION WORKS',
+            'MEP SERVICES (MECHANICAL, ELECTRICAL & PLUMBING)',
+            'AUTHORITY & DEPARTMENTAL APPROVALS',
+            'PROJECT MANAGEMENT, MEP COORDINATION & EXECUTION',
+            'MULTIPLE SERVICES',
+            'OTHERS',
         ],
     ],
 
