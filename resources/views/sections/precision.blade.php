@@ -27,7 +27,7 @@
     return to normal flow and stack.
 --}}
 <section class="relative isolate overflow-hidden bg-night"
-         style="--rail-1:30.32%;--rail-2:71.53%;--shelf:85.3%">
+         style="--rail-1:30.32%;--rail-2:71.53%;--shelf:85.3%;--inset:clamp(1rem,1.39vw,24px)">
 
     {{-- The shelf is the one line that stays full-bleed: it reads as a horizon
          rather than as a column edge, and it is what the eye uses to tie the
@@ -61,10 +61,15 @@
                  class="h-full w-full object-cover">
         </div>
 
-        {{-- The 24px inset off the rail is optical: text set hard against a
-             hairline reads as touching it. --}}
+        {{-- The inset off the rail is optical: text set hard against a hairline
+             reads as touching it. The same holds where the block meets the
+             shelf, so --inset is spent on both edges rather than the left only
+             — the CTA used to stand directly on the line while the copy was
+             held 24px off the rail, and the corner read as lopsided. One
+             variable keeps the two equal at every width; they are the same
+             gap, not two that happen to agree. --}}
         <div class="reveal z-10 flex flex-col gap-[clamp(0.875rem,1.16vw,20px)]
-                    lg:absolute lg:bottom-[calc(100%_-_var(--shelf))] lg:left-[var(--rail-2)] lg:right-[var(--spacing-gutter)] lg:pl-[clamp(1rem,1.39vw,24px)]"
+                    lg:absolute lg:bottom-[calc(100%_-_var(--shelf))] lg:left-[var(--rail-2)] lg:right-[var(--spacing-gutter)] lg:pb-[var(--inset)] lg:pl-[var(--inset)]"
              style="transition-delay:120ms">
             <p class="max-w-[423px] text-fluid-lead font-bold text-white lg:max-w-none">{{ $precision['heading'] }}</p>
             <p class="max-w-[423px] text-fluid-lead text-white/60 lg:max-w-none">{{ $precision['body'] }}</p>
