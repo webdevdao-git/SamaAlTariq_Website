@@ -8,19 +8,21 @@
 <section id="about" class="bg-white py-[clamp(3.5rem,5.79vw,100px)]">
     <div class="shell">
         {{--
-            Same two columns and the same gap token as the image and body copy
-            below, so the heading starts on the identical grid line instead of
-            wherever the label happens to end. The section then reads on two
-            edges — label, subheading and stats on the left, heading, image and
-            body copy on the right — rather than three.
+            The heading hangs off the label rather than off a column: the label
+            takes its natural width, one gap token follows, and the heading
+            starts there — as in the design, and as the services and clients
+            rows do. It is a flex row, not a grid, precisely because the start
+            has to follow the label instead of a fixed track.
         --}}
-        <div class="reveal grid gap-[clamp(2rem,3vw,52px)] md:grid-cols-2">
-            <p class="text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
+        <div class="reveal flex flex-col gap-[clamp(1rem,3vw,52px)] md:flex-row md:items-start">
+            <p class="shrink-0 text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
 
             {{-- The designed line breaks only hold at the width they were set
                  for, so below md the spans go inline and the heading wraps
-                 naturally instead of breaking twice. --}}
-            <h2 class="display text-fluid-h2 leading-[1.3] text-ink">
+                 naturally instead of breaking twice. The cap is the measure of
+                 the longest designed line, so nothing re-wraps on a wide
+                 screen once the row has room to spare. --}}
+            <h2 class="display max-w-[850px] text-fluid-h2 leading-[1.3] text-ink">
                 @foreach ($about['heading'] as $line)
                     <span class="inline md:block">{{ $line }} </span>
                 @endforeach

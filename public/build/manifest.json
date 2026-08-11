@@ -15,41 +15,9 @@
     "file": "assets/cormorant-garamond-600-normal-Co1r35X9.woff2",
     "src": "_cormorant-garamond-600-normal-Co1r35X9.woff2"
   },
-  "_fonts-CyV9qeKX.css": {
-    "file": "assets/fonts-CyV9qeKX.css",
-    "src": "_fonts-CyV9qeKX.css"
-  },
-  "_manrope-400-normal-8tf8FM3T.woff": {
-    "file": "assets/manrope-400-normal-8tf8FM3T.woff",
-    "src": "_manrope-400-normal-8tf8FM3T.woff"
-  },
-  "_manrope-400-normal-PaqtzbVb.woff2": {
-    "file": "assets/manrope-400-normal-PaqtzbVb.woff2",
-    "src": "_manrope-400-normal-PaqtzbVb.woff2"
-  },
-  "_manrope-500-normal-BYYD-dBL.woff2": {
-    "file": "assets/manrope-500-normal-BYYD-dBL.woff2",
-    "src": "_manrope-500-normal-BYYD-dBL.woff2"
-  },
-  "_manrope-500-normal-DMZssgOp.woff": {
-    "file": "assets/manrope-500-normal-DMZssgOp.woff",
-    "src": "_manrope-500-normal-DMZssgOp.woff"
-  },
-  "_manrope-600-normal-4f0koTD-.woff2": {
-    "file": "assets/manrope-600-normal-4f0koTD-.woff2",
-    "src": "_manrope-600-normal-4f0koTD-.woff2"
-  },
-  "_manrope-600-normal-BqgrALkZ.woff": {
-    "file": "assets/manrope-600-normal-BqgrALkZ.woff",
-    "src": "_manrope-600-normal-BqgrALkZ.woff"
-  },
-  "_manrope-700-normal-BZp_XxE4.woff2": {
-    "file": "assets/manrope-700-normal-BZp_XxE4.woff2",
-    "src": "_manrope-700-normal-BZp_XxE4.woff2"
-  },
-  "_manrope-700-normal-DGRFkw-m.woff": {
-    "file": "assets/manrope-700-normal-DGRFkw-m.woff",
-    "src": "_manrope-700-normal-DGRFkw-m.woff"
+  "_fonts-BikBOvSC.css": {
+    "file": "assets/fonts-BikBOvSC.css",
+    "src": "_fonts-BikBOvSC.css"
   },
   "_playfair-display-400-normal-CFtfchNt.woff2": {
     "file": "assets/playfair-display-400-normal-CFtfchNt.woff2",
@@ -76,13 +44,50 @@
     "src": "_playfair-display-600-normal-CxxueQ0Z.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Bjac3CTD.css",
+    "file": "assets/app-CeUqWtxs.css",
     "name": "app",
     "names": [
       "app.css"
     ],
     "src": "resources/css/app.css",
-    "isEntry": true
+    "isEntry": true,
+    "assets": [
+      "assets/manrope-regular-BnMfPUnO.otf",
+      "assets/manrope-medium-BLFCKsKz.otf",
+      "assets/manrope-semibold-DTzoplAh.otf",
+      "assets/manrope-bold-ChW6C7MW.otf",
+      "assets/juana-alt-medium-BcvDEgtQ.woff2",
+      "assets/juana-alt-medium-CUtegdBc.woff",
+      "assets/fffont-DwuMxLR1.otf"
+    ]
+  },
+  "resources/fonts/fffont.otf": {
+    "file": "assets/fffont-DwuMxLR1.otf",
+    "src": "resources/fonts/fffont.otf"
+  },
+  "resources/fonts/juana-alt-medium.woff": {
+    "file": "assets/juana-alt-medium-CUtegdBc.woff",
+    "src": "resources/fonts/juana-alt-medium.woff"
+  },
+  "resources/fonts/juana-alt-medium.woff2": {
+    "file": "assets/juana-alt-medium-BcvDEgtQ.woff2",
+    "src": "resources/fonts/juana-alt-medium.woff2"
+  },
+  "resources/fonts/manrope-bold.otf": {
+    "file": "assets/manrope-bold-ChW6C7MW.otf",
+    "src": "resources/fonts/manrope-bold.otf"
+  },
+  "resources/fonts/manrope-medium.otf": {
+    "file": "assets/manrope-medium-BLFCKsKz.otf",
+    "src": "resources/fonts/manrope-medium.otf"
+  },
+  "resources/fonts/manrope-regular.otf": {
+    "file": "assets/manrope-regular-BnMfPUnO.otf",
+    "src": "resources/fonts/manrope-regular.otf"
+  },
+  "resources/fonts/manrope-semibold.otf": {
+    "file": "assets/manrope-semibold-DTzoplAh.otf",
+    "src": "resources/fonts/manrope-semibold.otf"
   },
   "resources/js/app.js": {
     "file": "assets/app-3W-rii2V.js",

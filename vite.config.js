@@ -16,9 +16,11 @@ export default defineConfig({
              * Manrope and Cormorant Garamond are the faces the Figma file uses.
              * Playfair Display stands in for "Juana Alt Medium" (Latinotype,
              * commercial licence); see resources/css/app.css.
+             *
+             * Manrope is now loaded from the supplied local assets in
+             * resources/fonts, so it does not need to be downloaded from Bunny.
              */
             fonts: [
-                bunny('Manrope', { weights: [400, 500, 600, 700] }),
                 bunny('Playfair Display', { weights: [400, 500, 600] }),
                 bunny('Cormorant Garamond', { weights: [400, 600] }),
             ],

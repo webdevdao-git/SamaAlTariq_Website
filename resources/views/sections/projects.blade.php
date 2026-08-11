@@ -12,7 +12,7 @@
 --}}
 <section id="projects" class="bg-white py-[clamp(3.5rem,5.79vw,100px)]">
     <div class="shell">
-        <h2 class="display text-fluid-section uppercase text-ink">
+        <h2 class="editorial-heading text-fluid-section uppercase text-ink">
             @foreach ($projects['heading'] as $i => $line)
                 <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
             @endforeach

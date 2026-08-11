@@ -35,10 +35,11 @@
     --color-alabaster: #f5f3ef;
 
     --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-    /* "Juana Alt Medium" in Figma is a commercial Latinotype face and the file
-       uses the demo. Playfair Display is the closest freely-licensed match for
-       the same high-contrast serif voice. Swap it here and nowhere else. */
-    --font-display: 'Playfair Display', Georgia, serif;
+    /* Both self-hosted from resources/fonts using the supplied files.
+       "Juana Alt Medium" in Figma is the commercial Latinotype face; the file
+       here is the demo cut, which covers the full ASCII range. Playfair
+       Display stays behind it purely as a fallback. */
+    --font-display: 'Juana Alt', 'Playfair Display', Georgia, serif;
     --font-wordmark: 'Cormorant Garamond', Georgia, serif;
 
     --text-fluid-hero: clamp(2.75rem, 6.25vw, 108px);
@@ -52,6 +53,88 @@
     --text-fluid-stat: clamp(2.25rem, 3.24vw, 56px);
 
     --spacing-gutter: clamp(1.25rem, 4.63vw, 80px);
+}
+
+/*
+ * The two faces that are not downloaded at build time. The files live in
+ * resources/fonts and the url()s below are relative, which puts them inside
+ * Vite's asset graph — they get hashed into public/build/assets like every
+ * other font, and, crucially, they resolve during `vite dev` too.
+ *
+ * Do not switch these back to absolute /fonts/... paths. In dev the stylesheet
+ * is served from the Vite origin (:5173) while the page is served by Laravel
+ * (:8000), so a root-relative url() resolves against :5173, where Laravel's
+ * public/ is not mounted — every face 404s and the headings silently fall back
+ * to Playfair Display.
+ */
+@font-face {
+    font-family: 'Manrope';
+    src: url('../fonts/manrope-regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manrope';
+    src: url('../fonts/manrope-medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manrope';
+    src: url('../fonts/manrope-semibold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Manrope';
+    src: url('../fonts/manrope-bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
+ * Juana Alt Medium — the editorial display face. All three files are the same
+ * outlines; the OTF is the supplied upload (resources/fonts/fffont.otf) and the
+ * woff2/woff were converted from it. woff2 is listed first only because it is
+ * 11KB against the OTF's 28KB — the browser takes the first format it supports
+ * and stops, so the OTF is the fallback for anything that cannot read woff2.
+ *
+ * The unicode-range is a guard against the DEMO cut, not a subsetting
+ * optimisation. In the Fontspring demo currently in resources/fonts, 28
+ * characters share one identical outline — a "DEMO" flower — rather than their
+ * real glyph:
+ *
+ *     ! " # $ % & ' ( ) * + - / 4 < = > @ [ \ ] ^ _ ` { | } ~
+ *
+ * Note the digit 4 and the hyphen: unguarded, the fourth process step renders
+ * "0❦" and "Construction And Fit-Out" breaks in the middle. Listing only the
+ * glyphs the demo draws correctly means the other 28 never request this face
+ * and fall through to Playfair Display, which is merely a different serif
+ * rather than a dingbat.
+ *
+ * When the purchased webfont kit replaces these files, DELETE the
+ * unicode-range line — the licensed cut draws all of them, and leaving the
+ * guard in would keep punctuation on Playfair for no reason. See
+ * resources/fonts/README.md.
+ */
+@font-face {
+    font-family: 'Juana Alt';
+    src:
+        url('../fonts/juana-alt-medium.woff2') format('woff2'),
+        url('../fonts/juana-alt-medium.woff') format('woff'),
+        url('../fonts/fffont.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F,
+        U+0041-005A, U+0061-007A;
 }
 
 @layer base {
@@ -161,11 +244,41 @@
         padding-inline: clamp(1rem, 1.39vw, 24px);
     }
 
+    /*
+     * Two tiers of display type, both on Juana Alt, kept apart because the
+     * Figma sets them to different metrics rather than different faces.
+     *
+     * .display is the plain serif tier: the mid-size headings (48px section
+     * intros, the process step titles and numbers, the service card titles).
+     * They sit at normal reading leading and near-normal tracking.
+     *
+     * .editorial-heading is the large tier — the gutter-to-gutter uppercase
+     * slabs like "OUR PROCESS". Tight leading and tight tracking are what make
+     * that look read as editorial, and they only work at that scale; applied to
+     * a 32px step title the lines would collide.
+     *
+     * Neither is a global override. Body copy, navigation, buttons, labels,
+     * form fields, captions and footer text all stay on --font-sans (Manrope)
+     * because nothing sets a font-family on them at all.
+     */
     .display {
         font-family: var(--font-display);
         font-weight: 500;
         line-height: 0.95;
         letter-spacing: -0.01em;
+    }
+
+    /*
+     * Sizing deliberately lives on the element, not here: each heading matches
+     * its own Figma layer via the text-fluid-* tokens (hero 108px, precision
+     * 128px, section 100px), and a size baked in here would have to be undone
+     * at every call site. Same for uppercase and max-width.
+     */
+    .editorial-heading {
+        font-family: var(--font-display);
+        font-weight: 500;
+        line-height: 0.88;
+        letter-spacing: -0.04em;
     }
 
     .pill {

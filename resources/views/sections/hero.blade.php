@@ -64,7 +64,9 @@
             </div>
         </header>
 
-        <div class="relative z-10 mt-auto flex flex-col gap-[clamp(2.75rem,8vh,6.5rem)] pt-[clamp(12rem,36vh,24rem)] pb-[clamp(2rem,5.5vh,4.5rem)]">
+        {{-- The stack is anchored to the bottom, so this gap is what places the
+             hairline: the design sits it just under the half-height mark. --}}
+        <div class="relative z-10 mt-auto flex flex-col gap-[clamp(2.75rem,15vh,9rem)] pt-[clamp(9rem,30vh,20rem)] pb-[clamp(2rem,5.5vh,4.5rem)]">
             {{-- Intro row --}}
             <div class="shell">
                 <div class="border-t border-white/25 pt-[clamp(1.25rem,1.5vw,26px)]">
@@ -72,11 +74,19 @@
                         <p data-split data-split-delay="520"
                            class="text-fluid-body font-semibold md:col-span-3 md:max-w-[170px]">{{ $hero['eyebrow'] }}</p>
 
+                        {{--
+                            From lg the intro sits on columns 5–10 rather than
+                            centred on the page: the design puts it much closer
+                            to the CTA than to the eyebrow, which is what stops
+                            the row reading as three evenly spaced blocks. At md
+                            the tracks are too narrow to give the link its own
+                            two columns, so the row stays evenly spaced there.
+                        --}}
                         <p data-split data-split-delay="600"
-                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center md:text-center lg:max-w-[670px]">{{ $hero['intro'] }}</p>
+                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center md:text-center lg:col-start-5 lg:max-w-[670px]">{{ $hero['intro'] }}</p>
 
                         <a href="{{ $hero['cta']['href'] }}"
-                           class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right">
+                           class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right lg:col-span-2 lg:whitespace-nowrap">
                             {{ $hero['cta']['label'] }}
                             <x-icon name="arrow-right" class="w-[clamp(20px,1.62vw,28px)] transition-transform duration-300 group-hover:translate-x-1"/>
                         </a>
@@ -84,15 +94,29 @@
                 </div>
             </div>
 
-            {{-- Display type --}}
-            <h1 class="shell display text-fluid-hero uppercase text-white">
-                <span class="grid gap-x-[clamp(1.5rem,4vw,4.5rem)] gap-y-[0.08em] md:grid-cols-12 md:items-baseline">
-                    <span data-split data-split-delay="120"
-                          class="block md:col-span-5">{{ $hero['words']['first'] }}</span>
-                    <span data-split data-split-delay="220"
-                          class="block md:col-span-7 md:text-right">{{ $hero['words']['second'] }}</span>
+            {{--
+                Display type: two lines, not three. The first runs gutter to
+                gutter with the words pushed apart, the second centres under the
+                space they leave.
+
+                The first line is a flex row rather than columns of a grid
+                because the display face here is a substitute that sets wider
+                than the licensed one in the Figma file — on a twelve-column
+                split "Precision" fell off the end of its track and wrapped.
+                Pushing the two words to opposite gutters lets the gap between
+                them, not the line count, absorb the difference. `shrink-0`
+                keeps flex from squeezing them back into a wrap.
+            --}}
+            <h1 class="shell editorial-heading text-fluid-hero uppercase text-white">
+                <span class="grid gap-y-[0.08em]">
+                    <span class="md:flex md:items-baseline md:justify-between">
+                        <span data-split data-split-delay="120"
+                              class="block md:shrink-0 md:whitespace-nowrap">{{ $hero['words']['first'] }}</span>
+                        <span data-split data-split-delay="220"
+                              class="block md:shrink-0 md:whitespace-nowrap md:text-right">{{ $hero['words']['second'] }}</span>
+                    </span>
                     <span data-split data-split-delay="320"
-                          class="block md:col-span-12 md:text-center">{{ $hero['words']['third'] }}</span>
+                          class="block md:w-9/12 md:text-center">{{ $hero['words']['third'] }}</span>
                 </span>
             </h1>
         </div>

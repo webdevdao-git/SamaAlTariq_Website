@@ -30,7 +30,7 @@
                 image cap below.
             --}}
             <div class="flex flex-col justify-between gap-[clamp(2.5rem,5vw,80px)] self-start lg:sticky lg:top-[12vh] lg:min-h-[72vh]">
-                <h2 class="reveal display text-fluid-section uppercase text-ink">
+                <h2 class="reveal editorial-heading text-fluid-section uppercase text-ink">
                     @foreach ($process['heading'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach
