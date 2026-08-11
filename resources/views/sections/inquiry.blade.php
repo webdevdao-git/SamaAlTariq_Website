@@ -69,23 +69,33 @@
                         @error('email')<span id="email-error" class="field-error" role="alert">{{ $message }}</span>@enderror
                     </div>
 
-                    <div>
-                        <label for="project_type" class="field-label">Property Type</label>
-                        {{-- The chevron belongs to the control, not the label. It sat on the
-                             label row, which read as decoration on a heading and left the
-                             select looking like the plain text inputs beside it — the one
-                             field that opens had no affordance saying so.
+                    {{-- This field carries its name in the control itself: the placeholder
+                         option reads "Property Type" with the chevron beside it, so there is
+                         no label line above. The label still exists for screen readers —
+                         a placeholder is not an accessible name, and it stops being the
+                         visible text the moment someone picks a value.
 
-                             appearance-none removes the native arrow, so this overlay is the
-                             only thing marking it as a select. pb matches .field's own bottom
-                             padding, which shrinks this box to exactly the text line and
-                             centres the icon on "Select…" rather than on the field including
-                             the gap above its underline. pointer-events-none so the icon does
-                             not swallow the click that opens the menu. --}}
+                         The spacer stands in for the label row the other fields have. Without
+                         it this cell is one line shorter than Email next to it and its
+                         underline floats above Email's. Reserving the space with .field-label
+                         itself rather than a measured margin means the two stay in step if
+                         the label's type or margin is ever changed, and it keeps the field
+                         aligned in the error state too, where a bottom-aligned cell would
+                         drift as the neighbour grows. --}}
+                    <div>
+                        <label for="project_type" class="sr-only">Property Type</label>
+                        <div aria-hidden="true" class="field-label">&nbsp;</div>
+
+                        {{-- appearance-none removes the native arrow, so this overlay is the
+                             only thing marking the field as a select. pb matches .field's own
+                             bottom padding, which shrinks this box to exactly the text line
+                             and centres the icon on the value rather than on the field
+                             including the gap above its underline. pointer-events-none so the
+                             icon does not swallow the click that opens the menu. --}}
                         <div class="relative">
                             <select id="project_type" name="project_type" required class="field appearance-none pr-8"
                                     @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
-                                <option value="">Select…</option>
+                                <option value="">Property Type</option>
                                 @foreach ($inquiry['property_types'] as $type)
                                     <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
                                 @endforeach
