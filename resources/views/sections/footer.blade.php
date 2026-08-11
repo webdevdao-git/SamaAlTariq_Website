@@ -1,19 +1,19 @@
 @php($footer = config('site.footer'))
 @php($nav = config('site.nav'))
 @php($social = config('site.social'))
-@php($contact = config('site.contact'))
 
 {{--
     Figma: frame 1226:1038, 1728×774, background #3FA7B3.
 
     Three columns above the wordmark lock-up: SAMA AL TARIQ over BUILDING
-    CONTRACTING LLC. with 0.72em tracking, both sized by measurement rather than
-    a fixed vw (see motion/fit-text.js).
+    CONTRACTING LLC., both set in Juana Alt Medium and sized by measurement
+    rather than a fixed vw (see motion/fit-text.js).
 
     The columns are laid out on the same 12-column grid as the rest of the page
     and share a top edge, so they read as one band instead of three floating
-    blocks. A contact column occupies the space the design leaves empty between
-    the navigation and the project card.
+    blocks. The design leaves columns 4–7 empty: the band is navigation at the
+    left gutter, the project card past the two-thirds mark, and social at the
+    right gutter, with nothing between them.
 --}}
 <footer class="overflow-hidden bg-teal pt-[clamp(2.5rem,4.63vw,80px)] text-white">
     <div class="shell">
@@ -24,12 +24,17 @@
                 <img src="{{ asset('images/logo-mark.png') }}" alt="" width="540" height="462"
                      class="h-auto w-[clamp(44px,3.65vw,63px)]">
 
+                {{--
+                    Leading, not a row gap, sets the rhythm here: the design
+                    stacks the six links at roughly 1.28× their own size, which a
+                    gap on top of default leading overshoots by a third.
+                --}}
                 <nav aria-label="Footer">
-                    <ul class="flex flex-col gap-[clamp(0.15rem,0.35vw,6px)]">
+                    <ul class="flex flex-col text-fluid-body leading-[1.28] font-medium">
                         @foreach ($nav as $item)
                             <li>
                                 <a href="{{ $item['href'] }}"
-                                   class="inline-block text-fluid-sm font-medium transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
+                                   class="inline-block transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -37,83 +42,62 @@
             </div>
 
             {{--
-                Contact. Only the email is known; phone and address render solely
-                when set in config, so the footer never shows an invented number.
+                Recently completed. Starts at column 8 rather than flowing on
+                from the navigation: the design sets the card two thirds across,
+                and the empty teal to its left is what gives the wordmark below
+                room to read as the footer's subject.
+
+                The card is 417px in the design, which is wider than the three
+                columns it starts on, so above 2xl it overflows its track to the
+                right instead of claiming a fourth column: column 11 belongs to
+                the social list, and taking it drops the list onto its own row.
+                The teal it overflows into is empty, so nothing collides.
             --}}
-            <div class="reveal flex flex-col gap-[clamp(0.75rem,1.16vw,20px)] lg:col-span-3" style="transition-delay:60ms">
-                <p class="text-[clamp(10px,0.73vw,12.5px)] font-semibold tracking-[0.12em] uppercase text-white/70">
-                    {{ $contact['heading'] }}
-                </p>
-
-                <ul class="flex flex-col gap-[clamp(0.35rem,0.7vw,12px)] text-fluid-sm font-medium">
-                    <li>
-                        <a href="mailto:{{ $contact['email'] }}"
-                           class="inline-block break-all transition-opacity hover:opacity-70">{{ $contact['email'] }}</a>
-                    </li>
-
-                    @if ($contact['phone'])
-                        <li>
-                            <a href="tel:{{ preg_replace('/[^+\d]/', '', $contact['phone']) }}"
-                               class="inline-block transition-opacity hover:opacity-70">{{ $contact['phone'] }}</a>
-                        </li>
-                    @endif
-
-                    @if ($contact['address'])
-                        <li class="max-w-[24ch] text-white/80">{{ $contact['address'] }}</li>
-                    @endif
-                </ul>
-
-                {{--
-                    Deliberately not pushed to the bottom of the grid cell. With
-                    only an email above it, aligning this to the taller card
-                    column left it stranded in the middle of empty teal; sitting
-                    with its own group reads as one block.
-                --}}
-                <a href="#contact" class="group mt-[clamp(0.5rem,0.9vw,16px)] inline-flex w-fit items-center gap-1.5 text-fluid-sm font-semibold underline underline-offset-4 transition-opacity hover:opacity-70">
-                    Start a project
-                    <x-icon name="arrow-right" class="w-[clamp(16px,1.16vw,20px)] transition-transform duration-300 group-hover:translate-x-1"/>
-                </a>
-            </div>
-
-            {{-- Recently completed --}}
-            <div class="reveal lg:col-span-4" style="transition-delay:120ms">
-                <a href="{{ $footer['recent']['href'] }}" class="group block w-full max-w-[417px]">
-                    <span class="mb-[clamp(0.35rem,0.44vw,7.5px)] flex items-center gap-1.5">
+            <div class="reveal lg:col-start-8 lg:col-end-11" style="transition-delay:120ms">
+                <a href="{{ $footer['recent']['href'] }}" class="group relative block w-full max-w-[417px] 2xl:min-w-[417px]">
+                    <span class="mb-[clamp(0.35rem,0.5vw,8.5px)] flex items-center gap-1.5">
                         <x-icon name="dot" class="text-white"/>
-                        <span class="text-[clamp(10px,0.73vw,12.5px)] font-semibold">{{ $footer['recent']['label'] }}</span>
+                        <span class="text-[clamp(11px,0.81vw,14px)] font-semibold">{{ $footer['recent']['label'] }}</span>
                     </span>
 
                     <span class="relative block aspect-[417/259] w-full overflow-hidden bg-white/10">
                         <img src="{{ asset($footer['recent']['image']) }}" alt="{{ $footer['recent']['alt'] }}"
                              loading="lazy" decoding="async"
                              class="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]">
+                    </span>
 
-                        {{--
-                            Sits inside the frame on a teal disc. Previously it
-                            straddled the bottom edge, which read as a stray
-                            element rather than an affordance, and it vanished
-                            against pale photography.
-                        --}}
-                        <span class="absolute right-3 bottom-3 grid size-[clamp(34px,2.8vw,48px)] place-items-center rounded-full bg-teal/90 backdrop-blur-sm transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1">
-                            <x-icon name="diagonal-arrow" class="w-[clamp(14px,1.16vw,20px)] text-white"/>
-                        </span>
+                    {{--
+                        Straddles the bottom edge two thirds along, as in the
+                        design — a bare white arrow half on the photograph and
+                        half on the teal, not a button. It sits outside the frame
+                        because that element clips its own overflow for the hover
+                        zoom, which would cut the arrow in half.
+                    --}}
+                    <span aria-hidden="true"
+                          class="pointer-events-none absolute bottom-0 left-[67%] translate-y-1/2 text-white transition-transform duration-500 group-hover:translate-y-[calc(50%-4px)] group-hover:translate-x-1">
+                        <x-icon name="diagonal-arrow" class="w-[clamp(28px,2.52vw,44px)]"/>
                     </span>
                 </a>
             </div>
 
-            {{-- Social --}}
-            <div class="reveal lg:col-span-2 lg:justify-self-end" style="transition-delay:180ms">
-                <p class="mb-[clamp(0.75rem,1.16vw,20px)] text-[clamp(10px,0.73vw,12.5px)] font-semibold tracking-[0.12em] uppercase text-white/70">
-                    Follow
-                </p>
-                <ul class="flex flex-col gap-[clamp(0.5rem,0.86vw,15px)] lg:w-[clamp(120px,10.4vw,180px)]">
+            {{--
+                Social. No "Follow" heading in the design — the links are their
+                own label. The fixed width is what right-aligns the arrows into a
+                column instead of letting each one trail its own word.
+
+                Placed explicitly rather than flowed: at 2xl the card takes the
+                grid as far as column 11, and auto-placement would answer that by
+                opening a thirteenth column and pushing the list off the page.
+            --}}
+            <div class="reveal lg:col-start-11 lg:col-end-13 lg:justify-self-end" style="transition-delay:180ms">
+                <ul class="flex flex-col gap-[clamp(0.35rem,0.52vw,9px)] lg:w-[clamp(112px,7.64vw,132px)]">
                     @foreach ($social as $s)
                         <li>
                             <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
                                class="group flex items-center justify-between gap-2 text-fluid-body transition-opacity hover:opacity-75">
                                 {{ $s['label'] }}
                                 <x-icon name="arrow-outward"
-                                        class="w-[clamp(16px,1.39vw,24px)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"/>
+                                        class="w-[clamp(15px,1.16vw,20px)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"/>
                             </a>
                         </li>
                     @endforeach
@@ -121,9 +105,18 @@
             </div>
         </div>
 
-        {{-- Wordmark lock-up --}}
-        <div class="mt-[clamp(2.5rem,4.63vw,80px)] border-t border-white/20 pt-[clamp(2.25rem,3.7vw,64px)] pb-[clamp(1.5rem,2.55vw,44px)]">
+        {{--
+            Wordmark lock-up. No rule above it: the design separates it from the
+            band by distance alone, and a hairline turned the two into stacked
+            sections rather than one field with a mark sitting in it.
+        --}}
+        <div class="mt-[clamp(2.75rem,7.06vw,122px)] pb-[clamp(1.75rem,3.7vw,64px)]">
             {{--
+                Face, weight, leading and the subtitle's tracking are in
+                .logotype / .logotype-sub — they are one typographic unit and
+                the tracking value in particular is load-bearing, so it is
+                commented where it is set rather than buried in a class list.
+
                 Sized by measurement (see motion/fit-text.js). The vw values are
                 only the no-JavaScript fallback, set low enough not to overflow
                 with a wider fallback face.
@@ -132,19 +125,26 @@
                 rather than the viewport — the lock-up keeps the same optical
                 proportions whatever width fit-text lands on.
 
-                `pb` on the first line clears the Q descender, which at leading
-                0.78 otherwise runs into the tracked line below.
+                No bottom padding on the first line: in the reference the Q's
+                tail sweeps down past the subtitle's cap line and finishes
+                beside "LLC.", and padding that cleared the descender pushed the
+                two lines apart into stacked lines rather than one lock-up.
+
+                The subtitle's fallback vw is far below the title's because its
+                0.86em tracking adds most of the line's rendered width — the vw
+                that would fit these characters untracked overflows the shell
+                several times over once the tracking is on.
             --}}
-            <p data-fit-text class="font-wordmark text-[10.5vw] leading-[0.78] font-semibold whitespace-nowrap pb-[0.12em]">
+            <p data-fit-text class="logotype text-[10.5vw]">
                 {{ Str::upper($footer['wordmark']) }}
             </p>
-            <p data-fit-text class="mt-[0.34em] font-wordmark text-[2.5vw] leading-none tracking-[0.72em] whitespace-nowrap">
+            <p data-fit-text class="logotype logotype-sub mt-[0.28em] text-[1.7vw]">
                 {{ Str::upper($footer['wordmark_sub']) }}
             </p>
         </div>
 
         {{-- Legal bar --}}
-        <div class="mt-[clamp(1.25rem,2.31vw,40px)] flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-[clamp(1rem,1.5vw,26px)]">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-[clamp(1rem,1.5vw,26px)]">
             <p class="text-fluid-sm text-white/80">{{ config('site.copyright') }}</p>
             <a href="#top" class="group inline-flex items-center gap-1.5 text-fluid-sm font-medium transition-opacity hover:opacity-70">
                 Back to top

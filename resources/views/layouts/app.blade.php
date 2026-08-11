@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#3fa7b3">
 
     <title>@yield('title', config('site.legal_name') . ' — Building With Precision')</title>
-    <meta name="description" content="@yield('description', 'Sama Al Tariq delivers exceptional construction, engineering, and contracting solutions across Dubai — fit-out, design & build, villa renovation, joinery, and millwork.')">
+    <meta name="description" content="@yield('description', 'Sama Al Tariq delivers exceptional construction, engineering, and contracting solutions across Dubai — Fit-Out, design & build, villa renovation, joinery, and millwork.')">
 
     <link rel="canonical" href="{{ url()->current() }}">
 

@@ -20,7 +20,7 @@ class EnquiryTest extends TestCase
             'phone' => '+971501234567',
             'project_type' => 'Villa',
             'location' => 'Jumeirah',
-            'project_brief' => 'New villa fit-out',
+            'project_brief' => 'New villa Fit-Out',
         ], $overrides);
     }
 

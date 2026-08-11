@@ -41,6 +41,13 @@
        Display stays behind it purely as a fallback. */
     --font-display: 'Juana Alt', 'Playfair Display', Georgia, serif;
     --font-wordmark: 'Cormorant Garamond', Georgia, serif;
+    /* The Didone. It carried the footer lock-up until that moved to Juana Alt,
+       and is now only a guard: it sits behind Juana on .service-title, so a
+       headline that gains an & or a - lands on a high-contrast serif instead of
+       Playfair. No copy reaches it today, and unicode-range means it is not
+       downloaded until some does. The fallbacks are the Didones macOS ships, so
+       a failed download degrades to the same genre rather than to Georgia. */
+    --font-logo: 'Bodoni Moda', 'Bodoni 72', Didot, 'Times New Roman', serif;
 
     --text-fluid-hero: clamp(2.75rem, 6.25vw, 108px);
     --text-fluid-mega: clamp(3.25rem, 7.41vw, 128px);
@@ -135,6 +142,24 @@
     font-display: swap;
     unicode-range: U+0020, U+002C, U+002E, U+0030-0033, U+0035-003B, U+003F,
         U+0041-005A, U+0061-007A;
+}
+
+/*
+ * Bodoni Moda — the ampersand and hyphen in the service headlines, which the
+ * demo cut of Juana Alt draws as a flower. One variable file carrying both of
+ * the family's axes (wght 400-900, opsz 6-96); the latin subset is all that is
+ * needed and keeps it at 46KB. Downloaded from Google Fonts (Open Font License),
+ * self-hosted for the same reason as the faces above — see the note there about
+ * why the url() must stay relative.
+ */
+@font-face {
+    font-family: 'Bodoni Moda';
+    src: url('../fonts/bodoni-moda-latin.woff2') format('woff2');
+    font-weight: 400 900;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+        U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF, U+FFFD;
 }
 
 @layer base {
@@ -279,6 +304,93 @@
         font-weight: 500;
         line-height: 0.88;
         letter-spacing: -0.04em;
+    }
+
+    /*
+     * The footer lock-up: SAMA AL TARIQ over BUILDING CONTRACTING LLC.
+     *
+     * Juana Alt Medium — the supplied fffont.otf, registered as 'Juana Alt'
+     * above and reached through --font-display, which is that same file with
+     * Playfair Display behind it for the characters the demo cut does not draw.
+     * The lock-up is letters, spaces and one full stop, all of which the demo
+     * draws, so in practice this is Juana Alt end to end.
+     *
+     * Not --font-logo: that token is the Didone, which is now only reached for
+     * the two punctuation marks in the service headlines.
+     *
+     * Weight 500 is the only cut of the family here — Medium — so it is set
+     * explicitly rather than left to 400 and synthesised.
+     *
+     * No font-variation-settings: Juana Alt is a static OTF with no axes, and
+     * the opsz pin the Didone needed would be a no-op here.
+     *
+     * Leading is tighter than the Didone's was. Juana Alt carries a taller cap
+     * inside the same em, so 0.78 overlapped the subtitle; 0.86 lands the two
+     * lines at the reference gap once the title is fitted to the measure.
+     */
+    .logotype {
+        font-family: var(--font-display);
+        font-weight: 500;
+        line-height: 0.86;
+        letter-spacing: 0.062em;
+        white-space: nowrap;
+    }
+
+    /*
+     * Tracking is what sizes this line. Both lines are fitted to the same width
+     * (see motion/fit-text.js), so the wider the tracking, the smaller the type
+     * that fills the measure — this value sets the size, not just the spacing.
+     *
+     * 0.86em is what lands the subtitle at 0.23x the title's cap height, the
+     * proportion in the reference lock-up, where the space between letters
+     * reads as roughly one letter wide. The Didone this lock-up used before
+     * wanted 1.36em for its own reference, which on Juana Alt sets the line
+     * half again too small.
+     */
+    .logotype-sub {
+        letter-spacing: 0.86em;
+        line-height: 1;
+    }
+
+    /*
+     * Phones only. Because tracking sizes this line, holding 1.36em down to a
+     * 390px screen sets the subtitle at about 7.5px — the proportion survives
+     * and the words stop being readable. Relaxing the tracking is what buys the
+     * size back: 0.7em lands it near 11px at 390 and 14px at 500.
+     *
+     * Deliberately below the tablet range, so the desktop and tablet lock-up
+     * keeps the reference proportion exactly and only the narrowest screens
+     * trade it away.
+     */
+    @media (width < 40rem) {
+        .logotype-sub {
+            letter-spacing: 0.7em;
+        }
+    }
+
+    /*
+     * The service panel headline. Juana Alt, like the footer lock-up.
+     *
+     * Bodoni Moda sits second in the stack rather than Playfair, which is what
+     * --font-display falls back to. Nothing reaches it as the copy stands: the
+     * titles spell out "And" and drop the hyphen from "Fit Out" precisely so
+     * the headline stays on one face, because & and - are among the characters
+     * the demo cut of Juana draws as a flower rather than a glyph (see the
+     * @font-face above). It is here so that copy which does gain one lands on a
+     * high-contrast serif rather than on Playfair, whose & is visibly a
+     * different drawing from the reference artwork's.
+     *
+     * Delete this fallback along with the unicode-range when the licensed kit
+     * lands — the real cut draws them and the stack stops mattering.
+     *
+     * Positive tracking, where .display carries negative: it is set in caps,
+     * and caps need the extra room that lowercase does not.
+     */
+    .service-title {
+        font-family: 'Juana Alt', var(--font-logo);
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: 0.012em;
     }
 
     .pill {

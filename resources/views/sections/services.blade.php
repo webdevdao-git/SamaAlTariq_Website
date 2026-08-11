@@ -27,15 +27,26 @@
 
         <article id="service-{{ $i + 1 }}"
                  class="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden
-                        px-[var(--spacing-gutter)] py-[clamp(2rem,5vw,88px)]"
+                        px-[var(--spacing-gutter)] pt-[clamp(1.5rem,3.47vw,60px)] pb-[clamp(2rem,5vw,88px)]"
                  aria-labelledby="service-heading-{{ $i + 1 }}">
 
             <img src="{{ asset($item['image']) }}" alt=""
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}" decoding="async"
                  class="absolute inset-0 -z-20 h-full w-full object-cover">
 
+            {{--
+                Two gradients, because the type sits in two places. The 90deg
+                one carries the weight: it shades the left column the headline
+                occupies and lets the photograph open up to the right, which is
+                what keeps the panel from reading as a flat scrim. The 180deg
+                one is a light top wash for the tab row, which runs the full
+                width and would otherwise cross whatever the image happens to
+                be bright in — the ceilings in two of these three.
+            --}}
             <div aria-hidden="true" class="absolute inset-0 -z-10"
-                 style="background:linear-gradient(180deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.15) 45%,rgba(0,0,0,0.5) 100%)"></div>
+                 style="background:
+                        linear-gradient(180deg,rgba(0,0,0,0.42) 0%,rgba(0,0,0,0.10) 22%,rgba(0,0,0,0) 40%),
+                        linear-gradient(90deg,rgba(0,0,0,0.52) 0%,rgba(0,0,0,0.26) 45%,rgba(0,0,0,0.08) 100%)"></div>
 
             {{--
                 The row repeats in every panel as a visual device, but there is
@@ -44,26 +55,49 @@
                 order, so a screen reader or keyboard user gets one clean list
                 instead of the same six links six times over.
             --}}
-            <nav class="-mx-[var(--spacing-gutter)] flex snap-x items-center gap-[clamp(1.25rem,4vw,72px)] overflow-x-auto px-[var(--spacing-gutter)] pb-1
+            {{--
+                Every item carries the pill's padding, active or not, so moving
+                between panels cannot shift the row sideways. The gap is small
+                because that padding already supplies most of the space between
+                labels: gap + 2×padding is what the eye reads as the spacing,
+                and it comes to roughly 60px at desktop.
+            --}}
+            <nav class="-mx-[var(--spacing-gutter)] flex snap-x items-center gap-[clamp(0.25rem,0.41vw,7px)] overflow-x-auto px-[var(--spacing-gutter)] pb-1
                         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                  @if ($i === 0) aria-label="Our areas of expertise" @else aria-hidden="true" @endif>
                 @foreach ($services['items'] as $j => $tab)
                     <a href="#service-{{ $j + 1 }}"
                        @if ($i !== 0) tabindex="-1" @endif
                        @if ($i === $j) aria-current="true" @endif
-                       class="shrink-0 snap-start rounded-full border px-[clamp(1.25rem,2.2vw,38px)] py-[clamp(0.55rem,0.82vw,14px)]
-                              text-[clamp(0.875rem,1.16vw,20px)] font-medium whitespace-nowrap backdrop-blur-md transition duration-300
-                              {{ $i === $j ? 'border-white/25 bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_18px_36px_-26px_rgba(0,0,0,0.85)]' : 'border-transparent text-white/85 hover:border-white/20 hover:bg-white/10 hover:text-white' }}">
+                       class="shrink-0 snap-start rounded-full border px-[clamp(1rem,1.56vw,27px)] py-[clamp(0.5rem,0.75vw,13px)]
+                              text-[clamp(0.875rem,1.04vw,18px)] whitespace-nowrap transition duration-300
+                              {{ $i === $j ? 'border-white/30 bg-white/8 text-white' : 'border-transparent text-white/80 hover:border-white/15 hover:bg-white/5 hover:text-white' }}">
                         {{ $tab['tab'] }}
                     </a>
                 @endforeach
             </nav>
 
-            <div class="mt-auto flex flex-col gap-[clamp(0.75rem,1.4vw,24px)]">
+            {{--
+                Top-left, not bottom: the headline sits just under the tab row
+                with a controlled gap, and the rest of the panel is left as open
+                photograph.
+
+                No max-width on the headline. Its two lines are already split in
+                the config and each is short enough to hold at desktop; a `ch`
+                cap sized for the paragraph broke them into four. Below about
+                1100px a line wraps on its own, which is the intended behaviour
+                rather than something to prevent.
+            --}}
+            <div class="mt-[clamp(2rem,3.7vw,64px)] flex flex-col gap-[clamp(0.75rem,1.4vw,24px)]">
                 <h3 id="service-heading-{{ $i + 1 }}"
-                    class="display text-[clamp(1.5rem,2.55vw,44px)] uppercase text-white">
+                    class="service-title text-[clamp(2.25rem,2.9vw,50px)] uppercase text-white">
                     <span class="block">
-                        {{ $item['title'][0] }}<sup class="ml-2 align-super text-[0.42em] tracking-wide">({{ $number }})</sup>
+                        {{--
+                            Sans, and sized against the headline in `em` so it
+                            tracks it — an editorial superscript on the line,
+                            not a badge beside it.
+                        --}}
+                        {{ $item['title'][0] }}<sup class="ml-[0.16em] font-sans text-[0.46em] font-medium tracking-[0.01em] [vertical-align:0.5em]">({{ $number }})</sup>
                     </span>
                     <span class="block">{{ $item['title'][1] }}</span>
                 </h3>

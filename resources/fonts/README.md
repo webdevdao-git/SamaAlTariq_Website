@@ -120,3 +120,28 @@ unreferenced in case a weight is added later, and cost nothing until they are.
 
 Cormorant Garamond and Playfair Display are still downloaded from Bunny at build
 time by that same `fonts` block.
+
+## Bodoni Moda
+
+`bodoni-moda-latin.woff2` — a guard, and nothing else.
+
+It carried the footer lock-up until that was set in Juana Alt Medium, which is
+the face the brand artwork is drawn in. It now sits behind Juana on
+`.service-title` and no copy reaches it: the headlines spell out "And" and drop
+the hyphen from "Fit Out", which is what keeps them on one face, since `&` and
+`-` are both in the demo cut's broken-glyph list below. Bodoni is second in that
+stack rather than Playfair so that a headline which *does* gain one lands on a
+high-contrast serif whose ampersand is the one in the reference artwork.
+
+`unicode-range` means the browser never downloads it while that stays true.
+
+**When the licensed Juana Alt kit lands, this file can go.** Deleting the
+`unicode-range` on the Juana `@font-face` puts those two characters back on the
+real cut, and nothing else references `--font-logo`.
+
+One file covers it because it is the variable build: 46KB carrying `wght`
+400-900 and `opsz` 6-96 — far more than two glyphs need, but it is the smallest
+thing Google Fonts ships for the family. Taken from the latin subset (Open Font
+License); the `unicode-range` in `app.css` is the guard for that, so anything
+outside latin falls to the next serif in `--font-logo` rather than rendering
+.notdef.

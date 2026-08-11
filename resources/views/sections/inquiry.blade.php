@@ -6,11 +6,21 @@
     64px padding) floating over it: copy column on the left with the copyright
     pinned to its bottom, form on the right.
 
+    The photo is sized by the section, so the section carries a viewport
+    min-height: without it the section is only as tall as the card plus its
+    padding and the photo reads as a band rather than a backdrop. min-h with
+    centred content rather than a fixed height — a viewport shorter than the
+    card (or a card grown by validation errors) pushes the section taller
+    instead of overflowing it. svh, not vh, so mobile browser chrome does not
+    make it overshoot.
+
+    The card keeps its own max-width, so none of this changes its size.
+
     The form is a plain POST with CSRF and server-side validation. It works
     without JavaScript — old input and errors come back from the session.
 --}}
 <section id="contact"
-         class="relative isolate border-t border-hairline px-[clamp(1rem,4.63vw,80px)] py-[clamp(2rem,3.4vw,58px)]">
+         class="relative isolate flex min-h-[100svh] items-center border-t border-hairline px-[clamp(1rem,4.63vw,80px)] py-[clamp(2rem,3.4vw,58px)]">
     <img src="{{ asset($inquiry['background']) }}" alt="" loading="lazy" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover">
 

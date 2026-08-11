@@ -140,24 +140,31 @@ return [
          * `tab` stays short because it renders as a pill in a single scrolling
          * row; the full service name goes in `title`, which is the panel
          * headline and is split across two lines by the view.
+         *
+         * `title` spells out "And" and drops the hyphen from "Fit Out", as the
+         * reference artwork does. That is also what keeps the headline on one
+         * face: & and - are two of the characters the demo cut of Juana Alt
+         * draws as a flower rather than a glyph, so in a headline they fall
+         * through to another serif mid-word. The pills are set in the sans and
+         * are unaffected, which is why they keep their ampersands.
          */
         'items' => [
             [
                 'tab' => 'Fit-Out Contracting',
-                'description' => 'End-to-end interior fit-out for commercial, retail, F&B and hospitality spaces, delivered turnkey from concept to handover.',
-                'title' => ['Fit-Out Contracting', '& Turnkey Solutions'],
-                'image' => 'images/services/fit-out-contracting.webp',
+                'description' => 'End-to-end interior Fit-Out for commercial, retail, F&B and hospitality spaces, delivered turnkey from concept to handover.',
+                'title' => ['Fit Out Contracting', 'And Turnkey Solutions'],
+                'image' => 'images/services/Fit-Out-contracting.webp',
             ],
             [
                 'tab' => 'Design & Build',
                 'description' => 'Integrated design-and-build combining concept design, technical drawings, BOQ and full execution under a single point of responsibility.',
-                'title' => ['Design & Build', 'Interior & Architectural'],
+                'title' => ['Design And Build', 'Interior And Architectural'],
                 'image' => 'images/services/design-and-build.webp',
             ],
             [
                 'tab' => 'Commercial & Office',
                 'description' => 'Workspace, office and corporate interior delivery — space planning, partitions, flooring, ceilings and finishes built for productive environments.',
-                'title' => ['Commercial & Office', 'Interior Solutions'],
+                'title' => ['Commercial And Office', 'Interior Solutions'],
                 'image' => 'images/services/commercial-and-office.webp',
             ],
         ],
@@ -183,7 +190,7 @@ return [
                 'number' => '03',
                 'title' => 'Construction And Fit-Out',
                 'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.',
-                'image' => 'images/process/construction-and-fit-out.webp',
+                'image' => 'images/process/construction-and-Fit-Out.webp',
             ],
             [
                 'number' => '04',
@@ -236,7 +243,7 @@ return [
         'recent' => [
             'label' => 'Recently Completed',
             'image' => 'images/footer-recent.webp',
-            'alt' => 'Recently completed corporate lobby fit-out',
+            'alt' => 'Recently completed corporate lobby Fit-Out',
             'href' => '#projects',
         ],
         'wordmark' => 'Sama Al Tariq',

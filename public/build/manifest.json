@@ -44,7 +44,7 @@
     "src": "_playfair-display-600-normal-CxxueQ0Z.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CeUqWtxs.css",
+    "file": "assets/app-ATpEOuX7.css",
     "name": "app",
     "names": [
       "app.css"
@@ -58,8 +58,13 @@
       "assets/manrope-bold-ChW6C7MW.otf",
       "assets/juana-alt-medium-BcvDEgtQ.woff2",
       "assets/juana-alt-medium-CUtegdBc.woff",
-      "assets/fffont-DwuMxLR1.otf"
+      "assets/fffont-DwuMxLR1.otf",
+      "assets/bodoni-moda-latin-BcMkp_wc.woff2"
     ]
+  },
+  "resources/fonts/bodoni-moda-latin.woff2": {
+    "file": "assets/bodoni-moda-latin-BcMkp_wc.woff2",
+    "src": "resources/fonts/bodoni-moda-latin.woff2"
   },
   "resources/fonts/fffont.otf": {
     "file": "assets/fffont-DwuMxLR1.otf",
