@@ -9,7 +9,7 @@ It does **not** need a Node.js Web App, and it does not need the Business plan.
 
 ## What makes this different from a normal Laravel deploy
 
-Two things, and both will silently break the site if missed:
+Three things, and all of them will break the site if missed:
 
 1. **The web root has to reach Laravel's `public/`, and Hostinger shared plans
    will not let you move the document root.** Every site is served from a fixed
@@ -22,6 +22,12 @@ Two things, and both will silently break the site if missed:
    runtime, so `npm run build` cannot run on the server. `public/build/` is
    therefore tracked in git (see `.gitignore`). Build locally and commit before
    deploying, or the site loads with no CSS and no JavaScript.
+
+3. **`proc_open` is disabled in this host's php.ini**, so bare `php artisan`
+   fails outright and Composer cannot run its post-install scripts. Every
+   artisan command below is therefore written as
+   `php -d disable_functions= artisan …`, and Composer is passed `--no-scripts`.
+   This is not optional decoration — drop the prefix and the command dies.
 
 ---
 
@@ -43,8 +49,14 @@ ssh -p 65002 uXXXXXXXX@your-server-ip
 cd ~/domains/samaaltariq.org
 git clone https://github.com/webdevdao-git/SamaAlTariq_Website.git app
 cd app
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --optimize-autoloader --no-scripts
+php -d disable_functions= artisan package:discover
 ```
+
+The domain folder is whatever hPanel created for the site — confirm it with
+`ls ~/domains` rather than assuming. At the time of writing the live checkout is
+`~/domains/darkblue-salamander-193546.hostingersite.com/app`, on the temporary
+hostingersite.com domain; it moves once `samaaltariq.org` is attached.
 
 `--no-dev` matters: it skips the test and debug packages, which have no business
 on a production host.
@@ -101,7 +113,7 @@ it at `app/public` instead and skip this step entirely — it is cleaner.
 
 ```bash
 cp .env.example .env
-php artisan key:generate
+php -d disable_functions= artisan key:generate
 nano .env          # fill in DB_*, MAIL_*, ADMIN_*, APP_URL
 ```
 
@@ -111,8 +123,8 @@ page will display your environment variables.
 ## 6. Migrate and seed
 
 ```bash
-php artisan migrate --force
-php artisan db:seed --force        # creates the first administrator
+php -d disable_functions= artisan migrate --force
+php -d disable_functions= artisan db:seed --force   # creates the first administrator
 ```
 
 `db:seed` prints a temporary password and flags the account so it must be
@@ -122,9 +134,9 @@ re-running it is safe.
 ## 7. Cache for production
 
 ```bash
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php -d disable_functions= artisan config:cache
+php -d disable_functions= artisan route:cache
+php -d disable_functions= artisan view:cache
 ```
 
 There is no `storage:link` step. Client files are served through an authorised
@@ -162,11 +174,17 @@ routes, and SMTP are all wired.
 ## Redeploying
 
 ```bash
-cd ~/domains/samaaltariq.org/app
-git pull
-composer install --no-dev --optimize-autoloader
-php artisan migrate --force
-php artisan config:cache && php artisan route:cache && php artisan view:cache
+cd ~/domains/<your-domain>/app          # ls ~/domains to confirm
+git pull --ff-only
+
+# only when composer.lock changed:
+# composer install --no-dev --optimize-autoloader --no-scripts
+# php -d disable_functions= artisan package:discover
+
+php -d disable_functions= artisan migrate --force
+php -d disable_functions= artisan config:cache
+php -d disable_functions= artisan route:cache
+php -d disable_functions= artisan view:cache
 
 # assets changed? replace the copy in the web root
 # rm first: Vite hashes filenames, so copying over the top leaves every old
@@ -234,10 +252,11 @@ it in hPanel → the site dashboard → **Clear cache**.
 front controller instead of the one in `deploy/hostinger/`.
 
 **"No application encryption key has been specified."** Run
-`php artisan key:generate`, then `php artisan config:cache`.
+`php -d disable_functions= artisan key:generate`, then the same with
+`config:cache`.
 
 **Changes to `.env` do nothing.** The config is cached. Run
-`php artisan config:cache` again.
+`php -d disable_functions= artisan config:cache` again.
 
 **Enquiries save but no email arrives.** Look for the logged exception in
 `storage/logs/laravel.log`. The enquiry is stored before the email is attempted,
