@@ -70,17 +70,31 @@
                     </div>
 
                     <div>
-                        <label for="project_type" class="field-label flex items-center justify-between gap-2">
-                            Property Type
-                            <x-icon name="chevron-down" class="text-ink"/>
-                        </label>
-                        <select id="project_type" name="project_type" required class="field appearance-none"
-                                @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
-                            <option value="">Select…</option>
-                            @foreach ($inquiry['property_types'] as $type)
-                                <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
-                            @endforeach
-                        </select>
+                        <label for="project_type" class="field-label">Property Type</label>
+                        {{-- The chevron belongs to the control, not the label. It sat on the
+                             label row, which read as decoration on a heading and left the
+                             select looking like the plain text inputs beside it — the one
+                             field that opens had no affordance saying so.
+
+                             appearance-none removes the native arrow, so this overlay is the
+                             only thing marking it as a select. pb matches .field's own bottom
+                             padding, which shrinks this box to exactly the text line and
+                             centres the icon on "Select…" rather than on the field including
+                             the gap above its underline. pointer-events-none so the icon does
+                             not swallow the click that opens the menu. --}}
+                        <div class="relative">
+                            <select id="project_type" name="project_type" required class="field appearance-none pr-8"
+                                    @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
+                                <option value="">Select…</option>
+                                @foreach ($inquiry['property_types'] as $type)
+                                    <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
+                                @endforeach
+                            </select>
+                            <span aria-hidden="true"
+                                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center pb-[clamp(0.5rem,0.7vw,12px)] text-ink">
+                                <x-icon name="chevron-down"/>
+                            </span>
+                        </div>
                         @error('project_type')<span id="project_type-error" class="field-error" role="alert">{{ $message }}</span>@enderror
                     </div>
                 </div>
