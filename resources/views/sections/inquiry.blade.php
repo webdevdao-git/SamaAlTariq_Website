@@ -81,27 +81,57 @@
 
                          The filler below is the empty control row the other fields show; see
                          .field-select for how the two stacks end up the same height. --}}
+                    {{-- The native select is still the control: it holds the value, it is
+                         what the form submits, and it is what a browser without JavaScript
+                         shows. The button and menu below it are hidden until the script
+                         marks this wrapper, so nothing here depends on JavaScript to work —
+                         only to look like the rest of the page.
+
+                         The placeholder is the select's empty option and the button's
+                         starting text. It is deliberately absent from the menu: it is not a
+                         property type, so offering it as a choice would let someone pick
+                         their way back to an empty required field. --}}
                     <div>
-                        <label for="project_type" class="sr-only">Property Type</label>
-                        <div class="field-select">
-                            {{-- Wraps the select alone, so it is exactly one row tall and the
-                                 chevron centres on that row rather than on the taller stack.
-                                 pointer-events-none lets the click through to the select
-                                 underneath, so the chevron opens the menu like the rest of
-                                 the row. --}}
+                        <label for="project_type" id="project_type-label" class="sr-only">Property Type</label>
+
+                        <div class="field-select" data-select>
+                            {{-- Wraps the control alone, so it is exactly one row tall and
+                                 the chevron centres on that row rather than on the taller
+                                 stack. pointer-events-none lets the click through to
+                                 whichever control is beneath, so the chevron opens the menu
+                                 like the rest of the row. One chevron serves both the native
+                                 select and the button. --}}
                             <div class="relative">
                                 <select id="project_type" name="project_type" required
+                                        class="field-select__native" data-select-native
                                         @error('project_type') aria-invalid="true" aria-describedby="project_type-error" @enderror>
                                     <option value="">Property Type</option>
                                     @foreach ($inquiry['property_types'] as $type)
                                         <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
                                     @endforeach
                                 </select>
+
+                                <button type="button" class="field-select__button"
+                                        id="project_type-button" data-select-button
+                                        role="combobox" aria-haspopup="listbox" aria-expanded="false"
+                                        aria-controls="project_type-listbox"
+                                        aria-labelledby="project_type-label project_type-button">
+                                    <span data-select-value>Property Type</span>
+                                </button>
+
                                 <span aria-hidden="true"
                                       class="pointer-events-none absolute inset-y-0 right-0 flex items-center text-ink">
-                                    <x-icon name="chevron-down"/>
+                                    <x-icon name="chevron-down" class="field-select__chevron"/>
                                 </span>
                             </div>
+
+                            <ul class="field-select__menu" id="project_type-listbox" role="listbox"
+                                data-select-listbox aria-labelledby="project_type-label" hidden>
+                                @foreach ($inquiry['property_types'] as $i => $type)
+                                    <li class="field-select__option" role="option" aria-selected="false"
+                                        id="project_type-option-{{ $i }}" data-value="{{ $type }}">{{ $type }}</li>
+                                @endforeach
+                            </ul>
 
                             <div aria-hidden="true" class="field-select__filler">&nbsp;</div>
                         </div>

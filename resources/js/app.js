@@ -6,6 +6,7 @@ import { initSplitLines } from './motion/split-lines';
 import { initProcessScroll } from './motion/process';
 import { initMenu } from './motion/menu';
 import { initFitText } from './motion/fit-text';
+import { initFieldSelect } from './field-select';
 
 /**
  * Everything here is an enhancement over markup that already works. The page
@@ -17,6 +18,7 @@ function boot() {
     initMenu();
     initProcessScroll();
     initFitText();
+    initFieldSelect();
 
     // Split before reveal: splitting rewrites the element's children, and doing
     // it after a reveal would restart the transition from the hidden state.
