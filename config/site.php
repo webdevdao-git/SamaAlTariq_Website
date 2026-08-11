@@ -153,7 +153,7 @@ return [
                 'tab' => 'Fit-Out Contracting',
                 'description' => 'End-to-end interior Fit-Out for commercial, retail, F&B and hospitality spaces, delivered turnkey from concept to handover.',
                 'title' => ['Fit Out Contracting', 'And Turnkey Solutions'],
-                'image' => 'images/services/Fit-Out-contracting.webp',
+                'image' => 'images/services/fit-out-contracting.webp',
             ],
             [
                 'tab' => 'Design & Build',
@@ -190,7 +190,7 @@ return [
                 'number' => '03',
                 'title' => 'Construction And Fit-Out',
                 'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.',
-                'image' => 'images/process/construction-and-Fit-Out.webp',
+                'image' => 'images/process/construction-and-fit-out.webp',
             ],
             [
                 'number' => '04',
