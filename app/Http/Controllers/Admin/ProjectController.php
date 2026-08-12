@@ -31,16 +31,8 @@ class ProjectController extends Controller
     {
         $validated = $this->validated($request);
 
-        $validated['stages'] = collect($request->input('stages', []))
-            ->map(fn ($name) => trim((string) $name))
-            ->filter()
-            ->values();
-
         $project = Project::create(collect($validated)->except('stages')->all());
-
-        foreach ($validated['stages'] as $i => $name) {
-            $project->stages()->create(['name' => $name, 'status' => 'Pending', 'sort_order' => $i]);
-        }
+        $this->syncStages($project, $validated['stages'] ?? []);
 
         return redirect()
             ->route('admin.projects')
@@ -85,7 +77,10 @@ class ProjectController extends Controller
 
     public function update(Request $request, Project $project): RedirectResponse
     {
-        $project->update($this->validated($request, $project));
+        $validated = $this->validated($request, $project);
+
+        $project->update(collect($validated)->except('stages')->all());
+        $this->syncStages($project, $validated['stages'] ?? []);
 
         return redirect()
             ->route('admin.dashboard')
@@ -102,6 +97,54 @@ class ProjectController extends Controller
             ->with('status', "“{$project->title}” archived.");
     }
 
+    /**
+     * Writes the submitted stage rows over the project's current ones.
+     *
+     * The form posts the whole list every time, so this is a replace rather
+     * than a patch: a row carrying an id updates that stage, a row without one
+     * inserts, and a stage whose row did not come back is gone from the form
+     * and so is deleted. Position in the payload becomes `sort_order`, which is
+     * what the client's timeline orders by.
+     */
+    private function syncStages(Project $project, array $rows): void
+    {
+        $own = $project->stages()->pluck('id')->all();
+        $kept = [];
+
+        foreach (array_values($rows) as $i => $row) {
+            $name = trim((string) ($row['name'] ?? ''));
+
+            // A row with no name is the blank the form always offers, not a
+            // stage the admin meant to create.
+            if ($name === '') {
+                continue;
+            }
+
+            $attributes = [
+                'name' => $name,
+                'status' => $row['status'] ?? 'Pending',
+                // An emptied date field posts '', which is not a null date.
+                'target_date' => ($row['target_date'] ?? '') ?: null,
+                'sort_order' => $i,
+            ];
+
+            $id = (int) ($row['id'] ?? 0);
+
+            // Checked against this project's own ids: an id belonging to some
+            // other project is treated as a new stage rather than stolen.
+            if ($id && in_array($id, $own, true)) {
+                $project->stages()->whereKey($id)->update($attributes);
+                $kept[] = $id;
+            } else {
+                $kept[] = $project->stages()->create($attributes)->id;
+            }
+        }
+
+        // Empty $kept means every row was removed, and whereNotIn on an empty
+        // list matches everything — which is the intent, not an accident.
+        $project->stages()->whereNotIn('id', $kept)->delete();
+    }
+
     private function validated(Request $request, ?Project $project = null): array
     {
         return $request->validate([
@@ -115,6 +158,15 @@ class ProjectController extends Controller
             'start_date' => ['nullable', 'date'],
             // A handover before the start date is a data-entry slip, not a plan.
             'due_date' => ['nullable', 'date', 'after_or_equal:start_date'],
+
+            // Stages are optional, and a row may be left entirely blank — the
+            // name is what decides whether it becomes a stage at all, so it is
+            // nullable here and filtered in syncStages rather than rejected.
+            'stages' => ['nullable', 'array'],
+            'stages.*.id' => ['nullable', 'integer'],
+            'stages.*.name' => ['nullable', 'string', 'max:200'],
+            'stages.*.status' => ['nullable', Rule::in(\App\Models\ProjectStage::STATUSES)],
+            'stages.*.target_date' => ['nullable', 'date'],
         ]);
     }
 }

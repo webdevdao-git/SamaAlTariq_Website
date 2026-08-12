@@ -78,21 +78,7 @@
                     </div>
                 </div>
 
-                {{-- Stages are optional and appended by the browser; the server
-                     drops blanks, so an untouched row costs nothing. --}}
-                <fieldset class="mt-6" data-stage-list>
-                    <legend class="mb-2 text-[14px] text-portal-ink">Project Stages</legend>
-                    <div data-stage-rows class="grid gap-2">
-                        @forelse (old('stages', ['']) as $stage)
-                            <input name="stages[]" value="{{ $stage }}" placeholder="e.g. Tender and cost estimation" class="portal-field">
-                        @empty
-                            <input name="stages[]" placeholder="e.g. Tender and cost estimation" class="portal-field">
-                        @endforelse
-                    </div>
-                    <button type="button" data-stage-add class="mt-2 text-[14px] font-semibold text-portal hover:underline">
-                        + Add stage
-                    </button>
-                </fieldset>
+                <x-admin.stage-rows/>
 
                 <button type="submit"
                         class="mt-7 flex w-full items-center justify-center gap-2 rounded-[10px] bg-portal px-6 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-portal-dark">

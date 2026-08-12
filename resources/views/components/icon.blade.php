@@ -348,6 +348,18 @@
         </svg>
         @break
 
+    {{-- Removes a stage row. Drawn to the same 24-box and 1.6 stroke as the
+         other line icons here, so it sits at the same weight beside them. --}}
+    @case('trash')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 20 }}" height="{{ $size ?? 20 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6.6h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M9.2 6.6V4.8a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1v1.8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M6.4 6.6h11.2l-.8 12.2a1.4 1.4 0 0 1-1.4 1.3H8.6a1.4 1.4 0 0 1-1.4-1.3L6.4 6.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M10.4 10.4v6M13.6 10.4v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        @break
+
     @case('user-plus')
         <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 22 }}" height="{{ $size ?? 22 }}"
              viewBox="0 0 24 24" fill="none" aria-hidden="true">

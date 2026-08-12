@@ -65,6 +65,25 @@ function enhance(root) {
         options[activeIndex].scrollIntoView({ block: 'nearest' });
     };
 
+    /**
+     * Drop the menu upwards when the field is low enough that dropping down
+     * would clip it. Measured on every open rather than once, because the
+     * answer changes as the page scrolls. Down stays the default and the tie —
+     * it is the direction a select is expected to go — so this only flips when
+     * the menu genuinely does not fit below and does fit better above.
+     */
+    const place = () => {
+        const gap = 8; // the offset in .field-select__menu's top/bottom
+        const rect = button.getBoundingClientRect();
+        // offsetHeight, not scrollHeight: the menu is already capped by its
+        // max-height, and it is the drawn height that has to fit.
+        const height = listbox.offsetHeight;
+        const below = window.innerHeight - rect.bottom - gap;
+        const above = rect.top - gap;
+
+        root.dataset.drop = height > below && above > below ? 'up' : 'down';
+    };
+
     const setOpen = (next) => {
         if (open === next) return;
         open = next;
@@ -74,6 +93,9 @@ function enhance(root) {
         root.dataset.open = next ? 'true' : 'false';
 
         if (next) {
+            // After unhiding, so the menu has a height to measure, and before
+            // setActive scrolls within it.
+            place();
             // Open on the current value, or the first option when unset, which
             // is what a native select does.
             setActive(Math.max(0, indexOfValue(native.value)));

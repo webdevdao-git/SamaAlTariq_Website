@@ -560,15 +560,40 @@
         left: 0;
         right: 0;
         margin: 0;
-        /* Ten options would run past the fold; the rest scroll. */
-        max-height: min(296px, 46vh);
+        /*
+         * Ten options would run past the fold; the rest scroll. The cap is set
+         * to cut through a row rather than land between two, because a part
+         * row is the only thing in the menu that says there is more below it.
+         */
+        max-height: min(420px, 60vh);
         overflow-y: auto;
+        /*
+         * Reaching the last option must not pass the scroll to the page, which
+         * would carry the menu off with the field it is anchored to.
+         */
+        overscroll-behavior: contain;
+        /*
+         * macOS hides overlay scrollbars until something moves, so a menu that
+         * scrolls looks like a menu that does not. Keep a thin one on show.
+         */
+        scrollbar-width: thin;
+        scrollbar-color: color-mix(in srgb, var(--color-teal) 30%, #fff) transparent;
+        /* Same as the padding below, so arrowing to the option at either end
+           does not leave it tucked half under the menu's own rim. */
+        scroll-padding-block: 6px;
         padding: 6px;
         list-style: none;
         background: #fff;
         border: 1px solid var(--color-hairline);
         border-radius: 12px;
         box-shadow: 0 18px 44px -28px rgba(23, 23, 23, 0.4);
+    }
+
+    /* Set by the script when the field sits too low for the menu to fit under
+       it. Absent until then, so an unenhanced field is unaffected. */
+    .field-select[data-drop='up'] .field-select__menu {
+        top: auto;
+        bottom: calc(100% + 8px);
     }
 
     .field-select__menu[hidden] {

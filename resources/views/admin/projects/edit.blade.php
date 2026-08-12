@@ -85,6 +85,10 @@
             </div>
         </div>
 
+        {{-- Inside the form, so stages save with everything else in one press
+             rather than needing a screen of their own. --}}
+        <x-admin.stage-rows :stages="$project->stages"/>
+
         <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-portal-ink/10 pt-6">
             <button type="submit" class="rounded-[10px] bg-portal px-6 py-3 text-[13px] font-bold tracking-[0.1em] text-white transition-colors hover:bg-portal-dark">
                 SAVE CHANGES
@@ -94,23 +98,6 @@
             </a>
         </div>
     </form>
-
-    @if ($project->stages->isNotEmpty())
-        <section class="mt-6 rounded-2xl border border-portal-ink/10 bg-white p-[clamp(1.25rem,2.2vw,32px)]">
-            <h2 class="font-wordmark text-[19px] text-portal-ink">Stages</h2>
-            <p class="mt-1 text-[14px] text-ink-muted">Shown on the client's project timeline.</p>
-            <ul class="mt-5 grid gap-2">
-                @foreach ($project->stages as $stage)
-                    <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-portal-ink/10 px-4 py-3">
-                        <span class="text-[15px] text-portal-ink">{{ $stage->name }}</span>
-                        <span class="text-[14px] text-ink-muted">
-                            {{ $stage->status }}@if ($stage->target_date) · {{ $stage->target_date->format('M j, Y') }}@endif
-                        </span>
-                    </li>
-                @endforeach
-            </ul>
-        </section>
-    @endif
 
     {{-- Archiving is separated from the edit form: it is a different intent,
          and a stray Enter in a text field must never trigger it. --}}

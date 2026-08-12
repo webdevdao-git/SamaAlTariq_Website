@@ -44,7 +44,7 @@
     "src": "_playfair-display-600-normal-CxxueQ0Z.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-ZTyXsQLC.css",
+    "file": "assets/app-CldlSiAx.css",
     "name": "app",
     "names": [
       "app.css"
@@ -95,13 +95,13 @@
     "src": "resources/fonts/manrope-semibold.otf"
   },
   "resources/js/app.js": {
-    "file": "assets/app-HYHxeVVb.js",
+    "file": "assets/app-6O-KpMB3.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
   },
   "resources/js/portal.js": {
-    "file": "assets/portal-Bwdi9_OZ.js",
+    "file": "assets/portal-BwbG-6uu.js",
     "name": "portal",
     "src": "resources/js/portal.js",
     "isEntry": true

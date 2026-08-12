@@ -84,17 +84,55 @@ function initPasswordGenerator() {
     }
 }
 
-/** Repeatable stage rows on the create-project form. */
+/**
+ * Repeatable stage rows on the create- and edit-project forms.
+ *
+ * Rows are added from a <template> rather than cloned from a neighbour, so a
+ * new row cannot inherit the one above it — its typed name, its chosen status,
+ * or, on the edit form, the hidden id that would make the server update an
+ * existing stage instead of inserting a new one.
+ *
+ * Everything works without this file: the rows already rendered submit and save
+ * as they are. Only adding and removing rows needs the script.
+ */
 function initStageRows() {
-    for (const button of document.querySelectorAll('[data-stage-add]')) {
-        const rows = button.closest('[data-stage-list]')?.querySelector('[data-stage-rows]');
-        if (!rows) continue;
+    for (const list of document.querySelectorAll('[data-stage-list]')) {
+        const rows = list.querySelector('[data-stage-rows]');
+        const template = list.querySelector('[data-stage-template]');
+        const add = list.querySelector('[data-stage-add]');
+        if (!rows || !template || !add) continue;
 
-        button.addEventListener('click', () => {
-            const field = rows.firstElementChild.cloneNode(true);
-            field.value = '';
-            rows.append(field);
-            field.focus();
+        /*
+         * Field names carry their position — stages[2][name] — so any change to
+         * the set has to rewrite them. Removing row 1 of 3 without this leaves
+         * PHP a gap it reads as two rows numbered 0 and 2, which is harmless
+         * for saving but makes validation messages point at the wrong row.
+         */
+        const renumber = () => {
+            rows.querySelectorAll('[data-stage-row]').forEach((row, i) => {
+                for (const field of row.querySelectorAll('[name]')) {
+                    field.name = field.name.replace(/stages\[[^\]]*\]/, `stages[${i}]`);
+                }
+
+                const name = row.querySelector('[data-stage-name]');
+                if (name) name.placeholder = `Stage ${i + 1} name`;
+            });
+        };
+
+        add.addEventListener('click', () => {
+            rows.append(template.content.cloneNode(true));
+            renumber();
+            rows.lastElementChild?.querySelector('[data-stage-name]')?.focus();
+        });
+
+        // Delegated, so it reaches rows added after this ran as well as the
+        // ones the server rendered.
+        rows.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-stage-remove]');
+            if (!button) return;
+
+            button.closest('[data-stage-row]')?.remove();
+            renumber();
         });
     }
 }
