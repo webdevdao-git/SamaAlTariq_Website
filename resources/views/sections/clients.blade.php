@@ -29,18 +29,33 @@
                 @endforeach
             </p>
 
-            {{-- min-w-0 lets the strip shrink inside the flex row; without it
-                 the track's max-content width would push the label off. --}}
-            <div class="marquee w-full min-w-0" style="--marquee-duration:{{ count($logos) * 2.2 }}s">
+            {{--
+                Three things here are about the strip never collapsing rather
+                than about how it looks:
+
+                · flex-1 from lg, not w-full. A 100% basis in a flex row leaves
+                  the item relying on shrink to fit beside the label; flex-1
+                  asks for the space that is actually left, which is what this
+                  wants and cannot resolve to nothing.
+                · the row carries its own height. Every mark is a lazy image
+                  inside a clipped, max-content track, and until one loads its
+                  `h-auto` is zero — so an unloaded row is a row of no height,
+                  and the strip renders as an empty band.
+                · the first copy is not lazy. Those are the marks on screen at
+                  rest; deferring them is what leaves the band empty on arrival.
+                  The clone stays lazy — it is 29 more of the same files, and
+                  the browser has them cached by the time it scrolls in.
+            --}}
+            <div class="marquee w-full min-w-0 lg:w-auto lg:flex-1" style="--marquee-duration:{{ count($logos) * 2.2 }}s">
                 <div class="marquee__track">
                     @foreach ([false, true] as $isClone)
                         <ul class="flex shrink-0 items-center gap-x-[clamp(0.75rem,2vw,34px)]"
                             @if ($isClone) aria-hidden="true" @endif>
                             @foreach ($logos as $logo)
-                                <li class="flex w-[clamp(88px,7.9vw,137px)] shrink-0 items-center justify-center">
+                                <li class="flex h-[clamp(30px,2.9vw,50px)] w-[clamp(88px,7.9vw,137px)] shrink-0 items-center justify-center">
                                     <img src="{{ asset($logo['src']) }}" alt="{{ $isClone ? '' : $logo['name'] }}"
-                                         loading="lazy" decoding="async"
-                                         class="h-auto max-h-[clamp(30px,2.9vw,50px)] w-auto max-w-full object-contain grayscale transition duration-300 hover:grayscale-0">
+                                         @if ($isClone) loading="lazy" @endif decoding="async"
+                                         class="max-h-full max-w-full object-contain grayscale transition duration-300 hover:grayscale-0">
                                 </li>
                             @endforeach
                         </ul>
