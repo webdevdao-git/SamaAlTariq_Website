@@ -48,7 +48,7 @@
 --}}
 <div data-project-view="gallery">
     @foreach ($page['groups'] as $group)
-        <section class="bg-white pt-[clamp(2.5rem,4.63vw,80px)] pb-[clamp(1.5rem,2.31vw,40px)]">
+        <section class="bg-white pt-[clamp(3rem,5.79vw,100px)] pb-[clamp(1.5rem,2.31vw,40px)]">
             <div class="shell">
                 <h2 class="reveal text-fluid-label font-medium text-ink">{{ $group['name'] }}</h2>
 

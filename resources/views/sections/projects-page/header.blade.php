@@ -20,9 +20,23 @@
      it takes the dark tone. Same bar, same box, ink instead of white. --}}
 <x-site-header tone="dark"/>
 
-<header class="bg-white pt-[clamp(7rem,10.4vw,180px)]">
+{{--
+    The masthead's vertical rhythm, on the site's own scale — 80 between
+    blocks, 100 before a new one starts.
+
+        page top .. 234   clears the header lock-up, which ends at 154, by 80
+        heading block      the switch sits on its last baseline
+        .. 80 ..           to the rule
+        rule
+        .. 100 ..          to the first group heading (in groups.blade.php)
+
+    234 rather than 180: at 180 the heading's cap sat 26px under the lock-up
+    and the two read as one crowded block. The gap below a masthead has to be
+    at least the gap inside it or the page opens looking compressed.
+--}}
+<header class="bg-white pt-[clamp(7rem,13.54vw,234px)]">
     <div class="shell">
-        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] pb-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
+        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] pb-[clamp(2rem,4.63vw,80px)] md:flex-row md:items-end md:justify-between">
             <h1 class="editorial-heading text-fluid-section uppercase text-ink">
                 @foreach ($page['heading'] as $i => $line)
                     <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
