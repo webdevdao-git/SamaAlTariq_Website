@@ -23,7 +23,7 @@
     The panels are the reason the section carries its own dark backdrop rather
     than borrowing the night token: they only read as glass over a picture.
 --}}
-<section class="relative isolate overflow-hidden bg-night pt-[clamp(2.5rem,11vw,190px)] pb-[clamp(2.5rem,8.33vw,144px)]">
+<section class="relative isolate overflow-hidden bg-night pt-[clamp(2rem,8.28vw,143px)] pb-[clamp(2.5rem,8.33vw,144px)]">
     {{-- The one picture on the page that drifts. It is a full-bleed backdrop
          with no designed crop to protect, so the 3% the drift needs for
          headroom cannot be read against anything — see initMediaDrift. It is
@@ -40,8 +40,16 @@
          third of the page and would wrap, and the design runs it across the
          side labels' tracks rather than between them. Same construction as the
          site header, for the same reason. --}}
+    {{-- The rule the band opens on: frame y 143, running the shell's own
+         width (x 80 to 1647) rather than full-bleed. It is the first thing in
+         the section, and the label row hangs 46px under it — 46 and not 47
+         because the rule is itself a pixel tall, and the band has to close on
+         980 or every section below it is shunted down by one. --}}
     <div class="shell">
-        <div class="reveal grid gap-2 text-white sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6">
+        <span aria-hidden="true" class="reveal block h-px w-full bg-white/25"></span>
+
+        <div class="reveal mt-[clamp(1.25rem,2.66vw,46px)] grid gap-2 text-white sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6"
+             style="transition-delay:120ms">
             <p class="text-fluid-body">{{ $values['label_left'] }}</p>
             <h2 data-split data-split-by="word"
                 class="text-fluid-label font-medium sm:text-center">{{ $values['heading'] }}</h2>
@@ -53,7 +61,11 @@
          on top of it, so the band still clears the screen edge on a phone. --}}
     <ol class="mx-auto mt-[clamp(2rem,5.79vw,100px)] flex w-full max-w-[1728px] flex-col gap-2 px-[clamp(1rem,7.52vw,130px)]">
         @foreach ($values['items'] as $i => $item)
-            <li class="reveal flex min-h-[120px] items-stretch overflow-hidden bg-white/12 backdrop-blur-md"
+            {{-- Frosted at rest, darker under the pointer — the reference
+                 weights the row the cursor is on rather than lighting it up.
+                 Colour only: the row must not move, or the four would jostle
+                 each other as the pointer runs down the band. --}}
+            <li class="reveal group flex min-h-[120px] items-stretch overflow-hidden bg-white/12 backdrop-blur-md hover:bg-black/25"
                 style="transition-delay:{{ $i * 100 }}ms">
                 <span aria-hidden="true"
                       class="grid w-[50px] shrink-0 place-items-center bg-teal/90 text-fluid-sm font-medium text-white">

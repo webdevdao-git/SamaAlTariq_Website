@@ -747,9 +747,18 @@
     .reveal {
         opacity: 0;
         transform: translateY(28px);
+        /*
+         * background-color rides along at its own, much shorter duration. A
+         * revealing element that also tints on hover — the values rows — would
+         * otherwise need a `transition-colors` utility, and `transition` is a
+         * shorthand: that utility would replace this declaration outright and
+         * take the entrance animation with it. Nothing else animates its
+         * background on reveal, so this costs those elements nothing.
+         */
         transition:
             opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+            background-color 0.3s ease;
     }
 
     .reveal.is-visible {
