@@ -201,15 +201,47 @@ return [
         ],
     ],
 
+    /*
+     * The client roster, in the order the marquee runs them. Names and files
+     * come from the company's other site (src/lib/clients.ts there), which
+     * carries the curated set and the correct spellings — "wasl" and
+     * "archcorp" are lowercase by their own branding, not a typo here.
+     *
+     * The strip scrolls, so the list is no longer bounded by what fits a row:
+     * adding one lengthens the loop rather than wrapping it.
+     */
     'clients' => [
         'label' => ["Companies We've", 'Worked With'],
         'logos' => [
-            ['name' => 'Dusit Thani Abu Dhabi', 'src' => 'images/clients/dusit-thani.webp'],
-            ['name' => 'archcorp', 'src' => 'images/clients/archcorp.webp'],
+            ['name' => 'Emaar', 'src' => 'images/clients/emaar.webp'],
+            ['name' => 'DAMAC', 'src' => 'images/clients/damac.webp'],
+            ['name' => 'wasl', 'src' => 'images/clients/wasl.webp'],
+            ['name' => 'ADNOC', 'src' => 'images/clients/adnoc.webp'],
+            ['name' => 'Al-Futtaim', 'src' => 'images/clients/al-futtaim.webp'],
+            ['name' => 'Fairmont', 'src' => 'images/clients/fairmont.webp'],
+            ['name' => 'Pullman Hotels and Resorts', 'src' => 'images/clients/pullman-hotels-and-resorts.webp'],
+            ['name' => 'Dusit Thani', 'src' => 'images/clients/dusit-thani.webp'],
+            ['name' => 'Saint-Gobain', 'src' => 'images/clients/saint-gobain.webp'],
+            ['name' => 'Knauf', 'src' => 'images/clients/knauf.webp'],
+            ['name' => 'Gyproc', 'src' => 'images/clients/gyproc.webp'],
             ['name' => 'ALEC', 'src' => 'images/clients/alec.webp'],
-            ['name' => 'bluecamel', 'src' => 'images/clients/bluecamel.webp'],
-            ['name' => 'novomed', 'src' => 'images/clients/novomed.webp'],
+            ['name' => 'Government of Dubai', 'src' => 'images/clients/government-of-dubai.webp'],
+            ['name' => 'Dubai Police', 'src' => 'images/clients/dubai-police.webp'],
             ['name' => 'Taj Dubai', 'src' => 'images/clients/taj-dubai.webp'],
+            ['name' => 'Novomed', 'src' => 'images/clients/novomed.webp'],
+            ['name' => 'Fakih IVF', 'src' => 'images/clients/fakih-ivf.webp'],
+            ['name' => 'AHK Worldwide', 'src' => 'images/clients/ahk-worldwide.webp'],
+            ['name' => 'archcorp', 'src' => 'images/clients/archcorp.webp'],
+            ['name' => 'Designer East', 'src' => 'images/clients/designer-east.webp'],
+            ['name' => 'Al Madar', 'src' => 'images/clients/al-madar.webp'],
+            ['name' => 'Bin Dalmook Consultants', 'src' => 'images/clients/bin-dalmook-consultants.webp'],
+            ['name' => 'Crystel', 'src' => 'images/clients/crystel.webp'],
+            ['name' => 'bluecamel', 'src' => 'images/clients/bluecamel.webp'],
+            ['name' => 'Sweet Homes', 'src' => 'images/clients/sweet-homes.webp'],
+            ['name' => 'DAO Marketing Management', 'src' => 'images/clients/dao-marketing-management.webp'],
+            ['name' => 'Perfect Creations', 'src' => 'images/clients/perfect-creations.webp'],
+            ['name' => 'BCI', 'src' => 'images/clients/bci.svg'],
+            ['name' => 'KOJ Interiors', 'src' => 'images/clients/koj-interiors.webp'],
         ],
     ],
 

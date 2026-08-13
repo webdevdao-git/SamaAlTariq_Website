@@ -406,6 +406,81 @@
         letter-spacing: 0.012em;
     }
 
+    /*
+     * The client strip, running right to left.
+     *
+     * The track holds the roster twice and slides exactly -50%, which lands the
+     * second copy where the first began — so the loop closes on itself with no
+     * jump. Both copies must therefore be identical, and only the first is read
+     * out: the clone carries aria-hidden so a screen reader hears the list once.
+     *
+     * The duration is set per-instance from the number of logos, so the marks
+     * travel at one speed whether there are ten of them or thirty; a fixed
+     * duration would make a longer roster race.
+     *
+     * overflow: clip rather than hidden — it cuts the overflow without turning
+     * the strip into a scroll container, which would otherwise let a stray
+     * focus or an anchor jump shove the track sideways and strand it there.
+     */
+    .marquee {
+        overflow: clip;
+        /* Fades the marks out at both ends instead of cutting them off mid-
+           letter, so the row reads as continuing past the edge. */
+        /* -webkit- as well: unprefixed mask-image only landed in Safari 15.4,
+           and without it older iOS drops the fade AND the clip together. */
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 clamp(1rem, 4vw, 72px),
+            #000 calc(100% - clamp(1rem, 4vw, 72px)),
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 clamp(1rem, 4vw, 72px),
+            #000 calc(100% - clamp(1rem, 4vw, 72px)),
+            transparent 100%
+        );
+    }
+
+    .marquee__track {
+        display: flex;
+        width: max-content;
+        animation: marquee-left var(--marquee-duration, 60s) linear infinite;
+        will-change: transform;
+    }
+
+    /* Holding the pointer over a mark stops the row, so it can be looked at. */
+    .marquee:hover .marquee__track,
+    .marquee:focus-within .marquee__track {
+        animation-play-state: paused;
+    }
+
+    @keyframes marquee-left {
+        from {
+            transform: translate3d(0, 0, 0);
+        }
+        to {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marquee__track {
+            animation: none;
+        }
+
+        /* Standing still, the track would show only the marks that happen to
+           fit. Handing the strip back to the user as a scrollable row keeps
+           every client reachable without moving anything on its own. */
+        .marquee {
+            overflow-x: auto;
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+    }
+
     .pill {
         display: inline-flex;
         align-items: center;

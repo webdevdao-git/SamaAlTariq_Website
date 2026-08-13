@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 120" role="img" aria-label="BCI logo">
+  <text
+    x="18"
+    y="82"
+    fill="#56595a"
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="72"
+    font-weight="900"
+    letter-spacing="0"
+  >BCI</text>
+  <text
+    x="190"
+    y="34"
+    fill="#56595a"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="12"
+    font-weight="700"
+    letter-spacing="0"
+  >TM</text>
+</svg>
