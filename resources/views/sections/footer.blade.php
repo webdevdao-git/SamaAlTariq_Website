@@ -1,5 +1,5 @@
 @php($footer = config('site.footer'))
-@php($nav = config('site.nav'))
+@php($nav = \App\Support\Nav::items())
 @php($social = config('site.social'))
 
 {{--
@@ -54,7 +54,7 @@
                 The teal it overflows into is empty, so nothing collides.
             --}}
             <div class="reveal lg:col-start-8 lg:col-end-11" style="transition-delay:120ms">
-                <a href="{{ $footer['recent']['href'] }}" class="group relative block w-full max-w-[417px] 2xl:min-w-[417px]">
+                <a href="{{ \App\Support\Nav::href($footer['recent']['href']) }}" class="group relative block w-full max-w-[417px] 2xl:min-w-[417px]">
                     <span class="mb-[clamp(0.35rem,0.5vw,8.5px)] flex items-center gap-1.5">
                         <x-icon name="dot" class="text-white"/>
                         <span class="text-[clamp(11px,0.81vw,14px)] font-semibold">{{ $footer['recent']['label'] }}</span>

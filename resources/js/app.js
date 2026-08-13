@@ -1,7 +1,7 @@
 import { initPreloader } from './motion/preloader';
 import { initSmoothScroll } from './motion/smooth-scroll';
 import { initReveal } from './motion/reveal';
-import { initParallax, initHeroParallax } from './motion/parallax';
+import { initParallax, initHeroParallax, initMediaDrift } from './motion/parallax';
 import { initSplitLines } from './motion/split-lines';
 import { initProcessScroll } from './motion/process';
 import { initMenu } from './motion/menu';
@@ -25,6 +25,7 @@ function boot() {
     initSplitLines();
     initReveal();
     initParallax();
+    initMediaDrift();
     initHeroParallax();
     initSmoothScroll();
 }

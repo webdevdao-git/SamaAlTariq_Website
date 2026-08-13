@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // Throttled per IP because it writes to the database and sends mail — the two
 // things a bot can most usefully abuse.

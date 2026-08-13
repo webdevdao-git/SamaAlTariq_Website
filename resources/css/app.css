@@ -22,6 +22,9 @@
     --color-night: #161616;
     --color-hairline: #efe6e6;
     --color-mist: #f9f9f9;
+    /* The pale ground under the About page's "One vision" block — the one
+       section on either page that is neither white, mist nor night. */
+    --color-haze: #e0f1f3;
 
     /*
      * Portal palette. The signed-in area is ported from the previous app and
@@ -680,6 +683,52 @@
     }
 
     /*
+     * Media reveal. Goes on the <img> itself, never on its frame: the frame is
+     * already position/overflow-hidden at the size the design gives it, so
+     * scaling the picture inside it moves nothing on the page — the container
+     * keeps its box, its ratio and its place in the grid throughout.
+     *
+     * 1.03 → 1 rather than the .reveal translate, because a photograph settling
+     * is a different gesture from a block of copy arriving, and because a
+     * translate inside a clipping frame would drag an empty edge across.
+     *
+     * The landed state is `transform: none` and `opacity: 1` — that is, exactly
+     * what the design specifies with no animation at all. Nothing here changes
+     * how the page looks at rest.
+     */
+    .reveal-media {
+        opacity: 0;
+        transform: scale(1.03);
+        transform-origin: center;
+        transition:
+            opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform, opacity;
+    }
+
+    .reveal-media.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Once it has landed there is nothing left to composite for. */
+    .reveal-media.is-settled {
+        will-change: auto;
+    }
+
+    /*
+     * Phones take a shorter trip. Scoped to .reveal-media, which exists only on
+     * the About page: .reveal is shared with the landing page, and shortening
+     * its travel here would quietly restyle motion this change was not asked to
+     * touch.
+     */
+    @media (width < 48rem) {
+        .reveal-media {
+            transform: scale(1.02);
+        }
+    }
+
+    /*
      * Process steps. In normal flow by default so the section is a readable
      * list without JavaScript; motion/process.js adds .is-stacked to collapse
      * them for the cross-fade.
@@ -727,6 +776,42 @@
         transform: translateY(0);
     }
 
+    /*
+     * Word and letter masks — the inline counterpart of .line-mask, used by
+     * data-split-by="word" and "letter".
+     *
+     * inline-block rather than block, so a run of them still flows and wraps as
+     * one line of type. The padding/margin pair is the descender allowance: a
+     * clip box ends at the baseline-ish edge of the line box, which would slice
+     * the tails off g, y and p. Padding pushes the clip edge down and the equal
+     * negative margin takes the space back, so the mask grows without moving
+     * anything around it.
+     */
+    .unit-mask {
+        display: inline-block;
+        overflow: clip;
+        padding-bottom: 0.16em;
+        margin-bottom: -0.16em;
+        vertical-align: bottom;
+    }
+
+    .unit-mask > span {
+        display: inline-block;
+        transform: translateY(105%);
+        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+    }
+
+    .unit-mask.is-visible > span {
+        transform: translateY(0);
+    }
+
+    /* Letter mode only: keeps a word from breaking between its own letters. */
+    .unit-word {
+        display: inline-block;
+        white-space: nowrap;
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .reveal {
             opacity: 1;
@@ -734,9 +819,26 @@
             transition: none;
         }
 
-        .line-mask > span {
+        .line-mask > span,
+        .unit-mask > span {
             transform: none;
             transition: none;
+        }
+
+        /*
+         * Reduced motion gets the landed state and nothing else — no fade, no
+         * scale, no drift. reveal.js and the drift loop both bail out too, so
+         * the page renders as the design draws it, immediately.
+         */
+        .reveal-media {
+            opacity: 1;
+            transform: none;
+            transition: none;
+            /* Released as well as neutralised. Left on, the hint promotes each
+               photograph to its own compositor layer, and the resampling that
+               comes with the layer is visible against the unpromoted original
+               even though nothing has moved. */
+            will-change: auto;
         }
     }
 }

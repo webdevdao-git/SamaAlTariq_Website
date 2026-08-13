@@ -192,6 +192,12 @@ php -d disable_functions= artisan view:cache
 rm -rf ../public_html/build && cp -R public/build ../public_html/
 find public -maxdepth 1 -type f ! -name index.php ! -name .htaccess \
      -exec cp {} ../public_html/ \;
+
+# new or changed pictures? public/images is a separate tree from public/build
+# and nothing above touches it, so a release that adds images renders with
+# broken ones until this runs. cp -R over the top is right here — these
+# filenames are stable rather than hashed, so nothing accumulates.
+cp -R public/images/. ../public_html/images/
 ```
 
 If you changed anything under `resources/`, run `npm run build` **locally** and

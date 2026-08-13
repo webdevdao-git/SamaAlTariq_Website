@@ -21,7 +21,9 @@ return [
 
     'nav' => [
         ['label' => 'Home', 'href' => '#top'],
-        ['label' => 'About', 'href' => '#about'],
+        // The one entry that is a page rather than a section of the landing
+        // page. App\Support\Nav leaves non-fragment hrefs alone.
+        ['label' => 'About', 'href' => '/about'],
         ['label' => 'Projects', 'href' => '#projects'],
         ['label' => 'Services', 'href' => '#services'],
         ['label' => 'Process', 'href' => '#process'],
@@ -71,6 +73,131 @@ return [
             ['value' => '03+', 'label' => 'Years of Expertise'],
             ['value' => '250k+', 'label' => 'm² Delivered'],
             ['value' => '12+', 'label' => 'Completed Projects'],
+        ],
+    ],
+
+    /*
+     * The About page — Figma frame 1377:3 on the same canvas, 1728×8276.
+     *
+     * Copy and geometry are read off that frame. Its images live in
+     * public/images/about and were extracted from the file itself: the ones
+     * with nothing on top of them are cut from the 2× page render, and the
+     * three that carry an overlay in the design — the hero photo, the villa
+     * behind the collage, and the lounge behind the values band — come from
+     * their original uploaded sources, so no caption or frosted panel is
+     * baked into the picture.
+     *
+     * The file spells "Construction" as "CONTSRUCTION" in two places, the
+     * closing type and the values band. Both are corrected here.
+     */
+    'about_page' => [
+
+        /*
+         * Frame 1377:4, 1728×1117. The same photo-under-gradients hero as the
+         * landing page, but the lower third is arranged differently: a
+         * sentence-case headline on the gutter with a bracketed page tag
+         * opposite it, then a band carrying a line of copy and three figures.
+         */
+        'hero' => [
+            'heading' => ['We Build the Foundations', 'of What Comes Next.'],
+            'tag' => 'About Us',
+            'lead' => ['Construction Shaped By Expertise,', 'Intention, And Enduring Quality.'],
+            'stats' => [
+                ['value' => '95%', 'label' => 'On-time handovers'],
+                ['value' => '03+', 'label' => 'Years of Expertise'],
+                ['value' => '250k+', 'label' => 'm² Delivered'],
+            ],
+            'image' => 'images/about/hero.webp',
+            'alt' => 'White villa with a reflecting pool and palms',
+        ],
+
+        // Frame 1377:26. Image left, one paragraph in the right column, its
+        // last line sitting on the foot of the image. The opening clause is
+        // set in the semibold cut, as in the design.
+        'intro' => [
+            'lead' => 'Sama Al Tariq Building Contracting L.L.C.',
+            'body' => 'is a Dubai-based construction and fit-out company bringing multiple disciplines together under one integrated approach. From luxury residences and hospitality environments to corporate, retail, healthcare and government projects, we manage every stage from tender and planning through construction and handover.',
+            'image' => 'images/about/intro-stair.webp',
+            'alt' => 'Curved stone staircase in a sunlit hall',
+        ],
+
+        // Frame 1386:608. The mirror of the block above, on the pale ground.
+        // Its heading is set in the sans, not the display serif.
+        'vision' => [
+            'heading' => ['One vision,', 'brought together under one roof.'],
+            'body' => 'From the first tender to final handover, our teams work as one to create greater clarity throughout the build and lasting value in the finished result.',
+            'cta' => ['label' => 'See Our process', 'href' => '#process'],
+            'image' => 'images/about/vision-lounge.webp',
+            'alt' => 'Living room with a panelled wall and cove lighting',
+        ],
+
+        // Frame 1386:621. Label and heading, then a three-image collage with
+        // the logo mark centred over it, then copy in the right column.
+        'approach' => [
+            'label' => 'Our Approach',
+            'heading' => 'We believe exceptional spaces are shaped long before the first structure takes form.',
+            'body' => 'A considered vision, collective expertise, and disciplined execution form the foundation of every project we undertake. By bringing diverse disciplines together, we create spaces that are purposeful, cohesive, and built to last.',
+            'cta' => ['label' => 'Explore Projects', 'href' => '#projects'],
+            'images' => [
+                'main' => ['src' => 'images/about/approach-villa.webp', 'alt' => 'Villa entrance under an open sky'],
+                'left' => ['src' => 'images/about/approach-joinery.webp', 'alt' => 'Timber joinery wall and lit reveal'],
+                'right' => ['src' => 'images/about/approach-stair.webp', 'alt' => 'Stone stair with a glass balustrade'],
+            ],
+        ],
+
+        /*
+         * Frame 1377:102, 1728×980 — the band the metadata returned empty.
+         * A dark photo carrying a three-part label row and four frosted rows,
+         * each 120px tall and 8px apart, inset 130px from both gutters.
+         */
+        'values' => [
+            'label_left' => 'Modern',
+            'heading' => 'Principles that shape every decision we make.',
+            'label_right' => 'Construction',
+            'image' => 'images/about/values-lounge.webp',
+            'alt' => 'Timber-lined lounge under a sculptural light',
+            'items' => [
+                [
+                    'number' => '01',
+                    'title' => 'Accountability',
+                    'body' => 'We take ownership of our commitments, keeping responsibilities clear and ensuring every stage is managed with care and consistency.',
+                ],
+                [
+                    'number' => '02',
+                    'title' => 'Clarity',
+                    'body' => 'We maintain open communication across clients, consultants, suppliers, and project teams, keeping decisions, expectations, and progress aligned.',
+                ],
+                [
+                    'number' => '03',
+                    'title' => 'Discipline',
+                    'body' => 'We follow structured planning, coordinated execution, and rigorous site management to keep projects moving efficiently and responsibly.',
+                ],
+                [
+                    'number' => '04',
+                    'title' => 'Respect',
+                    'body' => 'We value the people, expertise, materials, and environments involved in every project, fostering a culture of professionalism and collaboration.',
+                ],
+            ],
+        ],
+
+        /*
+         * Frame 1386:1161. Three staggered lines of 128px display type, a copy
+         * row, then a full-bleed strip of four images.
+         *
+         * `words` is one sentence broken exactly where the design breaks it —
+         * the view sets each line's own alignment, which is what makes the
+         * staircase.
+         */
+        'purpose' => [
+            'words' => ['Construction', 'With A Clearer', 'Purpose'],
+            'body' => 'Have a project in mind? Speak with our team and discover how the right expertise can turn your ambition into a considered, well-delivered reality.',
+            'cta' => ['label' => 'Get a free consultation', 'href' => '#contact'],
+            'strip' => [
+                ['src' => 'images/about/strip-dining.webp', 'alt' => 'Dining table beside a marble island'],
+                ['src' => 'images/about/strip-living.webp', 'alt' => 'Living room with a sculpted feature wall'],
+                ['src' => 'images/about/strip-lounge.webp', 'alt' => 'Timber-lined lounge with modular seating'],
+                ['src' => 'images/about/strip-salon.webp', 'alt' => 'Salon with a curved illuminated ceiling'],
+            ],
         ],
     ],
 

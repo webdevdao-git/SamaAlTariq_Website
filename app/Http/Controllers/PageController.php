@@ -15,4 +15,13 @@ class PageController extends Controller
     {
         return view('home');
     }
+
+    /**
+     * The About page. Config-driven in the same way, and it reuses the landing
+     * page's enquiry section, so it too only reaches MySQL on submit.
+     */
+    public function about(): View
+    {
+        return view('about');
+    }
 }

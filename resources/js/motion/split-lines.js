@@ -20,6 +20,15 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  *
  * The original text is stashed on the element, so a re-split always starts from
  * the source string rather than from already-wrapped markup.
+ *
+ * `data-split-by` picks the unit: "line" (the default, described above), "word"
+ * or "letter". The finer two mask each word or letter in its own inline box and
+ * run a much shorter stagger across them, which reads as the type assembling
+ * itself rather than as lines arriving. They need no measuring — a word is a
+ * word at every width — so they skip the ResizeObserver entirely.
+ *
+ * Anything that does not set the attribute keeps the line behaviour byte for
+ * byte, which is what the landing page relies on.
  */
 export function initSplitLines() {
     const nodes = Array.from(document.querySelectorAll('[data-split]'));
@@ -33,7 +42,58 @@ export function initSplitLines() {
         node.setAttribute('aria-label', node.dataset.splitText);
     }
 
+    /**
+     * Word and letter modes. Each unit gets its own inline mask, and the
+     * spaces between words stay as real text nodes outside the masks — put a
+     * space inside a clipping box and it collapses, so the words would run
+     * together the moment the type was split.
+     */
+    const splitUnits = (node, mode) => {
+        const text = node.dataset.splitText;
+        const delay = Number(node.dataset.splitDelay) || 0;
+        const step = mode === 'letter' ? 22 : 45;
+
+        const fragment = document.createDocumentFragment();
+        let index = 0;
+
+        const box = (content) => {
+            const mask = document.createElement('span');
+            mask.className = 'unit-mask';
+            mask.setAttribute('aria-hidden', 'true');
+
+            const inner = document.createElement('span');
+            inner.textContent = content;
+            inner.style.transitionDelay = `${delay + index * step}ms`;
+            index += 1;
+
+            mask.append(inner);
+            return mask;
+        };
+
+        text.split(/\s+/).filter(Boolean).forEach((word, i) => {
+            if (i > 0) fragment.append(document.createTextNode(' '));
+
+            if (mode === 'word') {
+                fragment.append(box(word));
+                return;
+            }
+
+            // A word is kept whole so it can never break mid-way across a line
+            // ending; only the letters inside it are masked separately.
+            const holder = document.createElement('span');
+            holder.className = 'unit-word';
+            holder.setAttribute('aria-hidden', 'true');
+            for (const letter of Array.from(word)) holder.append(box(letter));
+            fragment.append(holder);
+        });
+
+        node.replaceChildren(fragment);
+    };
+
     const split = (node) => {
+        const mode = node.dataset.splitBy || 'line';
+        if (mode !== 'line') return splitUnits(node, mode);
+
         const text = node.dataset.splitText;
         const delay = Number(node.dataset.splitDelay) || 0;
 
@@ -82,8 +142,12 @@ export function initSplitLines() {
 
     nodes.forEach(split);
 
+    // Only the line mode depends on where the browser wraps, so only it needs
+    // re-measuring; word and letter masks are the same at every width.
+    const measured = nodes.filter((node) => (node.dataset.splitBy || 'line') === 'line');
+
     // Re-split on width change only; height changes are our own doing.
-    const widths = new WeakMap(nodes.map((node) => [node, node.getBoundingClientRect().width]));
+    const widths = new WeakMap(measured.map((node) => [node, node.getBoundingClientRect().width]));
     let timer = 0;
 
     const observer = new ResizeObserver((entries) => {
@@ -106,11 +170,11 @@ export function initSplitLines() {
         }, 120);
     });
 
-    nodes.forEach((node) => observer.observe(node));
+    measured.forEach((node) => observer.observe(node));
 
     const reveal = (node) => {
         node.dataset.splitVisible = 'true';
-        node.querySelectorAll('.line-mask').forEach((mask) => mask.classList.add('is-visible'));
+        node.querySelectorAll('.line-mask, .unit-mask').forEach((mask) => mask.classList.add('is-visible'));
     };
 
     const pending = new Set(nodes);

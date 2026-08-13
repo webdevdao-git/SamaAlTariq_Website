@@ -27,8 +27,10 @@
     --}}
     <noscript>
         <style>
-            .reveal { opacity: 1 !important; transform: none !important; }
-            .line-mask > span { transform: none !important; }
+            .reveal,
+            .reveal-media { opacity: 1 !important; transform: none !important; }
+            .line-mask > span,
+            .unit-mask > span { transform: none !important; }
             .intro-curtain { display: none !important; }
             html { overflow: visible !important; }
         </style>
