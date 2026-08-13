@@ -43,19 +43,22 @@
 
             {{-- Main image: 1394 wide, centred in the 1570 column. --}}
             <div class="relative aspect-[1394/778] w-full overflow-hidden md:absolute md:inset-y-0 md:left-[5.605%] md:aspect-auto md:h-full md:w-[88.79%]">
-                {{-- The three drift as the collage crosses the viewport, and
-                     the difference between their rates is what reads as depth —
-                     matched rates would look like one flat picture sliding. The
-                     numbers are a fraction of each picture's own height, and the
-                     enlargement that buys the headroom is derived from them, so
-                     none of the three is enlarged by more than 3%.
+                {{-- The collage takes the reference's own parallax device,
+                     to its numbers: each picture is laid out 140% of its frame's
+                     height and hung at -20%, so it carries 20% of slack above
+                     and below inside a frame that clips it and never moves.
+                     Scrolling slides the picture through that slack.
+
+                     The frames are untouched — same box, same ratio, same place
+                     on the grid. What changes is how much of each photograph
+                     the frame shows, which is the trade the technique makes.
 
                      They keep .reveal-media for its fade; the drift owns the
                      transform from the first frame, so the scale half of that
-                     reveal simply never runs on these three. --}}
-                <img data-drift="0.010" src="{{ asset($images['main']['src']) }}" alt="{{ $images['main']['alt'] }}"
+                     reveal never runs on these three. --}}
+                <img data-drift src="{{ asset($images['main']['src']) }}" alt="{{ $images['main']['alt'] }}"
                      loading="lazy" decoding="async"
-                     class="reveal-media absolute inset-0 h-full w-full object-cover">
+                     class="reveal-media absolute inset-x-0 -top-[20%] h-[140%] w-full object-cover">
 
                 {{-- 46×42 over the top of the photo, on the page's centre line. --}}
                 {{-- No reveal class here: the mark is positioned with its own
@@ -68,17 +71,17 @@
 
             {{-- Overhangs the main image at the left gutter... --}}
             <div class="relative mt-[clamp(0.75rem,1.16vw,20px)] aspect-[383/287] w-[60%] overflow-hidden md:absolute md:top-[37.92%] md:left-0 md:mt-0 md:aspect-auto md:h-[36.89%] md:w-[24.39%]">
-                <img data-drift="0.014" src="{{ asset($images['left']['src']) }}" alt="{{ $images['left']['alt'] }}"
+                <img data-drift src="{{ asset($images['left']['src']) }}" alt="{{ $images['left']['alt'] }}"
                      loading="lazy" decoding="async"
-                     class="reveal-media absolute inset-0 h-full w-full object-cover"
+                     class="reveal-media absolute inset-x-0 -top-[20%] h-[140%] w-full object-cover"
                      style="transition-delay:130ms">
             </div>
 
             {{-- ...and at the right one, lower down. --}}
             <div class="relative mt-[clamp(0.75rem,1.16vw,20px)] ml-auto aspect-[362/221] w-[60%] overflow-hidden md:absolute md:top-1/2 md:left-[76.94%] md:mt-0 md:aspect-auto md:h-[28.41%] md:w-[23.06%]">
-                <img data-drift="0.014" src="{{ asset($images['right']['src']) }}" alt="{{ $images['right']['alt'] }}"
+                <img data-drift src="{{ asset($images['right']['src']) }}" alt="{{ $images['right']['alt'] }}"
                      loading="lazy" decoding="async"
-                     class="reveal-media absolute inset-0 h-full w-full object-cover"
+                     class="reveal-media absolute inset-x-0 -top-[20%] h-[140%] w-full object-cover"
                      style="transition-delay:260ms">
             </div>
         </div>

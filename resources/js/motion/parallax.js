@@ -67,16 +67,39 @@ export function initMediaDrift() {
             const rect = node.getBoundingClientRect();
             if (rect.bottom < -vh || rect.top > vh * 2) continue;
 
-            // Each picture may set its own travel — `data-drift="0.01"` — so a
-            // composition can move at more than one rate. The enlargement is
-            // derived from that number rather than fixed, which keeps the
-            // slower elements closer to their designed crop.
-            const fraction = Number(node.dataset.drift) || DRIFT_RANGE;
+            const progress = viewportProgress(rect, vh) - 0.5;
 
-            // offsetHeight, not rect.height: the latter already has the scale
-            // in it, which would feed the range back into itself.
-            const range = node.offsetHeight * fraction;
-            const offset = (viewportProgress(rect, vh) - 0.5) * -2 * range;
+            /*
+             * Prefer headroom the markup already provides. Where a picture is
+             * laid out taller than the frame that clips it — the reference's
+             * own device, a 140%-tall image hung at top:-20% — the slack is
+             * simply there to be used, and the transform is a plain translate.
+             * Measured rather than assumed, so changing the CSS changes the
+             * travel and the two can never disagree.
+             */
+            const frame = node.parentElement;
+            const headroom = (node.offsetHeight - frame.clientHeight) / 2;
+
+            if (headroom > 1) {
+                // 0.9 keeps the travel just inside the slack, so a rounding
+                // error at the ends of the sweep cannot expose a bare edge.
+                const offset = progress * -2 * (headroom * 0.9);
+                node.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
+                continue;
+            }
+
+            /*
+             * Otherwise the picture fills its frame exactly and the headroom
+             * has to be bought by enlarging it. `data-drift="0.01"` sets the
+             * travel as a fraction of the element's own height and the
+             * enlargement is derived from it, so a picture is never scaled by
+             * more than its travel needs.
+             *
+             * offsetHeight, not rect.height: the latter already has the scale
+             * in it, which would feed the range back into itself.
+             */
+            const fraction = Number(node.dataset.drift) || DRIFT_RANGE;
+            const offset = progress * -2 * (node.offsetHeight * fraction);
             node.style.transform =
                 `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${driftScale(fraction).toFixed(4)})`;
         }
