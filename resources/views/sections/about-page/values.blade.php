@@ -46,7 +46,7 @@
          because the rule is itself a pixel tall, and the band has to close on
          980 or every section below it is shunted down by one. --}}
     <div class="shell">
-        <span aria-hidden="true" class="reveal block h-px w-full bg-white/25"></span>
+        <span aria-hidden="true" class="reveal-line block h-px w-full bg-white/25"></span>
 
         <div class="reveal mt-[clamp(1.25rem,2.66vw,46px)] grid gap-2 text-white sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6"
              style="transition-delay:120ms">

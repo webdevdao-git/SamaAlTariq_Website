@@ -46,6 +46,8 @@
             </div>
         </div>
 
-        <span aria-hidden="true" class="reveal block h-px w-full bg-black/10"></span>
+        {{-- Draws left to right rather than fading — the reference sets its
+             rules to scaleX(0) and runs them out on an expo in-out. --}}
+        <span aria-hidden="true" class="reveal-line block h-px w-full bg-black/10"></span>
     </div>
 </header>

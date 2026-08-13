@@ -2,6 +2,15 @@
     $page = config('site.projects_page');
 
     /*
+     * One counter across every tile on the page, not one per row. The
+     * reference staggers its whole project collection by a flat 40ms, so the
+     * cascade runs continuously down the page instead of restarting — that
+     * unbroken ripple is the effect, and a per-row counter would break it into
+     * separate little arrivals.
+     */
+    $tile = 0;
+
+    /*
      * Literal class strings, never "lg:col-span-" . $n. Tailwind finds classes
      * by scanning the source for them, so an interpolated name is never
      * generated and the column silently falls back to full width.
@@ -49,9 +58,10 @@
                         <div class="grid gap-[clamp(1rem,1.39vw,24px)] lg:grid-cols-12 lg:items-stretch">
                             @foreach ($row['columns'] as $column)
                                 <div class="flex flex-col gap-[clamp(1rem,1.39vw,24px)] {{ $span[$column['cols']] }}">
-                                    @foreach ($column['tiles'] as $tile)
-                                        @php($delay = ($loop->parent->index * 2 + $loop->index) * 90)
-                                        <figure class="group flex flex-1 flex-col">
+                                    @foreach ($column['tiles'] as $item)
+                                        @php($delay = $tile++ * 40)
+                                        <figure class="reveal-rise group flex flex-1 flex-col"
+                                                style="transition-delay:{{ $delay }}ms">
                                             <div class="relative w-full flex-1 overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} lg:min-h-[clamp(220px,20vw,340px)]">
                                                 {{-- The hover push sits on this wrapper, not on the
                                                      picture. .reveal-media already owns the picture's
@@ -59,20 +69,36 @@
                                                      utility beside it would replace that shorthand and
                                                      take the settle-in with it. Two elements, one
                                                      transform each. --}}
-                                                <div class="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                                                    <img src="{{ asset('images/projects/covers/' . $tile['image'] . '.webp') }}"
-                                                         alt="{{ $tile['title'] }} — {{ $tile['location'] }}"
-                                                         loading="lazy" decoding="async"
-                                                         class="reveal-media h-full w-full object-cover"
-                                                         style="transition-delay:{{ $delay }}ms">
+                                                {{--
+                                                    Three layers, one transform each, because two of them
+                                                    would otherwise fight over the same property:
+
+                                                    · the drift layer is 120% of the frame and hung at
+                                                      -10%, which is exactly the slack the reference's
+                                                      `.js-parallax` scrubs through (yPercent -10 to +10).
+                                                      Because the slack is in the markup, the drift is a
+                                                      plain translate and nothing is enlarged — hand the
+                                                      picture the frame's own size instead and it has to
+                                                      buy the headroom by scaling up 10%, which re-crops
+                                                      every photograph on the page;
+                                                    · the hover layer takes the push, so the pointer and
+                                                      the scroll never write to the same element;
+                                                    · the picture just fills.
+                                                --}}
+                                                <div data-drift="0.09" class="absolute inset-x-0 -top-[10%] h-[120%]">
+                                                    <div class="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
+                                                        <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
+                                                             alt="{{ $item['title'] }} — {{ $item['location'] }}"
+                                                             loading="lazy" decoding="async"
+                                                             class="h-full w-full object-cover">
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             {{-- Title left, category right, on one baseline. --}}
-                                            <figcaption class="reveal mt-[clamp(0.5rem,0.7vw,12px)] flex items-baseline justify-between gap-4"
-                                                        style="transition-delay:{{ $delay + 60 }}ms">
-                                                <span class="text-fluid-sm font-medium text-ink">{{ $tile['title'] }}</span>
-                                                <span class="shrink-0 text-fluid-sm text-ink-muted">{{ $tile['category'] }}</span>
+                                            <figcaption class="mt-[clamp(0.5rem,0.7vw,12px)] flex items-baseline justify-between gap-4">
+                                                <span class="text-fluid-sm font-medium text-ink">{{ $item['title'] }}</span>
+                                                <span class="shrink-0 text-fluid-sm text-ink-muted">{{ $item['category'] }}</span>
                                             </figcaption>
                                         </figure>
                                     @endforeach
@@ -88,17 +114,17 @@
                 <ul class="project-list mt-[clamp(1rem,1.39vw,24px)]">
                     @foreach ($group['rows'] as $row)
                         @foreach ($row['columns'] as $column)
-                            @foreach ($column['tiles'] as $tile)
+                            @foreach ($column['tiles'] as $item)
                                 <li class="reveal border-t border-black/10 transition-colors duration-300 last:border-b hover:bg-black/[0.03]">
                                     <div class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
-                                        <p class="text-fluid-body font-medium text-ink">{{ $tile['title'] }}</p>
+                                        <p class="text-fluid-body font-medium text-ink">{{ $item['title'] }}</p>
                                         <dl class="contents">
                                             <dt class="sr-only">Category</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $tile['category'] }}</dd>
+                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $item['category'] }}</dd>
                                             <dt class="sr-only">Area</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $tile['size'] }}</dd>
+                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] }}</dd>
                                             <dt class="sr-only">Duration</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $tile['duration'] }}</dd>
+                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] }}</dd>
                                         </dl>
                                     </div>
                                 </li>

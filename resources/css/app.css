@@ -841,6 +841,58 @@
     }
 
     /*
+     * The projects grid's own entrance, taken off the reference's numbers:
+     * `from({ y: 80, autoAlpha: 0, ease: "power3", duration: 1, stagger: .04 })`.
+     *
+     * A longer lift and a much tighter stagger than .reveal — 80px against 28,
+     * and 40ms between tiles against nothing. That combination is the whole
+     * character of it: the tiles ripple in one after another rather than
+     * arriving as a block, and the distance is what makes the ripple legible.
+     *
+     * power3 out is cubic — the CSS equivalent of GSAP's cubic ease.
+     */
+    .reveal-rise {
+        opacity: 0;
+        transform: translateY(80px);
+        transition:
+            opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
+            transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        will-change: transform, opacity;
+    }
+
+    .reveal-rise.is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    .reveal-rise.is-settled {
+        will-change: auto;
+    }
+
+    /* 80px is a long way up a phone screen, where a tile is most of the fold. */
+    @media (width < 48rem) {
+        .reveal-rise {
+            transform: translateY(36px);
+        }
+    }
+
+    /*
+     * Rules draw rather than fade — the reference sets its lines to scaleX(0)
+     * and runs them out to 1 on an expo in-out, both on load and again as each
+     * one enters. Transform-only, so the line occupies its space from the
+     * start and nothing below it shifts as it draws.
+     */
+    .reveal-line {
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+    }
+
+    .reveal-line.is-visible {
+        transform: scaleX(1);
+    }
+
+    /*
      * Phones take a shorter trip. Scoped to .reveal-media, which exists only on
      * the About page: .reveal is shared with the landing page, and shortening
      * its travel here would quietly restyle motion this change was not asked to
@@ -954,7 +1006,9 @@
          * scale, no drift. reveal.js and the drift loop both bail out too, so
          * the page renders as the design draws it, immediately.
          */
-        .reveal-media {
+        .reveal-media,
+        .reveal-rise,
+        .reveal-line {
             opacity: 1;
             transform: none;
             transition: none;

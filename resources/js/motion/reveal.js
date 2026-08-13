@@ -15,7 +15,7 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  * miss.
  */
 export function initReveal() {
-    const nodes = Array.from(document.querySelectorAll('.reveal, .reveal-media'));
+    const nodes = Array.from(document.querySelectorAll('.reveal, .reveal-media, .reveal-rise, .reveal-line'));
     if (nodes.length === 0) return;
 
     if (prefersReducedMotion()) {
@@ -38,7 +38,7 @@ export function initReveal() {
              * A page of images left on will-change holds a layer each for the
              * rest of the visit, which costs memory for no further benefit.
              */
-            if (node.classList.contains('reveal-media')) {
+            if (node.classList.contains('reveal-media') || node.classList.contains('reveal-rise')) {
                 node.addEventListener(
                     'transitionend',
                     () => node.classList.add('is-settled'),
