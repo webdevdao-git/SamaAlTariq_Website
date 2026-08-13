@@ -269,13 +269,15 @@ return [
                 ],
             ],
             [
+                // The frame sets this row narrow-then-wide rather than in
+                // halves, unlike Fitness & Spa below it, which is even.
                 'name' => 'Hospitality, F&B',
                 'rows' => [
                     ['columns' => [
-                        ['cols' => 6, 'tiles' => [
+                        ['cols' => 5, 'tiles' => [
                             ['image' => 'benjarong-dusit-thani', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
-                        ['cols' => 6, 'tiles' => [
+                        ['cols' => 7, 'tiles' => [
                             ['image' => 'benjarong-dusit-thani-2', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
                     ]],
