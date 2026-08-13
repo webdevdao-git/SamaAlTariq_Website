@@ -55,6 +55,7 @@
                 {{-- Gallery --}}
                 <div class="project-gallery mt-[clamp(1.5rem,2.31vw,40px)] flex flex-col gap-[clamp(1rem,1.39vw,24px)]">
                     @foreach ($group['rows'] as $row)
+                        @php($hasStack = collect($row['columns'])->contains(fn ($c) => count($c['tiles']) > 1))
                         <div class="grid gap-[clamp(1rem,1.39vw,24px)] lg:grid-cols-12 lg:items-stretch">
                             @foreach ($row['columns'] as $column)
                                 <div class="flex flex-col gap-[clamp(1rem,1.39vw,24px)] {{ $span[$column['cols']] }}">
@@ -62,7 +63,21 @@
                                         @php($delay = $tile++ * 40)
                                         <figure class="reveal-rise group flex flex-1 flex-col"
                                                 style="transition-delay:{{ $delay }}ms">
-                                            <div class="relative w-full flex-1 overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} lg:min-h-[clamp(220px,20vw,340px)]">
+                                            {{--
+                                                One height for every single tile on the page, so a
+                                                category never sits at a different scale from the one
+                                                above it. It is a height and not an aspect ratio on
+                                                purpose: the columns are 5, 6 and 7 tracks wide, so a
+                                                shared ratio would give three different heights, and a
+                                                shared height is what reads as one grid.
+
+                                                A tile that stands alone in its column takes the unit.
+                                                A tile that stands beside a stacked pair fills the
+                                                column instead — two units, their gap, and the caption
+                                                between them — which is what lands its foot on the same
+                                                line as the pair's lower picture, as the frame draws it.
+                                            --}}
+                                            <div class="relative w-full overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} {{ count($row['columns']) > 1 && count($column['tiles']) === 1 && $hasStack ? 'flex-1' : '' }} lg:h-[clamp(180px,17.4vw,300px)] {{ $hasStack && count($column['tiles']) === 1 ? 'lg:h-auto' : '' }}">
                                                 {{-- The hover push sits on this wrapper, not on the
                                                      picture. .reveal-media already owns the picture's
                                                      transform and transition, and a `transition-transform`
