@@ -24,4 +24,13 @@ class PageController extends Controller
     {
         return view('about');
     }
+
+    /**
+     * The projects page. Config-driven like the other two, and it reuses the
+     * landing page's enquiry section, so it too only reaches MySQL on submit.
+     */
+    public function projects(): View
+    {
+        return view('projects');
+    }
 }

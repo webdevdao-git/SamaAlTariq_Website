@@ -6,6 +6,7 @@ import { initSplitLines } from './motion/split-lines';
 import { initProcessScroll } from './motion/process';
 import { initMenu } from './motion/menu';
 import { initFitText } from './motion/fit-text';
+import { initProjectView } from './motion/project-view';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -19,6 +20,7 @@ function boot() {
     initProcessScroll();
     initFitText();
     initFieldSelect();
+    initProjectView();
 
     // Split before reveal: splitting rewrites the element's children, and doing
     // it after a reveal would restart the transition from the hidden state.

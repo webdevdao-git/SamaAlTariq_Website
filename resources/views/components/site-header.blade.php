@@ -1,4 +1,12 @@
-@props(['login' => true])
+@props(['login' => true, 'tone' => 'light'])
+
+@php
+    // 'light' is white type for a photographic hero; 'dark' is ink type for a
+    // page that opens on white. Only the colours differ — same bar, same box.
+    $isDark = $tone === 'dark';
+    $text = $isDark ? 'text-ink' : 'text-white';
+    $mark = $isDark ? 'images/logo-mark-teal.png' : 'images/logo-mark.png';
+@endphp
 
 {{--
     The header bar that sits over the hero photo: MENU / lock-up / ENQUIRE.
@@ -18,15 +26,15 @@
     <div class="shell grid grid-cols-[1fr_auto_1fr] items-center gap-4">
         <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
                 aria-label="Open navigation menu"
-                class="flex shrink-0 items-center gap-1 justify-self-start text-white transition-opacity hover:opacity-70">
+                class="flex shrink-0 items-center gap-1 justify-self-start {{ $text }} transition-opacity hover:opacity-70">
             <x-icon name="menu" class="h-[clamp(20px,1.62vw,28px)] w-[clamp(20px,1.62vw,28px)]"/>
             <span class="text-fluid-body font-semibold uppercase">Menu</span>
         </button>
 
         <a href="{{ \App\Support\Nav::href('#top') }}" aria-label="{{ config('site.name') }} — home"
            class="shrink-0 justify-self-center">
-            <span class="flex flex-col items-center leading-none text-white">
-                <img src="{{ asset('images/logo-mark.png') }}" alt=""
+            <span class="flex flex-col items-center leading-none {{ $text }}">
+                <img src="{{ asset($mark) }}" alt=""
                      width="540" height="462" class="h-auto w-[clamp(38px,3.94vw,68px)]">
                 <span class="mt-[0.55em] font-wordmark text-[clamp(13px,1.37vw,23.6px)] font-semibold whitespace-nowrap">
                     {{ Str::upper(config('site.name')) }}
@@ -45,13 +53,13 @@
             --}}
             @if ($login)
                 <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}"
-                   class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">
+                   class="text-fluid-body font-semibold uppercase {{ $text }} transition-opacity hover:opacity-70">
                     {{ auth()->check() ? 'Portal' : 'Login' }}
                 </a>
             @endif
 
             <a href="{{ \App\Support\Nav::href('#contact') }}"
-               class="text-fluid-body font-semibold uppercase text-white underline underline-offset-4 transition-opacity hover:opacity-70">
+               class="text-fluid-body font-semibold uppercase {{ $text }} underline underline-offset-4 transition-opacity hover:opacity-70">
                 Enquire
             </a>
         </div>

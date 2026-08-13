@@ -481,6 +481,46 @@
         }
     }
 
+    /*
+     * The projects page carries both views in the markup and shows one. The
+     * attribute lives on the wrapper, set from the checked radio by
+     * motion/project-view.js, and defaults to gallery in the HTML — so with the
+     * script absent the gallery is up and the page is complete.
+     *
+     * display:none rather than a class swap on each list: the hidden view is
+     * then out of the layout entirely, and — the reason it matters here — its
+     * images are never laid out, so the browser does not fetch a second copy
+     * of every cover for a view nobody is looking at.
+     */
+    [data-project-view='gallery'] .project-list,
+    [data-project-view='list'] .project-gallery {
+        /*
+         * !important, and it is load-bearing. The gallery carries Tailwind's
+         * `flex`, which is generated into the utilities layer — a later layer
+         * than this one — so a plain `display: none` here loses to it and the
+         * switch silently does nothing. Raising the specificity would not help
+         * either; layer order beats specificity. Either the element gives up
+         * its display utility or this declaration wins outright, and this is
+         * the smaller of the two.
+         */
+        display: none !important;
+    }
+
+    /*
+     * The gallery's tall tiles. grid-auto-rows keeps every row the same height
+     * so a card marked to span two of them is exactly twice its neighbours
+     * rather than as tall as whatever happens to sit beside it — without it a
+     * spanning card and a short row would leave the composition ragged.
+     *
+     * Only from lg, where the grid has its three columns; below that it is one
+     * column and a span means nothing.
+     */
+    @media (width >= 64rem) {
+        .project-gallery {
+            grid-auto-rows: minmax(0, clamp(200px, 17vw, 296px));
+        }
+    }
+
     .pill {
         display: inline-flex;
         align-items: center;

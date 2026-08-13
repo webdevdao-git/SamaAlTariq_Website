@@ -24,7 +24,7 @@ return [
         // The one entry that is a page rather than a section of the landing
         // page. App\Support\Nav leaves non-fragment hrefs alone.
         ['label' => 'About', 'href' => '/about'],
-        ['label' => 'Projects', 'href' => '#projects'],
+        ['label' => 'Projects', 'href' => '/projects'],
         ['label' => 'Services', 'href' => '#services'],
         ['label' => 'Process', 'href' => '#process'],
         ['label' => 'Contact', 'href' => '#contact'],
@@ -210,6 +210,93 @@ return [
      * The strip scrolls, so the list is no longer bounded by what fits a row:
      * adding one lengthens the loop rather than wrapping it.
      */
+    /*
+     * The projects page — Figma, and the composition is the point.
+     *
+     * Each group is a stack of `rows`, and each row a set of `columns` on a
+     * twelve-track grid. A column holds one tile or two stacked, and the tiles
+     * in a row share its height. That is what produces the design's rhythm: a
+     * tall picture beside a pair, then two equal ones, then a pair beside a
+     * tall one. A flat list with spans cannot say this — it leaves holes where
+     * a group runs out of items.
+     *
+     * `image` is a file in public/images/projects/covers, not a project slug:
+     * Hospitality and Fitness each show one project twice, from two different
+     * photographs, exactly as the file draws them.
+     *
+     * Titles, categories, locations and areas come from the company's other
+     * site (src/lib/projects.ts there), so they are the figures the business
+     * already publishes.
+     */
+    'projects_page' => [
+        'heading' => ['Selected', 'Projects'],
+        'views' => ['gallery' => 'Gallery', 'list' => 'List'],
+        'groups' => [
+            [
+                'name' => 'Residential',
+                'rows' => [
+                    ['columns' => [
+                        ['cols' => 7, 'tiles' => [
+                            ['image' => 'jumeirah-golf-estate-villas', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
+                        ]],
+                        ['cols' => 5, 'tiles' => [
+                            ['image' => 'villa-pv39-tilal-al-ghaf', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
+                            ['image' => 'w-residence-palm-jumeirah', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
+                        ]],
+                    ]],
+                    ['columns' => [
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'emirates-hills-villa', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
+                        ]],
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'jumeirah-island-villa', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
+                        ]],
+                    ]],
+                ],
+            ],
+            [
+                'name' => 'Commercial & Corporate',
+                'rows' => [
+                    ['columns' => [
+                        ['cols' => 5, 'tiles' => [
+                            ['image' => 'i-rise-tower-office', 'title' => 'I-Rise Tower Office', 'category' => 'Office Fit-Out', 'location' => 'I-Rise Tower, Dubai', 'size' => '5,000+ Sq Ft', 'duration' => '4 Months'],
+                            ['image' => 'boulevard-plaza-office', 'title' => 'Boulevard Plaza Office', 'category' => 'Office Fit-Out', 'location' => 'Boulevard Plaza, Dubai', 'size' => '7,500+ Sq Ft', 'duration' => '3 Months'],
+                        ]],
+                        ['cols' => 7, 'tiles' => [
+                            ['image' => 'wasl-properties-hq', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
+                        ]],
+                    ]],
+                ],
+            ],
+            [
+                'name' => 'Hospitality, F&B',
+                'rows' => [
+                    ['columns' => [
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'benjarong-dusit-thani', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
+                        ]],
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'benjarong-dusit-thani-2', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
+                        ]],
+                    ]],
+                ],
+            ],
+            [
+                'name' => 'Fitness & Spa',
+                'rows' => [
+                    ['columns' => [
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'fidelity-gym-jlt', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                        ]],
+                        ['cols' => 6, 'tiles' => [
+                            ['image' => 'fidelity-gym-jlt-2', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                        ]],
+                    ]],
+                ],
+            ],
+        ],
+    ],
+
     'clients' => [
         'label' => ["Companies We've", 'Worked With'],
         'logos' => [
