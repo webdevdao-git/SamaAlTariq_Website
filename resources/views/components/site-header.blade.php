@@ -1,10 +1,18 @@
 @props(['login' => true, 'tone' => 'light'])
 
 @php
-    // 'light' is white type for a photographic hero; 'dark' is ink type for a
-    // page that opens on white. Only the colours differ — same bar, same box.
+    /*
+     * 'light' is white type for a photographic hero; 'dark' is for a page that
+     * opens on white. Only the colours differ — same bar, same box.
+     *
+     * On the dark tone the lock-up is teal throughout, mark and wordmark
+     * together, so it reads as the logo rather than as two pieces in two
+     * colours. The nav words either side stay ink: they are controls, not
+     * branding, and teal would give them a weight they should not carry.
+     */
     $isDark = $tone === 'dark';
     $text = $isDark ? 'text-ink' : 'text-white';
+    $wordmark = $isDark ? 'text-teal' : 'text-white';
     $mark = $isDark ? 'images/logo-mark-teal.png' : 'images/logo-mark.png';
 @endphp
 
@@ -33,7 +41,7 @@
 
         <a href="{{ \App\Support\Nav::href('#top') }}" aria-label="{{ config('site.name') }} — home"
            class="shrink-0 justify-self-center">
-            <span class="flex flex-col items-center leading-none {{ $text }}">
+            <span class="flex flex-col items-center leading-none {{ $wordmark }}">
                 <img src="{{ asset($mark) }}" alt=""
                      width="540" height="462" class="h-auto w-[clamp(38px,3.94vw,68px)]">
                 <span class="mt-[0.55em] font-wordmark text-[clamp(13px,1.37vw,23.6px)] font-semibold whitespace-nowrap">
