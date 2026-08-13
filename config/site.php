@@ -192,11 +192,20 @@ return [
             'words' => ['Construction', 'With A Clearer', 'Purpose'],
             'body' => 'Have a project in mind? Speak with our team and discover how the right expertise can turn your ambition into a considered, well-delivered reality.',
             'cta' => ['label' => 'Get a free consultation', 'href' => '#contact'],
+            /*
+             * The closing strip runs rather than sitting still, so it is a
+             * roster and not a row of four — eight here, and the loop takes as
+             * many as it is given.
+             */
             'strip' => [
                 ['src' => 'images/about/strip-dining.webp', 'alt' => 'Dining table beside a marble island'],
                 ['src' => 'images/about/strip-living.webp', 'alt' => 'Living room with a sculpted feature wall'],
                 ['src' => 'images/about/strip-lounge.webp', 'alt' => 'Timber-lined lounge with modular seating'],
+                ['src' => 'images/about/strip-bedroom.webp', 'alt' => 'Bedroom under a timber ceiling opening to a terrace'],
+                ['src' => 'images/about/strip-terrace.webp', 'alt' => 'Planted roof terrace with an outdoor dining table'],
+                ['src' => 'images/about/strip-dining-room.webp', 'alt' => 'Dining room with an arched mirror and upholstered chairs'],
                 ['src' => 'images/about/strip-salon.webp', 'alt' => 'Salon with a curved illuminated ceiling'],
+                ['src' => 'images/about/strip-bar.webp', 'alt' => 'Lounge with a dark fitted bar and tufted seating'],
             ],
         ],
     ],

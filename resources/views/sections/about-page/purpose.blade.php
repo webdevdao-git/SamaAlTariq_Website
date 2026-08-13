@@ -44,16 +44,35 @@
         </div>
     </div>
 
-    {{-- The strip reveals picture by picture rather than as one band, left to
-         right, which is the direction the eye is already travelling. --}}
-    <ul class="mt-[clamp(2.5rem,4.51vw,78px)] grid w-full grid-cols-2 gap-2 md:grid-cols-4">
-        @foreach ($purpose['strip'] as $image)
-            <li class="relative aspect-[426/379] overflow-hidden">
-                <img src="{{ asset($image['src']) }}" alt="{{ $image['alt'] }}"
-                     loading="lazy" decoding="async"
-                     class="reveal-media absolute inset-0 h-full w-full object-cover"
-                     style="transition-delay:{{ $loop->index * 100 }}ms">
-            </li>
-        @endforeach
-    </ul>
+    {{--
+        The strip runs right to left rather than sitting as a row of four.
+
+        It uses the same loop as the client marquee: the roster twice on a
+        max-content track, slid exactly -50% so the second copy lands where the
+        first began and the loop closes with no jump. Only the first copy is
+        read out — the clone is aria-hidden with empty alt, so a picture is
+        announced once.
+
+        Duration comes from the number of pictures, so the strip travels at one
+        speed whatever the roster length. Hovering pauses it, and reduced motion
+        stops it and hands the row back as one that scrolls.
+
+        Each frame keeps the design's 426x379 and the 8px gap between them.
+    --}}
+    <div class="marquee mt-[clamp(2.5rem,4.51vw,78px)] w-full"
+         style="--marquee-duration:{{ count($purpose['strip']) * 4 }}s">
+        <div class="marquee__track">
+            @foreach ([false, true] as $isClone)
+                <ul class="flex shrink-0 items-stretch gap-2 pr-2" @if ($isClone) aria-hidden="true" @endif>
+                    @foreach ($purpose['strip'] as $image)
+                        <li class="relative aspect-[426/379] w-[clamp(220px,24.65vw,426px)] shrink-0 overflow-hidden">
+                            <img src="{{ asset($image['src']) }}" alt="{{ $isClone ? '' : $image['alt'] }}"
+                                 @if ($isClone) loading="lazy" @endif decoding="async"
+                                 class="absolute inset-0 h-full w-full object-cover">
+                        </li>
+                    @endforeach
+                </ul>
+            @endforeach
+        </div>
+    </div>
 </section>
