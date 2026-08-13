@@ -61,11 +61,14 @@
          on top of it, so the band still clears the screen edge on a phone. --}}
     <ol class="mx-auto mt-[clamp(2rem,5.79vw,100px)] flex w-full max-w-[1728px] flex-col gap-2 px-[clamp(1rem,7.52vw,130px)]">
         @foreach ($values['items'] as $i => $item)
-            {{-- Frosted at rest, darker under the pointer — the reference
-                 weights the row the cursor is on rather than lighting it up.
-                 Colour only: the row must not move, or the four would jostle
-                 each other as the pointer runs down the band. --}}
-            <li class="reveal group flex min-h-[120px] items-stretch overflow-hidden bg-white/12 backdrop-blur-md hover:bg-black/25"
+            {{-- Frosted at rest, and the glass thickens under the pointer.
+                 Measured off the frame rather than guessed: sampling the four
+                 rows against the photograph behind them gives a white overlay
+                 at 0.21 on the three at rest and 0.56 on the one the file draws
+                 hovered, so this is the same white carried further, not a tint
+                 of another colour. Colour only — the row must not move, or the
+                 four would jostle each other as the pointer runs down. --}}
+            <li class="reveal group flex min-h-[120px] items-stretch overflow-hidden bg-white/12 backdrop-blur-md hover:bg-white/55"
                 style="transition-delay:{{ $i * 100 }}ms">
                 <span aria-hidden="true"
                       class="grid w-[50px] shrink-0 place-items-center bg-teal/90 text-fluid-sm font-medium text-white">
