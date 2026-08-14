@@ -334,8 +334,14 @@ return [
      * project the grid does not carry: Villa B200 has photographs but no tile.
      *
      * `tiles` is how many of the 3x3 intro grid a project can fill. Two shoots
-     * came in with four photographs rather than ten, so the grid runs short
+     * came in with four photographs rather than nine, so those grids run short
      * rather than repeating a picture.
+     *
+     * The hero is the picture the projects page shows for that project, cropped
+     * from the photograph behind that tile rather than from the tile itself —
+     * a 992x727 export has nothing left to give a 1728x1117 hero. Villa B200
+     * has no tile there, so its hero is the first photograph in its folder and
+     * its grid starts after it.
      *
      * COPY. Jumeirah Golf Estate's three paragraphs are the designer's own,
      * verbatim from the frame. The rest are written from what the business
@@ -377,7 +383,7 @@ return [
                 'The W Residence covers 6,500 sq ft and was delivered in three months, the shortest programme of the residential projects on this site.',
                 'A short programme is won before the first delivery arrives: long-lead joinery and stone were ordered against a set-out agreed at the start, so the trades on site followed one drawing rather than three.',
             ],
-            'tiles' => 3,
+            'tiles' => 4,
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'emirates-hills-villa', 'jumeirah-island-villa'],
         ],
         'emirates-hills-villa' => [
@@ -399,7 +405,7 @@ return [
                 'The Jumeirah Island villa was delivered as a full interior fit-out, the living spaces, kitchen and bedrooms taken together as one package rather than let separately.',
                 'One package is what allows a single set-out to run through the house — the joinery, the stone and the ceilings meet because they were drawn against each other before any of them was made.',
             ],
-            'tiles' => 3,
+            'tiles' => 4,
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
         ],
         'villa-b200-tilal-al-ghaf' => [
@@ -430,7 +436,7 @@ return [
                 'The I-Rise Tower office covers more than 5,000 sq ft and was delivered in four months, the fit-out taken from bare floor through to a working office.',
                 'A tower fit-out is a logistics problem before it is a joinery one — deliveries, hoists and noise all run to the building\'s hours, and the programme is built around them rather than against them.',
             ],
-            'tiles' => 7,
+            'tiles' => 8,
             'related' => ['boulevard-plaza-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'benjarong-dusit-thani'],
         ],
         'boulevard-plaza-office' => [
@@ -441,7 +447,7 @@ return [
                 'The Boulevard Plaza office was delivered in three months across more than 7,500 sq ft, covering the workspace, the meeting rooms and the joinery and services that serve them.',
                 'The finishes were coordinated with the base build rather than laid over it, so ceilings, lighting and partitions line through as one setting-out.',
             ],
-            'tiles' => 7,
+            'tiles' => 8,
             'related' => ['i-rise-tower-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'jumeirah-golf-estate-villas'],
         ],
         'wasl-properties-hq' => [
@@ -463,7 +469,7 @@ return [
                 'Benjarong was delivered as a hospitality fit-out across more than 10,000 sq ft in three months, taking in the dining rooms, the bar and the front of house.',
                 'A restaurant is finished to be looked at from a seat rather than from a drawing: the joinery, the lighting and the loose furniture were set out together so the room reads as one from every table.',
             ],
-            'tiles' => 6,
+            'tiles' => 7,
             'related' => ['fidelity-gym-jlt', 'wasl-properties-hq', 'i-rise-tower-office', 'jumeirah-golf-estate-villas'],
         ],
         'fidelity-gym-jlt' => [
