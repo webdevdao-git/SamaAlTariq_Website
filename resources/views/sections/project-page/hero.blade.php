@@ -43,11 +43,11 @@
 
             {{-- scale-110 because a blur samples past its own edges and would
                  otherwise fade out against them. --}}
-            <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+            <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
                  alt="" aria-hidden="true" loading="lazy" decoding="async"
                  class="absolute inset-0 h-full w-full scale-110 object-cover blur-3xl brightness-50">
 
-            <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+            <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
                  @if ($i === 0)
                      alt="{{ $project['title'] }} — {{ $project['location'] }}"
                      fetchpriority="high"
@@ -103,7 +103,7 @@
                                     @if ($i === 0) aria-current="true" @endif
                                     class="w-[clamp(56px,5.85vw,101px)] shrink-0 overflow-hidden opacity-60 transition-opacity duration-300 aria-[current]:opacity-100 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                                     style="aspect-ratio:84/58">
-                                <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+                                <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
                                      alt="" loading="lazy" decoding="async"
                                      class="h-full w-full object-cover">
                             </button>

@@ -105,7 +105,7 @@
                                             <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
                                                class="block w-full overflow-hidden after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                                                style="aspect-ratio:{{ $item['ratio'] }}">
-                                                <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
+                                                <img src="{{ \App\Support\Asset::versioned('images/projects/covers/' . $item['image'] . '.webp') }}"
                                                      alt="{{ $item['title'] }} — {{ $item['location'] }}"
                                                      loading="lazy" decoding="async"
                                                      class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]">

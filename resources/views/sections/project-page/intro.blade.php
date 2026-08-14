@@ -38,12 +38,12 @@
             <div data-lightbox class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
                 @for ($i = 1; $i <= $page['tiles']; $i++)
                     <a data-lightbox-item
-                       href="{{ asset('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                       href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
                        data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
                        aria-label="Open photograph {{ $i }} of {{ $photographs }}"
                        class="reveal-rise group relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                        style="transition-delay:{{ ($i - 1) * 40 }}ms">
-                        <img src="{{ asset('images/projects/' . $slug . '/g' . $i . '.webp') }}"
+                        <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/g' . $i . '.webp') }}"
                              alt="" loading="lazy" decoding="async"
                              class="h-full w-full scale-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.2]">
                         <x-icon name="expand" :size="24"
@@ -57,7 +57,7 @@
                      stopping at the ninth. --}}
                 @for ($i = $page['tiles'] + 1; $i <= $photographs; $i++)
                     <a data-lightbox-item class="hidden"
-                       href="{{ asset('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                       href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
                        data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
                        tabindex="-1" aria-hidden="true">Photograph {{ $i }}</a>
                 @endfor
