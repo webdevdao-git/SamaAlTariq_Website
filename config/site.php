@@ -194,11 +194,10 @@ return [
             'cta' => ['label' => 'Get a free consultation', 'href' => '#contact'],
             /*
              * The closing strip runs rather than sitting still, so it is a
-             * roster and not a row of four — eight here, and the loop takes as
+             * roster and not a row of four — seven here, and the loop takes as
              * many as it is given.
              */
             'strip' => [
-                ['src' => 'images/about/strip-dining.webp', 'alt' => 'Dining table beside a marble island'],
                 ['src' => 'images/about/strip-living.webp', 'alt' => 'Living room with a sculpted feature wall'],
                 ['src' => 'images/about/strip-lounge.webp', 'alt' => 'Timber-lined lounge with modular seating'],
                 ['src' => 'images/about/strip-bedroom.webp', 'alt' => 'Bedroom under a timber ceiling opening to a terrace'],
