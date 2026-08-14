@@ -48,7 +48,10 @@
 --}}
 <div data-project-view="gallery">
     @foreach ($page['groups'] as $group)
-        <section class="bg-white pt-[clamp(3rem,5.79vw,100px)] pb-[clamp(1.5rem,2.31vw,40px)]">
+        {{-- 52, which is the frame's 62 between the rule and this heading's cap
+             less the 9 of leading the heading's own box carries above it. The
+             masthead's two gaps are set the same way; see header.blade.php. --}}
+        <section class="bg-white pt-[clamp(2rem,3.01vw,52px)] pb-[clamp(1.5rem,2.31vw,40px)]">
             <div class="shell">
                 <h2 class="reveal text-fluid-label font-medium text-ink">{{ $group['name'] }}</h2>
 

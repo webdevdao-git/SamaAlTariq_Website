@@ -21,22 +21,34 @@
 <x-site-header tone="dark"/>
 
 {{--
-    The masthead's vertical rhythm, on the site's own scale — 80 between
-    blocks, 100 before a new one starts.
+    The masthead's vertical rhythm, measured between ink rather than between
+    boxes — type carries leading above and below it, so a box figure says
+    nothing about the gap a reader sees.
 
-        page top .. 234   clears the header lock-up, which ends at 154, by 80
+    The frame sets one step and repeats it, all three measured at 1728:
+
+        lock-up ends 152
+        .. 68 ..           to the cap of SELECTED
         heading block      the switch sits on its last baseline
-        .. 80 ..           to the rule
+        .. 66 ..           to the rule
         rule
-        .. 100 ..          to the first group heading (in groups.blade.php)
+        .. 62 ..           to the first group heading (in groups.blade.php)
 
-    234 rather than 180: at 180 the heading's cap sat 26px under the lock-up
-    and the two read as one crowded block. The gap below a masthead has to be
-    at least the gap inside it or the page opens looking compressed.
+    Padding is therefore 214 and 58 here, and 52 on the group section: each is
+    its gap less the leading the box carries — 6 above a cap at this size, 8
+    below a baseline, 9 above the group heading's.
+
+    These were 234, 80 and 100, invented on the site's own scale rather than
+    read off the frame, and the error compounded down the page: 88, 88, then
+    110, so the masthead opened loose and grew looser, which is what made the
+    top of the page read as unpolished.
 --}}
-<header class="bg-white pt-[clamp(7rem,13.54vw,234px)]">
+{{-- The floor stays at 7rem. Below ~905 the lock-up has already hit the floors
+     of its own clamps and stops shrinking, so a padding that kept falling with
+     the viewport would close on it. --}}
+<header class="bg-white pt-[clamp(7rem,12.38vw,214px)]">
     <div class="shell">
-        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] pb-[clamp(2rem,4.63vw,80px)] md:flex-row md:items-end md:justify-between">
+        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] pb-[clamp(1.5rem,3.36vw,58px)] md:flex-row md:items-end md:justify-between">
             <h1 class="editorial-heading text-fluid-section uppercase text-ink">
                 @foreach ($page['heading'] as $i => $line)
                     <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
