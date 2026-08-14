@@ -13,12 +13,18 @@
     A project with fewer photographs draws fewer tiles rather than repeating
     one: two of the shoots came in with four pictures rather than ten.
 
-    EACH TILE OPENS FULL SCREEN, which is the reference's gallery behaviour and
-    all that is taken from it — the grid itself is untouched, and the overlay
-    only exists once something is clicked. The tiles are anchors to the large
-    file, so the behaviour degrades to opening the photograph on its own rather
-    than to nothing; motion/lightbox.js intercepts the click and keeps the set
-    navigable from where the visitor is.
+    EACH TILE OPENS FULL SCREEN, which is the reference's gallery behaviour.
+    The tiles are anchors to the large file, so the behaviour degrades to
+    opening the photograph on its own rather than to nothing; lightbox.js
+    intercepts the click and keeps the set navigable from where the visitor is.
+
+    AND EACH TILE SAYS SO. The reference marks its gallery pictures with a
+    corner-bracket glyph and grows the photograph under the pointer, which is
+    what tells a visitor the picture is a door rather than a decoration.
+    Measured off it: the glyph sits 4 from the corner at 80% opacity and 0.8
+    scale, goes to full on hover, and the photograph runs to 1.2 inside the
+    tile's clip. Nothing here moves the grid — the glyph is positioned out of
+    flow and the zoom happens inside a box that keeps its size.
 --}}
 <section class="bg-white py-[clamp(2.5rem,4.63vw,80px)]">
     <div class="shell">
@@ -34,12 +40,14 @@
                     <a data-lightbox-item
                        href="{{ asset('images/projects/' . $slug . '/l' . $i . '.webp') }}"
                        data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
-                       aria-label="Open photograph {{ $i }} of {{ $page['tiles'] }}"
-                       class="reveal-rise relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                       aria-label="Open photograph {{ $i }} of {{ $photographs }}"
+                       class="reveal-rise group relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                        style="transition-delay:{{ ($i - 1) * 40 }}ms">
                         <img src="{{ asset('images/projects/' . $slug . '/g' . $i . '.webp') }}"
                              alt="" loading="lazy" decoding="async"
-                             class="h-full w-full object-cover">
+                             class="h-full w-full scale-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.2]">
+                        <x-icon name="expand" :size="24"
+                                class="absolute bottom-1 right-1 scale-[0.8] text-white opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition duration-300 ease-out group-hover:scale-100 group-hover:opacity-100"/>
                     </a>
                 @endfor
 

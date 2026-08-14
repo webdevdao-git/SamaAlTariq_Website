@@ -369,4 +369,15 @@
         </svg>
         @break
 
+    {{-- Four corner brackets: the affordance on a picture that opens full
+         screen. Drawn here rather than taken from the reference, whose glyph
+         is its template's own asset — same reading, our geometry. 24×24. --}}
+    @case('expand')
+        <svg {{ $attributes->merge(['class' => 'shrink-0']) }} width="{{ $size ?? 24 }}" height="{{ $size ?? 24 }}"
+             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 9V6.5A2.5 2.5 0 0 1 6.5 4H9M15 4h2.5A2.5 2.5 0 0 1 20 6.5V9M20 15v2.5a2.5 2.5 0 0 1-2.5 2.5H15M9 20H6.5A2.5 2.5 0 0 1 4 17.5V15"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        @break
+
 @endswitch
