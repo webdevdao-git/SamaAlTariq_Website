@@ -21,31 +21,27 @@
     crosses them, and with the script absent or reduced motion asked for, the
     first simply stays.
 
-    NOTHING IS CROPPED AND NOTHING IS BLACK. A hero the height of the screen is
-    a different proportion on every window, so a photograph can fill it or be
-    whole, not both: covering takes the sides off a wide one, containing leaves
-    the section's own dark down either side.
+    THE PICTURE FILLS THE SCREEN. A hero the height of the screen is a
+    different proportion on every window, so a photograph can fill it or be
+    whole, not both — and this is the one that fills. It covers, centred, which
+    takes the sides off a photograph wider than the window and the top and foot
+    off one taller.
 
-    So each slide is the photograph twice. Behind, a copy that covers, blurred
-    past legibility and dimmed — it is not an image any more, it is the wall the
-    picture hangs on, and it is made of that picture so the colour is always
-    right. In front, the photograph itself, contained and whole. Where the
-    proportions match, the backdrop is never seen; where they do not, the
-    picture sits in its own light rather than in a black band.
+    It has been the other way twice: contained, where nothing was cut but the
+    section's dark showed either side, and contained over a blurred copy of
+    itself, which filled the frame without cutting anything but put the picture
+    inside a soft border. Both are one edit from here if the crop costs too
+    much on a particular project.
 --}}
 <section id="top" data-hero-slides
          class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
 
     @foreach ($slides as $i => $slide)
-        {{-- The slide is the pair, so the cross-fade moves both as one. --}}
+        {{-- The wrapper stays even with one picture in it: it is what the
+             cross-fade moves, and keeping it means the blurred-backdrop version
+             is a matter of adding an image rather than restructuring. --}}
         <div data-hero-slide class="absolute inset-0 -z-10"
              style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '1.2' }})">
-
-            {{-- scale-110 because a blur samples past its own edges and would
-                 otherwise fade out against them. --}}
-            <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
-                 alt="" aria-hidden="true" loading="lazy" decoding="async"
-                 class="absolute inset-0 h-full w-full scale-110 object-cover blur-3xl brightness-50">
 
             <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
                  @if ($i === 0)
@@ -55,7 +51,7 @@
                      alt="" aria-hidden="true" loading="lazy"
                  @endif
                  decoding="async"
-                 class="relative h-full w-full object-contain">
+                 class="h-full w-full object-cover">
         </div>
     @endforeach
 
