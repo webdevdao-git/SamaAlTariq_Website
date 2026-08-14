@@ -1,22 +1,28 @@
 import { prefersReducedMotion } from './scroll-engine';
 
 /**
- * The project hero cycles its photographs, taken from the reference's own
- * hero-slider behaviour: the outgoing picture keeps growing to 1.2 as it fades,
- * the incoming one arrives from 0.8, and the two cross in the middle. That
- * overlap is the whole effect — cut it and the pictures blink rather than
- * dissolve.
+ * The project hero cycles its photographs.
  *
- * Measured off the reference at 1440: about four seconds on a slide and a
- * second and a bit of cross-fade. Nothing about the hero's layout changes;
- * this only swaps which photograph is under the title.
+ * Traced off the reference frame by frame rather than guessed at, and it does
+ * not do what it looks like it does. BOTH PICTURES MOVE THE SAME WAY: the
+ * outgoing one grows from 1 to 1.2 as it fades out, and the incoming one is
+ * snapped to 1.2 the instant the change begins and settles back to 1 as it
+ * fades in. The eye reads one continuous push rather than two pictures passing
+ * in opposite directions, which is what an incoming picture growing from 0.8
+ * gives you — the first version of this, and wrong.
+ *
+ * The trace: opacity crosses 0.01, 0.09, 0.33, 0.54, 0.75, 0.94, 1 over 1200ms,
+ * which is a symmetric ease-in-out, and the scale lands with it and then holds
+ * still. A change every 4490ms.
  *
  * Everything is CSS transitions rather than a rAF loop. The browser composites
  * opacity and transform off the main thread, so a hero that is fading while the
  * page scrolls costs nothing in the scroll handler this site already runs.
  */
-const HOLD = 4000;
+const PERIOD = 4490;
 const FADE = 1200;
+const EASE = 'cubic-bezier(0.45, 0, 0.55, 1)';
+const ZOOM = 1.2;
 
 export function initProjectHero() {
     const hero = document.querySelector('[data-hero-slides]');
@@ -40,21 +46,21 @@ export function initProjectHero() {
     const show = (next) => {
         const outgoing = slides[current];
         const incoming = slides[next];
+        const move = `opacity ${fade}ms ${EASE}, transform ${fade}ms ${EASE}`;
 
-        // The outgoing picture is already at scale 1; letting it run on to 1.2
-        // while it fades is what keeps the movement continuous across the cut.
-        outgoing.style.transition = `opacity ${fade}ms ease, transform ${fade + HOLD}ms ease-out`;
+        // Out: fades while it grows away from the reader.
+        outgoing.style.transition = move;
         outgoing.style.opacity = '0';
-        outgoing.style.transform = still ? 'scale(1)' : 'scale(1.2)';
+        outgoing.style.transform = still ? 'scale(1)' : `scale(${ZOOM})`;
 
-        // Start the incoming one small with no transition, then let it run in
-        // on the next frame — set both in one go and there is nothing to
-        // animate from.
+        // In: placed at the outgoing one's end scale with no transition, then
+        // released on the next frame so it settles back as it arrives. Set both
+        // in one go and there is nothing to animate from.
         incoming.style.transition = 'none';
-        incoming.style.transform = still ? 'scale(1)' : 'scale(0.8)';
+        incoming.style.transform = still ? 'scale(1)' : `scale(${ZOOM})`;
         incoming.style.opacity = '0';
         requestAnimationFrame(() => {
-            incoming.style.transition = `opacity ${fade}ms ease, transform ${fade + HOLD}ms ease-out`;
+            incoming.style.transition = move;
             incoming.style.opacity = '1';
             incoming.style.transform = 'scale(1)';
         });
@@ -84,7 +90,7 @@ export function initProjectHero() {
     // Only the clock is withheld under reduced motion; the strip still selects.
     const start = () => {
         if (timer || still) return;
-        timer = setInterval(advance, HOLD + FADE);
+        timer = setInterval(advance, PERIOD);
     };
     const stop = () => {
         clearInterval(timer);

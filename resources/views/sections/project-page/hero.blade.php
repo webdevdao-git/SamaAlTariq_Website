@@ -34,7 +34,7 @@
              @endif
              decoding="async"
              class="absolute inset-0 -z-10 h-full w-full object-cover"
-             style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '0.8' }})">
+             style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '1.2' }})">
     @endforeach
 
     {{-- The frame's own scrim: one linear gradient, black at the foot to a
