@@ -15,11 +15,17 @@
     footer. At the height of the viewport the whole of it is on screen at once,
     on any window, which is what the frame draws at its own size.
 
-    THE PICTURE CYCLES, which is the reference's hero behaviour. Four
-    photographs from the project's own shoot — the client's files, not the
-    frame's stock, which is where the covers on the projects page still come
-    from. motion/project-hero.js crosses them, and with the script absent or
-    reduced motion asked for, the first simply stays.
+    THE FIRST PICTURE IS THE ONE THE PROJECTS PAGE SHOWS, so clicking a tile
+    lands on the room it showed — but whole rather than as that tile's crop.
+    The three behind it are the project's own shoot. motion/project-hero.js
+    crosses them, and with the script absent or reduced motion asked for, the
+    first simply stays.
+
+    NOTHING IS CROPPED. The pictures contain rather than cover: a hero the
+    height of the screen is a different proportion on every window, and cover
+    would take the sides off a wide photograph and the top off a tall one.
+    Contained, each is whole and centred, and the dark of the section shows
+    where the proportions differ — which is the trade, and the instruction.
 --}}
 <section id="top" data-hero-slides
          class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
@@ -33,7 +39,7 @@
                  alt="" aria-hidden="true" loading="lazy"
              @endif
              decoding="async"
-             class="absolute inset-0 -z-10 h-full w-full object-cover"
+             class="absolute inset-0 -z-10 h-full w-full object-contain"
              style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '1.2' }})">
     @endforeach
 
