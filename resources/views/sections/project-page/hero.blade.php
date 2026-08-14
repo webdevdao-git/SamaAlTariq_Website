@@ -8,18 +8,21 @@
     from the line to the foot of the title. Anchoring to the top instead would
     let a long title push the row off the bottom of the picture.
 
-    Below lg the frame's 1.55:1 would leave a 250px band on a phone, so the
-    picture takes the viewport there and the proportion resumes at lg.
+    THE HERO IS THE SCREEN, not the frame's 1728x1117. That proportion is
+    1117 tall at the width it was drawn for, which is taller than the laptop
+    it gets read on — the picture filled the window and the hairline and its
+    row fell below the fold, so the first thing the page did was hide its own
+    footer. At the height of the viewport the whole of it is on screen at once,
+    on any window, which is what the frame draws at its own size.
 
-    THE PICTURE CYCLES, which is the reference's hero behaviour and the only
-    thing taken from it here — the frame's box, title, hairline and scrim are
-    untouched, and a visitor who never waits sees exactly what the frame draws.
-    Four photographs: the one the projects page shows, then three more from the
-    same shoot. motion/project-hero.js crosses them, and with the script absent
-    or reduced motion asked for, the first simply stays.
+    THE PICTURE CYCLES, which is the reference's hero behaviour. Four
+    photographs from the project's own shoot — the client's files, not the
+    frame's stock, which is where the covers on the projects page still come
+    from. motion/project-hero.js crosses them, and with the script absent or
+    reduced motion asked for, the first simply stays.
 --}}
 <section id="top" data-hero-slides
-         class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-night lg:aspect-[1728/1117] lg:min-h-0">
+         class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
 
     @foreach ($slides as $i => $slide)
         <img data-hero-slide src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
@@ -45,11 +48,47 @@
     <div class="relative z-10 mt-auto pb-[clamp(1.5rem,3.47vw,60px)] text-white">
         <div class="shell">
 
-            {{-- 108/99 Juana Alt Medium, uppercase, measured to 1187 so the
-                 longer titles break where the frame breaks this one. --}}
-            <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
-                <span data-split data-split-by="word">{{ $project['title'] }}</span>
-            </h1>
+            {{--
+                The title, and opposite it the strip of what the hero holds.
+
+                The reference sets four 84x58 thumbnails 28.8 apart on the right
+                gutter, their feet level with the foot of the title — measured
+                at its 1440, so they are carried here as fractions of the width
+                and come out 101x70 at the frame's 1728.
+
+                Its own are inert: cursor auto, no hover, and clicking one does
+                not change the picture. Ours select the slide they show, because
+                a strip of photographs beside a slideshow is a control whether
+                or not it is wired up, and one that ignores the click is worse
+                than none. The current one is at full strength and the rest at
+                60%, which is this site's muted tone; the reference marks none
+                of them, having nothing to mark.
+
+                108/99 Juana Alt Medium, uppercase, measured to 1187 so the
+                longer titles break where the frame breaks this one.
+            --}}
+            <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
+                <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
+                    <span data-split data-split-by="word">{{ $project['title'] }}</span>
+                </h1>
+
+                @if (count($slides) > 1)
+                    <div data-hero-thumbs
+                         class="hidden shrink-0 items-end gap-[clamp(1rem,2vw,34.5px)] md:flex">
+                        @foreach ($slides as $i => $slide)
+                            <button type="button" data-hero-thumb="{{ $i }}"
+                                    aria-label="Show photograph {{ $i + 1 }} of {{ count($slides) }}"
+                                    @if ($i === 0) aria-current="true" @endif
+                                    class="w-[clamp(56px,5.85vw,101px)] shrink-0 overflow-hidden opacity-60 transition-opacity duration-300 aria-[current]:opacity-100 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                                    style="aspect-ratio:84/58">
+                                <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+                                     alt="" loading="lazy" decoding="async"
+                                     class="h-full w-full object-cover">
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
             {{-- 70 from the title to the line, then 31 to the row. --}}
             <span aria-hidden="true"
