@@ -21,26 +21,42 @@
     crosses them, and with the script absent or reduced motion asked for, the
     first simply stays.
 
-    NOTHING IS CROPPED. The pictures contain rather than cover: a hero the
-    height of the screen is a different proportion on every window, and cover
-    would take the sides off a wide photograph and the top off a tall one.
-    Contained, each is whole and centred, and the dark of the section shows
-    where the proportions differ — which is the trade, and the instruction.
+    NOTHING IS CROPPED AND NOTHING IS BLACK. A hero the height of the screen is
+    a different proportion on every window, so a photograph can fill it or be
+    whole, not both: covering takes the sides off a wide one, containing leaves
+    the section's own dark down either side.
+
+    So each slide is the photograph twice. Behind, a copy that covers, blurred
+    past legibility and dimmed — it is not an image any more, it is the wall the
+    picture hangs on, and it is made of that picture so the colour is always
+    right. In front, the photograph itself, contained and whole. Where the
+    proportions match, the backdrop is never seen; where they do not, the
+    picture sits in its own light rather than in a black band.
 --}}
 <section id="top" data-hero-slides
          class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
 
     @foreach ($slides as $i => $slide)
-        <img data-hero-slide src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
-             @if ($i === 0)
-                 alt="{{ $project['title'] }} — {{ $project['location'] }}"
-                 fetchpriority="high"
-             @else
-                 alt="" aria-hidden="true" loading="lazy"
-             @endif
-             decoding="async"
-             class="absolute inset-0 -z-10 h-full w-full object-contain"
+        {{-- The slide is the pair, so the cross-fade moves both as one. --}}
+        <div data-hero-slide class="absolute inset-0 -z-10"
              style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '1.2' }})">
+
+            {{-- scale-110 because a blur samples past its own edges and would
+                 otherwise fade out against them. --}}
+            <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async"
+                 class="absolute inset-0 h-full w-full scale-110 object-cover blur-3xl brightness-50">
+
+            <img src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+                 @if ($i === 0)
+                     alt="{{ $project['title'] }} — {{ $project['location'] }}"
+                     fetchpriority="high"
+                 @else
+                     alt="" aria-hidden="true" loading="lazy"
+                 @endif
+                 decoding="async"
+                 class="relative h-full w-full object-contain">
+        </div>
     @endforeach
 
     {{-- The frame's own scrim: one linear gradient, black at the foot to a
