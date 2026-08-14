@@ -76,8 +76,22 @@
                                                 column instead — two units, their gap, and the caption
                                                 between them — which is what lands its foot on the same
                                                 line as the pair's lower picture, as the frame draws it.
+
+                                                THE UNIT IS 440 AT 1728, not 300. At 300 a six-track
+                                                tile was 772x300 — 2.57:1 — and the photographs are
+                                                1.78:1 and flatter, so every picture was cover-cropped
+                                                to a band and the Fitness gym and spa read as slices of
+                                                a room rather than the room. 440 puts a six-track tile
+                                                at 1.75:1, which is the gym photograph's own proportion,
+                                                so the widest pictures on the page are now shown whole
+                                                and the squarer ones lose far less.
+
+                                                It also closes the gap against the frame: the page was
+                                                measured at 1728:5596 (3.24) against the frame's 3.95,
+                                                i.e. ~1230px short, and the seven picture units on the
+                                                page carry almost exactly that between them.
                                             --}}
-                                            <div class="relative w-full overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} {{ count($row['columns']) > 1 && count($column['tiles']) === 1 && $hasStack ? 'flex-1' : '' }} lg:h-[clamp(180px,17.4vw,300px)] {{ $hasStack && count($column['tiles']) === 1 ? 'lg:h-auto' : '' }}">
+                                            <div class="relative w-full overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} {{ count($row['columns']) > 1 && count($column['tiles']) === 1 && $hasStack ? 'flex-1' : '' }} lg:h-[clamp(260px,25.46vw,440px)] {{ $hasStack && count($column['tiles']) === 1 ? 'lg:h-auto' : '' }}">
                                                 {{-- The hover push sits on this wrapper, not on the
                                                      picture. .reveal-media already owns the picture's
                                                      transform and transition, and a `transition-transform`
@@ -88,19 +102,24 @@
                                                     Three layers, one transform each, because two of them
                                                     would otherwise fight over the same property:
 
-                                                    · the drift layer is 120% of the frame and hung at
-                                                      -10%, which is exactly the slack the reference's
-                                                      `.js-parallax` scrubs through (yPercent -10 to +10).
-                                                      Because the slack is in the markup, the drift is a
-                                                      plain translate and nothing is enlarged — hand the
-                                                      picture the frame's own size instead and it has to
-                                                      buy the headroom by scaling up 10%, which re-crops
-                                                      every photograph on the page;
+                                                    · the drift layer is 108% of the frame and hung at
+                                                      -4%. Because the slack is in the markup the drift
+                                                      is a plain translate and nothing is enlarged —
+                                                      hand the picture the frame's own size instead and
+                                                      it has to buy the headroom by scaling, which
+                                                      re-crops every photograph on the page. The slack
+                                                      is 8% and not the reference's 20% because slack is
+                                                      crop: the picture is composed for a box that much
+                                                      taller than the frame and the frame only ever
+                                                      shows the middle of it. At 20% a fifth of every
+                                                      photograph was spent on a ±40px drift; 8% still
+                                                      reads as movement and gives the other 12% back to
+                                                      the picture;
                                                     · the hover layer takes the push, so the pointer and
                                                       the scroll never write to the same element;
                                                     · the picture just fills.
                                                 --}}
-                                                <div data-drift="0.09" class="absolute inset-x-0 -top-[10%] h-[120%]">
+                                                <div data-drift="0.04" class="absolute inset-x-0 -top-[4%] h-[108%]">
                                                     <div class="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
                                                         <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
                                                              alt="{{ $item['title'] }} — {{ $item['location'] }}"
