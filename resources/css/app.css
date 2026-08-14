@@ -224,22 +224,70 @@
         pointer-events: none;
         clip-path: inset(0 0 0 0);
         transition: clip-path 900ms cubic-bezier(0.76, 0, 0.24, 1);
+
+        /* The depth the mark's flip is read against. 800 is the reference's
+           own: its matrix carries -0.00125 in the perspective row, and 1/800
+           is exactly that. */
+        perspective: 800px;
     }
 
     .intro-curtain[data-lifting='true'] {
         clip-path: inset(0 0 100% 0);
     }
 
+    /*
+     * The mark turns rather than fades, which is the reference's loader:
+     * traced off it, the logo arrives edge-on and rotates about the horizontal
+     * axis into the plane of the screen, holds, then carries on turning the
+     * same way until it is edge-on again as the curtain leaves. One movement
+     * in one direction, not a fade in and a fade out.
+     *
+     * The entrance is an animation rather than a transition because there is no
+     * state change to hang a transition on — the curtain is in the HTML and
+     * paints with the page, so the mark has to start moving on its own.
+     */
     .intro-curtain__mark {
         opacity: 1;
+        transform-style: preserve-3d;
+        animation: intro-mark-turn-in 820ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
         transition:
-            opacity 450ms ease-out,
-            transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+            opacity 380ms ease-out,
+            transform 620ms cubic-bezier(0.76, 0, 0.24, 1);
     }
 
+    @keyframes intro-mark-turn-in {
+        from {
+            opacity: 0;
+            transform: rotateX(-90deg) translateZ(-40px);
+        }
+        to {
+            opacity: 1;
+            transform: rotateX(0deg) translateZ(0);
+        }
+    }
+
+    /*
+     * The exit is a second animation rather than a transition, and that is not
+     * a style choice: while the entrance animation holds the mark at its end
+     * frame, changing the declared transform underneath it changes nothing a
+     * transition can see, and dropping the animation to free it snaps straight
+     * to the new value. Replacing one animation with another plays properly
+     * from its own first frame. Measured before and after — the turn out was
+     * instant, and is now 620ms of movement.
+     */
     .intro-curtain[data-lifting='true'] .intro-curtain__mark {
-        opacity: 0;
-        transform: translateY(-24px);
+        animation: intro-mark-turn-out 620ms cubic-bezier(0.76, 0, 0.24, 1) both;
+    }
+
+    @keyframes intro-mark-turn-out {
+        from {
+            opacity: 1;
+            transform: rotateX(0deg) translateZ(0);
+        }
+        to {
+            opacity: 0;
+            transform: rotateX(90deg) translateZ(-40px);
+        }
     }
 
     /*

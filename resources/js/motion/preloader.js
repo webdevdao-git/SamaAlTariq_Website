@@ -11,7 +11,14 @@ import { prefersReducedMotion } from './scroll-engine';
  * connection never traps anyone behind it.
  */
 const WIPE_MS = 900;
-const MAX_WAIT_MS = 1600;
+const MAX_WAIT_MS = 1800;
+
+/*
+ * Long enough for the mark to finish turning in — 100 of delay and 820 of
+ * movement — so it is never caught halfway and sent back out. Still bounded:
+ * a loading screen stands between a visitor and the enquiry form.
+ */
+const HOLD_MS = 640;
 
 export function initPreloader() {
     const curtain = document.querySelector('.intro-curtain');
@@ -40,6 +47,6 @@ export function initPreloader() {
         setTimeout(() => {
             clearTimeout(cap);
             lift();
-        }, 420);
+        }, HOLD_MS);
     });
 }
