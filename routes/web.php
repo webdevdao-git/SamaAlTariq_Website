@@ -25,6 +25,13 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/projects', [PageController::class, 'projects'])->name('projects');
 
+// The slug is a key in config/site.php's project_pages, not a database id —
+// the marketing pages never touch MySQL. The controller 404s on anything else,
+// and the pattern keeps the obvious probes off it entirely.
+Route::get('/projects/{slug}', [PageController::class, 'project'])
+    ->where('slug', '[a-z0-9-]+')
+    ->name('projects.show');
+
 // Throttled per IP because it writes to the database and sends mail — the two
 // things a bot can most usefully abuse.
 Route::post('/enquiries', [EnquiryController::class, 'store'])

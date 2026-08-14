@@ -242,7 +242,9 @@ return [
      *
      * `image` is a file in public/images/projects/covers, not a project slug:
      * Hospitality and Fitness each show one project twice, from two different
-     * photographs, exactly as the frame draws them.
+     * photographs, exactly as the frame draws them. Those second tiles carry a
+     * `project` naming the page they open, since there is one page per project
+     * and two tiles pointing at it.
      *
      * Titles, categories, locations and areas come from the company's other
      * site (src/lib/projects.ts there), so they are the figures the business
@@ -300,7 +302,7 @@ return [
                             ['image' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'benjarong-dusit-thani-2', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
+                            ['image' => 'benjarong-dusit-thani-2', 'project' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
                     ]],
                 ],
@@ -314,11 +316,166 @@ return [
                             ['image' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'fidelity-gym-jlt-2', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                            ['image' => 'fidelity-gym-jlt-2', 'project' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
                     ]],
                 ],
             ],
+        ],
+    ],
+
+    /*
+     * The single project page, from Figma frame 1472:1339 (1728x6683).
+     *
+     * Only what that page adds lives here. Title, category, location, area and
+     * duration are already published by the projects grid above and are read
+     * from it by slug — the `image` on a tile is the slug — so the two pages
+     * can never quote different figures for the same project. `facts` is for a
+     * project the grid does not carry: Villa B200 has photographs but no tile.
+     *
+     * `tiles` is how many of the 3x3 intro grid a project can fill. Two shoots
+     * came in with four photographs rather than ten, so the grid runs short
+     * rather than repeating a picture.
+     *
+     * COPY. Jumeirah Golf Estate's three paragraphs are the designer's own,
+     * verbatim from the frame. The rest are written from what the business
+     * already publishes — scope, place, area, programme — and describe no
+     * feature that is not in those figures. They are meant to be read and
+     * corrected by someone who was on site.
+     *
+     * `year` is only known for the project the frame names. The row is drawn
+     * only where there is a year to put in it, rather than carrying a guess.
+     */
+    'project_pages' => [
+        'jumeirah-golf-estate-villas' => [
+            'about' => 'Full renovation & fit-out',
+            'year' => '2024',
+            'lead' => 'A refined residential project in Dubai, combining sophisticated interiors with precise construction and bespoke detailing.',
+            'body' => [
+                'Jumeirah Golf Estate Villas were delivered as a full renovation and fit-out over eight months. The programme brought together an open island-led kitchen, light-filled lounges, timber-slat ceilings, a poolside terrace and coordinated joinery and finishes across the home.',
+                'The villas were delivered with a focus on material quality, seamless finishes, and carefully coordinated architectural and interior elements—creating elegant, functional spaces designed for contemporary luxury living.',
+            ],
+            'tiles' => 9,
+            'related' => ['villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa', 'jumeirah-island-villa'],
+        ],
+        'villa-pv39-tilal-al-ghaf' => [
+            'about' => 'Interior fit-out',
+            'year' => null,
+            'lead' => 'A private villa in Tilal-Al-Ghaf, fitted out to one standard from the entrance through to the last bedroom.',
+            'body' => [
+                'Villa PV39 was delivered as an interior fit-out across 8,000 sq ft over six months, covering the living and dining spaces, the kitchen, the bedrooms and the joinery that ties them together.',
+                'The programme was sequenced so that the finishes meet cleanly from room to room — stone, timber and plaster set out against one another in advance rather than resolved on site.',
+            ],
+            'tiles' => 9,
+            'related' => ['jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'emirates-hills-villa', 'jumeirah-island-villa'],
+        ],
+        'w-residence-palm-jumeirah' => [
+            'about' => 'Interior fit-out',
+            'year' => null,
+            'lead' => 'An apartment on the Palm, fitted out in three months without letting the programme show in the finish.',
+            'body' => [
+                'The W Residence covers 6,500 sq ft and was delivered in three months, the shortest programme of the residential projects on this site.',
+                'A short programme is won before the first delivery arrives: long-lead joinery and stone were ordered against a set-out agreed at the start, so the trades on site followed one drawing rather than three.',
+            ],
+            'tiles' => 3,
+            'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'emirates-hills-villa', 'jumeirah-island-villa'],
+        ],
+        'emirates-hills-villa' => [
+            'about' => 'Villa fit-out',
+            'year' => null,
+            'lead' => 'The largest villa on this site — 30,000 sq ft in Emirates Hills, delivered over a year.',
+            'body' => [
+                'The Emirates Hills villa ran twelve months across 30,000 sq ft, and at that size the work is as much programme as it is finish: the trades follow one another through the house rather than working the whole of it at once.',
+                'The house was handed over room by room in that order, which is what keeps a project of this length from finishing everything at the same time and nothing before it.',
+            ],
+            'tiles' => 9,
+            'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'jumeirah-island-villa'],
+        ],
+        'jumeirah-island-villa' => [
+            'about' => 'Villa fit-out',
+            'year' => null,
+            'lead' => 'A villa on Jumeirah Island, delivered across 14,000 sq ft in eight months.',
+            'body' => [
+                'The Jumeirah Island villa was delivered as a full interior fit-out, the living spaces, kitchen and bedrooms taken together as one package rather than let separately.',
+                'One package is what allows a single set-out to run through the house — the joinery, the stone and the ceilings meet because they were drawn against each other before any of them was made.',
+            ],
+            'tiles' => 3,
+            'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
+        ],
+        'villa-b200-tilal-al-ghaf' => [
+            // Not on the projects grid, so its facts are here. Area, duration
+            // and year are unknown to this site and their rows stay closed.
+            'facts' => [
+                'title' => 'Villa B200, Tilal-Al-Ghaf',
+                'category' => 'Luxury Residential',
+                'location' => 'Tilal-Al-Ghaf, Dubai',
+                'size' => null,
+                'duration' => null,
+            ],
+            'about' => 'Villa fit-out',
+            'year' => null,
+            'lead' => 'A second villa at Tilal-Al-Ghaf, alongside PV39 on the same development.',
+            'body' => [
+                'Villa B200 was delivered as an interior fit-out across the living spaces, kitchen and bedrooms.',
+                'Two houses on one development are rarely the same house twice: the set-out is redrawn against the plot and the light it gets, and only the standard of finish carries across unchanged.',
+            ],
+            'tiles' => 9,
+            'related' => ['villa-pv39-tilal-al-ghaf', 'jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
+        ],
+        'i-rise-tower-office' => [
+            'about' => 'Office fit-out',
+            'year' => null,
+            'lead' => 'An office fit-out at I-Rise Tower, delivered over four months around a working building.',
+            'body' => [
+                'The I-Rise Tower office covers more than 5,000 sq ft and was delivered in four months, the fit-out taken from bare floor through to a working office.',
+                'A tower fit-out is a logistics problem before it is a joinery one — deliveries, hoists and noise all run to the building\'s hours, and the programme is built around them rather than against them.',
+            ],
+            'tiles' => 7,
+            'related' => ['boulevard-plaza-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'benjarong-dusit-thani'],
+        ],
+        'boulevard-plaza-office' => [
+            'about' => 'Office fit-out',
+            'year' => null,
+            'lead' => 'More than 7,500 sq ft at Boulevard Plaza, fitted out in three months.',
+            'body' => [
+                'The Boulevard Plaza office was delivered in three months across more than 7,500 sq ft, covering the workspace, the meeting rooms and the joinery and services that serve them.',
+                'The finishes were coordinated with the base build rather than laid over it, so ceilings, lighting and partitions line through as one setting-out.',
+            ],
+            'tiles' => 7,
+            'related' => ['i-rise-tower-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'jumeirah-golf-estate-villas'],
+        ],
+        'wasl-properties-hq' => [
+            'about' => 'Corporate fit-out',
+            'year' => null,
+            'lead' => 'A 45,000 sq ft corporate headquarters on Sheikh Zayed Road, delivered in four months.',
+            'body' => [
+                'WASL Properties HQ is the largest project on this site by area and among the shortest by programme: 45,000 sq ft in four months, which only works if the floors are run in parallel rather than in sequence.',
+                'The fit-out covers the workspace, the meeting and reception areas and the finishes throughout, coordinated so that a floor could be closed out while the next was still in progress.',
+            ],
+            'tiles' => 9,
+            'related' => ['i-rise-tower-office', 'boulevard-plaza-office', 'benjarong-dusit-thani', 'fidelity-gym-jlt'],
+        ],
+        'benjarong-dusit-thani' => [
+            'about' => 'Restaurant fit-out',
+            'year' => null,
+            'lead' => 'A restaurant at the Dusit Thani, more than 10,000 sq ft delivered in three months.',
+            'body' => [
+                'Benjarong was delivered as a hospitality fit-out across more than 10,000 sq ft in three months, taking in the dining rooms, the bar and the front of house.',
+                'A restaurant is finished to be looked at from a seat rather than from a drawing: the joinery, the lighting and the loose furniture were set out together so the room reads as one from every table.',
+            ],
+            'tiles' => 6,
+            'related' => ['fidelity-gym-jlt', 'wasl-properties-hq', 'i-rise-tower-office', 'jumeirah-golf-estate-villas'],
+        ],
+        'fidelity-gym-jlt' => [
+            'about' => 'Fitness & spa fit-out',
+            'year' => null,
+            'lead' => 'A 25,425 sq ft gym and spa in Jumeirah Lake Towers, delivered over six months.',
+            'body' => [
+                'Fidelity Gym covers 25,425 sq ft over two levels in Jumeirah Lake Towers and was delivered in six months, from the equipment floor through to the spa and changing rooms.',
+                'A gym carries loads and services a fit-out usually does not — plant, ventilation and drainage were set out with the structure rather than fitted around it once the floor was down.',
+            ],
+            'tiles' => 9,
+            'related' => ['benjarong-dusit-thani', 'wasl-properties-hq', 'boulevard-plaza-office', 'jumeirah-golf-estate-villas'],
         ],
     ],
 

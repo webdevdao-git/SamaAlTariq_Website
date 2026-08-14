@@ -81,18 +81,35 @@
                                 <div class="flex flex-col gap-[clamp(1rem,1.389vw,24px)]">
                                     @foreach ($column['tiles'] as $item)
                                         @php($delay = $tile++ * 40)
-                                        <figure class="reveal-rise group flex flex-col"
+                                        <figure class="reveal-rise group relative flex flex-col"
                                                 style="transition-delay:{{ $delay }}ms">
-                                            {{-- The picture's box in the frame. The
-                                                 export is that box at 2x, so cover
-                                                 has nothing to crop and there is no
-                                                 object-position to set. --}}
-                                            <div class="relative w-full overflow-hidden" style="aspect-ratio:{{ $item['ratio'] }}">
+                                            {{--
+                                                The tile opens the project.
+
+                                                The link is on the picture and reaches the
+                                                caption with an ::after that covers the whole
+                                                figure, rather than wrapping both: a
+                                                <figcaption> has to be a direct child of its
+                                                <figure>, so it cannot sit inside the anchor.
+                                                The result is one target the size of the tile
+                                                and one link in the accessibility tree.
+
+                                                The slug is the tile's `image`. Hospitality
+                                                and Fitness each draw one project twice, and
+                                                both tiles lead to that project's one page.
+
+                                                The picture's box is the frame's. The export
+                                                is that box at 2x, so cover has nothing to
+                                                crop and there is no object-position to set.
+                                            --}}
+                                            <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
+                                               class="block w-full overflow-hidden after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                                               style="aspect-ratio:{{ $item['ratio'] }}">
                                                 <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
                                                      alt="{{ $item['title'] }} — {{ $item['location'] }}"
                                                      loading="lazy" decoding="async"
                                                      class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                                            </div>
+                                            </a>
 
                                             {{-- 12 below the picture; title left, category
                                                  right on one baseline, both 20/27
@@ -119,7 +136,8 @@
                         @foreach ($row['columns'] as $column)
                             @foreach ($column['tiles'] as $item)
                                 <li class="reveal border-t border-black/10 transition-colors duration-300 last:border-b hover:bg-black/[0.03]">
-                                    <div class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
+                                    <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
+                                       class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
                                         <p class="text-fluid-body font-medium text-ink">{{ $item['title'] }}</p>
                                         <dl class="contents">
                                             <dt class="sr-only">Category</dt>
@@ -129,7 +147,7 @@
                                             <dt class="sr-only">Duration</dt>
                                             <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] }}</dd>
                                         </dl>
-                                    </div>
+                                    </a>
                                 </li>
                             @endforeach
                         @endforeach
