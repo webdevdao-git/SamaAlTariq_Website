@@ -219,18 +219,30 @@ return [
      * adding one lengthens the loop rather than wrapping it.
      */
     /*
-     * The projects page — Figma, and the composition is the point.
+     * The projects page, taken from Figma frame 1402:2 ("Projects", 1728x6892)
+     * on the Landing Page redesign page. Every figure below is read off that
+     * frame rather than derived, and the frame is 1728 wide with 79 of padding
+     * either side, so the content column is 1568.
      *
-     * Each group is a stack of `rows`, and each row a set of `columns` on a
-     * twelve-track grid. A column holds one tile or two stacked, and the tiles
-     * in a row share its height. That is what produces the design's rhythm: a
-     * tall picture beside a pair, then two equal ones, then a pair beside a
-     * tall one. A flat list with spans cannot say this — it leaves holes where
-     * a group runs out of items.
+     * COLUMNS. `fr` is the column's width in frame pixels and goes straight
+     * into grid-template-columns as a fraction, so a row reproduces the frame's
+     * split at any width: 992+24+552 = 1568, and so do 772+24+772 and
+     * 620+24+924. These are not twelve-track spans — 992 is 7.59 tracks — which
+     * is why the earlier 7/5 and 5/7 spans could never land on the frame.
+     *
+     * RATIOS. `ratio` is the picture's own box in the frame. There is no shared
+     * height and no shared ratio: the frame gives each row its own picture
+     * height (727, 332, 635, 727), and the columns of a row come out level
+     * because the numbers were chosen to — 727+12+27 = 766 = 371+24+371.
+     *
+     * The covers are the frame's own pictures, exported from those nodes at 2x
+     * so each file already carries the crop the designer gave it. That is why
+     * nothing here sets an object-position: at these ratios the picture fills
+     * its box exactly and there is nothing left to position.
      *
      * `image` is a file in public/images/projects/covers, not a project slug:
      * Hospitality and Fitness each show one project twice, from two different
-     * photographs, exactly as the file draws them.
+     * photographs, exactly as the frame draws them.
      *
      * Titles, categories, locations and areas come from the company's other
      * site (src/lib/projects.ts there), so they are the figures the business
@@ -243,63 +255,66 @@ return [
             [
                 'name' => 'Residential',
                 'rows' => [
+                    // 1429:99 — the tall picture beside a stacked pair.
                     ['columns' => [
-                        ['cols' => 7, 'tiles' => [
-                            ['image' => 'jumeirah-golf-estate-villas', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
+                        ['fr' => 992, 'tiles' => [
+                            ['image' => 'jumeirah-golf-estate-villas', 'ratio' => '992/727', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
                         ]],
-                        ['cols' => 5, 'tiles' => [
-                            ['image' => 'villa-pv39-tilal-al-ghaf', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
-                            ['image' => 'w-residence-palm-jumeirah', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
+                        ['fr' => 552, 'tiles' => [
+                            ['image' => 'villa-pv39-tilal-al-ghaf', 'ratio' => '552/332', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
+                            ['image' => 'w-residence-palm-jumeirah', 'ratio' => '552/332', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
                         ]],
                     ]],
+                    // 1429:116 — two even columns, a shorter picture than above.
                     ['columns' => [
-                        ['cols' => 6, 'tiles' => [
-                            ['image' => 'emirates-hills-villa', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'emirates-hills-villa', 'ratio' => '772/635', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
                         ]],
-                        ['cols' => 6, 'tiles' => [
-                            ['image' => 'jumeirah-island-villa', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'jumeirah-island-villa', 'ratio' => '772/635', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
                         ]],
                     ]],
                 ],
             ],
             [
+                // 1443:541 — the pair on the left this time, 620 against 924.
                 'name' => 'Commercial & Corporate',
                 'rows' => [
                     ['columns' => [
-                        ['cols' => 5, 'tiles' => [
-                            ['image' => 'i-rise-tower-office', 'title' => 'I-Rise Tower Office', 'category' => 'Office Fit-Out', 'location' => 'I-Rise Tower, Dubai', 'size' => '5,000+ Sq Ft', 'duration' => '4 Months'],
-                            ['image' => 'boulevard-plaza-office', 'title' => 'Boulevard Plaza Office', 'category' => 'Office Fit-Out', 'location' => 'Boulevard Plaza, Dubai', 'size' => '7,500+ Sq Ft', 'duration' => '3 Months'],
+                        ['fr' => 620, 'tiles' => [
+                            ['image' => 'i-rise-tower-office', 'ratio' => '620/332', 'title' => 'I-Rise Tower Office', 'category' => 'Office Fit-Out', 'location' => 'I-Rise Tower, Dubai', 'size' => '5,000+ Sq Ft', 'duration' => '4 Months'],
+                            ['image' => 'boulevard-plaza-office', 'ratio' => '620/332', 'title' => 'Boulevard Plaza Office', 'category' => 'Office Fit-Out', 'location' => 'Boulevard Plaza, Dubai', 'size' => '7,500+ Sq Ft', 'duration' => '3 Months'],
                         ]],
-                        ['cols' => 7, 'tiles' => [
-                            ['image' => 'wasl-properties-hq', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
+                        ['fr' => 924, 'tiles' => [
+                            ['image' => 'wasl-properties-hq', 'ratio' => '924/727', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
                         ]],
                     ]],
                 ],
             ],
             [
-                // The frame sets this row narrow-then-wide rather than in
-                // halves, unlike Fitness & Spa below it, which is even.
+                // 1443:1104 — even, and the frame's squarest pictures at 772x727.
                 'name' => 'Hospitality, F&B',
                 'rows' => [
                     ['columns' => [
-                        ['cols' => 5, 'tiles' => [
-                            ['image' => 'benjarong-dusit-thani', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
-                        ['cols' => 7, 'tiles' => [
-                            ['image' => 'benjarong-dusit-thani-2', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'benjarong-dusit-thani-2', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
                     ]],
                 ],
             ],
             [
+                // 1443:1134 — the same row again, which is how the frame closes.
                 'name' => 'Fitness & Spa',
                 'rows' => [
                     ['columns' => [
-                        ['cols' => 6, 'tiles' => [
-                            ['image' => 'fidelity-gym-jlt', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
-                        ['cols' => 6, 'tiles' => [
-                            ['image' => 'fidelity-gym-jlt-2', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'fidelity-gym-jlt-2', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
                     ]],
                 ],

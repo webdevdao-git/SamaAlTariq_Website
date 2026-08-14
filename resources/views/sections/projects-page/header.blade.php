@@ -1,13 +1,13 @@
 @php($page = config('site.projects_page'))
 
 {{--
-    The page's masthead: the display heading on the gutter with the view
-    switch opposite it, closed by a hairline.
+    The page's masthead, from Figma frame 1402:2 ("Projects"). Every figure
+    here is read off that frame at its 1728 width and expressed as a fraction
+    of it, so the proportions hold as the page narrows.
 
     There is no photographic hero here. The projects are the page, and putting
     a picture above them would make the visitor scroll past one project to
-    reach the rest — so the type carries the top on its own, set in the same
-    editorial tier the landing page uses for OUR PROCESS and FEATURED PROJECTS.
+    reach the rest — so the type carries the top on its own.
 
     The switch is two radio inputs rather than buttons: it is a choice between
     two exclusive states, which is what radios are, and it means the keyboard
@@ -21,59 +21,53 @@
 <x-site-header tone="dark"/>
 
 {{--
-    The masthead's vertical rhythm, measured between ink rather than between
-    boxes — type carries leading above and below it, so a box figure says
-    nothing about the gap a reader sees.
-
-    The frame sets one step and repeats it, all three measured at 1728:
-
-        lock-up ends 152
-        .. 68 ..           to the cap of SELECTED
-        heading block      the switch sits on its last baseline
-        .. 66 ..           to the rule
-        rule
-        .. 62 ..           to the first group heading (in groups.blade.php)
-
-    Padding is therefore 214 and 58 here, and 52 on the group section: each is
-    its gap less the leading the box carries — 6 above a cap at this size, 8
-    below a baseline, 9 above the group heading's.
-
-    These were 234, 80 and 100, invented on the site's own scale rather than
-    read off the frame, and the error compounded down the page: 88, 88, then
-    110, so the masthead opened loose and grew looser, which is what made the
-    top of the page read as unpolished.
+    Frame 1443:970. The heading block starts at 247 — the header lock-up ends
+    at 167 and the frame's outer stack sets 80 between blocks — and the block
+    is 202 tall, being two lines of 108/101.1. The rule that closes it belongs
+    to the group below rather than to this header, which is how the frame
+    draws it: every group opens with its own line.
 --}}
-{{-- The floor stays at 7rem. Below ~905 the lock-up has already hit the floors
-     of its own clamps and stops shrinking, so a padding that kept falling with
-     the viewport would close on it. --}}
-<header class="bg-white pt-[clamp(7rem,12.38vw,214px)]">
-    <div class="shell">
-        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] pb-[clamp(1.5rem,3.36vw,58px)] md:flex-row md:items-end md:justify-between">
-            <h1 class="editorial-heading text-fluid-section uppercase text-ink">
+<header class="bg-white pt-[clamp(7rem,14.294vw,247px)] pb-[clamp(2.5rem,4.63vw,80px)]">
+    {{-- 79 left and 81 right, which is what the frame actually draws: its
+             padding is 79 either side but its content children are fixed at
+             1568, so the two spare pixels fall on the right. Matching the
+             padding alone would make every column and every picture a pixel
+             larger than the frame's. Scoped to this page — the About frame
+             gutters at 80, which is what the global shell carries. --}}
+        <div class="shell pl-[clamp(1.25rem,4.572vw,79px)] pr-[clamp(1.25rem,4.688vw,81px)]">
+        {{--
+            Three items on one row, spread. The frame sets 456 between each,
+            which is exactly what is left over — 1568 less the heading's 534,
+            Gallery's 79 and List's 41, halved — so space-between reproduces
+            it at 1728 and keeps reproducing it as the column narrows.
+
+            The switch takes display:contents so its two labels sit in this
+            row as siblings of the heading rather than as one block at the end.
+            Any other arrangement puts Gallery immediately after the heading
+            instead of two thirds across, which is where the frame has it.
+        --}}
+        <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
+            <h1 class="text-[clamp(2.75rem,6.25vw,108px)] font-display font-medium uppercase leading-[0.936] tracking-normal text-ink">
                 @foreach ($page['heading'] as $i => $line)
                     <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
                 @endforeach
             </h1>
 
-            <div class="reveal flex shrink-0 items-center gap-[clamp(1.25rem,2.31vw,40px)]"
-                 style="transition-delay:220ms" role="radiogroup" aria-label="How projects are shown">
+            <div class="flex items-center gap-[clamp(1.25rem,2.31vw,40px)] md:contents" role="radiogroup" aria-label="How projects are shown">
                 @foreach ($page['views'] as $value => $label)
-                    <label class="cursor-pointer">
+                    <label class="reveal cursor-pointer self-end" style="transition-delay:220ms">
                         <input type="radio" name="project-view" value="{{ $value }}" class="peer sr-only"
                                @checked($loop->first)>
-                        {{-- The checked one is ink, the other muted. Colour only:
-                             the two labels must not change width as they switch,
-                             or the row would shuffle under the pointer. --}}
-                        <span class="text-fluid-body font-medium text-ink-muted transition-colors duration-200 peer-checked:text-ink peer-focus-visible:underline peer-focus-visible:underline-offset-4">
+                        {{-- The checked one is ink, the other the frame's same
+                             ink at 60%. Colour only: the two labels must not
+                             change width as they switch, or the row would
+                             shuffle under the pointer. --}}
+                        <span class="text-[clamp(1rem,1.389vw,24px)] font-medium leading-[1.375] text-ink-muted transition-colors duration-200 peer-checked:text-ink peer-focus-visible:underline peer-focus-visible:underline-offset-4">
                             {{ $label }}
                         </span>
                     </label>
                 @endforeach
             </div>
         </div>
-
-        {{-- Draws left to right rather than fading — the reference sets its
-             rules to scaleX(0) and runs them out on an expo in-out. --}}
-        <span aria-hidden="true" class="reveal-line block h-px w-full bg-black/10"></span>
     </div>
 </header>

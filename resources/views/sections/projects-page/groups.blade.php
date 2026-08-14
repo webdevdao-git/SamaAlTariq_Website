@@ -9,133 +9,99 @@
      * separate little arrivals.
      */
     $tile = 0;
-
-    /*
-     * Literal class strings, never "lg:col-span-" . $n. Tailwind finds classes
-     * by scanning the source for them, so an interpolated name is never
-     * generated and the column silently falls back to full width.
-     */
-    $span = [
-        5 => 'lg:col-span-5',
-        6 => 'lg:col-span-6',
-        7 => 'lg:col-span-7',
-    ];
 @endphp
 
 {{--
-    The projects, group by group.
+    The projects, group by group, from Figma frame 1402:2.
 
-    COMPOSITION. Each group is a stack of rows, each row a set of columns on a
-    twelve-track grid, each column one tile or two stacked. The tiles in a row
-    share its height, which is what gives the design its rhythm — a tall
-    picture beside a pair, then two equal ones. A flat grid with row-spans
-    cannot express that: it leaves a hole wherever a group runs out of items,
-    which is exactly what the first attempt did under Commercial & Corporate.
+    COMPOSITION. Each group is a stack of rows, each row a set of columns, each
+    column one tile or two stacked. The column widths come from the frame as
+    fractions — 992fr 552fr, 772fr 772fr, 620fr 924fr — and go straight into
+    grid-template-columns, so a row keeps the frame's split at every width. The
+    twelve-track spans this replaces could not express them: 992 of 1568 is
+    7.59 tracks, so 7/5 was always going to miss by 87px.
 
-    The height comes from the tallest column and the pictures fill it, so the
-    two halves of a row always align at top and bottom however differently
-    their photographs are proportioned.
+    HEIGHTS come from each picture's own box in the frame and nothing else.
+    There is no shared height and no shared ratio: 992x727 beside 552x332
+    stacked, then 772x635, then 620x332 beside 924x727, then 772x727 twice. The
+    columns of a row still land level because the frame's numbers do —
+    727+12+27 = 766 = 371+24+371 — and because everything but the caption is
+    proportional to the column, that stays true as the page narrows.
+
+    Each group opens with its own hairline, as the frame draws it: LINE 7 at
+    the top of 1443:534, 1443:536, 1443:1099 and 1443:1130. 0.5px of #171717,
+    rendered as 1px at half strength so it survives a 1x screen.
+
+    NO DRIFT ON THESE PICTURES. The parallax needs an oversized image to slide
+    within its frame, and an oversized image is a re-crop: the covers are the
+    frame's own exports and already carry the designer's crop exactly, so any
+    slack would throw part of it away. The reveal and the hover push stay —
+    neither changes the resting crop.
 
     BOTH VIEWS ARE RENDERED and [data-project-view] decides which is shown, the
-    same arrangement the reference uses — its list items sit in the DOM beside
-    its gallery items. Switching is then a repaint rather than a fetch, and the
-    covers are the same files either way so the browser holds one copy.
-
-    MOTION. Per-tile, not per-group: each picture fades and settles on its own
-    short delay so a row assembles rather than appearing whole, which is the
-    reference's `js-t-fade-in-project` behaviour. Delays restart per row so a
-    long group never builds up a laggard tail.
+    same arrangement the reference uses. Switching is then a repaint rather
+    than a fetch, and the covers are the same files either way so the browser
+    holds one copy.
 --}}
 <div data-project-view="gallery">
     @foreach ($page['groups'] as $group)
-        {{-- 52, which is the frame's 62 between the rule and this heading's cap
-             less the 9 of leading the heading's own box carries above it. The
-             masthead's two gaps are set the same way; see header.blade.php. --}}
-        <section class="bg-white pt-[clamp(2rem,3.01vw,52px)] pb-[clamp(1.5rem,2.31vw,40px)]">
-            <div class="shell">
-                <h2 class="reveal text-fluid-label font-medium text-ink">{{ $group['name'] }}</h2>
+        {{-- 80 to the next group's line, which is the frame's outer stack. --}}
+        <section class="bg-white pb-[clamp(2.5rem,4.63vw,80px)]">
+            {{-- 79 left and 81 right, which is what the frame actually draws: its
+             padding is 79 either side but its content children are fixed at
+             1568, so the two spare pixels fall on the right. Matching the
+             padding alone would make every column and every picture a pixel
+             larger than the frame's. Scoped to this page — the About frame
+             gutters at 80, which is what the global shell carries. --}}
+        <div class="shell pl-[clamp(1.25rem,4.572vw,79px)] pr-[clamp(1.25rem,4.688vw,81px)]">
+                {{-- Draws left to right rather than fading — the reference sets
+                     its rules to scaleX(0) and runs them out on an expo.
 
-                {{-- Gallery --}}
-                <div class="project-gallery mt-[clamp(1.5rem,2.31vw,40px)] flex flex-col gap-[clamp(1rem,1.39vw,24px)]">
+                     -mb-px because a LINE in Figma has no height: the frame
+                     puts 40 between the line and the heading, and a 1px box
+                     would spend one of them, which is the drift that used to
+                     accumulate down the page. The line still paints. --}}
+                <span aria-hidden="true" class="reveal-line -mb-px block h-px w-full bg-ink/50"></span>
+
+                {{-- 40 from the line, 32/44 Manrope Medium, then 40 to the grid.
+                     1.375 rather than the frame's 1.366: it is the leading that
+                     lands the box on the frame's own 44. --}}
+                <h2 class="reveal mt-[clamp(1.25rem,2.315vw,40px)] text-[clamp(1.25rem,1.852vw,32px)] font-medium leading-[1.375] text-ink">
+                    {{ $group['name'] }}
+                </h2>
+
+                <div class="project-gallery mt-[clamp(1.25rem,2.315vw,40px)] flex flex-col gap-[clamp(1rem,1.389vw,24px)]">
                     @foreach ($group['rows'] as $row)
-                        @php($hasStack = collect($row['columns'])->contains(fn ($c) => count($c['tiles']) > 1))
-                        <div class="grid gap-[clamp(1rem,1.39vw,24px)] lg:grid-cols-12 lg:items-stretch">
+                        {{-- The fractions are the frame's own column widths. One
+                             column below lg: at phone width a 620/924 split
+                             leaves the narrow picture too small to read. --}}
+                        <div class="grid gap-[clamp(1rem,1.389vw,24px)] lg:grid-cols-[var(--cols)]"
+                             style="--cols:{{ collect($row['columns'])->map(fn ($c) => $c['fr'] . 'fr')->implode(' ') }}">
                             @foreach ($row['columns'] as $column)
-                                <div class="flex flex-col gap-[clamp(1rem,1.39vw,24px)] {{ $span[$column['cols']] }}">
+                                <div class="flex flex-col gap-[clamp(1rem,1.389vw,24px)]">
                                     @foreach ($column['tiles'] as $item)
                                         @php($delay = $tile++ * 40)
-                                        <figure class="reveal-rise group flex flex-1 flex-col"
+                                        <figure class="reveal-rise group flex flex-col"
                                                 style="transition-delay:{{ $delay }}ms">
-                                            {{--
-                                                One height for every single tile on the page, so a
-                                                category never sits at a different scale from the one
-                                                above it. It is a height and not an aspect ratio on
-                                                purpose: the columns are 5, 6 and 7 tracks wide, so a
-                                                shared ratio would give three different heights, and a
-                                                shared height is what reads as one grid.
-
-                                                A tile that stands alone in its column takes the unit.
-                                                A tile that stands beside a stacked pair fills the
-                                                column instead — two units, their gap, and the caption
-                                                between them — which is what lands its foot on the same
-                                                line as the pair's lower picture, as the frame draws it.
-
-                                                THE UNIT IS 440 AT 1728, not 300. At 300 a six-track
-                                                tile was 772x300 — 2.57:1 — and the photographs are
-                                                1.78:1 and flatter, so every picture was cover-cropped
-                                                to a band and the Fitness gym and spa read as slices of
-                                                a room rather than the room. 440 puts a six-track tile
-                                                at 1.75:1, which is the gym photograph's own proportion,
-                                                so the widest pictures on the page are now shown whole
-                                                and the squarer ones lose far less.
-
-                                                It also closes the gap against the frame: the page was
-                                                measured at 1728:5596 (3.24) against the frame's 3.95,
-                                                i.e. ~1230px short, and the seven picture units on the
-                                                page carry almost exactly that between them.
-                                            --}}
-                                            <div class="relative w-full overflow-hidden {{ count($column['tiles']) > 1 ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3] lg:aspect-auto' }} {{ count($row['columns']) > 1 && count($column['tiles']) === 1 && $hasStack ? 'flex-1' : '' }} lg:h-[clamp(260px,25.46vw,440px)] {{ $hasStack && count($column['tiles']) === 1 ? 'lg:h-auto' : '' }}">
-                                                {{-- The hover push sits on this wrapper, not on the
-                                                     picture. .reveal-media already owns the picture's
-                                                     transform and transition, and a `transition-transform`
-                                                     utility beside it would replace that shorthand and
-                                                     take the settle-in with it. Two elements, one
-                                                     transform each. --}}
-                                                {{--
-                                                    Three layers, one transform each, because two of them
-                                                    would otherwise fight over the same property:
-
-                                                    · the drift layer is 108% of the frame and hung at
-                                                      -4%. Because the slack is in the markup the drift
-                                                      is a plain translate and nothing is enlarged —
-                                                      hand the picture the frame's own size instead and
-                                                      it has to buy the headroom by scaling, which
-                                                      re-crops every photograph on the page. The slack
-                                                      is 8% and not the reference's 20% because slack is
-                                                      crop: the picture is composed for a box that much
-                                                      taller than the frame and the frame only ever
-                                                      shows the middle of it. At 20% a fifth of every
-                                                      photograph was spent on a ±40px drift; 8% still
-                                                      reads as movement and gives the other 12% back to
-                                                      the picture;
-                                                    · the hover layer takes the push, so the pointer and
-                                                      the scroll never write to the same element;
-                                                    · the picture just fills.
-                                                --}}
-                                                <div data-drift="0.04" class="absolute inset-x-0 -top-[4%] h-[108%]">
-                                                    <div class="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                                                        <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
-                                                             alt="{{ $item['title'] }} — {{ $item['location'] }}"
-                                                             loading="lazy" decoding="async"
-                                                             class="h-full w-full object-cover">
-                                                    </div>
-                                                </div>
+                                            {{-- The picture's box in the frame. The
+                                                 export is that box at 2x, so cover
+                                                 has nothing to crop and there is no
+                                                 object-position to set. --}}
+                                            <div class="relative w-full overflow-hidden" style="aspect-ratio:{{ $item['ratio'] }}">
+                                                <img src="{{ asset('images/projects/covers/' . $item['image'] . '.webp') }}"
+                                                     alt="{{ $item['title'] }} — {{ $item['location'] }}"
+                                                     loading="lazy" decoding="async"
+                                                     class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]">
                                             </div>
 
-                                            {{-- Title left, category right, on one baseline. --}}
-                                            <figcaption class="mt-[clamp(0.5rem,0.7vw,12px)] flex items-baseline justify-between gap-4">
-                                                <span class="text-fluid-sm font-medium text-ink">{{ $item['title'] }}</span>
-                                                <span class="shrink-0 text-fluid-sm text-ink-muted">{{ $item['category'] }}</span>
+                                            {{-- 12 below the picture; title left, category
+                                                 right on one baseline, both 20/27
+                                                 Manrope SemiBold, the category at 60%.
+                                                 1.35 is the leading that lands the
+                                                 caption box on the frame's 27. --}}
+                                            <figcaption class="mt-[clamp(0.5rem,0.694vw,12px)] flex items-baseline justify-between gap-[clamp(0.5rem,0.347vw,6px)]">
+                                                <span class="text-[clamp(0.875rem,1.157vw,20px)] font-semibold leading-[1.35] text-ink">{{ $item['title'] }}</span>
+                                                <span class="shrink-0 text-[clamp(0.875rem,1.157vw,20px)] font-semibold leading-[1.35] text-ink-muted">{{ $item['category'] }}</span>
                                             </figcaption>
                                         </figure>
                                     @endforeach
@@ -148,7 +114,7 @@
                 {{-- List. Not a <table>: nothing here is compared cell against
                      cell, it is a list of projects that each carry four facts,
                      so the facts sit in a definition list per row. --}}
-                <ul class="project-list mt-[clamp(1rem,1.39vw,24px)]">
+                <ul class="project-list mt-[clamp(1rem,1.389vw,24px)]">
                     @foreach ($group['rows'] as $row)
                         @foreach ($row['columns'] as $column)
                             @foreach ($column['tiles'] as $item)
