@@ -10,13 +10,29 @@
 
     Below lg the frame's 1.55:1 would leave a 250px band on a phone, so the
     picture takes the viewport there and the proportion resumes at lg.
---}}
-<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-night lg:aspect-[1728/1117] lg:min-h-0">
 
-    <img src="{{ asset('images/projects/' . $slug . '/hero.webp') }}"
-         alt="{{ $project['title'] }} — {{ $project['location'] }}"
-         fetchpriority="high" decoding="async"
-         class="absolute inset-0 -z-10 h-full w-full object-cover">
+    THE PICTURE CYCLES, which is the reference's hero behaviour and the only
+    thing taken from it here — the frame's box, title, hairline and scrim are
+    untouched, and a visitor who never waits sees exactly what the frame draws.
+    Four photographs: the one the projects page shows, then three more from the
+    same shoot. motion/project-hero.js crosses them, and with the script absent
+    or reduced motion asked for, the first simply stays.
+--}}
+<section id="top" data-hero-slides
+         class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-night lg:aspect-[1728/1117] lg:min-h-0">
+
+    @foreach ($slides as $i => $slide)
+        <img data-hero-slide src="{{ asset('images/projects/' . $slug . '/' . $slide) }}"
+             @if ($i === 0)
+                 alt="{{ $project['title'] }} — {{ $project['location'] }}"
+                 fetchpriority="high"
+             @else
+                 alt="" aria-hidden="true" loading="lazy"
+             @endif
+             decoding="async"
+             class="absolute inset-0 -z-10 h-full w-full object-cover"
+             style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '0.8' }})">
+    @endforeach
 
     {{-- The frame's own scrim: one linear gradient, black at the foot to a
          transparent grey that runs out past the top of the picture, the whole

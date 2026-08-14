@@ -9,7 +9,7 @@
     same enquiry card and footer every page on this site closes with.
 --}}
 @section('content')
-    @include('sections.project-page.hero', ['slug' => $slug, 'project' => $project])
+    @include('sections.project-page.hero', ['slug' => $slug, 'project' => $project, 'slides' => $slides])
 
     <main>
         @include('sections.project-page.intro', ['slug' => $slug, 'page' => $page])

@@ -54,6 +54,16 @@ class PageController extends Controller
         return view('project', [
             'slug' => $slug,
             'page' => $page,
+            // The hero cycles: the projects page's own picture first, then the
+            // extra frames cut from that project's shoot. Read off disk rather
+            // than counted in config, so a project that gains or loses a
+            // photograph needs no second edit.
+            'slides' => collect(['hero.webp'])
+                ->concat(collect(glob(public_path("images/projects/$slug/hero-*.webp")))
+                    ->map(fn (string $f) => basename($f))
+                    ->sort()
+                    ->values())
+                ->all(),
             'project' => $page['facts'] ?? $facts[$slug] ?? abort(404),
             'related' => collect($page['related'])
                 ->map(fn (string $s) => isset($facts[$s]) ? $facts[$s] + ['slug' => $s] : null)

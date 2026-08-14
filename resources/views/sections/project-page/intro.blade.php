@@ -12,6 +12,13 @@
 
     A project with fewer photographs draws fewer tiles rather than repeating
     one: two of the shoots came in with four pictures rather than ten.
+
+    EACH TILE OPENS FULL SCREEN, which is the reference's gallery behaviour and
+    all that is taken from it — the grid itself is untouched, and the overlay
+    only exists once something is clicked. The tiles are anchors to the large
+    file, so the behaviour degrades to opening the photograph on its own rather
+    than to nothing; motion/lightbox.js intercepts the click and keeps the set
+    navigable from where the visitor is.
 --}}
 <section class="bg-white py-[clamp(2.5rem,4.63vw,80px)]">
     <div class="shell">
@@ -22,14 +29,18 @@
                 {{ $page['lead'] }}
             </p>
 
-            <div class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
+            <div data-lightbox class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
                 @for ($i = 1; $i <= $page['tiles']; $i++)
-                    <div class="reveal-rise relative aspect-[270/240] w-full overflow-hidden"
-                         style="transition-delay:{{ ($i - 1) * 40 }}ms">
+                    <a data-lightbox-item
+                       href="{{ asset('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                       data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
+                       aria-label="Open photograph {{ $i }} of {{ $page['tiles'] }}"
+                       class="reveal-rise relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                       style="transition-delay:{{ ($i - 1) * 40 }}ms">
                         <img src="{{ asset('images/projects/' . $slug . '/g' . $i . '.webp') }}"
                              alt="" loading="lazy" decoding="async"
                              class="h-full w-full object-cover">
-                    </div>
+                    </a>
                 @endfor
             </div>
         </div>

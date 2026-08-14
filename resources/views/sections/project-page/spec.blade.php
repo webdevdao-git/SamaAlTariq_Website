@@ -41,10 +41,20 @@
                          laid over the value column's width. -mb-px for the same
                          reason the projects page carries it — a LINE in Figma
                          has no height, and a 1px box would push every row below
-                         it down by one. --}}
-                    <div class="relative -mb-px mt-[clamp(1rem,1.389vw,24px)] h-px w-full bg-black/[0.24]">
+                         it down by one.
+
+                         Both draw in from the left as the row arrives, which is
+                         the reference's behaviour for this table: it holds its
+                         two lines translated fully off and runs them in on
+                         scroll. Same lines, same weights, same colours — they
+                         arrive rather than being there. --}}
+                    <div class="relative -mb-px mt-[clamp(1rem,1.389vw,24px)] h-px w-full">
                         <span aria-hidden="true"
-                              class="absolute inset-y-0 right-0 hidden bg-black lg:block lg:w-[62.6%]"></span>
+                              class="reveal-line absolute inset-0 block bg-black/[0.24]"
+                              style="transition-delay:{{ $loop->index * 90 }}ms"></span>
+                        <span aria-hidden="true"
+                              class="reveal-line absolute inset-y-0 right-0 hidden bg-black lg:block lg:w-[62.6%]"
+                              style="transition-delay:{{ 120 + $loop->index * 90 }}ms"></span>
                     </div>
                 </div>
             @endforeach
