@@ -42,6 +42,17 @@
                              class="h-full w-full object-cover">
                     </a>
                 @endfor
+
+                {{-- The photographs past the frame's nine. Hidden, so the grid
+                     is exactly what the frame draws, but present, so the
+                     lightbox steps through the whole shoot rather than
+                     stopping at the ninth. --}}
+                @for ($i = $page['tiles'] + 1; $i <= $photographs; $i++)
+                    <a data-lightbox-item class="hidden"
+                       href="{{ asset('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                       data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
+                       tabindex="-1" aria-hidden="true">Photograph {{ $i }}</a>
+                @endfor
             </div>
         </div>
     </div>

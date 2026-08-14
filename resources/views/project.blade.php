@@ -12,7 +12,7 @@
     @include('sections.project-page.hero', ['slug' => $slug, 'project' => $project, 'slides' => $slides])
 
     <main>
-        @include('sections.project-page.intro', ['slug' => $slug, 'page' => $page])
+        @include('sections.project-page.intro', ['slug' => $slug, 'page' => $page, 'photographs' => $photographs])
         @include('sections.project-page.spec', ['project' => $project, 'page' => $page])
         @include('sections.project-page.related', ['related' => $related])
         @include('sections.inquiry')

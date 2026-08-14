@@ -64,6 +64,9 @@ class PageController extends Controller
                     ->sort()
                     ->values())
                 ->all(),
+            // Every photograph the project has, counted off disk. The grid
+            // draws the frame's nine; the rest are reachable once one is open.
+            'photographs' => count(glob(public_path("images/projects/$slug/l*.webp"))),
             'project' => $page['facts'] ?? $facts[$slug] ?? abort(404),
             'related' => collect($page['related'])
                 ->map(fn (string $s) => isset($facts[$s]) ? $facts[$s] + ['slug' => $s] : null)
