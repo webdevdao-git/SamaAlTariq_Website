@@ -19,6 +19,16 @@
     163 of margin, the number's 40, 80, the picture's 600, 80, the text's 602
     and 163 of margin — 1728. Written out rather than as columns and a gap,
     because the number is not on the gutter and the text does not reach it.
+
+    THE PICTURES DRIFT, which is the reference's own services listing: there a
+    1512-tall photograph sits in a 1080 frame and travels about 350 as the row
+    passes, so the pictures move at a different rate from the page and the
+    column of them never reads as a stack of stills.
+
+    The slack is in the markup rather than bought with a scale — the layer is
+    140% of the frame and hung at -20%, which is the arrangement
+    motion/parallax.js measures and translates within. Nothing is enlarged, so
+    the crop stays the frame's own.
 --}}
 @foreach ($services as $service)
     <section class="bg-[#F9F9F9]">
@@ -34,8 +44,10 @@
             <div aria-hidden="true" class="hidden lg:block"></div>
 
             <div class="reveal-rise relative w-full overflow-hidden" style="aspect-ratio:600/640">
-                <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
-                     class="h-full w-full object-cover">
+                <div data-drift class="absolute inset-x-0 -top-[20%] h-[140%]">
+                    <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
+                         class="h-full w-full object-cover">
+                </div>
             </div>
 
             <div aria-hidden="true" class="hidden lg:block"></div>
