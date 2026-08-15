@@ -35,6 +35,15 @@ class PageController extends Controller
     }
 
     /**
+     * The Our Process page. Config-driven like the other marketing pages, so
+     * it too only reaches MySQL when the enquiry form is submitted.
+     */
+    public function process(): View
+    {
+        return view('process');
+    }
+
+    /**
      * One project, from Figma frame 1472:1339.
      *
      * The facts a project page quotes — title, category, location, area,

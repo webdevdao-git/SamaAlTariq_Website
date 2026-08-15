@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/process', [PageController::class, 'process'])->name('process');
 Route::get('/projects', [PageController::class, 'projects'])->name('projects');
 
 // The slug is a key in config/site.php's project_pages, not a database id —

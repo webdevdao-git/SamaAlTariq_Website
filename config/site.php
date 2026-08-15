@@ -21,12 +21,12 @@ return [
 
     'nav' => [
         ['label' => 'Home', 'href' => '#top'],
-        // The one entry that is a page rather than a section of the landing
-        // page. App\Support\Nav leaves non-fragment hrefs alone.
+        // The entries that are pages rather than sections of the landing page.
+        // App\Support\Nav leaves non-fragment hrefs alone.
         ['label' => 'About', 'href' => '/about'],
         ['label' => 'Projects', 'href' => '/projects'],
         ['label' => 'Services', 'href' => '#services'],
-        ['label' => 'Process', 'href' => '#process'],
+        ['label' => 'Process', 'href' => '/process'],
         ['label' => 'Contact', 'href' => '#contact'],
     ],
 
@@ -483,6 +483,101 @@ return [
             'tiles' => 9,
             'related' => ['benjarong-dusit-thani', 'wasl-properties-hq', 'boulevard-plaza-office', 'jumeirah-golf-estate-villas'],
         ],
+    ],
+
+    /*
+     * The Our Process page, from Figma frame 1508:2 ("Our Process",
+     * 1728x9052). Copy is the frame's own, verbatim.
+     *
+     * The page runs: a photographic hero with the heading split across the
+     * gutters; four numbered steps against a hairline each; then each of those
+     * steps again as a phase — a picture beside a title and lead, followed by
+     * four points across the width; and a closing word over a photograph.
+     *
+     * PICTURES. The hero and the closing photograph are the frame's own. The
+     * four phase pictures and the four step thumbnails are not: the frame
+     * repeats one placeholder in all four of each, which on a live page reads
+     * as a mistake rather than a design. They are four different projects
+     * instead, from the photographs behind the projects page's own tiles.
+     */
+    'process_page' => [
+        'hero' => [
+            'label' => 'How We Work',
+            'body' => 'A structured, end-to-end delivery process built on precision, coordination, and accountability — from concept to handover, under a single project lead.',
+            'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
+            // Split across the two gutters, 108 Juana Alt, as the frame sets it.
+            'heading' => ['Our', 'Process'],
+            'image' => 'images/process/hero.webp',
+        ],
+
+        'steps' => [
+            ['number' => '01', 'title' => 'Tender And Cost Estimation', 'image' => 'images/process/step-1.webp',
+             'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.'],
+            ['number' => '02', 'title' => 'Design And Engineering', 'image' => 'images/process/step-2.webp',
+             'body' => 'Detailed drawings, material selection, and value engineering that turn an approved budget into a buildable scheme.'],
+            ['number' => '03', 'title' => 'Construction And Fit-Out', 'image' => 'images/process/step-3.webp',
+             'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.'],
+            ['number' => '04', 'title' => 'Handover And Aftercare', 'image' => 'images/process/step-4.webp',
+             'body' => 'Snagging, testing and commissioning, full documentation, and a maintenance period that protects the finished asset.'],
+        ],
+
+        /*
+         * `title` is broken where the frame breaks it — the first is two lines
+         * by a hard return in the file, the rest wrap in their 653 measure.
+         */
+        'phases' => [
+            [
+                'label' => 'Phase 01',
+                'title' => ['Tender And', 'Cost Estimation'],
+                'lead' => 'A structured start built on accuracy, clarity and confidence from the first step.',
+                'image' => 'images/process/phase-1.webp',
+                'items' => [
+                    ['title' => 'Accurate Review', 'body' => 'We review RFQs, drawings and specifications in detail to understand the complete scope and requirements.'],
+                    ['title' => 'Site Visit & Survey', 'body' => 'Thorough site assessment to identify risks, constraints and opportunities for successful delivery.'],
+                    ['title' => 'Price Every Item', 'body' => 'Detailed BOQ analysis with transparent pricing for every item and clear cost breakdown.'],
+                    ['title' => 'Submit With Confidence', 'body' => 'Comprehensive and professional submission that builds trust and improves your win rate.'],
+                ],
+            ],
+            [
+                'label' => 'Phase 02',
+                'title' => ['Engineering AND Pre-Construction'],
+                'lead' => 'The foundation for delivery, set through careful planning and procurement.',
+                'image' => 'images/process/phase-2.webp',
+                'items' => [
+                    ['title' => 'Plan With Precision', 'body' => 'We develop detailed plans and strategies to ensure a smooth project journey.'],
+                    ['title' => 'Coordinate & Validate', 'body' => 'Shop drawings, coordination and approvals to eliminate conflicts early.'],
+                    ['title' => 'Procure Smart', 'body' => 'Right materials, right time. Quality suppliers and best value procurement.'],
+                    ['title' => 'Mobilise For Success', 'body' => 'Efficient site setup and mobilisation to start strong and stay ahead.'],
+                ],
+            ],
+            [
+                'label' => 'Phase 03',
+                'title' => ['Construction AND Execution'],
+                'lead' => 'Disciplined site delivery where engineering becomes a finished, functioning space.',
+                'image' => 'images/process/phase-3.webp',
+                'items' => [
+                    ['title' => 'Build With Discipline', 'body' => 'Civil and structural works executed to drawing, with setting-out and quality checks at every stage.'],
+                    ['title' => 'Install The Systems', 'body' => 'HVAC, electrical and plumbing installed and cleanly coordinated with the finishes.'],
+                    ['title' => 'Finish To Perfection', 'body' => 'Flooring, ceilings, joinery and decorative finishes delivered to specification.'],
+                    ['title' => 'Control The Quality', 'body' => 'Weekly progress, inspection sign-offs and strict HSE keep delivery on track.'],
+                ],
+            ],
+            [
+                'label' => 'Phase 04',
+                'title' => ['Handover AND Defects Liability'],
+                'lead' => 'Final inspections, defect resolution and clean handover with full documentation and warranties.',
+                'image' => 'images/process/phase-4.webp',
+                'items' => [
+                    ['title' => 'Snag & De-Snag', 'body' => 'Internal snag walks and joint inspections close every punch-list item before sign-off.'],
+                    ['title' => 'Test & Commission', 'body' => 'System testing, functional checks and authority approvals confirm performance.'],
+                    ['title' => 'As-Builts & O&M', 'body' => 'As-built drawings, O&M manuals and material warranties handed over in full.'],
+                    ['title' => 'Handover & DLP Support', 'body' => 'Taking-over certificate, defects rectification and ongoing support through the DLP.'],
+                ],
+            ],
+        ],
+
+        // 128 Juana Alt SemiBold over the photograph, as the frame closes.
+        'consultation' => ['word' => 'Consultation', 'image' => 'images/process/consultation.webp'],
     ],
 
     'clients' => [
