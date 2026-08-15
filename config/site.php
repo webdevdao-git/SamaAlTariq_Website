@@ -98,10 +98,21 @@ return [
          * sentence-case headline on the gutter with a bracketed page tag
          * opposite it, then a band carrying a line of copy and three figures.
          */
+        /*
+         * The hero, rearranged to the frame's newer treatment: the same
+         * material as before in a different order. What was a headline
+         * sentence with a [ tag ] beside it is now a row — the label, that
+         * sentence as a paragraph, and the link out — over the page's own word
+         * set large on the gutter, with the figures beside it.
+         *
+         * `body` is the old heading and lead run together, verbatim, so no
+         * copy was lost in the move.
+         */
         'hero' => [
-            'heading' => ['We Build the Foundations', 'of What Comes Next.'],
-            'tag' => 'About Us',
-            'lead' => ['Construction Shaped By Expertise,', 'Intention, And Enduring Quality.'],
+            'label' => 'Why We Are',
+            'body' => 'We Build the Foundations of What Comes Next. Construction Shaped By Expertise, Intention, And Enduring Quality.',
+            'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
+            'word' => 'About Us',
             'stats' => [
                 ['value' => '95%', 'label' => 'On-time handovers'],
                 ['value' => '03+', 'label' => 'Years of Expertise'],

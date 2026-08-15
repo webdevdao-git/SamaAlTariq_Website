@@ -59,44 +59,47 @@
 
     <x-site-header :login="false"/>
 
-    <div class="relative z-10 mt-auto text-white">
+    <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">
+        <div class="shell">
 
-        {{-- Headline and page tag. items-end puts the tag on the baseline
-             of the headline's last line, which is where the design has it,
-             rather than level with its top. --}}
-        <div class="shell flex flex-col gap-4 pb-[clamp(1.5rem,2.31vw,40px)] sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-            <h1 class="display max-w-[900px] text-[clamp(2rem,3.7vw,64px)] leading-[1.15]">
-                @foreach ($hero['heading'] as $i => $line)
-                    <span data-split data-split-by="word" data-split-delay="{{ $i * 260 }}"
-                          class="block">{{ $line }}</span>
-                @endforeach
-            </h1>
+            {{--
+                The same arrangement the process page's hero carries, which is
+                where this one's figures come from: that frame was measured at
+                1728 and this is the same 1117 hero with the same parts. A rule,
+                26 down to a row of label, summary and the link out, then 280 to
+                the page's word on the gutter.
+            --}}
+            <span aria-hidden="true" class="reveal-line block h-px w-full bg-white/50"></span>
 
-            <p class="reveal shrink-0 text-fluid-sm font-medium whitespace-nowrap" style="transition-delay:620ms">[&nbsp;{{ $hero['tag'] }}&nbsp;]</p>
-        </div>
+            <div class="mt-[clamp(1rem,1.505vw,26px)] flex flex-col gap-[clamp(1rem,2.31vw,40px)] lg:flex-row lg:items-start lg:justify-between">
+                <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35]">{{ $hero['label'] }}</p>
 
-        {{-- The foot band, 192 tall: its hairline is at frame y 925 and
-             the frame is 1117. No fill of its own — the hero gradient above
-             already carries the darkening the design has down here. --}}
-        <div class="border-t border-white/20 pt-[clamp(1rem,2.55vw,44px)] pb-[clamp(1rem,1.68vw,29px)]">
-            <div class="shell flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] lg:flex-row lg:items-start lg:justify-between">
+                <p class="reveal max-w-[670px] text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375]"
+                   style="transition-delay:120ms">{{ $hero['body'] }}</p>
 
-                <p class="reveal text-fluid-lead font-semibold leading-[1.375]">
-                    @foreach ($hero['lead'] as $line)
-                        <span class="block">{{ $line }}</span>
-                    @endforeach
-                </p>
+                <a href="{{ \App\Support\Nav::href($hero['cta']['href']) }}"
+                   class="reveal group flex shrink-0 items-center gap-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70"
+                   style="transition-delay:220ms">
+                    {{ $hero['cta']['label'] }}
+                    <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
+                </a>
+            </div>
 
-                {{-- Figures end on the right gutter. Each divider belongs to
-                     the item that follows it, so the row can wrap without
-                     leaving a rule hanging at the end of a line. --}}
-                <dl class="flex flex-wrap items-start gap-[clamp(1.25rem,2.31vw,40px)]">
+            {{-- The word on the left gutter and the figures against the right
+                 one, sharing a baseline — which is what items-end gives, and
+                 what puts the figures level with the foot of the word rather
+                 than with its cap. --}}
+            <div class="mt-[clamp(2.5rem,16.2vw,280px)] flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] lg:flex-row lg:items-end lg:justify-between">
+                <h1 class="font-display text-[clamp(2.5rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal">
+                    <span data-split data-split-by="word">{{ $hero['word'] }}</span>
+                </h1>
+
+                {{-- Each divider belongs to the figure that follows it, so the
+                     row can wrap without leaving a rule hanging at the end of a
+                     line. --}}
+                <dl class="flex flex-wrap items-end gap-[clamp(1.25rem,2.31vw,40px)]">
                     @foreach ($hero['stats'] as $i => $stat)
-                        {{-- The reveal is on each figure, not on the row, so
-                             they count in from the left one at a time — the
-                             rule beside a figure belongs to it and arrives
-                             with it. --}}
-                        <div class="reveal flex items-start gap-[clamp(1.25rem,2.31vw,40px)]"
+                        <div class="reveal flex items-end gap-[clamp(1.25rem,2.31vw,40px)]"
                              style="transition-delay:{{ 140 + $i * 110 }}ms">
                             @if ($i > 0)
                                 <span aria-hidden="true" class="h-[52px] w-px bg-white/30"></span>
