@@ -9,6 +9,7 @@ import { initFitText } from './motion/fit-text';
 import { initProjectView } from './motion/project-view';
 import { initProjectHero } from './motion/project-hero';
 import { initLightbox } from './motion/lightbox';
+import { initGrowScene } from './motion/grow-scene';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -25,6 +26,7 @@ function boot() {
     initProjectView();
     initProjectHero();
     initLightbox();
+    initGrowScene();
 
     // Split before reveal: splitting rewrites the element's children, and doing
     // it after a reveal would restart the transition from the hidden state.
