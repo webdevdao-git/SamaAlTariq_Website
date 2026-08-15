@@ -28,7 +28,7 @@ export function initRevealScene() {
     for (const scene of scenes) {
         const window_ = scene.querySelector('[data-reveal-window]');
         const media = scene.querySelector('[data-reveal-media]');
-        const veil = scene.querySelector('[data-reveal-veil]');
+        const light = scene.querySelector('[data-reveal-title-light]');
         if (!window_ || !media) continue;
 
         const apply = (t) => {
@@ -39,12 +39,18 @@ export function initRevealScene() {
             media.style.transform = `scale(${(1 / x).toFixed(4)}, ${(1 / y).toFixed(4)})`;
 
             /*
-             * The drawing is white and so is the title over it, so the title
-             * has nothing to sit against until the photograph arrives. This
-             * veil covers the drawing only — it is under the window — and
-             * lifts as the picture takes over the frame.
+             * The title changes hands rather than sitting behind a veil, which
+             * is what the reference does: its own is dark on the drawing and
+             * the photograph opens underneath it. Ours sits low in the frame,
+             * so the window reaches it almost at once — the white copy is
+             * therefore brought up between a twelfth and a third of the way
+             * through, which is when the picture passes the type.
+             *
+             * Two copies cross-fading rather than one changing colour: this
+             * loop writes transforms and opacity, and recolouring 108px of
+             * display type would repaint it on every frame.
              */
-            if (veil) veil.style.opacity = (0.45 * (1 - t)).toFixed(3);
+            if (light) light.style.opacity = Math.max(0, Math.min(1, (t - 0.08) / 0.22)).toFixed(3);
         };
 
         // Opened, not closed: a visitor who has asked for less movement should

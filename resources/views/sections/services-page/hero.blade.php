@@ -27,10 +27,6 @@
              aria-hidden="true" fetchpriority="high" decoding="async"
              class="absolute inset-0 -z-20 h-full w-full object-cover">
 
-        {{-- Over the drawing and under the window: what the title reads
-             against before the photograph is there. --}}
-        <div data-reveal-veil aria-hidden="true" class="absolute inset-0 -z-20 bg-night" style="opacity:0.45"></div>
-
         {{-- The photograph, in a window that opens from the foot of the frame.
              The window scales and the picture inside it scales by the inverse,
              so the picture stands still while the window grows. --}}
@@ -46,13 +42,25 @@
 
         <x-site-header :login="false"/>
 
-        <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">
+        <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)]">
             <div class="shell">
-                <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal">
-                    {{-- 517 of 1728, which is where the frame sets the first line. --}}
-                    <span data-split data-split-by="word" class="block lg:ml-[29.9%]">{{ $hero['lines'][0] }}</span>
-                    <span data-split data-split-by="word" data-split-delay="160" class="block lg:-ml-[1.3%]">{{ $hero['lines'][1] }}</span>
-                </h1>
+                <div class="relative">
+                    <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-ink">
+                        {{-- 517 of 1728, which is where the frame sets the first line. --}}
+                        <span data-split data-split-by="word" class="block lg:ml-[29.9%]">{{ $hero['lines'][0] }}</span>
+                        <span data-split data-split-by="word" data-split-delay="160" class="block lg:-ml-[1.3%]">{{ $hero['lines'][1] }}</span>
+                    </h1>
+
+                    {{-- The same words in white, brought up as the photograph
+                         passes the type. Hidden from the reading order: there
+                         is one title on this page, not two. --}}
+                    <p data-reveal-title-light aria-hidden="true"
+                       class="pointer-events-none absolute inset-0 font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-white"
+                       style="opacity:0">
+                        <span class="block lg:ml-[29.9%]">{{ $hero['lines'][0] }}</span>
+                        <span class="block lg:-ml-[1.3%]">{{ $hero['lines'][1] }}</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
