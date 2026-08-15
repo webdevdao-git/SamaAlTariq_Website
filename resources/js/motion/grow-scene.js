@@ -29,6 +29,7 @@ export function initGrowScene() {
         const frame = scene.querySelector('[data-grow-frame]');
         const media = scene.querySelector('[data-grow-media]');
         const word = scene.querySelector('[data-grow-word]');
+        const copy = scene.querySelector('[data-grow-copy]');
         if (!frame) continue;
 
         /*
@@ -52,6 +53,17 @@ export function initGrowScene() {
             if (media) media.style.transform = `scale(${(1 + 0.1 * (1 - e)).toFixed(4)})`;
             // The word belongs to the resting state; it goes as the picture opens.
             if (word) word.style.opacity = String(Math.max(0, 1 - e * 2.2).toFixed(3));
+
+            /*
+             * And the invitation belongs to the opened one, so it arrives over
+             * the last third rather than crossfading with the word — at no
+             * point are both on the picture.
+             */
+            if (copy) {
+                const shown = Math.max(0, Math.min(1, (e - 0.62) / 0.3));
+                copy.style.opacity = shown.toFixed(3);
+                copy.style.transform = `translateY(${((1 - shown) * 24).toFixed(1)}px)`;
+            }
         };
 
         if (still) {

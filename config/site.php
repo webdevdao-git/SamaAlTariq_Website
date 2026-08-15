@@ -587,8 +587,20 @@ return [
             ],
         ],
 
-        // 128 Juana Alt SemiBold over the photograph, as the frame closes.
-        'consultation' => ['word' => 'Consultation', 'image' => 'images/process/consultation.webp'],
+        /*
+         * 128 Juana Alt SemiBold over the photograph, as the frame closes —
+         * and, once the picture has opened out to the screen, the invitation
+         * that stands on it.
+         */
+        'consultation' => [
+            'word' => 'Consultation',
+            'image' => 'images/process/consultation.webp',
+            'cta' => [
+                'lines' => ['Have a vision to build?', "We're here to help."],
+                'label' => "Let's Talk",
+                'href' => '#contact',
+            ],
+        ],
     ],
 
     'clients' => [
