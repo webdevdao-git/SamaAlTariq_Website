@@ -20,15 +20,20 @@
     and 163 of margin — 1728. Written out rather than as columns and a gap,
     because the number is not on the gutter and the text does not reach it.
 
-    THE PICTURES DRIFT, which is the reference's own services listing: there a
-    1512-tall photograph sits in a 1080 frame and travels about 350 as the row
-    passes, so the pictures move at a different rate from the page and the
-    column of them never reads as a stack of stills.
+    THE PICTURES MOVE ON TWO LAYERS, which is what the reference's listing
+    actually does — the first pass at this caught only one of them.
 
-    The slack is in the markup rather than bought with a scale — the layer is
-    140% of the frame and hung at -20%, which is the arrangement
-    motion/parallax.js measures and translates within. Nothing is enlarged, so
+    The frame that clips the photograph slides about 112 of its 1080 as the row
+    comes up, and the photograph inside it travels about 300 more. The frame's
+    own slide is why their pictures appear to pass one another at the seams:
+    the clipper is out of flow, so while it is displaced it hangs over the row
+    above or below. The photograph's slack is in the markup rather than bought
+    with a scale — 140% of the frame, hung at -20% — so nothing is enlarged and
     the crop stays the frame's own.
+
+    Both are the site's existing mechanisms: data-parallax translates an
+    element by its own pixel figure across the viewport, data-drift measures
+    the slack around a picture and travels within it.
 --}}
 @foreach ($services as $service)
     <section class="bg-[#F9F9F9]">
@@ -43,10 +48,15 @@
 
             <div aria-hidden="true" class="hidden lg:block"></div>
 
-            <div class="reveal-rise relative w-full overflow-hidden" style="aspect-ratio:600/640">
-                <div data-drift class="absolute inset-x-0 -top-[20%] h-[140%]">
-                    <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
-                         class="h-full w-full object-cover">
+            {{-- The outer box holds the row's height; the clipper inside it is
+                 out of flow, so its slide can overhang the neighbouring rows
+                 without moving anything. --}}
+            <div class="reveal-rise relative w-full" style="aspect-ratio:600/640">
+                <div data-parallax="64" class="absolute inset-0 overflow-hidden">
+                    <div data-drift class="absolute inset-x-0 -top-[20%] h-[140%]">
+                        <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
+                             class="h-full w-full object-cover">
+                    </div>
                 </div>
             </div>
 
