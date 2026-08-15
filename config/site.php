@@ -622,6 +622,9 @@ return [
             // Two lines at different indents, 108 Juana Alt over the picture.
             'lines' => ['From vision', 'To spaces built to endure'],
             'image' => 'images/services/hero.webp',
+            // The drawing the photograph is revealed over. Made from the
+            // photograph itself, the frame having only the one picture.
+            'outline' => 'images/services/hero-outline.webp',
         ],
 
         'intro' => [
