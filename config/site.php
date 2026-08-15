@@ -25,7 +25,7 @@ return [
         // App\Support\Nav leaves non-fragment hrefs alone.
         ['label' => 'About', 'href' => '/about'],
         ['label' => 'Projects', 'href' => '/projects'],
-        ['label' => 'Services', 'href' => '#services'],
+        ['label' => 'Services', 'href' => '/services'],
         ['label' => 'Process', 'href' => '/process'],
         ['label' => 'Contact', 'href' => '#contact'],
     ],
@@ -599,6 +599,88 @@ return [
                 'lines' => ['Have a vision to build?', "We're here to help."],
                 'label' => "Let's Talk",
                 'href' => '#contact',
+            ],
+        ],
+    ],
+
+    /*
+     * The Services page, from Figma frame 1545:2 ("Services", 1728x10847).
+     * Copy is the frame's own, verbatim.
+     *
+     * The page runs: a photographic hero with its sentence broken across two
+     * lines set at different indents; an opening block of label, statement and
+     * a two-column note; ten services, each a number, a 600x640 picture and a
+     * block of title, lead and copy; then the same consultation band the
+     * process page closes with, which is the same frame in both files.
+     *
+     * `title` is broken where the frame breaks it. Several of them wrap in
+     * their own 535 measure rather than at a hard return, so only the ones the
+     * file actually splits carry two entries.
+     */
+    'services_page' => [
+        'hero' => [
+            // Two lines at different indents, 108 Juana Alt over the picture.
+            'lines' => ['From vision', 'To spaces built to endure'],
+            'image' => 'images/services/hero.webp',
+        ],
+
+        'intro' => [
+            'label' => 'Our Expertise',
+            'statement' => 'Expertise that brings every part of the build together.',
+            'note' => ['Multiple', 'disciplines, one vision.'],
+            'body' => 'From construction and fit-out to specialist joinery and MEP, we bring the people, disciplines and capabilities required to deliver complex environments as one coordinated team.',
+        ],
+
+        'services' => [
+            [
+                'number' => '01', 'title' => ['Fit-Out Contracting'], 'image' => 'images/services/service-1.webp',
+                'lead' => 'From shell to finished environment.',
+                'body' => 'Complete interior fit-out solutions for commercial, retail, F&B, hospitality and residential environments, coordinated from preparation through final delivery.',
+            ],
+            [
+                'number' => '02', 'title' => ['Design', 'AND Build'], 'image' => 'images/services/service-2.webp',
+                'lead' => 'One vision. One coordinated delivery.',
+                'body' => 'Bringing design development and construction expertise together to create practical, cohesive environments aligned with the project\'s objectives and requirements.',
+            ],
+            [
+                'number' => '03', 'title' => ['Commercial AND Office Interiors'], 'image' => 'images/services/service-3.webp',
+                'lead' => 'Workspaces shaped around modern business.',
+                'body' => 'Bringing design development and construction expertise together to create practical, cohesive environments aligned with the project\'s objectives and requirements.',
+            ],
+            [
+                'number' => '04', 'title' => ['Villa Renovation AND Refurbishment'], 'image' => 'images/services/service-4.webp',
+                'lead' => 'Reimagining spaces with considered detail.',
+                'body' => 'Comprehensive renovation and refurbishment for villas and private residences, transforming existing environments while respecting their character and improving their performance.',
+            ],
+            [
+                'number' => '05', 'title' => ['Bespoke Joinery'], 'image' => 'images/services/service-5.webp',
+                'lead' => 'Details made specifically for the space.',
+                'body' => 'Custom joinery created to complement architectural intent, material palettes and functional requirements—from feature elements to fully integrated interior components.',
+            ],
+            [
+                'number' => '06', 'title' => ['Joinery, Carpentry AND Millwork'], 'image' => 'images/services/service-6.webp',
+                'lead' => 'Crafted elements that complete the environment.',
+                'body' => 'Specialist carpentry and millwork installation delivered with careful coordination across architectural details, finishes and site requirements.',
+            ],
+            [
+                'number' => '07', 'title' => ['Gypsum, Ceilings AND Partitions'], 'image' => 'images/services/service-7.webp',
+                'lead' => 'The framework behind the finished interior.',
+                'body' => 'Precision installation of ceilings, bulkheads and partitions to establish the structure, proportions and technical requirements of each interior environment.',
+            ],
+            [
+                'number' => '08', 'title' => ['MEP Services'], 'image' => 'images/services/service-8.webp',
+                'lead' => 'The systems that make spaces perform.',
+                'body' => 'Integrated mechanical, electrical and plumbing services coordinated with the wider build to support comfort, functionality, efficiency and long-term performance.',
+            ],
+            [
+                'number' => '09', 'title' => ['Authority AND Departmental Approvals'], 'image' => 'images/services/service-9.webp',
+                'lead' => 'Keeping complexity under control.',
+                'body' => 'Managing submissions, permits, NOCs, and regulatory approvals with the relevant Dubai and UAE authorities.',
+            ],
+            [
+                'number' => '10', 'title' => ['Project Management AND Coordination'], 'image' => 'images/services/service-10.webp',
+                'lead' => 'Keeping complexity under control.',
+                'body' => 'Dedicated project leadership connecting consultants, suppliers, trades and site teams around a clear programme, coordinated decisions and defined responsibilities.',
             ],
         ],
     ],

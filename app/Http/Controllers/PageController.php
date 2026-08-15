@@ -35,6 +35,14 @@ class PageController extends Controller
     }
 
     /**
+     * The Services page. Config-driven like the other marketing pages.
+     */
+    public function services(): View
+    {
+        return view('services');
+    }
+
+    /**
      * The Our Process page. Config-driven like the other marketing pages, so
      * it too only reaches MySQL when the enquiry form is submitted.
      */
