@@ -9,6 +9,13 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  * the whole frame. Measured there: the left edge runs 25% to 0 and the top 90%
  * to 0, both linearly, both landing after about two screens of scrolling.
  *
+ * The title is ink over the drawing and white over the photograph, and the
+ * white copy lives inside a second window on the same transform. Fading it in
+ * on a curve instead — the first attempt — turns the whole title white at once
+ * while the picture is still climbing, so the upper line goes white against the
+ * pale drawing and cannot be read. Masked, each word changes exactly as the
+ * picture reaches it.
+ *
  * WRITTEN AS TRANSFORMS RATHER THAN AS THE CLIP-PATH IT COPIES. This loop is
  * shared with the reveals and the parallax, and clip-path repaints the element
  * every frame where a transform does not — on a full-bleed photograph that is
@@ -26,31 +33,26 @@ export function initRevealScene() {
     const FROM_Y = 0.1;
 
     for (const scene of scenes) {
-        const window_ = scene.querySelector('[data-reveal-window]');
-        const media = scene.querySelector('[data-reveal-media]');
-        const light = scene.querySelector('[data-reveal-title-light]');
-        if (!window_ || !media) continue;
+        /*
+         * Two windows, not one: the photograph's sits behind the page's
+         * content and the white title's in front of it, so the ink title can
+         * lie between them. Both take the same scale, so they are the same
+         * window — the type is revealed by exactly the edge that reveals the
+         * picture.
+         */
+        const windows = Array.from(scene.querySelectorAll('[data-reveal-window]'));
+        const media = Array.from(scene.querySelectorAll('[data-reveal-media]'));
+        if (windows.length === 0 || media.length === 0) continue;
 
         const apply = (t) => {
             const x = FROM_X + (1 - FROM_X) * t;
             const y = FROM_Y + (1 - FROM_Y) * t;
+            const scale = `scale(${x.toFixed(4)}, ${y.toFixed(4)})`;
+            const inverse = `scale(${(1 / x).toFixed(4)}, ${(1 / y).toFixed(4)})`;
 
-            window_.style.transform = `scale(${x.toFixed(4)}, ${y.toFixed(4)})`;
-            media.style.transform = `scale(${(1 / x).toFixed(4)}, ${(1 / y).toFixed(4)})`;
+            for (const w of windows) w.style.transform = scale;
+            for (const m of media) m.style.transform = inverse;
 
-            /*
-             * The title changes hands rather than sitting behind a veil, which
-             * is what the reference does: its own is dark on the drawing and
-             * the photograph opens underneath it. Ours sits low in the frame,
-             * so the window reaches it almost at once — the white copy is
-             * therefore brought up between a twelfth and a third of the way
-             * through, which is when the picture passes the type.
-             *
-             * Two copies cross-fading rather than one changing colour: this
-             * loop writes transforms and opacity, and recolouring 108px of
-             * display type would repaint it on every frame.
-             */
-            if (light) light.style.opacity = Math.max(0, Math.min(1, (t - 0.08) / 0.22)).toFixed(3);
         };
 
         // Opened, not closed: a visitor who has asked for less movement should
