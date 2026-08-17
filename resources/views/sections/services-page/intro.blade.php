@@ -27,7 +27,14 @@
 --}}
 <section class="bg-white py-[clamp(3rem,5.79vw,100px)]">
     <div class="shell">
-        <div class="flex flex-col gap-[clamp(1.5rem,3.7vw,64px)] lg:flex-row lg:items-start">
+        {{-- Baselines, not box tops. The two are set at 28 and 48 on different
+             leadings, so aligning the boxes left the label riding 24 above the
+             statement's first line and the row read as misaligned — the taller
+             type carries more half-leading above its baseline, and matching
+             tops hands all of that difference to the smaller one. Aligned on
+             the baseline the two sit on the same line, which is how the frame
+             draws them. --}}
+        <div class="flex flex-col gap-[clamp(1.5rem,3.7vw,64px)] lg:flex-row lg:items-baseline">
             {{-- 179 in the frame, so the statement starts at 322 whatever the
                  label's own words measure — but held on one line: our Manrope
                  sets "Our Expertise" a little wider than 179, and left to wrap
