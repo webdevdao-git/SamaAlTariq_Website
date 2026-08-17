@@ -8,25 +8,29 @@
 <section id="about" class="bg-white py-[clamp(3.5rem,5.79vw,100px)]">
     <div class="shell">
         {{--
-            The heading hangs off the label rather than off a column: the label
-            takes its natural width, one gap token follows, and the heading
-            starts there — as in the design, and as the services and clients
-            rows do. It is a flex row, not a grid, precisely because the start
-            has to follow the label instead of a fixed track.
+            The frame's own two tracks rather than a label with the heading
+            hung off it: 222 from the gutter to the heading — the label's 158
+            and 64 beside it — then the heading's 1042, which is where its box
+            ends at 1343, well short of the right gutter. 1264 of the 1568
+            together, so they go in as those fractions.
+
+            AND THE HEADING WRAPS RATHER THAN BREAKING WHERE IT IS TOLD. The
+            file holds this as one sentence in a 1042 box; this held it as
+            three lines broken by hand and capped at 850, which is 192 short of
+            the box the file gives it — so the first line ran out early and the
+            three came out ragged against each other. Given the frame's width
+            the sentence falls where the frame falls it.
         --}}
-        <div class="reveal flex flex-col gap-[clamp(1rem,3vw,52px)] md:flex-row md:items-start">
+        <div class="reveal flex flex-col gap-[clamp(1rem,3vw,52px)] md:grid md:grid-cols-[222fr_1042fr_304fr] md:items-start md:gap-0">
             <p class="shrink-0 text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
 
-            {{-- The designed line breaks only hold at the width they were set
-                 for, so below md the spans go inline and the heading wraps
-                 naturally instead of breaking twice. The cap is the measure of
-                 the longest designed line, so nothing re-wraps on a wide
-                 screen once the row has room to spare. --}}
-            <h2 class="display max-w-[850px] text-fluid-h2 leading-[1.3] text-ink">
-                @foreach ($about['heading'] as $line)
-                    <span class="inline md:block">{{ $line }} </span>
-                @endforeach
-            </h2>
+            {{-- text-balance, because the frame's width alone does not make the
+                 three lines even: our face sets this sentence a little wide, so
+                 the wrap left 978 and 924 against a 114 orphan — "trust." on a
+                 line of its own. Balanced, the browser evens the three itself,
+                 and keeps doing so at any width rather than at the one the
+                 breaks were typed for. --}}
+            <h2 class="display text-balance text-fluid-h2 leading-[1.3] text-ink">{{ implode(' ', $about['heading']) }}</h2>
         </div>
 
         {{--
