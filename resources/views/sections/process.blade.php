@@ -30,7 +30,11 @@
                 image cap below.
             --}}
             <div class="flex flex-col justify-between gap-[clamp(2.5rem,5vw,80px)] self-start lg:sticky lg:top-[12vh] lg:min-h-[72vh]">
-                <h2 class="reveal editorial-heading text-fluid-section uppercase text-ink">
+                {{-- Set as the copy writes it. The editorial tier stays — it is
+                     the scale that earns the tight leading and tracking, not
+                     the capitals — but the slab is what the section reads as,
+                     and the client asked for the words, not the shout. --}}
+                <h2 class="reveal editorial-heading text-fluid-section text-ink">
                     @foreach ($process['heading'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach
@@ -41,12 +45,12 @@
                         <div data-process-step="{{ $i }}"
                              class="process-step flex flex-col gap-[clamp(0.5rem,0.7vw,12px)]">
                             <p class="display text-[clamp(1.35rem,1.85vw,32px)] text-teal">{{ $step['number'] }}</p>
-                            {{-- The same four phase names the process page
-                                 carries, so they are set the same way: upper.
-                                 Left in sentence case they read as a different
-                                 list from the one the page they link to
-                                 shows. --}}
-                            <h3 class="display text-[clamp(1.5rem,2.2vw,38px)] uppercase text-ink">{{ $step['title'] }}</h3>
+                            {{-- Title case, with the section heading above it:
+                                 a step set upper under a heading that is not
+                                 reads as the louder of the two, which inverts
+                                 the order they belong in. The process page
+                                 still sets these four phase names upper. --}}
+                            <h3 class="display text-[clamp(1.5rem,2.2vw,38px)] text-ink">{{ $step['title'] }}</h3>
                             <p class="max-w-[46ch] text-fluid-body font-medium text-ink-muted">{{ $step['body'] }}</p>
                         </div>
                     @endforeach
