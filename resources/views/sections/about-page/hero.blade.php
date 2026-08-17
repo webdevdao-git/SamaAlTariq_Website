@@ -96,10 +96,19 @@
 
                 {{-- Each divider belongs to the figure that follows it, so the
                      row can wrap without leaving a rule hanging at the end of a
-                     line. --}}
+                     line.
+
+                     The rule is centred on the figure beside it, not sat on its
+                     foot: it is 52 against a figure of about 110, so aligned to
+                     the bottom it hung off the label and read as underlining
+                     the pair rather than separating them. Centred it is the
+                     same rule the landing page's stats use. The figures
+                     themselves stay bottom-aligned to each other — that is the
+                     dl's own items-end, which is a different alignment doing a
+                     different job. --}}
                 <dl class="flex flex-wrap items-end gap-[clamp(1.25rem,2.31vw,40px)]">
                     @foreach ($hero['stats'] as $i => $stat)
-                        <div class="reveal flex items-end gap-[clamp(1.25rem,2.31vw,40px)]"
+                        <div class="reveal flex items-center gap-[clamp(1.25rem,2.31vw,40px)]"
                              style="transition-delay:{{ 140 + $i * 110 }}ms">
                             @if ($i > 0)
                                 <span aria-hidden="true" class="h-[52px] w-px bg-white/30"></span>
