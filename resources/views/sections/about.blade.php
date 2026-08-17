@@ -14,23 +14,26 @@
             ends at 1343, well short of the right gutter. 1264 of the 1568
             together, so they go in as those fractions.
 
-            AND THE HEADING WRAPS RATHER THAN BREAKING WHERE IT IS TOLD. The
-            file holds this as one sentence in a 1042 box; this held it as
-            three lines broken by hand and capped at 850, which is 192 short of
-            the box the file gives it — so the first line ran out early and the
-            three came out ragged against each other. Given the frame's width
-            the sentence falls where the frame falls it.
+            The heading breaks where the file breaks it. Three lines, typed as
+            three, in the frame's own 1042 box: left to wrap it fell 2-2-1 with
+            "trust." near-orphaned, and balanced it evened itself at widths the
+            file says nothing about. The design draws these three, so these
+            three are what it sets.
         --}}
         <div class="reveal flex flex-col gap-[clamp(1rem,3vw,52px)] md:grid md:grid-cols-[222fr_1042fr_304fr] md:items-start md:gap-0">
             <p class="shrink-0 text-fluid-label font-medium text-teal">{{ $about['label'] }}</p>
 
-            {{-- text-balance, because the frame's width alone does not make the
-                 three lines even: our face sets this sentence a little wide, so
-                 the wrap left 978 and 924 against a 114 orphan — "trust." on a
-                 line of its own. Balanced, the browser evens the three itself,
-                 and keeps doing so at any width rather than at the one the
-                 breaks were typed for. --}}
-            <h2 class="display text-balance text-fluid-h2 leading-[1.3] text-ink">{{ implode(' ', $about['heading']) }}</h2>
+            {{-- A block per line from md, which is where the frame's two tracks
+                 start and the box is wide enough to hold each of the three.
+                 Below it the type is on its floor while the column keeps
+                 narrowing, so the typed lines would break again and set 1-2-2;
+                 inline there, the sentence wraps evenly to the phone's width
+                 instead. Same pattern as the closing heading. --}}
+            <h2 class="display text-fluid-h2 leading-[1.3] text-ink">
+                @foreach ($about['heading'] as $line)
+                    <span class="inline md:block">{{ $line }} </span>
+                @endforeach
+            </h2>
         </div>
 
         {{--
