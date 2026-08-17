@@ -18,7 +18,15 @@
     The frame is drawn at its full size and scaled down to the design's 958x522,
     never up, so the photograph is never resampled larger than it was cut.
 --}}
-<section data-grow-scene class="relative h-[200svh] bg-teal">
+{{-- The resting picture is 0.47 of the width rather than the frame's 958
+     (0.554). The frame sets the word 1179 across a 958 photograph — a quarter
+     wider than the picture it crosses — and our cut of Juana Alt sets those
+     twelve letters about a fifth narrower than the design's, so at 958 the
+     word finished inside the picture instead of running past it. The
+     photograph gives up the difference: 0.578 of the width in glyphs over
+     0.47 in picture is the frame's own 1.23, which is the relationship the
+     design is actually drawing. --}}
+<section data-grow-scene data-grow-from-x="0.47" class="relative h-[200svh] bg-teal">
     <div class="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden">
 
         {{-- Over the photograph, not behind it: the frame paints the word last.
