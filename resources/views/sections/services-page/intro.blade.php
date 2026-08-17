@@ -51,11 +51,19 @@
         <span aria-hidden="true"
               class="reveal-line -mb-px mt-[clamp(2.5rem,5.79vw,100px)] block h-px w-full bg-ink/30"></span>
 
-        {{-- The frame's 786 and 607 as fractions of its 1568, not as pixels:
-             they add up to 1403 and leave 165 of the column empty, and written
-             in pixels that arithmetic only holds at 1728 — at 1440 the pair
-             came to 1401 in a 1280 column and the paragraph ran off the screen.
-             The gap is the frame's 10 by the same reckoning. --}}
+        {{-- The frame's 786 and its gap of 10 as fractions of its 1568, not as
+             pixels: written in pixels that arithmetic only holds at 1728 — at
+             1440 the pair came to 1401 in a 1280 column and the paragraph ran
+             off the screen.
+
+             The paragraph is the one number not taken from the frame. Its 607
+             sets the sentence 50 / 49 / 40 / 37 characters, and the four lines
+             asked for want a wider measure than that: the first of them alone
+             sets 636. Anything from 636 to 699 wraps it exactly those four
+             ways, so it goes in at the middle of that range — 42.54%, which is
+             667 at 1728 — where a font that sets a little wide or narrow than
+             ours still lands inside it. The column keeps 105 of its right
+             empty rather than the frame's 165. --}}
         <div class="mt-[clamp(1.5rem,2.315vw,40px)] flex flex-col gap-[min(0.638%,10px)] lg:flex-row">
             {{-- Title case in the frame, so the note reads as a label rather
                  than as a sentence. --}}
@@ -65,7 +73,7 @@
                 @endforeach
             </p>
 
-            <p class="reveal text-[1rem] lg:text-[min(1.389vw,24px)] font-medium leading-[1.375] text-ink lg:w-[38.71%] lg:shrink-0"
+            <p class="reveal text-[1rem] lg:text-[min(1.389vw,24px)] font-medium leading-[1.375] text-ink lg:w-[42.54%] lg:shrink-0"
                style="transition-delay:140ms">{{ $intro['body'] }}</p>
         </div>
     </div>
