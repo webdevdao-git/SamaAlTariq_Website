@@ -11,14 +11,26 @@
 --}}
 <section id="top" class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
 
+    {{-- Bottom, not centre. The frame's SVG gives the photograph's placement
+         as matrix(0.00025 0 0 0.00038675 0 -0.160687) on the 1728x1117 rect:
+         4000 x 0.00025 is exactly the frame's width, 3000 x 0.00038675 is
+         1296 against its 1117, and the -0.160687 is -179.5px — the whole 179
+         of overflow taken off the head, none off the foot. Centred, as this
+         was, it takes 90 off each and the room sits 90 too low. --}}
     <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" alt=""
          fetchpriority="high" decoding="async"
-         class="absolute inset-0 -z-10 h-full w-full object-cover">
+         class="absolute inset-0 -z-10 h-full w-full object-cover object-bottom">
 
     {{-- The same scrim the project heroes carry, so a page of white type over
          a photograph reads the same wherever it appears on this site. --}}
     <div aria-hidden="true" class="absolute inset-0 -z-10"
-         style="background-image:linear-gradient(0deg,rgba(0,0,0,0.46) 0%,rgba(102,102,102,0) 117%)"></div>
+         style="background-image:linear-gradient(0deg,rgba(0,0,0,0.47) 0%,rgba(102,102,102,0) 117%)"></div>
+
+    {{-- And the flat black the frame lays over that gradient. Its SVG is
+         explicit about both: a 0.47 gradient rect and then a black rect at
+         0.2, one on top of the other. Only the gradient was here, which left
+         the photograph a fifth brighter than the file. --}}
+    <div aria-hidden="true" class="absolute inset-0 bg-black/20"></div>
 
     <x-site-header :login="false"/>
 
@@ -26,7 +38,7 @@
         <div class="shell">
 
             {{-- 0.5px of white at half strength, drawn left to right. --}}
-            <span aria-hidden="true" class="reveal-line block h-px w-full bg-white/50"></span>
+            <span aria-hidden="true" class="reveal-line block h-[0.5px] w-full bg-white/50"></span>
 
             {{-- Label, summary and the link out, 26 under the rule.
 
@@ -54,7 +66,7 @@
                    style="transition-delay:120ms">{{ $hero['body'] }}</p>
 
                 <a href="{{ \App\Support\Nav::href($hero['cta']['href']) }}"
-                   class="reveal group flex shrink-0 items-center gap-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70 lg:justify-self-end"
+                   class="reveal group flex shrink-0 items-center gap-0 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70 lg:justify-self-end"
                    style="transition-delay:220ms">
                     {{ $hero['cta']['label'] }}
                     <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>

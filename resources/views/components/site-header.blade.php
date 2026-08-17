@@ -30,7 +30,7 @@
     Links go through Nav::href so the fragments still land on the landing page
     when this renders on /about.
 --}}
-<header class="absolute inset-x-0 top-0 z-40 pt-[clamp(1.25rem,2.55vw,44px)]">
+<header class="absolute inset-x-0 top-0 z-40 pt-[clamp(1.25rem,2.947vw,50.9px)]">
     <div class="shell grid grid-cols-[1fr_auto_1fr] items-center gap-4">
         <button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu"
                 aria-label="Open navigation menu"
@@ -43,11 +43,11 @@
            class="shrink-0 justify-self-center">
             <span class="flex flex-col items-center leading-none {{ $wordmark }}">
                 <img src="{{ asset($mark) }}" alt=""
-                     width="540" height="462" class="h-auto w-[clamp(38px,3.94vw,68px)]">
-                <span class="mt-[0.55em] font-wordmark text-[clamp(13px,1.37vw,23.6px)] font-semibold whitespace-nowrap">
+                     width="540" height="462" class="w-[clamp(38px,3.941vw,68.1px)] h-[clamp(35px,3.644vw,63px)]">
+                <span class="mt-[0.77em] font-wordmark text-[clamp(11px,1.185vw,20.5px)] font-semibold whitespace-nowrap">
                     {{ Str::upper(config('site.name')) }}
                 </span>
-                <span class="mt-[0.25em] font-wordmark text-[clamp(7px,0.73vw,12.5px)] font-bold tracking-[0.02em] whitespace-nowrap">
+                <span class="mt-[0.25em] font-wordmark text-[clamp(6px,0.609vw,10.5px)] font-bold tracking-[0.02em] whitespace-nowrap">
                     {{ Str::upper(config('site.tagline')) }}
                 </span>
             </span>
