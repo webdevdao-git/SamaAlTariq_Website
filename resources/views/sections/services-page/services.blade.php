@@ -71,9 +71,18 @@
                     @endforeach
                 </h2>
 
-                <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-bold leading-[1.375] text-ink" style="transition-delay:100ms">{{ $service['lead'] }}</p>
+                {{-- 140 of teal at 2px under the title, 32 either side of it.
+                     The only rule on this page that is not a hairline, and the
+                     only teal one — it is a mark rather than a division. --}}
+                <span aria-hidden="true" class="reveal-line block h-[2px] w-[140px] shrink-0 bg-teal"></span>
 
-                <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-medium leading-[1.35] text-ink" style="transition-delay:180ms">{{ $service['body'] }}</p>
+                {{-- Lead and copy are one block, 16 apart, and the 32 belongs
+                     between that block and the rule above it. --}}
+                <div class="flex flex-col gap-[clamp(0.75rem,0.926vw,16px)]">
+                    <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-bold leading-[1.375] text-ink" style="transition-delay:100ms">{{ $service['lead'] }}</p>
+
+                    <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-medium leading-[1.35] text-ink" style="transition-delay:180ms">{{ $service['body'] }}</p>
+                </div>
             </div>
 
             <div aria-hidden="true" class="hidden lg:block"></div>
