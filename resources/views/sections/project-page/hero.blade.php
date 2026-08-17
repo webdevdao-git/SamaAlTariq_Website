@@ -61,7 +61,7 @@
     <div aria-hidden="true" class="absolute inset-0 -z-10"
          style="background-image:linear-gradient(0deg,rgba(0,0,0,0.46) 0%,rgba(102,102,102,0) 117%)"></div>
 
-    <x-site-header :login="false"/>
+    <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1.5rem,3.47vw,60px)] text-white">
         <div class="shell">

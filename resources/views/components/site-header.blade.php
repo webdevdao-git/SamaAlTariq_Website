@@ -1,4 +1,4 @@
-@props(['login' => true, 'tone' => 'light'])
+@props(['tone' => 'light'])
 
 @php
     /*
@@ -19,9 +19,10 @@
 {{--
     The header bar that sits over the hero photo: MENU / lock-up / ENQUIRE.
 
-    `login` is off on the About page, whose Figma frame shows ENQUIRE alone on
-    the right. The link is still reachable from every other page and from /login
-    directly, so nothing is lost but the one entry point on that frame.
+    No sign-in here. Every frame in the file draws this bar as MENU, the
+    lock-up and ENQUIRE — the process frame's own vectors carry those three and
+    nothing else — and the way in for a client now lives in the menu the MENU
+    button opens, opposite Close.
 
     Extracted from sections/hero.blade.php so the About page's hero can carry
     the same bar rather than a copy of it. It is absolutely positioned, so it
@@ -53,19 +54,7 @@
             </span>
         </a>
 
-        <div class="flex shrink-0 items-center justify-end gap-[clamp(1rem,1.85vw,32px)] justify-self-end">
-            {{--
-                Signed-in visitors get the portal instead of a login link — a
-                client who is already authenticated has no use for a sign-in
-                page, and it saves a redirect.
-            --}}
-            @if ($login)
-                <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}"
-                   class="text-fluid-body font-semibold uppercase {{ $text }} transition-opacity hover:opacity-70">
-                    {{ auth()->check() ? 'Portal' : 'Login' }}
-                </a>
-            @endif
-
+        <div class="flex shrink-0 items-center justify-end justify-self-end">
             <a href="{{ \App\Support\Nav::href('#contact') }}"
                class="text-fluid-body font-semibold uppercase {{ $text }} underline underline-offset-4 transition-opacity hover:opacity-70">
                 Enquire

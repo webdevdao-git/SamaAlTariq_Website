@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <x-site-header :login="false"/>
+        <x-site-header/>
 
         {{-- Both lines sit where the frame puts them, as fractions of it:
              517,399 and 102,936 of 1728x1117. --}}

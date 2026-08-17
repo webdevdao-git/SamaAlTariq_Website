@@ -32,7 +32,7 @@
          the photograph a fifth brighter than the file. --}}
     <div aria-hidden="true" class="absolute inset-0 bg-black/20"></div>
 
-    <x-site-header :login="false"/>
+    <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">
         <div class="shell">

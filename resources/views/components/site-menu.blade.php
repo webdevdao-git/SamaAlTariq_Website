@@ -11,12 +11,25 @@
      class="pointer-events-none fixed inset-0 z-50 bg-night/95 opacity-0 backdrop-blur-sm transition-opacity duration-500">
     <div class="shell flex h-full flex-col py-[clamp(1.25rem,2.55vw,44px)]">
         {{--
-            justify-end, not justify-between: the "Navigation" label that used to
-            sit opposite Close is gone, and justify-between would drop the button
-            to the left edge. The dialog still carries aria-label="Site
-            navigation", so nothing is lost for assistive tech.
+            The way in for a client, opposite Close. It used to sit in the
+            header beside ENQUIRE, which no frame in the file draws — the bar
+            there is MENU, the lock-up and ENQUIRE — so it lives here instead,
+            where it is one press further away and in no one's way.
+
+            Signed-in visitors get the portal rather than a sign-in page: a
+            client who is already authenticated has no use for one, and it
+            saves a redirect.
+
+            justify-between now that there are two, which is the arrangement
+            this row was written for before the label opposite Close was
+            dropped.
         --}}
-        <div class="flex items-center justify-end">
+        <div class="flex items-center justify-between">
+            <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}" data-menu-link
+               class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">
+                {{ auth()->check() ? 'Portal' : 'Login' }}
+            </a>
+
             <button type="button" data-menu-close
                     class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">Close</button>
         </div>

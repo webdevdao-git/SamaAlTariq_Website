@@ -15,7 +15,7 @@
 @section('content')
     @php($contact = config('site.contact_page'))
 
-    <x-site-header tone="dark" :login="false"/>
+    <x-site-header tone="dark"/>
 
     <main class="bg-white pt-[clamp(7rem,14.294vw,247px)] pb-[clamp(3rem,5.79vw,100px)]">
         {{-- 79 left and 81 right: this frame pads 79 either side but fixes

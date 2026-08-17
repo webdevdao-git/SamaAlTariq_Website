@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <x-site-header :login="false"/>
+    <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">
         <div class="shell">
