@@ -35,6 +35,15 @@ class PageController extends Controller
     }
 
     /**
+     * The Contact page. The enquiry form posts to EnquiryController like the
+     * card's does — this page renders the same component.
+     */
+    public function contact(): View
+    {
+        return view('contact');
+    }
+
+    /**
      * The Services page. Config-driven like the other marketing pages.
      */
     public function services(): View

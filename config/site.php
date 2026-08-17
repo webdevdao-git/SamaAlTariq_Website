@@ -27,7 +27,7 @@ return [
         ['label' => 'Projects', 'href' => '/projects'],
         ['label' => 'Services', 'href' => '/services'],
         ['label' => 'Process', 'href' => '/process'],
-        ['label' => 'Contact', 'href' => '#contact'],
+        ['label' => 'Contact', 'href' => '/contact'],
     ],
 
     /*
@@ -685,6 +685,29 @@ return [
                 'lead' => 'Keeping complexity under control.',
                 'body' => 'Dedicated project leadership connecting consultants, suppliers, trades and site teams around a clear programme, coordinated decisions and defined responsibilities.',
             ],
+        ],
+    ],
+
+    /*
+     * The Contact page, from Figma frame 1594:1608.
+     *
+     * The page the enquiry card has always been a shorter version of: the same
+     * form, given room, with the ways of reaching the office listed beside it.
+     * The form itself is the shared component rather than a second copy —
+     * see resources/views/components/enquiry-form.blade.php.
+     *
+     * `details` are rows on their own hairlines at the foot of the left
+     * column. Phone and address are published here for the first time; the
+     * email is the one the site already carries.
+     */
+    'contact_page' => [
+        'heading' => ["Let's Shape", 'Your Vision'],
+        'label' => 'Speak to our team',
+        'body' => "Have a project in mind? Tell us what you're building and let's explore how our expertise can bring it to life.",
+        'details' => [
+            ['label' => 'Telephone', 'value' => '+971 54 319 0845', 'href' => 'tel:+971543190845'],
+            ['label' => 'Email', 'value' => 'info@samaaltariq.org', 'href' => 'mailto:info@samaaltariq.org'],
+            ['label' => 'Office', 'value' => 'Office 804, Sapphire Tower Dubai, United Arab Emirates', 'href' => null],
         ],
     ],
 
