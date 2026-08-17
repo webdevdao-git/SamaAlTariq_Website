@@ -109,7 +109,9 @@ return [
          * copy was lost in the move.
          */
         'hero' => [
-            'label' => 'Why We Are',
+            // 'Who', not 'Why' — the same label the landing page's about
+            // band carries, and the only place the two disagreed.
+            'label' => 'Who We Are',
             'body' => 'We Build the Foundations of What Comes Next. Construction Shaped By Expertise, Intention, And Enduring Quality.',
             'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
             'word' => 'About Us',
