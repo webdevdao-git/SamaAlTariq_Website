@@ -13,7 +13,10 @@
     <div data-hero class="relative flex min-h-[100svh] flex-col" style="will-change:transform">
 
         <div data-hero-media class="absolute inset-0 -z-10" style="will-change:transform;transform-origin:center">
-            <img src="{{ asset($hero['image']) }}" alt="{{ $hero['alt'] }}"
+            {{-- Versioned: the CDN holds static files for a week, so replacing
+                 the photograph without changing its name would leave visitors
+                 on the old one. The stamp is the file's own mtime. --}}
+            <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" alt="{{ $hero['alt'] }}"
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full object-cover">
             <div aria-hidden="true" class="absolute inset-0"

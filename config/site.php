@@ -52,7 +52,8 @@ return [
         'cta' => ['label' => 'Explore Projects', 'href' => '#projects'],
         'words' => ['first' => 'Building', 'second' => 'With Precision', 'third' => 'Future'],
         'image' => 'images/hero.webp',
-        'alt' => 'Double-height majlis with arched windows overlooking a lake',
+        // The frame's own photograph, taken from the hero's image fill.
+        'alt' => 'Double-height living room opening onto a beach and the Dubai skyline',
     ],
 
     'about' => [
