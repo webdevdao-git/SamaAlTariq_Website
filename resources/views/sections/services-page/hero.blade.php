@@ -1,11 +1,16 @@
 @php($hero = config('site.services_page.hero'))
 
 {{--
-    Figma 1545:3, 1728x1117. A photograph with one sentence broken across two
-    lines that sit at different indents — "From vision" at 517 and "To spaces
-    built to endure" at 102, both 108/148 Juana Alt in white. The offset is the
-    whole composition: set flush they read as a heading, staggered they read as
-    a thought finishing.
+    Figma 1545:3, 1728x1117, and it draws two states at once rather than one
+    picture: "From vision" at 517,399 and "To spaces built to endure" at
+    102,936, both 108/148 Juana Alt.
+
+    They are not two lines of one heading — they are the same sentence before
+    and after. The reference does this plainly: two headings at one position,
+    "FROM AN IDEA" in black over the drawing and "TO A MASTERPIECE" in white
+    inside the window, so the picture opening swaps the words. A static frame
+    can only show that by drawing both, which is what this one does; ours puts
+    each where the frame puts it and hands over between them.
 
     THE PHOTOGRAPH IS DRAWN BEFORE IT IS TAKEN, which is for-living.it's hero:
     a drawing of the room underneath, and a window in the photograph over it
@@ -50,30 +55,28 @@
         <div data-reveal-window aria-hidden="true"
              class="pointer-events-none absolute inset-0 z-20 origin-bottom overflow-hidden will-change-transform">
             <div data-reveal-media class="absolute inset-0 origin-bottom will-change-transform">
-                <div class="flex h-full flex-col justify-end pb-[clamp(1rem,1.91vw,33px)]">
-                    <div class="shell">
-                        <p class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-white">
-                            <span class="block lg:ml-[29.9%]">{{ $hero['lines'][0] }}</span>
-                            <span class="block lg:-ml-[1.3%]">{{ $hero['lines'][1] }}</span>
-                        </p>
-                    </div>
-                </div>
+                <p data-reveal-title-white style="opacity:0"
+                   class="absolute left-[5.9%] top-[83.8%] font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-white">
+                    {{ $hero['lines'][1] }}
+                </p>
             </div>
         </div>
 
         <x-site-header :login="false"/>
 
-        <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)]">
-            <div class="shell">
-                <div class="relative">
-                    <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-ink">
-                        {{-- 517 of 1728, which is where the frame sets the first line. --}}
-                        <span data-split data-split-by="word" class="block lg:ml-[29.9%]">{{ $hero['lines'][0] }}</span>
-                        <span data-split data-split-by="word" data-split-delay="160" class="block lg:-ml-[1.3%]">{{ $hero['lines'][1] }}</span>
-                    </h1>
+        {{-- Both lines sit where the frame puts them, as fractions of it:
+             517,399 and 102,936 of 1728x1117. --}}
+        <div class="relative z-10 flex-1">
+            <h1 class="absolute inset-0">
+                <span data-reveal-title-ink
+                      class="absolute left-[29.9%] top-[35.7%] font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-ink">
+                    <span data-split data-split-by="word">{{ $hero['lines'][0] }}</span>
+                </span>
 
-                </div>
-            </div>
+                {{-- Present for reading, drawn by the masked copy below: one
+                     heading in the accessibility tree, two on the screen. --}}
+                <span class="sr-only">{{ $hero['lines'][1] }}</span>
+            </h1>
         </div>
     </div>
 </section>

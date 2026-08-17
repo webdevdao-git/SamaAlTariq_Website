@@ -42,6 +42,8 @@ export function initRevealScene() {
          */
         const windows = Array.from(scene.querySelectorAll('[data-reveal-window]'));
         const media = Array.from(scene.querySelectorAll('[data-reveal-media]'));
+        const ink = scene.querySelector('[data-reveal-title-ink]');
+        const closing = scene.querySelector('[data-reveal-title-white]');
         if (windows.length === 0 || media.length === 0) continue;
 
         const apply = (t) => {
@@ -52,6 +54,23 @@ export function initRevealScene() {
 
             for (const w of windows) w.style.transform = scale;
             for (const m of media) m.style.transform = inverse;
+
+            /*
+             * The opening line belongs to the drawing, so it leaves as the
+             * picture climbs rather than sitting in ink on a photograph. Gone
+             * by halfway, which is before the window reaches its own height.
+             */
+            if (ink) ink.style.opacity = Math.max(0, 1 - t / 0.5).toFixed(3);
+
+            /*
+             * And the closing line waits for the picture to start climbing.
+             * The window at rest is a strip across the foot of the frame and
+             * that line sits in the foot, so masking alone would show a slice
+             * of it before anything has happened — a word cut through the
+             * middle. It is off until the opening is under way, and the mask
+             * governs it from there.
+             */
+            if (closing) closing.style.opacity = Math.max(0, Math.min(1, (t - 0.06) / 0.12)).toFixed(3);
 
         };
 
