@@ -47,10 +47,11 @@ return [
     ],
 
     'hero' => [
-        // Broken by hand: left to the browser the year falls to a third line on
-        // its own, and "Quality Since 2023" is wider than "Delivering Quality",
-        // so no column width wraps it this way. The lines are authored instead.
-        'eyebrow' => ['Delivering', 'Quality Since 2023'],
+        // Broken by hand, as the frame breaks it: its eyebrow is a 170 box two
+        // lines deep, and "Delivering Quality" is the only pair of words that
+        // fits one of them. Left to the browser at the width the line needs,
+        // the year falls to a third line on its own.
+        'eyebrow' => ['Delivering Quality', 'Since 2023'],
         'intro' => 'We deliver exceptional construction, engineering, and contracting solutions that shape modern communities through innovation and uncompromising standards.',
         'cta' => ['label' => 'Explore Projects', 'href' => '#projects'],
         'words' => ['first' => 'Building', 'second' => 'With Precision', 'third' => 'Future'],

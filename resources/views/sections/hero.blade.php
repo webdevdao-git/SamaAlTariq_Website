@@ -32,12 +32,15 @@
             <div class="shell">
                 <div class="border-t border-white/25 pt-[clamp(1.25rem,1.5vw,26px)]">
                     <div class="grid gap-x-6 gap-y-5 text-white md:grid-cols-12 md:items-start">
-                        {{-- The cap is in em, not px: it has to clear the
-                             longest authored line at every size the fluid type
-                             takes, and an em cap tracks the type instead of
-                             holding a width the small end never needs. --}}
+                        {{-- 9.5em rather than the frame's 170: "Delivering
+                             Quality" sets 177 in our Manrope, so the frame's
+                             own box would break the line it is drawn around.
+                             In em, not px, because it has to clear that line at
+                             every size the fluid type takes and an em cap
+                             tracks the type rather than holding a width the
+                             small end never needs. --}}
                         <p data-split data-split-delay="520"
-                           class="text-fluid-body font-semibold md:col-span-3 md:max-w-[10.5em]">@foreach ($hero['eyebrow'] as $i => $line)@if ($i)<br>@endif{{ $line }}@endforeach</p>
+                           class="text-fluid-body font-semibold md:col-span-3 md:max-w-[9.5em]">@foreach ($hero['eyebrow'] as $i => $line)@if ($i)<br>@endif{{ $line }}@endforeach</p>
 
                         {{--
                             From lg the intro sits on columns 5–10 rather than
@@ -46,6 +49,14 @@
                             the row reading as three evenly spaced blocks. At md
                             the tracks are too narrow to give the link its own
                             two columns, so the row stays evenly spaced there.
+
+                            Centred inside that box, which is what was asked
+                            for. The frame sets this text LEFT — but it also
+                            opens it with 22 typed spaces, an indent of 110 that
+                            the frame's own three lines cannot be holding, so
+                            what the file describes and what it was drawn to
+                            look like are not the same thing. Centred is the one
+                            of the two that was chosen.
                         --}}
                         <p data-split data-split-delay="600"
                            class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center md:text-center lg:col-start-5 lg:max-w-[670px]">{{ $hero['intro'] }}</p>
