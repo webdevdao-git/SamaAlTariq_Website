@@ -32,8 +32,12 @@
             <div class="shell">
                 <div class="border-t border-white/25 pt-[clamp(1.25rem,1.5vw,26px)]">
                     <div class="grid gap-x-6 gap-y-5 text-white md:grid-cols-12 md:items-start">
+                        {{-- The cap is in em, not px: it has to clear the
+                             longest authored line at every size the fluid type
+                             takes, and an em cap tracks the type instead of
+                             holding a width the small end never needs. --}}
                         <p data-split data-split-delay="520"
-                           class="text-fluid-body font-semibold md:col-span-3 md:max-w-[170px]">{{ $hero['eyebrow'] }}</p>
+                           class="text-fluid-body font-semibold md:col-span-3 md:max-w-[10.5em]">@foreach ($hero['eyebrow'] as $i => $line)@if ($i)<br>@endif{{ $line }}@endforeach</p>
 
                         {{--
                             From lg the intro sits on columns 5–10 rather than

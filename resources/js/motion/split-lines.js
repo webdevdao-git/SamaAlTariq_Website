@@ -13,10 +13,12 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  *    keeps the original string as `aria-label`, so a screen reader announces a
  *    sentence rather than a pile of fragments.
  *
- * 2. Real lines, not authored ones. Where the browser wraps depends on the width
+ * 2. Real lines, not assumed ones. Where the browser wraps depends on the width
  *    it is given, so lines are measured after layout by grouping words that
- *    share an offsetTop, then re-measured on resize. Splitting on hardcoded
- *    breaks would mask the wrong places at every other width.
+ *    share an offsetTop, then re-measured on resize. Splitting on typed-in
+ *    breaks alone would mask the wrong places at every other width. A `<br>` in
+ *    the source is still honoured — it is put back into the measurement, so the
+ *    copy's own break holds while everything else wraps to the column.
  *
  * The original text is stashed on the element, so a re-split always starts from
  * the source string rather than from already-wrapped markup.
@@ -37,9 +39,26 @@ export function initSplitLines() {
     // Without motion the markup is left exactly as the server rendered it.
     if (prefersReducedMotion()) return;
 
+    /**
+     * The source string, with any authored `<br>` read back as a newline.
+     *
+     * Measuring finds where the browser wraps, but not where the copy insists
+     * on breaking — and some breaks cannot be reached by width at all, because
+     * the line that must come second is wider than the words that would join
+     * the first. Keeping the newline lets the probe below put that break back
+     * before it measures around it.
+     */
+    const sourceText = (node) => Array.from(node.childNodes)
+        .map((child) => (child.nodeName === 'BR' ? '\n' : child.textContent))
+        .join('')
+        .replace(/[^\S\n]+/g, ' ')
+        .trim();
+
     for (const node of nodes) {
-        node.dataset.splitText = node.textContent.trim();
-        node.setAttribute('aria-label', node.dataset.splitText);
+        node.dataset.splitText = sourceText(node);
+        // Flattened for the label: the break is typography, not a pause, and a
+        // screen reader should still hear one sentence.
+        node.setAttribute('aria-label', node.dataset.splitText.replace(/\n/g, ' '));
     }
 
     /**
@@ -70,21 +89,25 @@ export function initSplitLines() {
             return mask;
         };
 
-        text.split(/\s+/).filter(Boolean).forEach((word, i) => {
-            if (i > 0) fragment.append(document.createTextNode(' '));
+        text.split('\n').forEach((line, l) => {
+            if (l > 0) fragment.append(document.createElement('br'));
 
-            if (mode === 'word') {
-                fragment.append(box(word));
-                return;
-            }
+            line.split(/\s+/).filter(Boolean).forEach((word, i) => {
+                if (i > 0) fragment.append(document.createTextNode(' '));
 
-            // A word is kept whole so it can never break mid-way across a line
-            // ending; only the letters inside it are masked separately.
-            const holder = document.createElement('span');
-            holder.className = 'unit-word';
-            holder.setAttribute('aria-hidden', 'true');
-            for (const letter of Array.from(word)) holder.append(box(letter));
-            fragment.append(holder);
+                if (mode === 'word') {
+                    fragment.append(box(word));
+                    return;
+                }
+
+                // A word is kept whole so it can never break mid-way across a
+                // line ending; only the letters inside it are masked separately.
+                const holder = document.createElement('span');
+                holder.className = 'unit-word';
+                holder.setAttribute('aria-hidden', 'true');
+                for (const letter of Array.from(word)) holder.append(box(letter));
+                fragment.append(holder);
+            });
         });
 
         node.replaceChildren(fragment);
@@ -98,14 +121,21 @@ export function initSplitLines() {
         const delay = Number(node.dataset.splitDelay) || 0;
 
         // Measure with inline-block words, so offsetTop identifies each line.
+        // Authored breaks go into the probe as real <br>s, so they land on the
+        // measurement as line ends of their own and the words on either side
+        // still wrap to whatever width the column is giving them.
         const probe = document.createElement('span');
         probe.style.cssText = 'display:block';
-        for (const word of text.split(/\s+/).filter(Boolean)) {
-            const span = document.createElement('span');
-            span.textContent = word;
-            span.style.display = 'inline-block';
-            probe.append(span, document.createTextNode(' '));
-        }
+        text.split('\n').forEach((line, l) => {
+            if (l > 0) probe.append(document.createElement('br'));
+
+            for (const word of line.split(/\s+/).filter(Boolean)) {
+                const span = document.createElement('span');
+                span.textContent = word;
+                span.style.display = 'inline-block';
+                probe.append(span, document.createTextNode(' '));
+            }
+        });
 
         node.replaceChildren(probe);
 
@@ -124,7 +154,7 @@ export function initSplitLines() {
 
         const fragment = document.createDocumentFragment();
 
-        (lines.length ? lines : [text]).forEach((line, i) => {
+        (lines.length ? lines : [text.replace(/\n/g, ' ')]).forEach((line, i) => {
             const mask = document.createElement('span');
             mask.className = 'line-mask';
             mask.setAttribute('aria-hidden', 'true');
