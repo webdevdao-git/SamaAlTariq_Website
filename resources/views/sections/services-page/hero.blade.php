@@ -9,8 +9,15 @@
     and after. The reference does this plainly: two headings at one position,
     "FROM AN IDEA" in black over the drawing and "TO A MASTERPIECE" in white
     inside the window, so the picture opening swaps the words. A static frame
-    can only show that by drawing both, which is what this one does; ours puts
-    each where the frame puts it and hands over between them.
+    can only show that by drawing both, which is why this one draws them at
+    two places: 517,399 and 102,936.
+
+    BOTH ARE CENTRED HERE INSTEAD, on the middle of the frame in both
+    directions, which is where the reference sets its pair and what was asked
+    for. It is the one place this page departs from the frame's own
+    coordinates, and it follows from the swap: two lines that replace each
+    other have to stand in the same place, or the sentence jumps across the
+    screen as the picture arrives.
 
     THE PHOTOGRAPH IS DRAWN BEFORE IT IS TAKEN, which is for-living.it's hero:
     a drawing of the room underneath, and a window in the photograph over it
@@ -56,7 +63,7 @@
              class="pointer-events-none absolute inset-0 z-20 origin-bottom overflow-hidden will-change-transform">
             <div data-reveal-media class="absolute inset-0 origin-bottom will-change-transform">
                 <p data-reveal-title-white style="opacity:0"
-                   class="absolute left-[5.9%] top-[83.8%] font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-white">
+                   class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-white">
                     {{ $hero['lines'][1] }}
                 </p>
             </div>
@@ -69,7 +76,7 @@
         <div class="relative z-10 flex-1">
             <h1 class="absolute inset-0">
                 <span data-reveal-title-ink
-                      class="absolute left-[29.9%] top-[35.7%] font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-ink">
+                      class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium leading-[1.37] tracking-normal text-ink">
                     <span data-split data-split-by="word">{{ $hero['lines'][0] }}</span>
                 </span>
 

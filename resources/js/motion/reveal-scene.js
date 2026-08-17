@@ -63,14 +63,12 @@ export function initRevealScene() {
             if (ink) ink.style.opacity = Math.max(0, 1 - t / 0.5).toFixed(3);
 
             /*
-             * And the closing line waits for the picture to start climbing.
-             * The window at rest is a strip across the foot of the frame and
-             * that line sits in the foot, so masking alone would show a slice
-             * of it before anything has happened — a word cut through the
-             * middle. It is off until the opening is under way, and the mask
-             * governs it from there.
+             * The closing line needs no gate now that both stand on the
+             * midline: the window at rest is a strip across the foot and does
+             * not reach them, so the mask alone decides when it is seen — as
+             * the reference has it.
              */
-            if (closing) closing.style.opacity = Math.max(0, Math.min(1, (t - 0.06) / 0.12)).toFixed(3);
+            if (closing) closing.style.opacity = '1';
 
         };
 
