@@ -62,6 +62,20 @@ export function initSplitLines() {
     }
 
     /**
+     * A first-line indent has to be taken off every box this file makes.
+     *
+     * text-indent inherits, and it indents the first line of whatever block or
+     * inline-block it lands on — so the measuring words and the masks below,
+     * which are exactly that, each take the paragraph's indent for themselves.
+     * A 110px indent on a sentence measured word by word becomes 110px on
+     * every word, and the line fits three of them.
+     *
+     * So the boxes are zeroed and the indent is put back in the one place it
+     * belongs: the block that holds the first line.
+     */
+    const noIndent = (el) => { el.style.textIndent = '0'; return el; };
+
+    /**
      * Word and letter modes. Each unit gets its own inline mask, and the
      * spaces between words stay as real text nodes outside the masks — put a
      * space inside a clipping box and it collapses, so the words would run
@@ -76,7 +90,7 @@ export function initSplitLines() {
         let index = 0;
 
         const box = (content) => {
-            const mask = document.createElement('span');
+            const mask = noIndent(document.createElement('span'));
             mask.className = 'unit-mask';
             mask.setAttribute('aria-hidden', 'true');
 
@@ -102,7 +116,7 @@ export function initSplitLines() {
 
                 // A word is kept whole so it can never break mid-way across a
                 // line ending; only the letters inside it are masked separately.
-                const holder = document.createElement('span');
+                const holder = noIndent(document.createElement('span'));
                 holder.className = 'unit-word';
                 holder.setAttribute('aria-hidden', 'true');
                 for (const letter of Array.from(word)) holder.append(box(letter));
@@ -130,7 +144,7 @@ export function initSplitLines() {
             if (l > 0) probe.append(document.createElement('br'));
 
             for (const word of line.split(/\s+/).filter(Boolean)) {
-                const span = document.createElement('span');
+                const span = noIndent(document.createElement('span'));
                 span.textContent = word;
                 span.style.display = 'inline-block';
                 probe.append(span, document.createTextNode(' '));
@@ -155,7 +169,11 @@ export function initSplitLines() {
         const fragment = document.createDocumentFragment();
 
         (lines.length ? lines : [text.replace(/\n/g, ' ')]).forEach((line, i) => {
+            // Every mask is a block, so each would take the indent for its own
+            // first line. Only the first line has one, so the rest are zeroed
+            // and the first is left to inherit what the paragraph is set.
             const mask = document.createElement('span');
+            if (i > 0) noIndent(mask);
             mask.className = 'line-mask';
             mask.setAttribute('aria-hidden', 'true');
 

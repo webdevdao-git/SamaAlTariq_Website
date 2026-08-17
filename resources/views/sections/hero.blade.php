@@ -50,16 +50,24 @@
                             the tracks are too narrow to give the link its own
                             two columns, so the row stays evenly spaced there.
 
-                            Centred inside that box, which is what was asked
-                            for. The frame sets this text LEFT — but it also
-                            opens it with 22 typed spaces, an indent of 110 that
-                            the frame's own three lines cannot be holding, so
-                            what the file describes and what it was drawn to
-                            look like are not the same thing. Centred is the one
-                            of the two that was chosen.
+                            Set as the frame sets it: LEFT, with its first line
+                            indented. The indent is the frame's own — it opens
+                            the text with 22 spaces, 110 at full size, which is
+                            the 4.583em below — and it is what makes the file's
+                            three lines break after "engineering," rather than
+                            after "and". Centred was the reading of that shape
+                            before the file was read.
+
+                            30.17em rather than the frame's 670: our Manrope
+                            sets this sentence about 4% wider than the file's
+                            does, so 670 with the indent runs to four lines.
+                            700 to 748 all give the frame's three, and this is
+                            the middle of that band. In em, so the measure
+                            shrinks with the type and carries the same three
+                            lines at every width rather than only at 1728.
                         --}}
                         <p data-split data-split-delay="600"
-                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center md:text-center lg:col-start-5 lg:max-w-[670px]">{{ $hero['intro'] }}</p>
+                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center lg:col-start-5 lg:justify-self-end lg:w-[30.17em] lg:indent-[4.583em]">{{ $hero['intro'] }}</p>
 
                         <a href="{{ $hero['cta']['href'] }}"
                            class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right lg:col-span-2 lg:whitespace-nowrap">
