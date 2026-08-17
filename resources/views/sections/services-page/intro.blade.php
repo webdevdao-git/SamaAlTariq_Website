@@ -30,7 +30,9 @@
               class="reveal-line -mb-px mt-[clamp(2.5rem,5.79vw,100px)] block h-px w-full bg-ink/30"></span>
 
         <div class="mt-[clamp(1.5rem,2.315vw,40px)] flex flex-col gap-[clamp(0.5rem,0.579vw,10px)] lg:flex-row">
-            <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35] text-ink lg:w-[786px] lg:shrink-0">
+            {{-- Title case in the frame, so the note reads as a label rather
+                 than as a sentence. --}}
+            <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-semibold capitalize leading-[1.35] text-ink lg:w-[786px] lg:shrink-0">
                 @foreach ($intro['note'] as $line)
                     <span class="block">{{ $line }}</span>
                 @endforeach

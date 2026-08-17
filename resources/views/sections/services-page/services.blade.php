@@ -65,7 +65,10 @@
             <div class="flex flex-col justify-center gap-[clamp(1rem,1.852vw,32px)] px-[clamp(1.25rem,4.63vw,80px)] py-[clamp(2rem,4.63vw,80px)] lg:px-0 lg:py-0">
                 {{-- 48/45 Juana Alt: the leading is tighter than the type, so a
                      title that runs to two lines closes into a block. --}}
-                <h2 class="reveal font-display text-[clamp(1.5rem,2.78vw,48px)] font-medium leading-[0.9375] tracking-normal text-ink">
+                {{-- Set upper in the frame, and it matters more than it looks:
+                     at 48/45 the leading is tighter than the type, which only
+                     resolves as a block when there are no descenders. --}}
+                <h2 class="reveal font-display text-[clamp(1.5rem,2.78vw,48px)] font-medium uppercase leading-[0.9375] tracking-normal text-ink">
                     @foreach ($service['title'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach
@@ -79,7 +82,9 @@
                 {{-- Lead and copy are one block, 16 apart, and the 32 belongs
                      between that block and the rule above it. --}}
                 <div class="flex flex-col gap-[clamp(0.75rem,0.926vw,16px)]">
-                    <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-bold leading-[1.375] text-ink" style="transition-delay:100ms">{{ $service['lead'] }}</p>
+                    {{-- Teal, not ink: the lead is the line that carries the
+                         service's promise and the frame colours it. --}}
+                    <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-bold leading-[1.375] text-teal" style="transition-delay:100ms">{{ $service['lead'] }}</p>
 
                     <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-medium leading-[1.35] text-ink" style="transition-delay:180ms">{{ $service['body'] }}</p>
                 </div>
