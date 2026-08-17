@@ -30,11 +30,14 @@
                 image cap below.
             --}}
             <div class="flex flex-col justify-between gap-[clamp(2.5rem,5vw,80px)] self-start lg:sticky lg:top-[12vh] lg:min-h-[72vh]">
-                {{-- Set as the copy writes it. The editorial tier stays — it is
-                     the scale that earns the tight leading and tracking, not
-                     the capitals — but the slab is what the section reads as,
-                     and the client asked for the words, not the shout. --}}
-                <h2 class="reveal editorial-heading text-fluid-section text-ink">
+                {{-- Upper, with the steps below it left in the case their copy
+                     is written in. The two were taken out of capitals together
+                     — a step set upper under a heading that is not reads as the
+                     louder of the two — but only the heading was asked back,
+                     and a slab over a title-case step is the order they belong
+                     in anyway. It is also what the other section headings on
+                     the page do. --}}
+                <h2 class="reveal editorial-heading text-fluid-section uppercase text-ink">
                     @foreach ($process['heading'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach
