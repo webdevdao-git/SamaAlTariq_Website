@@ -28,17 +28,33 @@
             {{-- 0.5px of white at half strength, drawn left to right. --}}
             <span aria-hidden="true" class="reveal-line block h-px w-full bg-white/50"></span>
 
-            {{-- Label, summary and the link out, 26 under the rule. The summary
-                 is 670 wide in a 1568 column and the link ends on the right
-                 gutter, which is what space-between gives at every width. --}}
-            <div class="mt-[clamp(1rem,1.505vw,26px)] flex flex-col gap-[clamp(1rem,2.31vw,40px)] lg:flex-row lg:items-start lg:justify-between">
+            {{-- Label, summary and the link out, 26 under the rule.
+
+                 THREE TRACKS, NOT SPACE-BETWEEN. Space-between puts the middle
+                 item wherever the leftover room falls, which is not where the
+                 frame has it: measured off the frame's own render, the label
+                 runs 82–187, the summary 658–1302 and the link ends on the
+                 right gutter, and space-between started the summary at 509 —
+                 149 to the left of the file, and 60 narrower, so it broke a
+                 line earlier as well.
+
+                 578 from the gutter to the summary, the summary's own 670, and
+                 320 to the right gutter: 1568. As fractions, so the three hold
+                 their proportions at every width rather than only at 1728.
+
+                 lg:gap-0 because those three already account for the space
+                 between them — leaving the stack's 40 on would take 80 out of
+                 the 1568 and push the summary 13 past where the frame has it.
+                 The gap still applies below lg, where the three are a
+                 column. --}}
+            <div class="mt-[clamp(1rem,1.505vw,26px)] flex flex-col gap-[clamp(1rem,2.31vw,40px)] lg:grid lg:grid-cols-[578fr_670fr_320fr] lg:items-start lg:gap-0">
                 <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35]">{{ $hero['label'] }}</p>
 
-                <p class="reveal max-w-[670px] text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375]"
+                <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375]"
                    style="transition-delay:120ms">{{ $hero['body'] }}</p>
 
                 <a href="{{ \App\Support\Nav::href($hero['cta']['href']) }}"
-                   class="reveal group flex shrink-0 items-center gap-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70"
+                   class="reveal group flex shrink-0 items-center gap-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70 lg:justify-self-end"
                    style="transition-delay:220ms">
                     {{ $hero['cta']['label'] }}
                     <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
