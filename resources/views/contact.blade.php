@@ -39,9 +39,10 @@
                  ways of doing it. Right: the invitation and the form. --}}
             <div class="mt-[clamp(2rem,2.315vw,40px)] flex flex-col gap-[clamp(2.5rem,4.63vw,80px)] lg:flex-row lg:justify-between lg:gap-0">
 
-                {{-- 580 of the 1568, with the label at its head and the three
-                     ways of reaching the office at its foot. --}}
-                <div class="flex flex-col justify-between gap-[clamp(2.5rem,10vw,172px)] lg:w-[580px] lg:shrink-0">
+                {{-- 580 of the frame's 1568 as a fraction rather than as
+                     pixels: 580 and 761 together are 1341, which fits the
+                     column at 1728 and overflows it at 1440. --}}
+                <div class="flex flex-col justify-between gap-[clamp(2.5rem,10vw,172px)] lg:w-[36.99%] lg:shrink-0">
                     <p class="reveal text-[clamp(1.25rem,1.62vw,28px)] font-medium leading-[1.357] text-teal">{{ $contact['label'] }}</p>
 
                     {{-- Each row is its line and a rule beneath it — three
@@ -66,8 +67,9 @@
                     </dl>
                 </div>
 
-                {{-- 761, with 80 between the invitation and the form. --}}
-                <div class="flex flex-col gap-[clamp(2rem,4.63vw,80px)] lg:w-[761px] lg:shrink-0">
+                {{-- 761 of the 1568, and 80 between the invitation and the
+                     form. --}}
+                <div class="flex flex-col gap-[clamp(2rem,4.63vw,80px)] lg:w-[48.53%] lg:shrink-0">
                     <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375] text-ink">{{ $contact['body'] }}</p>
 
                     {{-- The same form as the card at the foot of every other
