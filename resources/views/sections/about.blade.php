@@ -77,9 +77,22 @@
                     </dl>
                 </div>
 
+                {{-- A wider measure than the frame's 561, which set the first
+                     paragraph five lines with "deliver." alone on the last of
+                     them. The widths that give four run 570 to 592 at full
+                     size, so the middle of that band — 581, which is 24.2em of
+                     this type.
+
+                     In em rather than those pixels, and that is what holds the
+                     four. The type is fluid and a pixel cap is not, so the two
+                     drift apart as the window narrows: 581px set four lines at
+                     1728 and three by 1280, because the words had shrunk inside
+                     a measure that had not. An em cap shrinks with them, so the
+                     measure carries the same words at every width. The second
+                     paragraph comes in at three lines throughout. --}}
                 <div class="reveal flex flex-col gap-[1.4em]" style="transition-delay:120ms">
                     @foreach ($about['body'] as $paragraph)
-                        <p class="max-w-[561px] text-fluid-lead font-medium text-ink">{{ $paragraph }}</p>
+                        <p class="max-w-[24.2em] text-fluid-lead font-medium text-ink">{{ $paragraph }}</p>
                     @endforeach
                 </div>
             </div>
