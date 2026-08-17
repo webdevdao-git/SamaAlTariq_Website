@@ -29,20 +29,19 @@
             <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,3vw,52px)] lg:w-[548px] lg:shrink-0">
                 <div class="flex flex-col gap-[clamp(0.875rem,1.5vw,26px)]">
                     <p class="text-fluid-label font-medium text-teal">{{ $inquiry['label'] }}</p>
-                    {{-- Upper, so that every display heading on the site is:
-                         this was the last one left in sentence case. It is the
-                         shared closing band, so the change is the same on all
-                         six pages that carry it — home, about, projects, the
-                         project pages, services and process.
+                    {{-- The one display heading left in the case its copy is
+                         written in. Set upper it read as shouted next to the
+                         form it introduces, so it keeps its capitals where the
+                         sentence puts them. It is the shared closing band, so
+                         this is the case on all six pages that carry it — home,
+                         about, projects, the project pages, services and
+                         process.
 
-                         And 470 rather than the frame's 444, which is the only
-                         thing the capitals cost: the heading is written as two
-                         lines, and set upper "FUTURE TOGETHER." measures 459 —
-                         fifteen more than the box the frame drew for it in
-                         sentence case — so it broke to three. The 470 keeps the
-                         two lines the design writes. Below 1728 it changes
-                         nothing; the type is smaller there and already fits. --}}
-                    <h2 class="display max-w-[470px] text-fluid-h2 uppercase leading-[1.3] text-ink">
+                         Which gives the box back the frame's own 444: the 470
+                         was the widening the capitals needed to hold two lines,
+                         and set this way "Future Together." fits the drawn box
+                         with room to spare. --}}
+                    <h2 class="display max-w-[444px] text-fluid-h2 leading-[1.3] text-ink">
                         @foreach ($inquiry['heading'] as $line)
                             <span class="inline sm:block">{{ $line }} </span>
                         @endforeach
