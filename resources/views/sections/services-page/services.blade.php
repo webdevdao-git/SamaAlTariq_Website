@@ -20,20 +20,24 @@
     and 163 of margin — 1728. Written out rather than as columns and a gap,
     because the number is not on the gutter and the text does not reach it.
 
-    THE PICTURES MOVE ON TWO LAYERS, which is what the reference's listing
-    actually does — the first pass at this caught only one of them.
+    THE FRAME DOES NOT MOVE. THE PHOTOGRAPH INSIDE IT DOES.
 
-    The frame that clips the photograph slides about 112 of its 1080 as the row
-    comes up, and the photograph inside it travels about 300 more. The frame's
-    own slide is why their pictures appear to pass one another at the seams:
-    the clipper is out of flow, so while it is displaced it hangs over the row
-    above or below. The photograph's slack is in the markup rather than bought
-    with a scale — 140% of the frame, hung at -20% — so nothing is enlarged and
-    the crop stays the frame's own.
+    Measured on halston's own services listing at 1440x900, walking a card the
+    whole way up the screen: the box that clips the picture tracks the page at
+    exactly -1.000 px per px — it never budges — while the picture inside runs
+    +0.192, starting flush with the frame's foot and ending flush with its head.
+    It uses its whole slack and no more, which is where their 140%-at--20% comes
+    from: 40% of the frame is exactly what one pass through the viewport spends.
 
-    Both are the site's existing mechanisms: data-parallax translates an
-    element by its own pixel figure across the viewport, data-drift measures
-    the slack around a picture and travels within it.
+    An earlier pass at this read a translate on their inner wrapper and gave the
+    clipper the same slide, on 64px of data-parallax. That was a real transform,
+    but not a visible one: their wrapper is clipped by the frame around it, and
+    ours had nothing clipping it, so where they move a picture within a fixed
+    window we moved the window itself and the photograph hung over the bands
+    above and below. The frame is fixed here now, as it is there.
+
+    Slack in the markup rather than bought with a scale, so nothing is enlarged
+    and the crop stays the frame's own.
 --}}
 @foreach ($services as $service)
     <section class="bg-[#F9F9F9]">
@@ -52,7 +56,7 @@
                  out of flow, so its slide can overhang the neighbouring rows
                  without moving anything. --}}
             <div class="reveal-rise relative w-full" style="aspect-ratio:600/640">
-                <div data-parallax="64" class="absolute inset-0 overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden">
                     <div data-drift class="absolute inset-x-0 -top-[20%] h-[140%]">
                         <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
                              class="h-full w-full object-cover">
@@ -68,7 +72,20 @@
                 {{-- Set upper in the frame, and it matters more than it looks:
                      at 48/45 the leading is tighter than the type, which only
                      resolves as a block when there are no descenders. --}}
-                <h2 class="reveal font-display text-[clamp(1.5rem,2.78vw,48px)] font-medium uppercase leading-[0.9375] tracking-normal text-ink">
+                {{-- 535 of the column's 602, which is the frame's own title box
+                     and not the width of the track it sits in. It is what makes
+                     the titles break where the design breaks them: "Fit-Out
+                     Contracting" measures 548 here, so given the whole 602 it
+                     sat on one line where the file has two. The frame's line
+                     counts, in order, are 2 2 2 2 1 2 2 1 3 2 — all of them
+                     this box's own wrapping, except Design AND Build, which
+                     carries a newline in the text itself.
+
+                     Through a custom property because the width is the band's
+                     own: the frame widens the last one to 589, and a class
+                     built out of config would never reach Tailwind's scanner. --}}
+                <h2 style="--title-box:{{ $service['title_box'] ?? '88.87%' }}"
+                    class="reveal font-display text-[clamp(1.5rem,2.78vw,48px)] font-medium uppercase leading-[0.9375] tracking-normal text-ink lg:max-w-[var(--title-box)]">
                     @foreach ($service['title'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach

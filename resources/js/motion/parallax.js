@@ -67,8 +67,6 @@ export function initMediaDrift() {
             const rect = node.getBoundingClientRect();
             if (rect.bottom < -vh || rect.top > vh * 2) continue;
 
-            const progress = viewportProgress(rect, vh) - 0.5;
-
             /*
              * Prefer headroom the markup already provides. Where a picture is
              * laid out taller than the frame that clips it — the reference's
@@ -81,9 +79,34 @@ export function initMediaDrift() {
             const headroom = (node.offsetHeight - frame.clientHeight) / 2;
 
             if (headroom > 1) {
-                // 0.9 keeps the travel just inside the slack, so a rounding
-                // error at the ends of the sweep cannot expose a bare edge.
-                const offset = progress * -2 * (headroom * 0.9);
+                /*
+                 * Keyed to the frame's pass across the screen, not the layer's.
+                 * The layer is taller than the frame by exactly the slack, so
+                 * measuring the sweep against it lengthens the sweep by that
+                 * same slack and the picture spends only part of what it has —
+                 * 0.105 per px here where the frame's own pass gives 0.134,
+                 * which is the reference's 0.192 at the reference's taller
+                 * frame. The frame is the thing crossing the viewport; the
+                 * layer is only how the crossing is drawn.
+                 */
+                const progress = viewportProgress(frame.getBoundingClientRect(), vh) - 0.5;
+
+                /*
+                 * Down the frame as the page goes down, which is the sign the
+                 * reference uses and the opposite of what this had.
+                 *
+                 * Measured on halston's services listing at 1440x900: the
+                 * picture's top runs -406 to -49 inside its frame while the
+                 * frame crosses the screen — it starts flush with the frame's
+                 * foot and ends flush with its head, moving 0.192px per px of
+                 * scroll. Screen-wise that is 0.81 of the page's own speed, so
+                 * the picture lags and reads as depth. Negated, as it was here,
+                 * it ran at 1.14 and drove against the scroll instead.
+                 *
+                 * 0.9 keeps the travel just inside the slack, so a rounding
+                 * error at the ends of the sweep cannot expose a bare edge.
+                 */
+                const offset = progress * 2 * (headroom * 0.9);
                 node.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
                 continue;
             }
@@ -99,7 +122,7 @@ export function initMediaDrift() {
              * in it, which would feed the range back into itself.
              */
             const fraction = Number(node.dataset.drift) || DRIFT_RANGE;
-            const offset = progress * -2 * (node.offsetHeight * fraction);
+            const offset = (viewportProgress(rect, vh) - 0.5) * 2 * (node.offsetHeight * fraction);
             node.style.transform =
                 `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${driftScale(fraction).toFixed(4)})`;
         }

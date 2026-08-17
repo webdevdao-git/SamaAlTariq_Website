@@ -681,7 +681,11 @@ return [
                 'body' => 'Managing submissions, permits, NOCs, and regulatory approvals with the relevant Dubai and UAE authorities.',
             ],
             [
-                'number' => '10', 'title' => ['Project Management AND Coordination'], 'image' => 'images/services/service-10.webp',
+                // The one band whose title box the frame widens: 589 of the 602
+                // column rather than the 535 the other nine share, which is
+                // what keeps this title on two lines instead of three.
+                'number' => '10', 'title' => ['Project Management AND Coordination'], 'title_box' => '97.84%',
+                'image' => 'images/services/service-10.webp',
                 'lead' => 'Keeping complexity under control.',
                 'body' => 'Dedicated project leadership connecting consultants, suppliers, trades and site teams around a clear programme, coordinated decisions and defined responsibilities.',
             ],
