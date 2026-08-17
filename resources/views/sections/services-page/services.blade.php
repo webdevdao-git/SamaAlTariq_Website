@@ -40,7 +40,19 @@
     and the crop stays the frame's own.
 --}}
 @foreach ($services as $service)
-    <section class="bg-[#F9F9F9]">
+    {{-- The bands overlap, which is the reference's own arrangement and what
+         keeps the column of photographs close together while scrolling. Theirs
+         sit 936 apart on a 1080-tall picture — each one starts 144 before the
+         last one ends, an overlap of 13.33% of a picture. Ours is 640 on a band
+         37.04vw tall, so the same fraction is 4.938vw, or 85 at 1728.
+
+         Held to lg: below it the picture stacks above its own text, and pulling
+         the next band up would put its photograph over the text of this one.
+
+         The later band wins the overlap, exactly as theirs does — both pictures
+         are positioned, so document order decides, and the seam shows the
+         arriving photograph rather than the leaving one. --}}
+    <section class="bg-[#F9F9F9] {{ $loop->first ? '' : 'lg:-mt-[4.938vw]' }}">
         <div class="grid items-stretch lg:grid-cols-[163fr_40fr_80fr_600fr_80fr_602fr_163fr]">
 
             <div aria-hidden="true" class="hidden lg:block"></div>
@@ -55,7 +67,13 @@
             {{-- The outer box holds the row's height; the clipper inside it is
                  out of flow, so its slide can overhang the neighbouring rows
                  without moving anything. --}}
-            <div class="reveal-rise relative w-full" style="aspect-ratio:600/640">
+            {{-- No entrance on the photograph. reveal-rise starts an element at
+                 opacity 0 and 80 down, and a band's picture IS the band: until
+                 it fired, the row stood empty and the photograph sat 80 low in
+                 it, which is the white space under the pictures. The reference
+                 gives its own none — the photographs are simply there, and the
+                 only thing that moves is the drift inside them. --}}
+            <div class="relative w-full" style="aspect-ratio:600/640">
                 <div class="absolute inset-0 overflow-hidden">
                     <div data-drift class="absolute inset-x-0 -top-[20%] h-[140%]">
                         <img src="{{ \App\Support\Asset::versioned($service['image']) }}" alt="" loading="lazy" decoding="async"
