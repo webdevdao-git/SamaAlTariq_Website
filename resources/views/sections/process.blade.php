@@ -41,7 +41,12 @@
                         <div data-process-step="{{ $i }}"
                              class="process-step flex flex-col gap-[clamp(0.5rem,0.7vw,12px)]">
                             <p class="display text-[clamp(1.35rem,1.85vw,32px)] text-teal">{{ $step['number'] }}</p>
-                            <h3 class="display text-[clamp(1.5rem,2.2vw,38px)] text-ink">{{ $step['title'] }}</h3>
+                            {{-- The same four phase names the process page
+                                 carries, so they are set the same way: upper.
+                                 Left in sentence case they read as a different
+                                 list from the one the page they link to
+                                 shows. --}}
+                            <h3 class="display text-[clamp(1.5rem,2.2vw,38px)] uppercase text-ink">{{ $step['title'] }}</h3>
                             <p class="max-w-[46ch] text-fluid-body font-medium text-ink-muted">{{ $step['body'] }}</p>
                         </div>
                     @endforeach
