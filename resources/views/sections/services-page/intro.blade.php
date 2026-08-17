@@ -17,8 +17,11 @@
     <div class="shell">
         <div class="flex flex-col gap-[clamp(1.5rem,3.7vw,64px)] lg:flex-row lg:items-start">
             {{-- 179 in the frame, so the statement starts at 322 whatever the
-                 label's own words measure. --}}
-            <p class="reveal shrink-0 text-[clamp(1.25rem,1.62vw,28px)] font-medium leading-[1.357] text-teal lg:w-[179px]">{{ $intro['label'] }}</p>
+                 label's own words measure — but held on one line: our Manrope
+                 sets "Our Expertise" a little wider than 179, and left to wrap
+                 it broke into two lines and took the row's alignment with it.
+                 The overflow runs into the 64 gap, which is empty. --}}
+            <p class="reveal shrink-0 whitespace-nowrap text-[clamp(1.25rem,1.62vw,28px)] font-medium leading-[1.357] text-teal lg:w-[179px]">{{ $intro['label'] }}</p>
 
             <h2 class="reveal font-display text-[clamp(1.5rem,2.78vw,48px)] font-medium leading-[1.292] tracking-normal text-ink lg:max-w-[818px]"
                 style="transition-delay:120ms">{{ $intro['statement'] }}</h2>
