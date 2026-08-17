@@ -1,3 +1,5 @@
+@props(['gap' => 'clamp(1.15rem,2vw,34px)'])
+
 @php($inquiry = config('site.inquiry'))
 
 {{--
@@ -12,14 +14,16 @@
     JavaScript — old input and errors come back from the session, and the
     select falls back to the native control.
 
-    The class list can be overridden by the caller: the card gives it the rest
-    of the row, the contact page gives it a column.
+    The class list and the row rhythm are the caller's: the card gives it the
+    rest of a row and 34 between fields, the contact page a column and the
+    frame's 56.
 --}}
 <form method="POST" action="{{ route('enquiries.store') }}"
-      {{ $attributes->merge(['class' => 'flex flex-1 flex-col gap-[clamp(1.15rem,2vw,34px)]']) }}>
+      style="--form-gap:{{ $gap }}"
+      {{ $attributes->merge(['class' => 'flex flex-1 flex-col gap-[var(--form-gap)]']) }}>
     @csrf
 
-    <div class="grid gap-[clamp(1.15rem,2vw,34px)] sm:grid-cols-2 sm:gap-x-[clamp(1rem,1.29vw,22px)]">
+    <div class="grid gap-[var(--form-gap)] sm:grid-cols-2 sm:gap-x-[clamp(1rem,1.29vw,22px)]">
         <div>
             <label for="name" class="field-label">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" required
