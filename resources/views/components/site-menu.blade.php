@@ -15,37 +15,36 @@
                     class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">Close</button>
         </div>
 
-        {{--
-            The way in for a client is a line in the list, before the last of
-            them. It has been in three places now — the header beside ENQUIRE,
-            which no frame in the file draws; the head of this panel; and the
-            gutter opposite CONTACT — and this is where it was asked for.
-
-            Set like the pages either side of it, because in a list of six that
-            is what it now is. The one thing that marks it out is that it is
-            not part of the nav config: it is a route, not a page of the site,
-            and it takes the panel's own arrow like the rest.
-
-            Signed-in visitors get the portal rather than a sign-in page: a
-            client who is already authenticated has no use for one, and it
-            saves a redirect.
-        --}}
         <nav class="flex flex-1 flex-col justify-center gap-2">
             @foreach ($nav as $item)
-                @if ($loop->last)
-                    <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}" data-menu-link
-                       class="display group flex w-fit items-center gap-6 text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
-                        {{ auth()->check() ? 'Portal' : 'Login' }}
-                        <x-icon name="arrow-right" class="w-7 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
-                    </a>
-                @endif
-
                 <a href="{{ $item['href'] }}" data-menu-link
                    class="display group flex w-fit items-center gap-6 text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
                     {{ $item['label'] }}
                     <x-icon name="arrow-right" class="w-7 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
                 </a>
             @endforeach
+
+            {{--
+                The way in for a client is the last line in the list, under
+                CONTACT. It has been in four places now — the header beside
+                ENQUIRE, which no frame in the file draws; the head of this
+                panel; the gutter opposite CONTACT; and a line above it — and
+                this is where it was asked for.
+
+                Set like the pages above it, because in a list of six that is
+                what it now is. The one thing that marks it out is that it is
+                not part of the nav config: it is a route, not a page of the
+                site, and it takes the panel's own arrow like the rest.
+
+                Signed-in visitors get the portal rather than a sign-in page: a
+                client who is already authenticated has no use for one, and it
+                saves a redirect.
+            --}}
+            <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}" data-menu-link
+               class="display group flex w-fit items-center gap-6 text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
+                {{ auth()->check() ? 'Portal' : 'Login' }}
+                <x-icon name="arrow-right" class="w-7 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
+            </a>
         </nav>
 
         {{--
