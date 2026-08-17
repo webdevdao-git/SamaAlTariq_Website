@@ -839,7 +839,7 @@ return [
         'steps' => [
             [
                 'number' => '01',
-                'title' => 'Tender  And Cost Estimation',
+                'title' => 'Tender And Cost Estimation',
                 'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.',
                 'image' => 'images/process/tender-and-cost-estimation.webp',
             ],
