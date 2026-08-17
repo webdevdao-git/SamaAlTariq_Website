@@ -225,6 +225,29 @@ export function initSplitLines() {
         node.querySelectorAll('.line-mask, .unit-mask').forEach((mask) => mask.classList.add('is-visible'));
     };
 
+    /**
+     * One re-measure once the page has settled.
+     *
+     * The first split runs as soon as this module does, and what it measures
+     * is whatever the page looked like at that moment — which on a cold visit
+     * is not always the finished thing. The hero intro came back a line short
+     * of its indent on the live site and correct on a warm local one, the same
+     * markup measured before and after its own paragraph had been styled.
+     *
+     * The observer above cannot catch that: the box is the same width either
+     * way, so nothing it watches has changed. fonts.ready is the signal that
+     * the face the lines will actually be set in has arrived — a line measured
+     * in a fallback is measured at the wrong width too — and by then the
+     * stylesheet is long applied. Cheap, since it is a handful of nodes.
+     */
+    document.fonts?.ready.then(() => {
+        for (const node of measured) {
+            split(node);
+            widths.set(node, node.getBoundingClientRect().width);
+            if (node.dataset.splitVisible === 'true') reveal(node);
+        }
+    });
+
     const pending = new Set(nodes);
 
     const unsubscribe = subscribeToScroll(({ vh }) => {
