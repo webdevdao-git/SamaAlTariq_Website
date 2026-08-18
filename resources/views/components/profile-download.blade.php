@@ -8,9 +8,9 @@
     likely to want to take away with them, and hunting for it in a footer is
     the reason the old site put it here too.
 
-    Bottom LEFT, not right. The right-hand gutter is where a phone's own back
-    gesture and most chat launchers live, and this site's WhatsApp link sits in
-    that corner of the footer.
+    Bottom LEFT from sm, where the page has empty gutter to spare. On a phone
+    it swaps to the right: the footer stacks everything against the left edge
+    there, and a button in that corner sat on top of "Back to top".
 
     A circle below sm and a pill from there: at phone width a labelled pill
     spans a third of the screen and sits over the copy it is offering. The
@@ -29,7 +29,7 @@
 --}}
 <a href="{{ asset($profile['file']) }}" download
    aria-label="{{ $profile['aria'] }}"
-   class="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] left-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-teal shadow-[0_14px_30px_rgba(17,17,17,0.18)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-auto sm:w-auto sm:gap-2.5 sm:px-5 sm:py-3.5 md:bottom-7 md:left-7">
+   class="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-40 sm:right-auto sm:left-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-teal shadow-[0_14px_30px_rgba(17,17,17,0.18)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-auto sm:w-auto sm:gap-2.5 sm:px-5 sm:py-3.5 md:bottom-7 md:left-7">
     <x-icon name="download" :size="16" class="transition-transform duration-300 group-hover:translate-y-0.5"/>
     <span class="hidden text-[11px] font-bold uppercase tracking-[0.18em] sm:inline md:text-xs">{{ $profile['label'] }}</span>
 </a>

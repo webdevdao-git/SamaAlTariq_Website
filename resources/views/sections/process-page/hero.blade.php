@@ -66,7 +66,7 @@
                    style="transition-delay:120ms">{{ $hero['body'] }}</p>
 
                 <a href="{{ \App\Support\Nav::href($hero['cta']['href']) }}"
-                   class="reveal group flex shrink-0 items-center gap-0 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70 lg:justify-self-end"
+                   class="reveal group flex shrink-0 items-center py-2 -my-2 gap-0 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70 lg:justify-self-end"
                    style="transition-delay:220ms">
                     {{ $hero['cta']['label'] }}
                     <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>

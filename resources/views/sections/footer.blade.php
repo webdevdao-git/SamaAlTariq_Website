@@ -34,7 +34,7 @@
                         @foreach ($nav as $item)
                             <li>
                                 <a href="{{ $item['href'] }}"
-                                   class="inline-block transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
+                                   class="inline-block py-[13px] -my-[13px] transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -200,7 +200,7 @@
         {{-- Legal bar --}}
         <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-[clamp(1rem,1.5vw,26px)]">
             <p class="text-fluid-sm text-white/80">{{ config('site.copyright') }}</p>
-            <a href="#top" class="group inline-flex items-center gap-1.5 text-fluid-sm font-medium transition-opacity hover:opacity-70">
+            <a href="#top" class="group inline-flex items-center gap-1.5 py-2 -my-2 text-fluid-sm font-medium transition-opacity hover:opacity-70">
                 Back to top
                 <span class="inline-block rotate-[-90deg] transition-transform duration-300 group-hover:-translate-y-0.5">
                     <x-icon name="arrow-right" class="w-[clamp(16px,1.16vw,20px)]"/>

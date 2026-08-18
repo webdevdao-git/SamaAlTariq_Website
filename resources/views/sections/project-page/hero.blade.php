@@ -114,7 +114,7 @@
 
             <div class="mt-[clamp(1rem,1.794vw,31px)] flex items-baseline justify-between gap-4 text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35]">
                 <span aria-hidden="true">Scroll</span>
-                <a href="{{ route('projects') }}" class="transition-opacity hover:opacity-70">Return To Gallery</a>
+                <a href="{{ route('projects') }}" class="inline-block py-[11px] -my-[11px] transition-opacity hover:opacity-70">Return To Gallery</a>
             </div>
         </div>
     </div>

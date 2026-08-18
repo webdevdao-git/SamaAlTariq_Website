@@ -12,13 +12,13 @@
     <div class="shell flex h-full flex-col py-[clamp(1.25rem,2.55vw,44px)]">
         <div class="flex items-center justify-end">
             <button type="button" data-menu-close
-                    class="text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">Close</button>
+                    class="py-2.5 -my-2.5 pl-3 text-fluid-body font-semibold uppercase text-white transition-opacity hover:opacity-70">Close</button>
         </div>
 
         <nav class="flex flex-1 flex-col justify-center gap-2">
             @foreach ($nav as $item)
                 <a href="{{ $item['href'] }}" data-menu-link
-                   class="display group flex w-fit items-center gap-6 text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
+                   class="display group flex w-fit items-center gap-6 py-[7px] -my-[7px] text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
                     {{ $item['label'] }}
                     <x-icon name="arrow-right" class="w-7 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
                 </a>
@@ -41,7 +41,7 @@
                 saves a redirect.
             --}}
             <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}" data-menu-link
-               class="display group flex w-fit items-center gap-6 text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
+               class="display group flex w-fit items-center gap-6 py-[7px] -my-[7px] text-[clamp(2rem,5vw,86px)] uppercase text-white transition-colors hover:text-teal">
                 {{ auth()->check() ? 'Portal' : 'Login' }}
                 <x-icon name="arrow-right" class="w-7 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
             </a>

@@ -430,6 +430,17 @@
     }
 
     /*
+     * And again for the smallest screens still in use. 0.7em holds the line at
+     * 11px on a 390 but only 6px on a 320, which is not reading, it is texture.
+     * 0.38em brings it back to about 10.
+     */
+    @media (width < 22rem) {
+        .logotype-sub {
+            letter-spacing: 0.38em;
+        }
+    }
+
+    /*
      * The service panel headline. Juana Alt, like the footer lock-up.
      *
      * Bodoni Moda sits second in the stack rather than Playfair, which is what
@@ -607,6 +618,34 @@
     .field:focus {
         outline: none;
         border-bottom-color: var(--color-teal);
+    }
+
+    /*
+     * A finger's worth of field on a phone. An underlined input is its own line
+     * box and nothing more — 23px of it — which is a target under half the size
+     * a thumb reliably hits, and the underline gives no clue where to press.
+     * The height goes on the control rather than the label, so the row still
+     * reads as one line of type over a rule.
+     *
+     * Phones only: with a pointer the line box is a fine target, and the
+     * desktop card is drawn to the frame's own spacing.
+     */
+    @media (width < 40rem) {
+        .field,
+        .field-select__button,
+        .field-select__native {
+            min-height: 2.75rem;
+        }
+
+        .field {
+            padding-top: 0.75rem;
+        }
+
+        .field-select__button {
+            display: flex;
+            align-items: flex-end;
+            padding-top: 0.75rem;
+        }
     }
 
     .field[aria-invalid='true'] {

@@ -63,7 +63,7 @@
                         @foreach ($about['stats'] as $i => $stat)
                             <div class="flex items-center gap-[clamp(1.25rem,2.31vw,40px)]">
                                 @if ($i > 0)
-                                    <span aria-hidden="true" class="h-[52px] w-px bg-black/15"></span>
+                                    <span aria-hidden="true" class="hidden h-[52px] w-px bg-black/15 lg:block"></span>
                                 @endif
                                 <div>
                                     <dt class="sr-only">{{ $stat['label'] }}</dt>

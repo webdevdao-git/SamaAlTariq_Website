@@ -57,7 +57,7 @@
                                 <dt class="sr-only">{{ $detail['label'] }}</dt>
                                 <dd class="text-[clamp(1rem,1.157vw,20px)] font-medium leading-[1.2] text-ink">
                                     @if ($detail['href'])
-                                        <a href="{{ $detail['href'] }}" class="transition-opacity hover:opacity-70">{{ $detail['value'] }}</a>
+                                        <a href="{{ $detail['href'] }}" class="inline-block py-[11px] -my-[11px] transition-opacity hover:opacity-70">{{ $detail['value'] }}</a>
                                     @else
                                         {{ $detail['value'] }}
                                     @endif

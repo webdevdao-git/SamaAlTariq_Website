@@ -78,7 +78,7 @@
                    style="transition-delay:120ms">{{ $hero['body'] }}</p>
 
                 <a href="{{ \App\Support\Nav::href($hero['cta']['href']) }}"
-                   class="reveal group flex shrink-0 items-center gap-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70"
+                   class="reveal group flex shrink-0 items-center gap-2 py-2 -my-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70"
                    style="transition-delay:220ms">
                     {{ $hero['cta']['label'] }}
                     <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
@@ -90,13 +90,22 @@
                  what puts the figures level with the foot of the word rather
                  than with its cap. --}}
             <div class="mt-[clamp(2.5rem,16.2vw,280px)] flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] lg:flex-row lg:items-end lg:justify-between">
-                <h1 class="font-display text-[clamp(2.5rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal">
+                {{-- The floor is 1.75rem, not the 2.5 the rest of the page's fluid type
+                     takes: ABOUT US set at 40px measures 387 and a 390 screen has
+                     350 to give it, so the page scrolled sideways by up to 87 on a
+                     320. Above 448 the vw term is the larger of the two and the
+                     desktop size is untouched. --}}
+                <h1 class="font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal">
                     <span data-split data-split-by="word">{{ $hero['word'] }}</span>
                 </h1>
 
                 {{-- Each divider belongs to the figure that follows it, so the
                      row can wrap without leaving a rule hanging at the end of a
-                     line.
+                     line — and below lg it is not drawn at all, because there
+                     the row wraps to one figure per line and every rule is
+                     hanging: a 52px stroke to the left of a stat that has
+                     nothing before it reads as a stray mark rather than a
+                     separator.
 
                      The rule is centred on the figure beside it, not sat on its
                      foot: it is 52 against a figure of about 110, so aligned to
@@ -111,7 +120,7 @@
                         <div class="reveal flex items-center gap-[clamp(1.25rem,2.31vw,40px)]"
                              style="transition-delay:{{ 140 + $i * 110 }}ms">
                             @if ($i > 0)
-                                <span aria-hidden="true" class="h-[52px] w-px bg-white/30"></span>
+                                <span aria-hidden="true" class="hidden h-[52px] w-px bg-white/30 lg:block"></span>
                             @endif
                             <div>
                                 <dt class="sr-only">{{ $stat['label'] }}</dt>

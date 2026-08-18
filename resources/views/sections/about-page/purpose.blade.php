@@ -23,7 +23,13 @@
 <section class="bg-white pt-[clamp(2.5rem,5.03vw,87px)] pb-[clamp(2.5rem,4.98vw,86px)]">
 
     <div class="shell">
-        <h2 class="editorial-heading text-fluid-mega uppercase text-ink">
+        {{-- 2.25rem at the floor rather than the token's 3.25. "Construction"
+             is set as letters, each in its own mask, so the word cannot break
+             and cannot be made to: at 52px it measures 387 against the 280 a
+             320 screen has to give, and the page scrolled sideways by that
+             difference. 36px brings it to 268. Above 486 the vw term is the
+             larger of the two and the frame's own size is untouched. --}}
+        <h2 class="editorial-heading text-[clamp(2.25rem,7.41vw,128px)] uppercase text-ink">
             {{-- Letter masks rather than lines. At 128px each glyph is a shape
                  in its own right, and the staircase arrives a letter at a time
                  instead of three slabs dropping in. --}}

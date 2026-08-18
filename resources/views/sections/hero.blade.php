@@ -70,7 +70,7 @@
                            class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center lg:col-start-5 lg:justify-self-end lg:w-[30.17em] lg:indent-[4.583em]">{{ $hero['intro'] }}</p>
 
                         <a href="{{ $hero['cta']['href'] }}"
-                           class="group inline-flex items-center gap-1 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right lg:col-span-2 lg:whitespace-nowrap">
+                           class="group inline-flex items-center gap-1 py-2 -my-2 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right lg:col-span-2 lg:whitespace-nowrap">
                             {{ $hero['cta']['label'] }}
                             <x-icon name="arrow-right" class="w-[clamp(20px,1.62vw,28px)] transition-transform duration-300 group-hover:translate-x-1"/>
                         </a>
