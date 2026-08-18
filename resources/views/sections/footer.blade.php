@@ -91,28 +91,40 @@
                 box is the tap target: the mark is ~24, which is under the size
                 a thumb reliably hits.
 
-                Three across from lg — a 128px cap on a wrapping row, which is
-                exactly three of them — so five marks read as a block of 3 over
-                2, both lines against the gutter, rather than a broken line. The two columns the design gives this
-                are 135 wide at lg and 228 at 1728 — five 44s never fit the
-                first, and at the second they fit by 8px, so a single row would
-                have held only at the widest window and come apart as 4 and 1
-                just below it. Three fit everywhere. Below lg the footer stacks
-                and the block has the width for all five, so they run in one
-                line there.
+                One line, which is what sets the size of the marks rather
+                than the other way round. The two columns the design gives this
+                block are 13.2% of the window throughout — 135 at lg, 228 at
+                1728 — and five 44s are wider than the first of those, so a
+                fixed box either broke the line into 4 and 1 or overran the card
+                beside it. The box is a fraction of the window instead, 2.35vw
+                with 0.25vw between, which spends 12.75 of those 13.2 at every
+                width: 24px on a 1024 screen, 34 on a 1440 one, capped at 44 so
+                it stops growing on a very wide monitor.
+
+                From 2xl it drops to 1.6vw, capped at 38, and that is the card beside it
+                rather than the columns. The card holds the design's 417 from
+                there and overflows its own track to do it, taking the left of
+                this block's space with it — 143px of clear teal at 1536 where
+                the columns say 200. A row sized off the columns put its first
+                mark on the card's corner; sized off what the card leaves, it
+                clears everything from 1536 to 2560.
+
+                Below lg the footer stacks, the block has the whole width, and
+                the marks go back to a flat 44 — that is where they are touched
+                rather than pointed at.
 
                 Placed explicitly rather than flowed: at 2xl the card takes the
                 grid as far as column 11, and auto-placement would answer that by
                 opening a thirteenth column and pushing the list off the page.
             --}}
             <div class="reveal lg:col-start-11 lg:col-end-13 lg:justify-self-end" style="transition-delay:180ms">
-                <ul class="flex flex-wrap items-center gap-1 lg:max-w-[128px] lg:justify-end">
+                <ul class="flex flex-wrap items-center gap-1 lg:flex-nowrap lg:justify-end lg:gap-[min(0.25vw,4px)]">
                     @foreach ($social as $s)
                         <li>
                             <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
                                aria-label="{{ $s['label'] }} — opens in a new tab"
-                               class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white lg:size-10">
-                                <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
+                               class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white lg:size-[min(2.35vw,44px)] 2xl:size-[min(1.6vw,38px)]">
+                                <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)] lg:w-[min(1.45vw,24px)] 2xl:w-[min(1.05vw,22px)]"/>
                             </a>
                         </li>
                     @endforeach
