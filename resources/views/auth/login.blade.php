@@ -119,21 +119,65 @@
                         <span class="text-portal">BUILT ON TRUST</span>
                     </p>
 
+                    {{--
+                        The three carried a chevron and did nothing, which is a
+                        promise a signed-out visitor cannot cash. Each one now
+                        opens a picture of the screen it names.
+
+                        The pictures are of the portal itself, taken against a
+                        made-up project — "Marina Heights Villa", a demo client,
+                        captions written for the purpose — because this page is
+                        public and a real client's project name, documents and
+                        photographs are not.
+
+                        Links, not buttons, and the href is the picture: with no
+                        JavaScript they simply open it. The script upgrades them
+                        into a dialog in place.
+                    --}}
                     <ul class="mt-5 grid grid-cols-3 gap-2 border-t border-portal-ink/12 pt-4">
                         @foreach ([
-                            ['chart',    'TRACK',  'PROGRESS'],
-                            ['document', 'VIEW',   'REPORTS'],
-                            ['gallery',  'PHOTO',  'GALLERY'],
-                        ] as [$icon, $lineOne, $lineTwo])
-                            <li class="flex items-center justify-center gap-2 text-portal-ink">
-                                <x-icon :name="$icon" class="text-portal-ink/70"/>
-                                <span class="text-[10px] leading-tight font-bold tracking-[0.1em]">
-                                    {{ $lineOne }}<br>{{ $lineTwo }}
-                                </span>
-                                <x-icon name="chevron-right" class="text-ink-muted"/>
+                            ['chart',    'TRACK',  'PROGRESS', 'progress', 'Track progress', 'Every stage of the build, with its own status and the date it is due.'],
+                            ['document', 'VIEW',   'REPORTS',  'reports',  'View reports',   'Progress reports and paperwork, shared as they are issued.'],
+                            ['gallery',  'PHOTO',  'GALLERY',  'gallery',  'Photo gallery',  'Site and finish photography, captioned and dated.'],
+                        ] as [$icon, $lineOne, $lineTwo, $shot, $title, $blurb])
+                            <li>
+                                <a href="{{ \App\Support\Asset::versioned("images/portal-preview/{$shot}.webp") }}"
+                                   data-preview="{{ $title }}" data-preview-blurb="{{ $blurb }}"
+                                   class="flex w-full items-center justify-center gap-2 rounded-lg py-2 text-portal-ink transition-colors hover:text-portal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portal">
+                                    <x-icon :name="$icon" class="text-portal-ink/70"/>
+                                    <span class="text-[10px] leading-tight font-bold tracking-[0.1em]">
+                                        {{ $lineOne }}<br>{{ $lineTwo }}
+                                    </span>
+                                    <x-icon name="chevron-right" class="text-ink-muted"/>
+                                </a>
                             </li>
                         @endforeach
                     </ul>
+
+                    {{-- One dialog for the three, filled in on open. Native
+                         <dialog>, so Escape closes it, the page behind is inert
+                         and focus is handled without any of it being written
+                         here. --}}
+                    <dialog data-preview-dialog
+                            class="m-auto max-h-[88vh] w-[min(1100px,92vw)] flex-col overflow-hidden rounded-2xl p-0 backdrop:bg-portal-ink/60 backdrop:backdrop-blur-sm open:flex">
+                        <div class="flex shrink-0 items-start justify-between gap-4 border-b border-portal-ink/10 px-5 py-4">
+                            <span>
+                                <span data-preview-title class="block font-wordmark text-[15px] tracking-[0.08em] text-portal-ink"></span>
+                                <span data-preview-blurb class="mt-1 block text-[13px] text-ink-muted"></span>
+                            </span>
+                            <button type="button" data-preview-close
+                                    class="shrink-0 rounded-lg px-3 py-2 text-[13px] font-semibold text-portal-ink transition-colors hover:text-portal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portal">
+                                Close
+                            </button>
+                        </div>
+                        {{-- The picture is a screen 1600 wide: unbounded, the
+                             dialog grew past the window and a <dialog> that is
+                             taller than the viewport cannot centre itself.
+                             Capped, it scrolls inside its own box. --}}
+                        <div class="min-h-0 overflow-auto">
+                            <img data-preview-image src="" alt="" class="block h-auto w-full">
+                        </div>
+                    </dialog>
 
                     <p class="mt-4 flex items-center justify-center gap-2 text-[11.5px] text-ink-muted">
                         <x-icon name="lock" size="14"/>

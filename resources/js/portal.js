@@ -8,6 +8,44 @@
  */
 
 /** Show/hide toggles on password fields. */
+/**
+ * The login page's three feature links open a picture of the screen they name.
+ *
+ * The href is that picture, so with no JavaScript the link still shows it —
+ * this only upgrades the click into a dialog on the page. One <dialog> serves
+ * all three and is filled in on open, and being a real <dialog> it brings
+ * Escape, the backdrop, focus handling and inertness with it rather than
+ * having them written here.
+ */
+function initFeaturePreview() {
+    const dialog = document.querySelector('[data-preview-dialog]');
+    const links = document.querySelectorAll('[data-preview]');
+    if (!dialog || links.length === 0 || typeof dialog.showModal !== 'function') return;
+
+    const image = dialog.querySelector('[data-preview-image]');
+    const title = dialog.querySelector('[data-preview-title]');
+    const blurb = dialog.querySelector('[data-preview-blurb]');
+
+    for (const link of links) {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            image.src = link.getAttribute('href');
+            image.alt = `${link.dataset.preview} — a preview of the client portal`;
+            title.textContent = link.dataset.preview;
+            blurb.textContent = link.dataset.previewBlurb || '';
+            dialog.showModal();
+        });
+    }
+
+    dialog.querySelector('[data-preview-close]')?.addEventListener('click', () => dialog.close());
+
+    // Clicking the backdrop closes it: the dialog's own box is the only thing
+    // inside it, so a click that lands on the element itself landed outside.
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+    });
+}
+
 function initPasswordToggles() {
     for (const button of document.querySelectorAll('[data-password-toggle]')) {
         const input = document.getElementById(button.dataset.passwordToggle);
@@ -149,6 +187,7 @@ function initUploadOnChange() {
 }
 
 function boot() {
+    initFeaturePreview();
     initPasswordToggles();
     initSidebar();
     initAutoSubmit();
