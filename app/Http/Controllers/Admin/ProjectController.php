@@ -46,8 +46,14 @@ class ProjectController extends Controller
      * projects, images and documents rather than invented. That means it is
      * accurate about *what* happened and *when*, but cannot attribute *who* —
      * so it does not pretend to.
+     *
+     * Twelve rather than eight: the panel shows five and folds the rest away,
+     * so the limit is now how much there is to open rather than how much is on
+     * screen. Each of the three queries takes that many and the merge keeps the
+     * newest twelve of the up-to-36 — the same shape as before, one notch
+     * wider.
      */
-    private function activity(int $limit = 8): \Illuminate\Support\Collection
+    private function activity(int $limit = 12): \Illuminate\Support\Collection
     {
         $projects = Project::latest()->take($limit)->get()
             ->map(fn ($p) => ['icon' => 'file-plus', 'text' => "New project “{$p->title}” was added.", 'at' => $p->created_at]);

@@ -87,10 +87,28 @@
             </form>
         </section>
 
-        <section class="min-w-0 rounded-2xl border border-portal-ink/10 bg-white p-[clamp(1.25rem,2.2vw,28px)]">
+        {{-- self-start: the card is as tall as its own five entries rather
+             than as tall as the form beside it. Stretched it was mostly empty
+             once the feed folded. --}}
+        <section class="min-w-0 self-start rounded-2xl border border-portal-ink/10 bg-white p-[clamp(1.25rem,2.2vw,28px)]">
             <h2 class="font-wordmark text-[17px] tracking-[0.08em] text-portal-ink">RECENT ACTIVITY</h2>
+
+            {{-- Five, and the rest folded away behind a <details>.
+
+                 The feed runs to twelve and the panel sits beside a form: at
+                 eight entries it ran a good deal taller than the thing it is
+                 keeping company, and the older half of it is reference rather
+                 than news.
+
+                 A <details> rather than a button and a class: it opens without
+                 JavaScript, it is a disclosure to a screen reader without
+                 anything being spelled out, and the summary is the control —
+                 no second element to keep in step with it. --}}
+            @php($shown = $activity->take(5))
+            @php($folded = $activity->slice(5))
+
             <ul class="mt-5 grid gap-5">
-                @forelse ($activity as $entry)
+                @forelse ($shown as $entry)
                     <li class="flex gap-3">
                         <span class="mt-0.5 shrink-0 text-portal"><x-icon :name="$entry['icon']" size="19"/></span>
                         <span class="min-w-0 flex-1">
@@ -102,6 +120,36 @@
                     <li class="text-[14px] text-ink-muted">Nothing yet.</li>
                 @endforelse
             </ul>
+
+            @if ($folded->isNotEmpty())
+                {{-- Reversed, because a <summary> renders at the top of its box
+                     whatever the source order: unreversed, "Show less" sat
+                     between the fifth entry and the sixth. Column-reverse puts
+                     the revealed entries under the five and leaves the control
+                     at the foot in both states. --}}
+                <details class="group mt-5 flex flex-col-reverse">
+                    <ul class="mt-5 hidden grid-cols-1 gap-5 group-open:grid">
+                        @foreach ($folded as $entry)
+                            <li class="flex gap-3">
+                                <span class="mt-0.5 shrink-0 text-portal"><x-icon :name="$entry['icon']" size="19"/></span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block text-[14px] leading-snug text-portal-ink">{{ $entry['text'] }}</span>
+                                    <span class="mt-0.5 block text-[12px] text-ink-muted">{{ $entry['at']->diffForHumans() }}</span>
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    {{-- The marker is hidden and the summary reads as the link
+                         it looks like; it keeps its own focus ring, so it is
+                         still findable from the keyboard. --}}
+                    <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-md text-[14px] font-semibold text-portal transition-colors hover:text-portal-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-portal [&::-webkit-details-marker]:hidden">
+                        <span class="group-open:hidden">Show all {{ $activity->count() }} activities</span>
+                        <span class="hidden group-open:inline">Show less</span>
+                        <span aria-hidden="true" class="transition-transform group-open:rotate-180"><x-icon name="chevron-down-sm" size="14"/></span>
+                    </summary>
+                </details>
+            @endif
         </section>
     </div>
 
