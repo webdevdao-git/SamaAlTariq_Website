@@ -59,16 +59,30 @@
                         @endforeach
                     </h3>
 
-                    <dl class="flex flex-wrap items-center gap-[clamp(1.25rem,2.31vw,40px)]">
+                    {{-- Three across on a phone rather than two and one. They measure
+                         133, 97 and 147 with the row's own gaps, which is 417
+                         against the 280 a 320 screen has, so on a grid of three
+                         equal columns each figure takes 88 and the labels wrap to
+                         two lines inside it. The figures come down to 1.75rem
+                         below sm to fit: "250k+" at the token's 36 is 100 wide
+                         on its own.
+
+                         The grid holds until xl rather than sm, because this
+                         row lives in half the page from md and the three came
+                         out 2 and 1 there too — 426 of figures and 48 of gaps
+                         in the 450 that column gives at lg. From xl it has the
+                         width the frame draws it at and goes back to the row,
+                         centred as the frame centres it. --}}
+                    <dl class="grid grid-cols-3 gap-x-2 xl:flex xl:flex-wrap xl:items-center xl:gap-[clamp(1.25rem,2.31vw,40px)]">
                         @foreach ($about['stats'] as $i => $stat)
-                            <div class="flex items-center gap-[clamp(1.25rem,2.31vw,40px)]">
+                            <div class="flex items-start gap-[clamp(1.25rem,2.31vw,40px)] xl:items-center">
                                 @if ($i > 0)
                                     <span aria-hidden="true" class="hidden h-[52px] w-px bg-black/15 lg:block"></span>
                                 @endif
                                 <div>
                                     <dt class="sr-only">{{ $stat['label'] }}</dt>
                                     <dd>
-                                        <span class="block text-fluid-stat font-medium tracking-[-0.06em] text-teal">{{ $stat['value'] }}</span>
+                                        <span class="block text-[1.75rem] font-medium tracking-[-0.06em] text-teal sm:text-fluid-stat">{{ $stat['value'] }}</span>
                                         <span class="mt-1 block text-fluid-body font-medium text-ink">{{ $stat['label'] }}</span>
                                     </dd>
                                 </div>

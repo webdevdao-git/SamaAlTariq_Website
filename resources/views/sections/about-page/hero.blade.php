@@ -115,9 +115,9 @@
                      themselves stay bottom-aligned to each other — that is the
                      dl's own items-end, which is a different alignment doing a
                      different job. --}}
-                <dl class="flex flex-wrap items-end gap-[clamp(1.25rem,2.31vw,40px)]">
+                <dl class="grid grid-cols-3 gap-x-2 sm:flex sm:flex-wrap sm:items-end sm:gap-[clamp(1.25rem,2.31vw,40px)]">
                     @foreach ($hero['stats'] as $i => $stat)
-                        <div class="reveal flex items-center gap-[clamp(1.25rem,2.31vw,40px)]"
+                        <div class="reveal flex items-start gap-[clamp(1.25rem,2.31vw,40px)] sm:items-center"
                              style="transition-delay:{{ 140 + $i * 110 }}ms">
                             @if ($i > 0)
                                 <span aria-hidden="true" class="hidden h-[52px] w-px bg-white/30 lg:block"></span>
@@ -125,7 +125,7 @@
                             <div>
                                 <dt class="sr-only">{{ $stat['label'] }}</dt>
                                 <dd>
-                                    <span class="block text-fluid-stat font-medium tracking-[-0.03em]">{{ $stat['value'] }}</span>
+                                    <span class="block text-[1.75rem] font-medium tracking-[-0.03em] sm:text-fluid-stat">{{ $stat['value'] }}</span>
                                     <span class="mt-1 block text-fluid-body">{{ $stat['label'] }}</span>
                                 </dd>
                             </div>
