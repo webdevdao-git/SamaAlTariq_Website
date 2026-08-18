@@ -64,7 +64,7 @@
                 past the gutter. It keeps its 417 from 2xl, where there is room
                 for it, which is the width the design draws.
             --}}
-            <div class="lg:col-start-8 lg:col-end-13 flex flex-col gap-[clamp(1.5rem,2.3vw,40px)] lg:flex-row lg:items-start" style="transition-delay:120ms">
+            <div class="lg:col-start-8 lg:col-end-13 flex flex-col gap-[clamp(1.5rem,2.3vw,40px)] lg:flex-row lg:items-stretch" style="transition-delay:120ms">
                 <a href="{{ \App\Support\Nav::href($footer['recent']['href']) }}"
                    class="reveal group relative block w-full max-w-[417px] 2xl:min-w-[417px]" style="transition-delay:120ms">
                     <span class="mb-[clamp(0.35rem,0.5vw,8.5px)] flex items-center gap-1.5">
@@ -102,9 +102,22 @@
                     box is the tap target: the mark is ~24, which is under the size
                     a thumb reliably hits.
 
-                    Stacked, one under the next, against the left of whatever
-                    space they are given — which from lg is the edge of the picture
-                    beside them.
+                        Stacked, one under the next, against the left of whatever
+                    space they are given — which from lg is the edge of the
+                    picture beside them.
+
+                    And spread over that picture's height rather than bunched at
+                    its top: the column stretches with the row and the five
+                    marks space themselves between its ends, so the first sits
+                    on the picture's top edge and the last on its foot.
+
+                    Which puts a ceiling on the box, hence 2.6vw from lg rather
+                    than a flat 44: the picture is 259 tall at 1728 and 190 at
+                    1024, and five 44s are 220 — taller than the thing they are
+                    supposed to line up with, so at 1024 the last mark hung 30
+                    below its foot. Below lg there is no picture beside them,
+                    they take the full 44 again, and they close back up to a 4px
+                    stack.
 
                     Which also takes the width problem off the table. Side by side
                     they had to shrink to 24px to fit the 135 this block is given at
@@ -116,14 +129,28 @@
                     No tracks of its own: it is the card's neighbour in one cell,
                     so it starts where the picture ends however far that has moved.
                 --}}
-                <div class="reveal" style="transition-delay:180ms">
-                    <ul class="flex flex-col items-start gap-1">
+                    <div class="reveal flex flex-col" style="transition-delay:180ms">
+                    {{-- One blank line of the card's label, which is what
+                         sets how far down its picture starts: same size, same
+                         margin, so the first mark lands on the picture's top
+                         edge rather than on the label's, and stays there as
+                         both scale.
+
+                         Zero width, or it is not spacing but a column: the
+                         label's own words in a 44px column wrap to two lines
+                         and push the marks 17 too far down, and stopping the
+                         wrap instead would make this stack as wide as the
+                         words. --}}
+                    <span aria-hidden="true"
+                          class="mb-[clamp(0.35rem,0.5vw,8.5px)] hidden w-0 overflow-hidden text-[clamp(11px,0.81vw,14px)] font-semibold lg:block">&nbsp;</span>
+
+                    <ul class="flex flex-col items-start gap-1 lg:flex-1 lg:justify-between lg:gap-0">
                         @foreach ($social as $s)
                             <li>
                                 <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
                                    aria-label="{{ $s['label'] }} — opens in a new tab"
-                                   class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white">
-                                    <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
+                                   class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white lg:size-[min(2.6vw,44px)]">
+                                    <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)] lg:w-[min(1.5vw,24px)]"/>
                                 </a>
                             </li>
                         @endforeach
