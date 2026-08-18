@@ -102,9 +102,18 @@
                     box is the tap target: the mark is ~24, which is under the size
                     a thumb reliably hits.
 
-                        Stacked, one under the next, against the left of whatever
-                    space they are given — which from lg is the edge of the
-                    picture beside them.
+                        Stacked from lg, one under the next, against the left of
+                    the space they are given — which there is the edge of the
+                    picture beside them. On a phone the picture is above rather
+                    than beside, so they run as a row under it: five 44s and
+                    their gaps come to 236 against the 280 a 320 screen has, and
+                    a column of them was 240 of empty teal.
+
+                    The row pulls 10px left of the picture's edge, which is what
+                    lines the two up. Each mark is a 24px glyph centred in a 44
+                    box, so its own left edge sits 10 inside the box it is drawn
+                    in, and flush boxes put the marks visibly inboard of the
+                    picture above them.
 
                     And spread over that picture's height rather than bunched at
                     its top: the column stretches with the row and the five
@@ -144,7 +153,7 @@
                     <span aria-hidden="true"
                           class="mb-[clamp(0.35rem,0.5vw,8.5px)] hidden w-0 overflow-hidden text-[clamp(11px,0.81vw,14px)] font-semibold lg:block">&nbsp;</span>
 
-                    <ul class="flex flex-col items-start gap-1 lg:flex-1 lg:justify-between lg:gap-0">
+                    <ul class="-ml-2.5 flex flex-wrap items-center gap-1 lg:ml-0 lg:flex-1 lg:flex-col lg:items-start lg:justify-between lg:gap-0">
                         @foreach ($social as $s)
                             <li>
                                 <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
@@ -198,7 +207,14 @@
         </div>
 
         {{-- Legal bar --}}
-        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-[clamp(1rem,1.5vw,26px)]">
+        {{-- The foot of this bar is the profile button's berth. The button is
+             fixed to a bottom corner — right on a phone, left from sm — so
+             whatever is last on the page is what it sits on, and that is this
+             line: at 1024 it covered the copyright outright. 76px clears the
+             pill's 48 and its gutter at either size. The teal it leaves below
+             the rule is empty, which is the one thing this footer has plenty
+             of. --}}
+        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 pt-[clamp(1rem,1.5vw,26px)] pb-[76px]">
             <p class="text-fluid-sm text-white/80">{{ config('site.copyright') }}</p>
             <a href="#top" class="group inline-flex items-center gap-1.5 py-2 -my-2 text-fluid-sm font-medium transition-opacity hover:opacity-70">
                 Back to top
