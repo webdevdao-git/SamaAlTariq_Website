@@ -51,7 +51,11 @@
 
             <div>
                 <div class="relative aspect-[968/752] w-full overflow-hidden">
-                    <img src="{{ asset($vision['image']) }}" alt="{{ $vision['alt'] }}"
+                    {{-- Versioned: this host answers images with a week of
+                         cache-control, so a picture swapped under the same name
+                         keeps showing the old one to anyone who has been here.
+                         The stamp is the file's own mtime. --}}
+                    <img src="{{ \App\Support\Asset::versioned($vision['image']) }}" alt="{{ $vision['alt'] }}"
                          loading="lazy" decoding="async"
                          class="reveal-media absolute inset-0 h-full w-full object-cover"
                          style="transition-delay:100ms">
