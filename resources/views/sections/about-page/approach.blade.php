@@ -18,8 +18,13 @@
        1728. The mark is centred on the page (Figma x 864 = 1728/2), which is
        also dead centre of the main image, so it hangs off that.
 
-       Below md the three come apart into normal flow: at phone width the
-       overhanging pieces are 90px wide and read as damage, not composition.
+       The composition holds on a phone too — it is the reference's own
+       arrangement and the thing worth keeping — but the frame turns portrait
+       there, 3/4 against the file's 1570/778. Every offset is a percentage of
+       that frame, so the same three boxes come out tall rather than wide: the
+       main picture takes a portrait crop of itself and the two overhanging
+       pieces stand up beside it instead of sitting as 90px slivers. Their
+       proportions are the frame's throughout.
 
     3. Copy in the right 910px, starting 660px into the column — not half, which
        is why the tracks are declared in those proportions.
@@ -39,10 +44,10 @@
              against each other to the percent, so the frame must not move. The
              pictures settle inside, back to front, which is also the order the
              composition reads in. --}}
-        <div class="mt-[clamp(2.5rem,4.63vw,80px)] md:relative md:aspect-[1570/778]">
+        <div class="relative mt-[clamp(2.5rem,4.63vw,80px)] aspect-[3/4] sm:aspect-[4/3] md:aspect-[1570/778]">
 
             {{-- Main image: 1394 wide, centred in the 1570 column. --}}
-            <div class="relative aspect-[1394/778] w-full overflow-hidden md:absolute md:inset-y-0 md:left-[5.605%] md:aspect-auto md:h-full md:w-[88.79%]">
+            <div class="absolute inset-y-0 left-[5.605%] h-full w-[88.79%] overflow-hidden">
                 {{-- The collage takes the reference's own parallax device,
                      to its numbers: each picture is laid out 140% of its frame's
                      height and hung at -20%, so it carries 20% of slack above
@@ -70,7 +75,7 @@
             </div>
 
             {{-- Overhangs the main image at the left gutter... --}}
-            <div class="relative mt-[clamp(0.75rem,1.16vw,20px)] aspect-[383/287] w-[60%] overflow-hidden md:absolute md:top-[37.92%] md:left-0 md:mt-0 md:aspect-auto md:h-[36.89%] md:w-[24.39%]">
+            <div class="absolute top-[37.92%] left-0 h-[36.89%] w-[24.39%] overflow-hidden">
                 <img data-drift src="{{ asset($images['left']['src']) }}" alt="{{ $images['left']['alt'] }}"
                      loading="lazy" decoding="async"
                      class="reveal-media absolute inset-x-0 -top-[20%] h-[140%] w-full object-cover"
@@ -78,7 +83,7 @@
             </div>
 
             {{-- ...and at the right one, lower down. --}}
-            <div class="relative mt-[clamp(0.75rem,1.16vw,20px)] ml-auto aspect-[362/221] w-[60%] overflow-hidden md:absolute md:top-1/2 md:left-[76.94%] md:mt-0 md:aspect-auto md:h-[28.41%] md:w-[23.06%]">
+            <div class="absolute top-1/2 left-[76.94%] h-[28.41%] w-[23.06%] overflow-hidden">
                 <img data-drift src="{{ asset($images['right']['src']) }}" alt="{{ $images['right']['alt'] }}"
                      loading="lazy" decoding="async"
                      class="reveal-media absolute inset-x-0 -top-[20%] h-[140%] w-full object-cover"
