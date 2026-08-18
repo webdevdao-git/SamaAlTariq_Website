@@ -91,15 +91,28 @@
                 them, not the line count, absorb the difference. `shrink-0`
                 keeps flex from squeezing them back into a wrap.
             --}}
+            {{--
+                The sentence reads BUILDING FUTURE WITH PRECISION, and on the
+                frame's two lines that is what it says: the first line's two
+                words are pushed to opposite gutters and FUTURE is centred
+                under the gap between them, so the eye takes it second.
+
+                Stacked on a phone there is no gap to sit in, and the three
+                came out in DOM order — BUILDING, WITH PRECISION, FUTURE —
+                which reads as a different sentence. So the row is `contents`
+                below md, which drops its two words into the same stack as the
+                third, and WITH PRECISION is ordered last. From md it is a flex
+                row again and the order goes back to the frame's.
+            --}}
             <h1 class="shell editorial-heading text-fluid-hero uppercase text-white">
                 <span class="grid gap-y-[0.08em]">
-                    <span class="md:flex md:items-baseline md:justify-between">
+                    <span class="contents md:flex md:items-baseline md:justify-between">
                         <span data-split data-split-delay="120"
                               class="block md:shrink-0 md:whitespace-nowrap">{{ $hero['words']['first'] }}</span>
-                        <span data-split data-split-delay="220"
-                              class="block md:shrink-0 md:whitespace-nowrap md:text-right">{{ $hero['words']['second'] }}</span>
+                        <span data-split data-split-delay="320"
+                              class="order-3 block md:order-none md:shrink-0 md:whitespace-nowrap md:text-right">{{ $hero['words']['second'] }}</span>
                     </span>
-                    <span data-split data-split-delay="320"
+                    <span data-split data-split-delay="220"
                           class="block md:w-9/12 md:text-center">{{ $hero['words']['third'] }}</span>
                 </span>
             </h1>
