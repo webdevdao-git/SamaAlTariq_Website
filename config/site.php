@@ -46,6 +46,23 @@ return [
         ['label' => 'WhatsApp', 'icon' => 'whatsapp', 'href' => 'https://api.whatsapp.com/send/?phone=971543190845&text=Welcome%20To%20Sama%20Al%20Tariq%2C%20How%20can%20we%20help%20you%3F&type=phone_number&app_absent=0'],
     ],
 
+    /*
+     * The company profile, offered from a button fixed on every marketing
+     * page — the same one samaaltariq.org carries, and deliberately at the
+     * same URL: the file has been handed out and linked to under that name,
+     * so anything already pointing at it keeps working when this site takes
+     * the domain over.
+     *
+     * It sits at the root of public/, not under images/ — the redeploy copies
+     * public's own top-level files into the web root, so a file there is one
+     * `git pull` away from being live.
+     */
+    'profile' => [
+        'file' => 'sama-al-tariq-business-profile-2026.pdf',
+        'label' => 'Download Profile',
+        'aria' => 'Download the Sama Al Tariq business profile',
+    ],
+
     'hero' => [
         // Broken by hand, as the frame breaks it: its eyebrow is a 170 box two
         // lines deep, and "Delivering Quality" is the only pair of words that

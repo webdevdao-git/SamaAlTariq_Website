@@ -50,5 +50,9 @@
     </div>
 
     @yield('content')
+
+    {{-- Last in the document and fixed, so it is over every page the layout
+         draws without any section having to leave room for it. --}}
+    <x-profile-download/>
 </body>
 </html>
