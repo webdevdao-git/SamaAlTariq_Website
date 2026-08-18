@@ -49,12 +49,24 @@
 
                 The card is 417px in the design, which is wider than the three
                 columns it starts on, so above 2xl it overflows its track to the
-                right instead of claiming a fourth column: column 11 belongs to
-                the social list, and taking it drops the list onto its own row.
-                The teal it overflows into is empty, so nothing collides.
+                right rather than claiming a fourth column.
+
+                The marks ride beside it in the same cell rather than in a
+                column of their own, which is what puts them against the picture
+                instead of out on the gutter with a field of teal between. It
+                also settles the overflow: placed on their own tracks they had
+                to dodge a card whose right edge moves 95px between 1536 and
+                1900, and as a flex sibling they simply start where it ends.
+
+                The card shrinks rather than holding 417 when the row is tight —
+                at 1024 the cell has 373 to give and 417 plus a gap plus a mark
+                is more than that, so an unshrinkable card pushed the marks 21
+                past the gutter. It keeps its 417 from 2xl, where there is room
+                for it, which is the width the design draws.
             --}}
-            <div class="reveal lg:col-start-8 lg:col-end-11" style="transition-delay:120ms">
-                <a href="{{ \App\Support\Nav::href($footer['recent']['href']) }}" class="group relative block w-full max-w-[417px] 2xl:min-w-[417px]">
+            <div class="lg:col-start-8 lg:col-end-13 flex flex-col gap-[clamp(1.5rem,2.3vw,40px)] lg:flex-row lg:items-start" style="transition-delay:120ms">
+                <a href="{{ \App\Support\Nav::href($footer['recent']['href']) }}"
+                   class="reveal group relative block w-full max-w-[417px] 2xl:min-w-[417px]" style="transition-delay:120ms">
                     <span class="mb-[clamp(0.35rem,0.5vw,8.5px)] flex items-center gap-1.5">
                         <x-icon name="dot" class="text-white"/>
                         <span class="text-[clamp(11px,0.81vw,14px)] font-semibold">{{ $footer['recent']['label'] }}</span>
@@ -78,46 +90,45 @@
                         <x-icon name="diagonal-arrow" class="w-[clamp(28px,2.52vw,44px)]"/>
                     </span>
                 </a>
-            </div>
 
-            {{--
-                Social, as marks rather than as words. The same treatment the
-                navigation overlay gives them, which is where the rest of the
-                site meets these five.
+                {{--
+                    Social, as marks rather than as words. The same treatment the
+                    navigation overlay gives them, which is where the rest of the
+                    site meets these five.
 
-                Each mark carries no text, so the link takes its accessible name
-                from an aria-label and the glyph itself is hidden — otherwise
-                the row reads to a screen reader as five unnamed links. The 44px
-                box is the tap target: the mark is ~24, which is under the size
-                a thumb reliably hits.
+                    Each mark carries no text, so the link takes its accessible name
+                    from an aria-label and the glyph itself is hidden — otherwise
+                    the row reads to a screen reader as five unnamed links. The 44px
+                    box is the tap target: the mark is ~24, which is under the size
+                    a thumb reliably hits.
 
-                Stacked, one under the next, and right-aligned from lg where
-                the column is: the same order and the same edge the five words
-                held before they became marks.
+                    Stacked, one under the next, against the left of whatever
+                    space they are given — which from lg is the edge of the picture
+                    beside them.
 
-                Which also takes the width problem off the table. Side by side
-                they had to shrink to 24px to fit the 135 this block is given at
-                lg, and to dodge the card that overflows its own track from 2xl;
-                in a column each mark keeps a flat 44 at every width, tap target
-                and all. It costs height — five of them run 236 against the
-                card's 288 — and that is height the row already had.
+                    Which also takes the width problem off the table. Side by side
+                    they had to shrink to 24px to fit the 135 this block is given at
+                    lg, and to dodge the card that overflows its own track from 2xl;
+                    in a column each mark keeps a flat 44 at every width, tap target
+                    and all. It costs height — five of them run 236 against the
+                    card's 288 — and that is height the row already had.
 
-                Placed explicitly rather than flowed: at 2xl the card takes the
-                grid as far as column 11, and auto-placement would answer that by
-                opening a thirteenth column and pushing the list off the page.
-            --}}
-            <div class="reveal lg:col-start-11 lg:col-end-13 lg:justify-self-end" style="transition-delay:180ms">
-                <ul class="flex flex-col items-start gap-1 lg:items-end">
-                    @foreach ($social as $s)
-                        <li>
-                            <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
-                               aria-label="{{ $s['label'] }} — opens in a new tab"
-                               class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white">
-                                <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                    No tracks of its own: it is the card's neighbour in one cell,
+                    so it starts where the picture ends however far that has moved.
+                --}}
+                <div class="reveal" style="transition-delay:180ms">
+                    <ul class="flex flex-col items-start gap-1">
+                        @foreach ($social as $s)
+                            <li>
+                                <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
+                                   aria-label="{{ $s['label'] }} — opens in a new tab"
+                                   class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white">
+                                    <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
 
