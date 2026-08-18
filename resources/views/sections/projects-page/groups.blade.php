@@ -130,27 +130,33 @@
 
                 {{-- List. Not a <table>: nothing here is compared cell against
                      cell, it is a list of projects that each carry four facts,
-                     so the facts sit in a definition list per row. --}}
+                     so the facts sit in a definition list per row.
+
+                     One row per project, not one per tile. Hospitality and
+                     Fitness each draw their project twice in the grid — a
+                     second cover of the same job, which is what the frame
+                     draws — and the list, walking the same tiles, listed the
+                     project twice with it. `project` is the key that says a
+                     tile is another picture of an existing one, so the flatten
+                     below keys on it and the first tile of each project is the
+                     one that stands for it. The gallery above is untouched:
+                     two pictures there is the point. --}}
                 <ul class="project-list mt-[clamp(1rem,1.389vw,24px)]">
-                    @foreach ($group['rows'] as $row)
-                        @foreach ($row['columns'] as $column)
-                            @foreach ($column['tiles'] as $item)
-                                <li class="reveal border-t border-black/10 transition-colors duration-300 last:border-b hover:bg-black/[0.03]">
-                                    <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
-                                       class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
-                                        <p class="text-fluid-body font-medium text-ink">{{ $item['title'] }}</p>
-                                        <dl class="contents">
-                                            <dt class="sr-only">Category</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $item['category'] }}</dd>
-                                            <dt class="sr-only">Area</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] }}</dd>
-                                            <dt class="sr-only">Duration</dt>
-                                            <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] }}</dd>
-                                        </dl>
-                                    </a>
-                                </li>
-                            @endforeach
-                        @endforeach
+                    @foreach (collect($group['rows'])->flatMap(fn ($row) => collect($row['columns'])->flatMap(fn ($column) => $column['tiles']))->unique(fn ($item) => $item['project'] ?? $item['image']) as $item)
+                        <li class="reveal border-t border-black/10 transition-colors duration-300 last:border-b hover:bg-black/[0.03]">
+                            <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
+                               class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
+                                <p class="text-fluid-body font-medium text-ink">{{ $item['title'] }}</p>
+                                <dl class="contents">
+                                    <dt class="sr-only">Category</dt>
+                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $item['category'] }}</dd>
+                                    <dt class="sr-only">Area</dt>
+                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] }}</dd>
+                                    <dt class="sr-only">Duration</dt>
+                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] }}</dd>
+                                </dl>
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
