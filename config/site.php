@@ -771,6 +771,23 @@ return [
             ['name' => 'Perfect Creations', 'src' => 'images/clients/perfect-creations.webp'],
             ['name' => 'BCI', 'src' => 'images/clients/bci.svg'],
             ['name' => 'KOJ Interiors', 'src' => 'images/clients/koj-interiors.webp'],
+
+            /*
+             * The materials and consultancy marks, added from the client's own
+             * folder. Two of them — GBM and Jotun — are drawn on a coloured
+             * tile rather than clear, so they arrive with their own background
+             * where the rest are transparent; the row greyscales everything at
+             * rest, which is what keeps them from shouting over the others.
+             *
+             * GYPSEMNA as the mark spells it, not "Gypsumna" as the file was
+             * named.
+             */
+            ['name' => 'ArchSmith', 'src' => 'images/clients/archsmith.webp'],
+            ['name' => 'Caparol', 'src' => 'images/clients/caparol.webp'],
+            ['name' => 'DATCO', 'src' => 'images/clients/datco.webp'],
+            ['name' => 'GBM', 'src' => 'images/clients/gbm.webp'],
+            ['name' => 'GYPSEMNA', 'src' => 'images/clients/gypsemna.webp'],
+            ['name' => 'Jotun', 'src' => 'images/clients/jotun.webp'],
         ],
     ],
 

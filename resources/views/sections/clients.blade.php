@@ -7,7 +7,7 @@
     lift to full colour on hover.
 
     The row runs right to left rather than sitting still. The roster outgrew a
-    six-across grid — there are 29 of them — and a marquee shows the whole list
+    six-across grid — there are thirty-five of them — and a marquee shows the whole list
     without either shrinking the marks or stacking them into rows that push the
     section taller.
 
@@ -43,7 +43,7 @@
                   and the strip renders as an empty band.
                 · the first copy is not lazy. Those are the marks on screen at
                   rest; deferring them is what leaves the band empty on arrival.
-                  The clone stays lazy — it is 29 more of the same files, and
+                  The clone stays lazy — it is the whole roster again, and
                   the browser has them cached by the time it scrolls in.
             --}}
             <div class="marquee w-full min-w-0 lg:w-auto lg:flex-1" style="--marquee-duration:{{ count($logos) * 2.2 }}s">
