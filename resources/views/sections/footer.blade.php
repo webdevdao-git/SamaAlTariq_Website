@@ -81,23 +81,38 @@
             </div>
 
             {{--
-                Social. No "Follow" heading in the design — the links are their
-                own label. The fixed width is what right-aligns the arrows into a
-                column instead of letting each one trail its own word.
+                Social, as marks rather than as words. The same treatment the
+                navigation overlay gives them, which is where the rest of the
+                site meets these five.
+
+                Each mark carries no text, so the link takes its accessible name
+                from an aria-label and the glyph itself is hidden — otherwise
+                the row reads to a screen reader as five unnamed links. The 44px
+                box is the tap target: the mark is ~24, which is under the size
+                a thumb reliably hits.
+
+                Three across from lg — a 128px cap on a wrapping row, which is
+                exactly three of them — so five marks read as a block of 3 over
+                2, both lines against the gutter, rather than a broken line. The two columns the design gives this
+                are 135 wide at lg and 228 at 1728 — five 44s never fit the
+                first, and at the second they fit by 8px, so a single row would
+                have held only at the widest window and come apart as 4 and 1
+                just below it. Three fit everywhere. Below lg the footer stacks
+                and the block has the width for all five, so they run in one
+                line there.
 
                 Placed explicitly rather than flowed: at 2xl the card takes the
                 grid as far as column 11, and auto-placement would answer that by
                 opening a thirteenth column and pushing the list off the page.
             --}}
             <div class="reveal lg:col-start-11 lg:col-end-13 lg:justify-self-end" style="transition-delay:180ms">
-                <ul class="flex flex-col gap-[clamp(0.35rem,0.52vw,9px)] lg:w-[clamp(112px,7.64vw,132px)]">
+                <ul class="flex flex-wrap items-center gap-1 lg:max-w-[128px] lg:justify-end">
                     @foreach ($social as $s)
                         <li>
                             <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
-                               class="group flex items-center justify-between gap-2 text-fluid-body transition-opacity hover:opacity-75">
-                                {{ $s['label'] }}
-                                <x-icon name="arrow-outward"
-                                        class="w-[clamp(15px,1.16vw,20px)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"/>
+                               aria-label="{{ $s['label'] }} — opens in a new tab"
+                               class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white lg:size-10">
+                                <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)]"/>
                             </a>
                         </li>
                     @endforeach
