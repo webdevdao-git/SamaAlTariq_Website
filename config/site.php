@@ -163,7 +163,7 @@ return [
             'body' => 'From the first tender to final handover, our teams work as one to create greater clarity throughout the build and lasting value in the finished result.',
             'cta' => ['label' => 'See Our process', 'href' => '#process'],
             'image' => 'images/about/vision-lounge.webp',
-            'alt' => 'Living room with a panelled wall and cove lighting',
+            'alt' => 'Living room with a red and black artwork spanning the panelled wall',
         ],
 
         // Frame 1386:621. Label and heading, then a three-image collage with
