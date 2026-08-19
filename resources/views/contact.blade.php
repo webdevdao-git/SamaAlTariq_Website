@@ -34,14 +34,18 @@
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
 
-            {{-- A size under the shared card's 1466, and the copy column with
-                 it: this page has nothing above or below the card, so at the
-                 band's own width it filled the window edge to edge and the
-                 photograph behind it was a margin rather than a backdrop. 1240
-                 leaves the room the picture needs to read. --}}
-            <div class="reveal mx-auto w-full max-w-[1240px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.4vw,42px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
+            {{-- 1340: wider than it was and still under the shared band's
+                 1466, which is what leaves the photograph behind it reading as
+                 a backdrop rather than a margin — this page is the card and
+                 nothing else, so edge to edge would have nothing to sit on.
+
+                 The height comes off the form rather than the copy: the rows
+                 close from the component's 34 to 24 and the brief takes two
+                 lines' box instead of three, which is 60-odd off the card
+                 without touching a word or a field. --}}
+            <div class="reveal mx-auto w-full max-w-[1340px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.2vw,38px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
                 <div class="flex flex-col gap-[clamp(2rem,3.4vw,58px)] lg:flex-row">
-                    <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,2.6vw,44px)] lg:w-[462px] lg:shrink-0">
+                    <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,2.6vw,44px)] lg:w-[486px] lg:shrink-0">
                         <div class="flex flex-col gap-[clamp(0.875rem,1.5vw,26px)]">
                             <p class="text-fluid-label font-medium text-teal">{{ $contact['label'] }}</p>
 
@@ -81,7 +85,7 @@
                         <p class="text-fluid-body font-medium text-ink">{{ config('site.copyright') }}</p>
                     </div>
 
-                    <x-enquiry-form/>
+                    <x-enquiry-form gap="clamp(0.85rem,1.45vw,24px)"/>
                 </div>
             </div>
         </section>
