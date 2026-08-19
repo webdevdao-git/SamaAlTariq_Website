@@ -34,9 +34,14 @@
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
 
-            <div class="reveal mx-auto w-full max-w-[1466px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.78vw,48px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
-                <div class="flex flex-col gap-[clamp(2rem,4vw,68px)] lg:flex-row">
-                    <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,3vw,52px)] lg:w-[548px] lg:shrink-0">
+            {{-- A size under the shared card's 1466, and the copy column with
+                 it: this page has nothing above or below the card, so at the
+                 band's own width it filled the window edge to edge and the
+                 photograph behind it was a margin rather than a backdrop. 1240
+                 leaves the room the picture needs to read. --}}
+            <div class="reveal mx-auto w-full max-w-[1240px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.4vw,42px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">
+                <div class="flex flex-col gap-[clamp(2rem,3.4vw,58px)] lg:flex-row">
+                    <div class="flex w-full flex-col justify-between gap-[clamp(1.5rem,2.6vw,44px)] lg:w-[462px] lg:shrink-0">
                         <div class="flex flex-col gap-[clamp(0.875rem,1.5vw,26px)]">
                             <p class="text-fluid-label font-medium text-teal">{{ $contact['label'] }}</p>
 
