@@ -19,10 +19,15 @@
     for the same reason the card's does — without it the photo reads as a band
     rather than a backdrop.
 
-    The card is centred in a box padded far heavier at the top than the foot,
-    which is what sits it low: level in the window it crowded the header, and
-    the part of the photograph worth seeing is the room above it rather than
-    the floor below.
+    The card is centred in a box padded far heavier at the top than the foot —
+    268 against 70 — which is what sits it low: level in the window it crowded
+    the header, and the part of the photograph worth seeing is the room above
+    it rather than the floor below. That top figure is capped by the
+    window's height as well as its width — 24vh — because a wide but shallow
+    window is where a padding read off width alone pushes the card through the
+    fold: at 1728x950 it hung 9 below it. The 7.5rem floor is the
+    phone: there the vw and vh terms are both small and the card would sit
+    nearly against the header.
 
     Still no enquiry card at the foot. This page IS the enquiry, and closing it
     with the band that invites you to one would ask twice.
@@ -34,7 +39,7 @@
 
     <main>
         <section id="contact"
-                 class="relative isolate flex min-h-[100svh] items-center px-[clamp(1rem,4.63vw,80px)] pt-[clamp(8rem,13vw,224px)] pb-[clamp(3rem,5vw,86px)]">
+                 class="relative isolate flex min-h-[100svh] items-center px-[clamp(1rem,4.63vw,80px)] pt-[max(7.5rem,min(15.5vw,24vh))] pb-[clamp(2.5rem,4vw,70px)]">
             <img src="{{ \App\Support\Asset::versioned(config('site.inquiry.background')) }}" alt=""
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
