@@ -14,10 +14,15 @@
     thing the card has no slot for, so they go under the invitation where the
     card's own copy ends.
 
-    The measurements are the card's, not this frame's: the same 1466 box, 40
-    radius, 48 padding and 548 copy column, and the section carries the
-    viewport height for the same reason the card's does — without it the photo
-    reads as a band rather than a backdrop.
+    The measurements are the card's, not this frame's: the same radius,
+    padding rhythm and copy column, and the section carries the viewport height
+    for the same reason the card's does — without it the photo reads as a band
+    rather than a backdrop.
+
+    The card is centred in a box padded far heavier at the top than the foot,
+    which is what sits it low: level in the window it crowded the header, and
+    the part of the photograph worth seeing is the room above it rather than
+    the floor below.
 
     Still no enquiry card at the foot. This page IS the enquiry, and closing it
     with the band that invites you to one would ask twice.
@@ -29,7 +34,7 @@
 
     <main>
         <section id="contact"
-                 class="relative isolate flex min-h-[100svh] items-center px-[clamp(1rem,4.63vw,80px)] py-[clamp(6rem,9vw,150px)]">
+                 class="relative isolate flex min-h-[100svh] items-center px-[clamp(1rem,4.63vw,80px)] pt-[clamp(8rem,13vw,224px)] pb-[clamp(3rem,5vw,86px)]">
             <img src="{{ \App\Support\Asset::versioned(config('site.inquiry.background')) }}" alt=""
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
