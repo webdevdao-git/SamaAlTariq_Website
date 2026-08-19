@@ -60,7 +60,7 @@
 
         <div class="flex shrink-0 items-center justify-end justify-self-end">
             <a href="{{ \App\Support\Nav::href('#contact') }}"
-               class="py-2.5 -my-2.5 text-fluid-body font-semibold uppercase {{ $text }} underline underline-offset-4 transition-opacity hover:opacity-70">
+               class="py-2.5 -my-2.5 text-fluid-body font-semibold uppercase {{ $text }} transition-opacity hover:opacity-70">
                 Enquire
             </a>
         </div>
