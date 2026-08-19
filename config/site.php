@@ -839,7 +839,10 @@ return [
     'services' => [
         'label' => 'Our Expertise',
         'heading' => 'We Approach every project as a unique opportunity to deliver exceptional engineering and enduring value.',
-        'cta' => ['label' => 'View All Services', 'href' => '#contact'],
+        // The services page, for the same reason the projects band's button
+        // goes to its own: the label offers the rest of the set, and #contact
+        // took the visitor to the enquiry form instead.
+        'cta' => ['label' => 'View All Services', 'href' => '/services'],
         /*
          * The first three services from samaaltariq.org/services, in that
          * page's order, with its own copy — these replaced the Figma
