@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Portal\FileController;
 use App\Http\Controllers\Portal\ProjectController;
 use Illuminate\Support\Facades\Route;
@@ -130,3 +131,10 @@ Route::middleware(['auth', 'can:viewAny,App\Models\User'])
         Route::put('/clients/{client}/access', [SettingsController::class, 'updateAccess'])->name('clients.access');
         Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
     });
+
+/*
+ * Rendered rather than dropped in public/, so both documents name whichever
+ * host the request arrived on — this site answers on two.
+ */
+Route::get('robots.txt', [SeoController::class, 'robots']);
+Route::get('sitemap.xml', [SeoController::class, 'sitemap']);

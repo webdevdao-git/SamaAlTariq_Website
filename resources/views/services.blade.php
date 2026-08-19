@@ -2,6 +2,7 @@
 
 @section('title', 'Services — ' . config('site.legal_name'))
 @section('description', config('site.services_page.intro.body'))
+@section('image', config('site.services_page.hero.image'))
 
 {{--
     What the company does, from Figma frame 1545:2: the photographic hero, the

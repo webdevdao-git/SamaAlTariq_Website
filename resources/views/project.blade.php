@@ -2,6 +2,7 @@
 
 @section('title', $project['title'] . ' — ' . config('site.legal_name'))
 @section('description', $page['lead'])
+@section('image', 'images/projects/covers/' . $slug . '.webp')
 
 {{--
     One project, from Figma frame 1472:1339: the photograph and title, the lead

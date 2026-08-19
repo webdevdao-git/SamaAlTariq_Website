@@ -2,6 +2,7 @@
 
 @section('title', 'About — ' . config('site.legal_name'))
 @section('description', 'Sama Al Tariq Building Contracting L.L.C. is a Dubai-based construction and fit-out company, managing every stage from tender and planning through construction and handover.')
+@section('image', config('site.about_page.hero.image'))
 
 {{--
     Figma: frame 1377:3, "About Us", 1728×8276.

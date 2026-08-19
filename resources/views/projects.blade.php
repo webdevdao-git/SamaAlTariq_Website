@@ -2,6 +2,7 @@
 
 @section('title', 'Projects — ' . config('site.legal_name'))
 @section('description', 'Selected projects by Sama Al Tariq Building Contracting L.L.C. — luxury residential, corporate and office fit-out, hospitality and wellness across Dubai.')
+@section('image', 'images/projects/covers/jumeirah-golf-estate-villas.webp')
 
 {{--
     The projects page. Header, the grouped projects, then the landing page's

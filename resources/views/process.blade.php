@@ -2,6 +2,7 @@
 
 @section('title', 'Our Process — ' . config('site.legal_name'))
 @section('description', config('site.process_page.hero.body'))
+@section('image', config('site.process_page.hero.image'))
 
 {{--
     How the work is delivered, from Figma frame 1508:2: the photographic hero,
