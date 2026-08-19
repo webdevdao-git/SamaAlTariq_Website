@@ -37,6 +37,12 @@ export function initSmoothScroll() {
         const anchor = event.target?.closest?.('a[href^="#"]');
         if (!anchor) return;
 
+        // The services tabs are anchors that switch a panel in place rather
+        // than travel to one. Easing the page to a box it is already looking at
+        // would be motion for nothing, and this handler's preventDefault is
+        // also what used to stop :target from ever firing for them.
+        if (anchor.closest('.service-slides')) return;
+
         const id = anchor.getAttribute('href');
         if (!id || id === '#') return;
 

@@ -603,6 +603,66 @@
         transform: translateY(-1px);
     }
 
+    /*
+     * The services panels: three states of one box, switched by the tab row.
+     *
+     * :target does the switching and the markup does the rest — the tabs are
+     * ordinary anchor links, so this needs no JavaScript and survives it
+     * failing. The second selector is the state before anything is clicked, and
+     * also whenever some other fragment on the page is the target: with nothing
+     * of its own targeted the box shows the first panel.
+     *
+     * visibility, not display: it takes the hidden panels out of the tab order
+     * and away from a screen reader — which is what lets all three carry the
+     * same tab row — while leaving them in the layout, so the box keeps the
+     * height of the tallest and the crossfade has something to fade.
+     */
+    .service-slide {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 450ms ease,
+            visibility 0s linear 450ms;
+    }
+
+    /*
+     * The tab pills. Which one is lit is a class rather than a branch in the
+     * markup, because the script re-points it as panels change: every panel
+     * carries the same row, so the row of the panel being shown has to be able
+     * to mark a different pill than the one it was rendered with.
+     */
+    .service-tab {
+        border-color: transparent;
+        color: color-mix(in srgb, #fff 80%, transparent);
+    }
+
+    .service-tab:hover {
+        border-color: color-mix(in srgb, #fff 15%, transparent);
+        background: color-mix(in srgb, #fff 5%, transparent);
+        color: #fff;
+    }
+
+    .service-tab.is-current {
+        border-color: color-mix(in srgb, #fff 30%, transparent);
+        background: color-mix(in srgb, #fff 8%, transparent);
+        color: #fff;
+    }
+
+    /*
+     * Two ways in, and only one of them is live at a time. Without the script
+     * the URL decides — :target for a panel that has been asked for, first
+     * panel for the state before anything has been — and `is-enhanced` switches
+     * the box over to the class the script sets, so a stale fragment cannot
+     * fight it.
+     */
+    .service-slides:not(.is-enhanced) .service-slide:target,
+    .service-slides:not(.is-enhanced):not(:has(:target)) .service-slide:first-child,
+    .service-slides.is-enhanced .service-slide.is-active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 450ms ease;
+    }
+
     /* Underlined form field, matching the Figma inquiry card. */
     .field {
         width: 100%;

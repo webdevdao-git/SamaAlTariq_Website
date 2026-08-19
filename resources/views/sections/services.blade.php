@@ -4,15 +4,16 @@
     Our Expertise.
 
     Figma stacks two flattened 1728×980 panels that differ only in which tab
-    pill is active — two states of one component. The interaction model here is
-    modelled on mino.works: instead of clicking to swap content in place, each
-    service is its own full-viewport panel and scrolling moves between them.
-    Every panel carries the same tab row with its own pill active, so the row
-    doubles as a position indicator and as navigation.
+    pill is active — two states of one component, which is what this is: one
+    panel-sized box with the three services stacked in it and the tab row
+    switching between them. It was three full-viewport panels scrolled through
+    instead, which made the section three screens tall and turned a choice into
+    a journey.
 
-    That makes the whole thing work without JavaScript: the "active" state is
-    just markup, and the tabs are anchor links. Lenis eases the jump when it is
-    running; native anchor scrolling handles it when it is not.
+    STILL NO JAVASCRIPT. The tabs are anchor links and :target does the
+    switching: the panel whose id is in the URL is the one shown, and
+    :not(:has(:target)) covers the state before anything has been clicked by
+    showing the first. Both are in app.css beside the crossfade they share.
 --}}
 <section id="services" class="bg-white pt-[clamp(3rem,4.63vw,80px)]">
     <div class="shell">
@@ -22,11 +23,16 @@
         </div>
     </div>
 
+    {{-- The box the three share. A one-cell grid with all three in that cell
+         rather than absolute positioning: stacked this way they still take
+         part in the layout, so the box is as tall as the tallest of them and a
+         long panel on a narrow phone cannot be cut off at the fold. --}}
+    <div class="service-slides relative isolate grid min-h-[100svh] w-full overflow-hidden">
     @foreach ($services['items'] as $i => $item)
         @php($number = str_pad($i + 1, 2, '0', STR_PAD_LEFT))
 
         <article id="service-{{ $i + 1 }}"
-                 class="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden
+                 class="service-slide [grid-area:1/1] flex w-full flex-col overflow-hidden
                         px-[var(--spacing-gutter)] pt-[clamp(1.5rem,3.47vw,60px)] pb-[clamp(2rem,5vw,88px)]"
                  aria-labelledby="service-heading-{{ $i + 1 }}">
 
@@ -64,14 +70,13 @@
             --}}
             <nav class="-mx-[var(--spacing-gutter)] flex snap-x items-center gap-[clamp(0.25rem,0.41vw,7px)] overflow-x-auto px-[var(--spacing-gutter)] pb-1
                         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                 @if ($i === 0) aria-label="Our areas of expertise" @else aria-hidden="true" @endif>
+                 aria-label="Our areas of expertise">
                 @foreach ($services['items'] as $j => $tab)
                     <a href="#service-{{ $j + 1 }}"
-                       @if ($i !== 0) tabindex="-1" @endif
                        @if ($i === $j) aria-current="true" @endif
-                       class="shrink-0 snap-start rounded-full border px-[clamp(1rem,1.56vw,27px)] py-[clamp(0.5rem,0.75vw,13px)]
+                       class="service-tab shrink-0 snap-start rounded-full border px-[clamp(1rem,1.56vw,27px)] py-[clamp(0.5rem,0.75vw,13px)]
                               text-[clamp(0.875rem,1.04vw,18px)] whitespace-nowrap transition duration-300
-                              {{ $i === $j ? 'border-white/30 bg-white/8 text-white' : 'border-transparent text-white/80 hover:border-white/15 hover:bg-white/5 hover:text-white' }}">
+                              {{ $i === $j ? 'is-current' : '' }}">
                         {{ $tab['tab'] }}
                     </a>
                 @endforeach
@@ -106,6 +111,7 @@
             </div>
         </article>
     @endforeach
+    </div>
 
     <div class="flex justify-center py-[clamp(2.5rem,4.63vw,80px)]">
         <a href="{{ $services['cta']['href'] }}" class="pill group">
