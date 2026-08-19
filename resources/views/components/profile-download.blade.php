@@ -13,7 +13,12 @@
     there, and a button in that corner sat on top of "Back to top".
 
     A circle below sm and a pill from there: at phone width a labelled pill
-    spans a third of the screen and sits over the copy it is offering. The
+    spans a third of the screen and sits over the copy it is offering. Both are
+    a size down from what they were — 44 rather than 48 on the circle, and the
+    pill's padding, mark and tracking each a step smaller — because this floats
+    over the page rather than sitting in it, and it was reading as the loudest
+    thing on the screen. 44 is the floor: below that it stops being a reliable
+    tap target. The
     label is not hidden from assistive tech with it — the aria-label carries
     the whole sentence at every size, so what is announced does not change
     when the words come off the screen.
@@ -29,7 +34,7 @@
 --}}
 <a href="{{ asset($profile['file']) }}" download
    aria-label="{{ $profile['aria'] }}"
-   class="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-40 sm:right-auto sm:left-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-teal shadow-[0_14px_30px_rgba(17,17,17,0.18)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-auto sm:w-auto sm:gap-2.5 sm:px-5 sm:py-3.5 md:bottom-7 md:left-7">
-    <x-icon name="download" :size="16" class="transition-transform duration-300 group-hover:translate-y-0.5"/>
-    <span class="hidden text-[11px] font-bold uppercase tracking-[0.18em] sm:inline md:text-xs">{{ $profile['label'] }}</span>
+   class="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-40 sm:right-auto sm:left-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-teal shadow-[0_14px_30px_rgba(17,17,17,0.18)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-auto sm:w-auto sm:gap-2 sm:px-4 sm:py-2.5 md:bottom-7 md:left-7">
+    <x-icon name="download" :size="14" class="transition-transform duration-300 group-hover:translate-y-0.5"/>
+    <span class="hidden text-[10px] font-bold uppercase tracking-[0.14em] sm:inline">{{ $profile['label'] }}</span>
 </a>
