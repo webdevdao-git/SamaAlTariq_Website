@@ -793,7 +793,10 @@ return [
 
     'projects' => [
         'heading' => ['Featured', 'Projects'],
-        'cta' => ['label' => 'View All Projects', 'href' => '#contact'],
+        // The projects page, not the enquiry form: the button says what it
+        // does and had been pointing at #contact, so it scrolled a visitor
+        // past the projects it was offering to show them.
+        'cta' => ['label' => 'View All Projects', 'href' => '/projects'],
         'items' => [
             [
                 'title' => 'Jumeirah Golf Estate Villas',
