@@ -70,22 +70,25 @@
 
                             <p class="text-fluid-body font-medium text-ink-muted">{{ $contact['body'] }}</p>
 
-                            {{-- Telephone, email and the office. Each is its
-                                 line over a rule, as the old page drew them,
-                                 sized to the card: three rules and not four,
-                                 because the first row needs nothing above it to
-                                 separate it from the paragraph. --}}
-                            {{-- Set smaller than the invitation above it, and
-                                 the rows closer: these are the reference at the
-                                 foot of the copy rather than the copy itself,
-                                 and at the paragraph's own size the three of
-                                 them carried more weight than the sentence
-                                 that introduces them. --}}
-                            <dl class="mt-[clamp(0.375rem,0.7vw,12px)] flex flex-col gap-[clamp(0.5rem,0.6vw,10px)]">
+                        </div>
+
+                        <div class="flex flex-col gap-[clamp(0.875rem,1.2vw,20px)]">
+                            {{-- Telephone, email and the office, at the foot
+                                 of the column with the copyright rather than
+                                 under the invitation: they are the reference a
+                                 visitor comes back for rather than part of what
+                                 is being said, and the column's own
+                                 justify-between is what holds them down there.
+
+                                 Smaller again for the same reason — a step
+                                 under the small step, 13 to 16 against the
+                                 invitation's 15 to 20. Each is still its line
+                                 over a rule, three rules and not four. --}}
+                            <dl class="flex flex-col gap-[clamp(0.5rem,0.6vw,10px)]">
                                 @foreach ($contact['details'] as $detail)
                                     <div class="-mb-px border-b border-black/[0.16] pb-[clamp(0.5rem,0.6vw,10px)]">
                                         <dt class="sr-only">{{ $detail['label'] }}</dt>
-                                        <dd class="text-fluid-sm font-medium text-ink">
+                                        <dd class="text-[clamp(0.8125rem,0.95vw,16px)] font-medium text-ink">
                                             @if ($detail['href'])
                                                 <a href="{{ $detail['href'] }}"
                                                    class="inline-block py-[11px] -my-[11px] transition-opacity hover:opacity-70">{{ $detail['value'] }}</a>
@@ -96,9 +99,9 @@
                                     </div>
                                 @endforeach
                             </dl>
-                        </div>
 
-                        <p class="text-fluid-body font-medium text-ink">{{ config('site.copyright') }}</p>
+                            <p class="text-fluid-sm font-medium text-ink">{{ config('site.copyright') }}</p>
+                        </div>
                     </div>
 
                     <x-enquiry-form gap="clamp(0.85rem,1.45vw,24px)"/>
