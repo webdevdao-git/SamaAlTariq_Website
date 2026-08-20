@@ -589,17 +589,6 @@ return [
             'image' => 'images/process/hero.webp',
         ],
 
-        'steps' => [
-            ['number' => '01', 'title' => 'Tender And Cost Estimation', 'image' => 'images/process/step-1.webp', 'ratio' => '1200 / 1110',
-             'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.'],
-            ['number' => '02', 'title' => 'Design And Engineering', 'image' => 'images/process/step-2.webp', 'ratio' => '1200 / 1112',
-             'body' => 'Detailed drawings, material selection, and value engineering that turn an approved budget into a buildable scheme.'],
-            ['number' => '03', 'title' => 'Construction And Fit-Out', 'image' => 'images/process/step-3.webp', 'ratio' => '1200 / 900',
-             'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.'],
-            ['number' => '04', 'title' => 'Handover And Aftercare', 'image' => 'images/process/step-4.webp', 'ratio' => '1200 / 900',
-             'body' => 'Snagging, testing and commissioning, full documentation, and a maintenance period that protects the finished asset.'],
-        ],
-
         /*
          * `title` is broken where the frame breaks it — the first is two lines
          * by a hard return in the file, the rest wrap in their 653 measure.

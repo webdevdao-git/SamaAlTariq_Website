@@ -14,7 +14,6 @@
     @include('sections.process-page.hero')
 
     <main>
-        @include('sections.process-page.steps')
         @include('sections.process-page.phases')
         @include('sections.process-page.consultation')
         @include('sections.inquiry')
