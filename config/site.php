@@ -598,7 +598,7 @@ return [
                 'label' => 'Phase 01',
                 'title' => ['Tender And', 'Cost Estimation'],
                 'lead' => 'A structured start built on accuracy, clarity and confidence from the first step.',
-                'image' => 'images/process/phase-1.webp', 'ratio' => '1200 / 1110',
+                'image' => 'images/process/phase-1.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Accurate Review', 'body' => 'We review RFQs, drawings and specifications in detail to understand the complete scope and requirements.'],
                     ['title' => 'Site Visit & Survey', 'body' => 'Thorough site assessment to identify risks, constraints and opportunities for successful delivery.'],
@@ -610,7 +610,7 @@ return [
                 'label' => 'Phase 02',
                 'title' => ['Engineering AND Pre-Construction'],
                 'lead' => 'The foundation for delivery, set through careful planning and procurement.',
-                'image' => 'images/process/phase-2.webp', 'ratio' => '1200 / 1112',
+                'image' => 'images/process/phase-2.webp', 'ratio' => '1200 / 900',
                 'items' => [
                     ['title' => 'Plan With Precision', 'body' => 'We develop detailed plans and strategies to ensure a smooth project journey.'],
                     ['title' => 'Coordinate & Validate', 'body' => 'Shop drawings, coordination and approvals to eliminate conflicts early.'],
@@ -622,7 +622,7 @@ return [
                 'label' => 'Phase 03',
                 'title' => ['Construction AND Execution'],
                 'lead' => 'Disciplined site delivery where engineering becomes a finished, functioning space.',
-                'image' => 'images/process/phase-3.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/phase-3.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Build With Discipline', 'body' => 'Civil and structural works executed to drawing, with setting-out and quality checks at every stage.'],
                     ['title' => 'Install The Systems', 'body' => 'HVAC, electrical and plumbing installed and cleanly coordinated with the finishes.'],
@@ -634,7 +634,7 @@ return [
                 'label' => 'Phase 04',
                 'title' => ['Handover AND Defects Liability'],
                 'lead' => 'Final inspections, defect resolution and clean handover with full documentation and warranties.',
-                'image' => 'images/process/phase-4.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/phase-4.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Snag & De-Snag', 'body' => 'Internal snag walks and joint inspections close every punch-list item before sign-off.'],
                     ['title' => 'Test & Commission', 'body' => 'System testing, functional checks and authority approvals confirm performance.'],
@@ -932,26 +932,26 @@ return [
                 'number' => '01',
                 'title' => 'Tender And Cost Estimation',
                 'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.',
-                'image' => 'images/process/tender-and-cost-estimation.webp', 'ratio' => '1200 / 1110',
+                'image' => 'images/process/tender-and-cost-estimation.webp', 'ratio' => '1200 / 867',
             ],
             // PLACEHOLDER steps — only step 01 exists in the Figma file.
             [
                 'number' => '02',
                 'title' => 'Design And Engineering',
                 'body' => 'Detailed drawings, material selection, and value engineering that turn an approved budget into a buildable scheme.',
-                'image' => 'images/process/design-and-engineering.webp', 'ratio' => '1200 / 1112',
+                'image' => 'images/process/design-and-engineering.webp', 'ratio' => '1200 / 900',
             ],
             [
                 'number' => '03',
                 'title' => 'Construction And Fit-Out',
                 'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.',
-                'image' => 'images/process/construction-and-fit-out.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/construction-and-fit-out.webp', 'ratio' => '1200 / 867',
             ],
             [
                 'number' => '04',
                 'title' => 'Handover And Aftercare',
                 'body' => 'Snagging, testing and commissioning, full documentation, and a maintenance period that protects the finished asset.',
-                'image' => 'images/process/handover-and-aftercare.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/handover-and-aftercare.webp', 'ratio' => '1200 / 867',
             ],
         ],
     ],
