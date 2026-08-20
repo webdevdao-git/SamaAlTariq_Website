@@ -89,5 +89,14 @@
                 @endforeach
             </div>
         </div>
+
+        {{-- Centred under both columns, which is where the frame puts it — the
+             same pill the projects and services bands close with. --}}
+        <div class="reveal mt-[clamp(2.5rem,4.63vw,80px)] flex justify-center">
+            <a href="{{ $process['cta']['href'] }}" class="pill group">
+                {{ $process['cta']['label'] }}
+                <x-icon name="arrow-pill" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
+            </a>
+        </div>
     </div>
 </section>

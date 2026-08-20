@@ -923,6 +923,10 @@ return [
      */
     'process' => [
         'heading' => ['Our', 'Process'],
+        // The way out of the section, as the frame draws it: the same pill the
+        // projects and services bands close with, pointing at the page that
+        // carries the four phases in full.
+        'cta' => ['label' => 'See Our Process', 'href' => '/process'],
         'steps' => [
             [
                 'number' => '01',
