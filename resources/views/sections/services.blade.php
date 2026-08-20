@@ -72,7 +72,17 @@
                 labels: gap + 2×padding is what the eye reads as the spacing,
                 and it comes to roughly 60px at desktop.
             --}}
-            <nav class="-mx-[var(--spacing-gutter)] flex snap-x items-center gap-[clamp(0.25rem,0.41vw,7px)] overflow-x-auto px-[var(--spacing-gutter)] pb-1
+            {{-- The row wraps on a phone and scrolls from sm.
+
+                 Three pills want about 450 and a 390 screen has 350, so on a
+                 phone the third sat half off the panel — scrollable, but it
+                 reads as a cut-off word rather than as something to swipe.
+                 Wrapped, all three are on screen and the tab a visitor is
+                 looking for is legible. From sm they fit the line again and
+                 the row goes back to one, scrolling if a fourth service is
+                 ever added. --}}
+            <nav class="-mx-[var(--spacing-gutter)] flex flex-wrap items-center gap-[clamp(0.25rem,0.41vw,7px)] gap-y-2 px-[var(--spacing-gutter)] pb-1
+                        sm:snap-x sm:flex-nowrap sm:overflow-x-auto
                         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                  aria-label="Our areas of expertise">
                 @foreach ($services['items'] as $j => $tab)
