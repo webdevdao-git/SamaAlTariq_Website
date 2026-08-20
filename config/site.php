@@ -289,46 +289,46 @@ return [
         'heading' => ['Selected', 'Projects'],
         'views' => ['gallery' => 'Gallery', 'list' => 'List'],
         'groups' => [
+            /*
+             * Residential, redrawn: frame 1443:534 on the same canvas now sets
+             * six tiles on one measure — three rows of two at 772x635 — where
+             * it used to run a 992 beside a stacked pair and then an even 772
+             * row. The order is the frame's own.
+             *
+             * Two of them are worth naming. WASL Properties HQ appears here as
+             * well as under Commercial & Corporate, labelled Corporate in both,
+             * which is what the file draws — and on a different photograph in
+             * each, so this tile takes a second cover cut from that project's
+             * own l8. `project` is what sends both to the one page. And Jumeirah Island Villa is no longer on
+             * this grid at all — its page still answers, on facts of its own
+             * (see project_pages), and the projects that list it as related
+             * still reach it.
+             */
             [
                 'name' => 'Residential',
                 'rows' => [
-                    // 1429:99 — the tall picture beside a stacked pair.
-                    ['columns' => [
-                        ['fr' => 992, 'tiles' => [
-                            ['image' => 'jumeirah-golf-estate-villas', 'ratio' => '992/727', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
-                        ]],
-                        ['fr' => 552, 'tiles' => [
-                            ['image' => 'villa-pv39-tilal-al-ghaf', 'ratio' => '552/332', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
-                            ['image' => 'w-residence-palm-jumeirah', 'ratio' => '552/332', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
-                        ]],
-                    ]],
-                    // 1429:116 — two even columns, a shorter picture than above.
                     ['columns' => [
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'emirates-hills-villa', 'ratio' => '772/635', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
+                            ['image' => 'jumeirah-golf-estate-villas', 'ratio' => '772/635', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
                         ]],
-                        ['fr' => 772, 'tiles' => [
-                            ['image' => 'jumeirah-island-villa', 'ratio' => '772/635', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
-                        ]],
-                    ]],
-                    /*
-                     * Villa B200, drawn on the row above's shape: two even
-                     * columns at the same 772x635, the second a different room
-                     * of the same house. That pairing is the frame's own device
-                     * — Hospitality and Fitness each use it — and `project` is
-                     * what sends both tiles to the one page and keeps the list
-                     * view showing it once.
-                     *
-                     * NO AREA OR DURATION: the figures for this villa have not
-                     * been supplied, and the list and the spec table both omit
-                     * what they are not given rather than print a guess.
-                     */
-                    ['columns' => [
                         ['fr' => 772, 'tiles' => [
                             ['image' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai'],
                         ]],
+                    ]],
+                    ['columns' => [
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'villa-b200-tilal-al-ghaf-2', 'project' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai'],
+                            ['image' => 'villa-pv39-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
+                        ]],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'w-residence-palm-jumeirah', 'ratio' => '772/635', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
+                        ]],
+                    ]],
+                    ['columns' => [
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'wasl-properties-hq-2', 'project' => 'wasl-properties-hq', 'ratio' => '772/635', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
+                        ]],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'emirates-hills-villa', 'ratio' => '772/635', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
                         ]],
                     ]],
                 ],
@@ -452,7 +452,20 @@ return [
             'tiles' => 9,
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'jumeirah-island-villa'],
         ],
+        /*
+         * Off the projects grid since the frame's Residential group was
+         * redrawn, so its facts live here — without them this page would have
+         * nowhere to read a title from and would 404, and the four projects
+         * that list it as related would quietly drop it.
+         */
         'jumeirah-island-villa' => [
+            'facts' => [
+                'title' => 'Jumeirah Island Villa',
+                'category' => 'Luxury Residential',
+                'location' => 'Jumeirah Island, Dubai',
+                'size' => '14,000+ Sq Ft',
+                'duration' => '8 Months',
+            ],
             'about' => 'Villa fit-out',
             'year' => null,
             'lead' => 'A villa on Jumeirah Island, delivered across 14,000 sq ft in eight months.',

@@ -94,8 +94,20 @@ class PageController extends Controller
             // draws the frame's nine; the rest are reachable once one is open.
             'photographs' => count(glob(public_path("images/projects/$slug/l*.webp"))),
             'project' => $page['facts'] ?? $facts[$slug] ?? abort(404),
+            // A related project resolves off the grid first and its own page
+            // second: a project can be published without a tile — Jumeirah
+            // Island Villa is, since the frame's Residential group was redrawn
+            // — and without this fallback it would drop out of every related
+            // row that names it, leaving four-tile rows with three.
             'related' => collect($page['related'])
-                ->map(fn (string $s) => isset($facts[$s]) ? $facts[$s] + ['slug' => $s] : null)
+                ->map(function (string $s) use ($facts) {
+                    $fact = $facts[$s] ?? config("site.project_pages.$s.facts");
+
+                    // A tile knows which cover it draws; a page's own facts do
+                    // not, and the tile is what the related row renders. The
+                    // cover of a project off the grid is named after it.
+                    return $fact ? $fact + ['slug' => $s, 'image' => $fact['image'] ?? $s] : null;
+                })
                 ->filter()
                 ->values()
                 ->all(),
