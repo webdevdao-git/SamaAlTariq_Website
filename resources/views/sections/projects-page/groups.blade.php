@@ -151,9 +151,9 @@
                                     <dt class="sr-only">Category</dt>
                                     <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $item['category'] }}</dd>
                                     <dt class="sr-only">Area</dt>
-                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] }}</dd>
+                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] ?? '' }}</dd>
                                     <dt class="sr-only">Duration</dt>
-                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] }}</dd>
+                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] ?? '' }}</dd>
                                 </dl>
                             </a>
                         </li>

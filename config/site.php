@@ -311,6 +311,26 @@ return [
                             ['image' => 'jumeirah-island-villa', 'ratio' => '772/635', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
                         ]],
                     ]],
+                    /*
+                     * Villa B200, drawn on the row above's shape: two even
+                     * columns at the same 772x635, the second a different room
+                     * of the same house. That pairing is the frame's own device
+                     * — Hospitality and Fitness each use it — and `project` is
+                     * what sends both tiles to the one page and keeps the list
+                     * view showing it once.
+                     *
+                     * NO AREA OR DURATION: the figures for this villa have not
+                     * been supplied, and the list and the spec table both omit
+                     * what they are not given rather than print a guess.
+                     */
+                    ['columns' => [
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai'],
+                        ]],
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'villa-b200-tilal-al-ghaf-2', 'project' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai'],
+                        ]],
+                    ]],
                 ],
             ],
             [
@@ -443,9 +463,20 @@ return [
             'tiles' => 4,
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
         ],
+        /*
+         * Villa B200. This entry was written before the photographs existed:
+         * the page answered, and every picture on it 404'd. It has its twelve
+         * now, and a pair of tiles on the Residential grid above.
+         *
+         * Twelve, not the thirteen handed over. The one left out carries
+         * another company's watermark across the terrace wall — ARC IN SPACE,
+         * bottom left — which is not something to publish here. A clean frame
+         * dropped in as l13/g13 is picked up by the grid with no edit to this
+         * file.
+         */
         'villa-b200-tilal-al-ghaf' => [
-            // Not on the projects grid, so its facts are here. Area, duration
-            // and year are unknown to this site and their rows stay closed.
+            // Kept here as well as on the tile: area, duration and year are
+            // unknown to this site and their rows stay closed.
             'facts' => [
                 'title' => 'Villa B200, Tilal-Al-Ghaf',
                 'category' => 'Luxury Residential',
