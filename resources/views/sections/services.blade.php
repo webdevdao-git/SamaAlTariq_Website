@@ -36,7 +36,11 @@
                         px-[var(--spacing-gutter)] pt-[clamp(1.5rem,3.47vw,60px)] pb-[clamp(2rem,5vw,88px)]"
                  aria-labelledby="service-heading-{{ $i + 1 }}">
 
-            <img src="{{ asset($item['image']) }}" alt=""
+            {{-- Versioned: these three were replaced under their own names,
+                 and this host answers an image with a week of cache-control —
+                 the deploy that swapped them served the old ones anyway until
+                 the stamp went on. --}}
+            <img src="{{ \App\Support\Asset::versioned($item['image']) }}" alt=""
                  loading="{{ $i === 0 ? 'eager' : 'lazy' }}" decoding="async"
                  class="absolute inset-0 -z-20 h-full w-full object-cover">
 
