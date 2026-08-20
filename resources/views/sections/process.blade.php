@@ -63,8 +63,19 @@
             {{-- Image column --}}
             <div class="flex flex-col gap-[6vh]">
                 @foreach ($process['steps'] as $i => $step)
+                    {{-- The picture's own proportions, not a frame of the
+                         section's: cut to 752/819 these lost the half of each
+                         photograph that says where the work is.
+
+                         The width is capped as well as the height, and to the
+                         same 72vh through the ratio. A height cap alone does
+                         not hold a ratio — the box keeps its full width and
+                         clips instead — so on a window shorter than about 780
+                         the crop came back. Capped both ways the box shrinks
+                         whole. --}}
                     <figure data-process-image="{{ $i }}"
-                            class="relative aspect-[752/819] max-h-[72vh] w-full overflow-hidden bg-mist">
+                            class="relative mx-auto max-h-[72vh] w-full overflow-hidden bg-mist"
+                            style="aspect-ratio:{{ $step['ratio'] }};max-width:calc(72vh * ({{ $step['ratio'] }}))">
                         {{-- Versioned: these four were replaced with a fresh
                              set under the same names, and this host answers an
                              image with a week of cache-control — without the

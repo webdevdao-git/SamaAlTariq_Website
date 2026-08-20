@@ -42,7 +42,9 @@
                     </div>
                 </div>
 
-                <div class="reveal-rise relative w-full overflow-hidden" style="aspect-ratio:835/510">
+                {{-- As the steps strip above: the block takes the
+                     photograph's ratio so none of it is cropped away. --}}
+                <div class="reveal-rise relative w-full overflow-hidden" style="aspect-ratio:{{ $phase['ratio'] }}">
                     <img src="{{ \App\Support\Asset::versioned($phase['image']) }}" alt="" loading="lazy" decoding="async"
                          class="h-full w-full object-cover">
                 </div>

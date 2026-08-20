@@ -30,7 +30,10 @@
                 <p class="text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375] text-ink">{{ $step['body'] }}</p>
 
                 {{-- 369x240 in the frame; the export is that box at 2x. --}}
-                <div class="relative w-full overflow-hidden" style="aspect-ratio:369/240">
+                {{-- The frame's 369/240 gave way to the picture's own: these
+                     four are 1200x1110 and 1200x900, and the strip shows the
+                     whole of each rather than a band cut out of it. --}}
+                <div class="relative w-full overflow-hidden" style="aspect-ratio:{{ $step['ratio'] }}">
                     <img src="{{ \App\Support\Asset::versioned($step['image']) }}" alt="" loading="lazy" decoding="async"
                          class="h-full w-full object-cover">
                 </div>
