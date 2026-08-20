@@ -84,13 +84,39 @@ export function initProcessScroll() {
         // Cheap bail-out: nothing to do while the section is far off screen.
         if (stackRect.bottom < -vh || stackRect.top > vh * 2) return;
 
-        // The line the images are measured against: the middle of the text.
-        const reference = stackRect.top + stackRect.height / 2;
+        /*
+         * The line the images are measured against: the middle of the sticky
+         * column, which is roughly the middle of the window while it is pinned.
+         *
+         * It used to be the middle of the steps stack, and the stack sits at
+         * the foot of that column — low on the screen. While the pictures were
+         * portrait and 72vh tall that still caught the first of them; landscape
+         * and a third the height, the first picture passed the line before the
+         * column had pinned, and the section opened on step 02 with the first
+         * photograph beside it.
+         */
+        const column = stack.parentElement ?? stack;
+        const columnRect = column.getBoundingClientRect();
+        const reference = columnRect.top + columnRect.height / 2;
 
-        const centres = images.map((img) => {
-            const r = img.getBoundingClientRect();
-            return r.top + r.height / 2;
-        });
+        const boxes = images.map((img) => img.getBoundingClientRect());
+        const centres = boxes.map((r) => r.top + r.height / 2);
+
+        /*
+         * How far an image is from the line, measured to the nearest edge of
+         * it — zero while the line is inside the picture.
+         *
+         * Centre-to-line was the measure before, and it only worked while the
+         * pictures were taller than the gaps between them. They are landscape
+         * now and a third of the height they were, so the next image's centre
+         * could be nearer the line than the current image's while the current
+         * one still filled the frame: the copy read step 02 against the first
+         * photograph. Measured to the edge, a step holds until its picture has
+         * actually left the line.
+         */
+        const distance = (r) => (r.top <= reference && reference <= r.bottom
+            ? 0
+            : Math.min(Math.abs(r.top - reference), Math.abs(r.bottom - reference)));
 
         // Spacing between consecutive images — the distance over which one step
         // hands over to the next.
@@ -102,8 +128,8 @@ export function initProcessScroll() {
         // the section this still resolves to the first or last step, so the
         // column is never left empty.
         let best = 0;
-        centres.forEach((c, i) => {
-            if (Math.abs(c - reference) < Math.abs(centres[best] - reference)) best = i;
+        boxes.forEach((r, i) => {
+            if (distance(r) < distance(boxes[best])) best = i;
         });
 
         /*
@@ -113,7 +139,7 @@ export function initProcessScroll() {
          * the challenger is clearly nearer.
          */
         if (dominant >= 0 && best !== dominant) {
-            const gain = Math.abs(centres[dominant] - reference) - Math.abs(centres[best] - reference);
+            const gain = distance(boxes[dominant]) - distance(boxes[best]);
             if (gain < spacing * 0.08) best = dominant;
         }
 
