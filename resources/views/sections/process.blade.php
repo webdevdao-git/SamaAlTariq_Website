@@ -65,7 +65,12 @@
                 @foreach ($process['steps'] as $i => $step)
                     <figure data-process-image="{{ $i }}"
                             class="relative aspect-[752/819] max-h-[72vh] w-full overflow-hidden bg-mist">
-                        <img src="{{ asset($step['image']) }}"
+                        {{-- Versioned: these four were replaced with a fresh
+                             set under the same names, and this host answers an
+                             image with a week of cache-control — without the
+                             stamp anyone who had been here would keep the old
+                             ones. --}}
+                        <img src="{{ \App\Support\Asset::versioned($step['image']) }}"
                              alt="{{ $step['number'] }} — {{ $step['title'] }}"
                              loading="{{ $i === 0 ? 'eager' : 'lazy' }}" decoding="async"
                              class="absolute inset-0 h-full w-full object-cover">
