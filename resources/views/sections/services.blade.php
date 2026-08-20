@@ -80,7 +80,13 @@
                  Wrapped, all three are on screen and the tab a visitor is
                  looking for is legible. From sm they fit the line again and
                  the row goes back to one, scrolling if a fourth service is
-                 ever added. --}}
+                 ever added.
+
+                 The phone pills are tighter than the fluid ones — 13px in 12
+                 of padding rather than 14 in 16 — so the wrap is two lines and
+                 not three. At their full size the first two came to 300 against
+                 the 280 a 320 screen has, which put every pill on a line of its
+                 own. --}}
             <nav class="-mx-[var(--spacing-gutter)] flex flex-wrap items-center gap-[clamp(0.25rem,0.41vw,7px)] gap-y-2 px-[var(--spacing-gutter)] pb-1
                         sm:snap-x sm:flex-nowrap sm:overflow-x-auto
                         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -88,8 +94,9 @@
                 @foreach ($services['items'] as $j => $tab)
                     <a href="#service-{{ $j + 1 }}"
                        @if ($i === $j) aria-current="true" @endif
-                       class="service-tab shrink-0 snap-start rounded-full border px-[clamp(1rem,1.56vw,27px)] py-[clamp(0.5rem,0.75vw,13px)]
-                              text-[clamp(0.875rem,1.04vw,18px)] whitespace-nowrap transition duration-300
+                       class="service-tab shrink-0 snap-start rounded-full border px-3 py-2 text-[13px]
+                              sm:px-[clamp(1rem,1.56vw,27px)] sm:py-[clamp(0.5rem,0.75vw,13px)]
+                              sm:text-[clamp(0.875rem,1.04vw,18px)] whitespace-nowrap transition duration-300
                               {{ $i === $j ? 'is-current' : '' }}">
                         {{ $tab['tab'] }}
                     </a>
