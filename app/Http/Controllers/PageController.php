@@ -84,11 +84,15 @@ class PageController extends Controller
             // extra frames cut from that project's shoot. Read off disk rather
             // than counted in config, so a project that gains or loses a
             // photograph needs no second edit.
-            'slides' => collect(['hero.webp'])
-                ->concat(collect(glob(public_path("images/projects/$slug/hero-*.webp")))
-                    ->map(fn (string $f) => basename($f))
-                    ->sort()
-                    ->values())
+            //
+            // hero.webp is looked up rather than assumed. It was named outright
+            // before, which meant a project whose opening frame was withdrawn
+            // — Jumeirah Golf Estate, whose bedroom is still in the grid as l8
+            // — opened on a slide pointing at a file that is no longer there.
+            'slides' => collect(glob(public_path("images/projects/$slug/hero.webp")))
+                ->concat(collect(glob(public_path("images/projects/$slug/hero-*.webp")))->sort()->values())
+                ->map(fn (string $f) => basename($f))
+                ->values()
                 ->all(),
             // Every photograph the project has, counted off disk. The grid
             // draws the frame's nine; the rest are reachable once one is open.
