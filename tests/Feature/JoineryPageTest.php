@@ -37,9 +37,20 @@ class JoineryPageTest extends TestCase
 
         $this->assertFileExists(public_path($logo), 'the configured mark exists on disk');
 
-        // First in the markup, and before any photograph on the page.
+        /*
+         * First of the page's OWN pictures — not first in the markup. Every
+         * page carries this company's lock-up twice before any content: the
+         * preloader's mark and the header's. Asserting position zero passed
+         * only while the partner mark did not exist, and would have failed
+         * the moment it did.
+         */
         preg_match_all('~<img[^>]+src="([^"?]+)~', $html, $images);
-        $this->assertStringContainsString($logo, $images[1][0] ?? '', 'the mark is the first image on the page');
+        $content = array_values(array_filter(
+            $images[1],
+            fn (string $src) => ! str_contains($src, 'images/logo-mark'),
+        ));
+
+        $this->assertStringContainsString($logo, $content[0] ?? '', 'the mark is the first picture the page draws');
     }
 
     /** The bands run in the reference page's order. */

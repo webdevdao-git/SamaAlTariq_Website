@@ -56,7 +56,13 @@
     <div class="grid lg:grid-cols-2">
         <div class="reveal flex min-h-[clamp(18rem,38vh,30rem)] items-center justify-center bg-white px-[clamp(1.5rem,4vw,80px)] py-[clamp(2.5rem,5vw,80px)]">
             @if ($logo)
-                <img src="{{ \App\Support\Asset::versioned($logo) }}" alt="{{ $partner['name'] }}"
+                {{-- The descriptor is in the artwork itself, and the artwork
+                     is a picture: without it in the alt, the one line that
+                     says what this company does reaches a screen reader on
+                     the type fallback and vanishes the moment the mark is
+                     dropped in. --}}
+                <img src="{{ \App\Support\Asset::versioned($logo) }}"
+                     alt="{{ $partner['name'] }} — {{ $partner['descriptor'] }}"
                      fetchpriority="high" decoding="async"
                      class="w-full max-w-[clamp(16rem,32vw,520px)] object-contain">
             @else
