@@ -18,6 +18,67 @@ class JoineryPageTest extends TestCase
     }
 
     /**
+     * The split under the title gives its left half to the partner's mark —
+     * the first picture on the page, which is what the page was asked for.
+     * While no artwork exists that half sets the name as type instead, and
+     * the one thing it must never do is draw an <img> at a path with no file
+     * behind it.
+     */
+    public function test_the_first_picture_is_the_partner_mark(): void
+    {
+        $logo = config('site.joinery_page.partner.logo');
+        $html = $this->get('/joinery')->assertOk()->getContent();
+
+        if ($logo === null) {
+            $this->assertStringNotContainsString('images/partners/', $html, 'no mark is drawn while there is no file');
+
+            return;
+        }
+
+        $this->assertFileExists(public_path($logo), 'the configured mark exists on disk');
+
+        // First in the markup, and before any photograph on the page.
+        preg_match_all('~<img[^>]+src="([^"?]+)~', $html, $images);
+        $this->assertStringContainsString($logo, $images[1][0] ?? '', 'the mark is the first image on the page');
+    }
+
+    /** The bands run in the reference page's order. */
+    public function test_the_bands_run_in_order(): void
+    {
+        $html = $this->get('/joinery')->assertOk()->getContent();
+
+        $marks = [
+            config('site.joinery_page.hero.panel.heading'),
+            config('site.joinery_page.scope.heading'),
+            config('site.joinery_page.package.title'),
+            config('site.joinery_page.studio.heading'),
+            config('site.joinery_page.faqs.0.q'),
+            config('site.joinery_page.gallery.heading'),
+        ];
+
+        $at = -1;
+        foreach ($marks as $mark) {
+            $found = strpos($html, e($mark));
+            $this->assertNotFalse($found, "{$mark} is on the page");
+            $this->assertGreaterThan($at, $found, "{$mark} follows the band before it");
+            $at = $found;
+        }
+    }
+
+    /**
+     * The card on the dark band quotes no price. A joinery package is priced
+     * against its drawings, so a figure here would be one nobody could stand
+     * behind — the card says so instead.
+     */
+    public function test_the_package_card_quotes_no_price(): void
+    {
+        $html = $this->get('/joinery')->assertOk()->getContent();
+
+        $this->assertStringContainsString(e(config('site.joinery_page.package.summary')), $html);
+        $this->assertDoesNotMatchRegularExpression('~(AED|USD|\$)\s?[0-9]~', strip_tags($html), 'no figure is quoted');
+    }
+
+    /**
      * The scope is the services page's own entries, filtered by number. If a
      * number in the config stops matching a service — renumbered, removed —
      * the section would render empty rather than loudly, so it is asserted.

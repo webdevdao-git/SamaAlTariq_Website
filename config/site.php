@@ -664,35 +664,45 @@ return [
     /*
      * The Joinery page.
      *
-     * The interiors and joinery on a Sama Al Tariq project are made and fitted
-     * by Alwan Design, and this page says so. Everything on it is either that
-     * relationship or the joinery scope this site already sets out on the
-     * services page — quoted from there by number rather than written again,
-     * so the two cannot drift apart.
+     * Laid out after homekode.com/pages/interior-design-services, which the
+     * client asked this page to follow. What was taken is that page's
+     * ARRANGEMENT, not its brand: a centred serif slab over centred copy, a
+     * half-and-half split of picture against a solid panel, a row of three
+     * upright pictures under a ruled heading, a card floating on a dark band
+     * carrying a list and one button, a picture beside a block of copy, a
+     * centred question-and-answer stack ruled between each pair, and two
+     * large pictures to close. Their cream and forest green are theirs; this
+     * page is drawn in the palette the other eight pages use, because a
+     * ninth in somebody else's colours reads as a different site.
      *
-     * Nothing here claims anything about Alwan as a company: no founding year,
-     * no address, no workshop, no capacity, no client list. Their own site
-     * (alwaninterior.com) answered 404 on every variant when this was built
-     * and no public record confirmed any of it, so those slots are null and
-     * the page omits what it has not been given. Fill one in and it appears.
+     * The content rule from the first build still holds. Everything here is
+     * either the relationship the client stated, or the joinery scope this
+     * site already sets out on the services page. Nothing claims anything
+     * about Alwan as a company: their site answered 404 on every variant and
+     * no public record confirmed a founding year, an address or a workshop,
+     * so those slots are null and the page omits them. Fill one in and it
+     * draws.
      */
     'joinery_page' => [
         'partner' => [
             'name' => 'Alwan Design',
             'descriptor' => 'Interior Design & Decor',
 
-            // The mark was handed over in a message rather than as a file, so
-            // there is nothing to point at yet and the band sets the name as
-            // type instead. Put the artwork at
-            // public/images/partners/alwan-design.webp and set this to that
-            // path — both together, because SiteAssetsTest fails a config
-            // path with no file behind it, which is the guard that stops a
-            // 404 reaching the Linux host.
+            /*
+             * THE FIRST PICTURE ON THE PAGE, which is what was asked for: the
+             * split under the title gives its left half to this mark.
+             *
+             * It arrived as a message rather than a file, so there is nothing
+             * to point at yet and that half sets the name as type instead.
+             * Put the artwork at public/images/partners/alwan-design.webp and
+             * set this to that path — both together, because SiteAssetsTest
+             * fails a config path with no file behind it, which is the guard
+             * that keeps a 404 off the host.
+             */
             'logo' => null,
 
             // 404 on every variant at the time of writing. A link to a dead
-            // page is worse than no link, so the band draws one only once this
-            // is filled in.
+            // page is worse than no link, so it draws only once filled in.
             'website' => null,
 
             // Unknown rather than absent — see the note above.
@@ -701,47 +711,95 @@ return [
             'workshop' => null,
         ],
 
-        /*
-         * No full-bleed photograph, which every other page on this site opens
-         * with. The joinery pictures we hold are 1200 wide, and a full-bleed
-         * hero would have to stretch one across the whole window — the blur
-         * the fit-out panel was just rebuilt to fix. Contained at its own
-         * size it is sharp. A wide workshop photograph from Alwan is what
-         * this page needs to open like the others.
-         */
         'hero' => [
-            'label' => 'Interiors & Joinery',
-            'heading' => ['Joinery'],
+            'heading' => 'Joinery',
             'lead' => 'The interiors and joinery on a Sama Al Tariq project are made and fitted by Alwan Design.',
-            'body' => 'One partner carries the interior package from the set-out drawings through to the last fitted element, which is what allows the joinery, the stone and the ceilings to meet: they are drawn against each other before any of them is made, rather than resolved on site between three trades.',
-            'image' => ['src' => 'images/services/service-6.webp', 'alt' => 'A joiner fitting timber shelving on site'],
+            'body' => 'One partner carries the interior package from the set-out drawings through to the last fitted element — so the joinery, the stone and the ceilings are drawn against each other before any of them is made, rather than resolved on site between three trades.',
+            'panel' => [
+                'heading' => 'One Interior, One Maker',
+                'body' => 'They make and fit the work. We hold the programme, the site and the client. One party is responsible for the interior from first drawing to handover.',
+            ],
         ],
 
         /*
-         * The scope, taken from the services page by number rather than
-         * restated. 05 is the bespoke work and 06 the carpentry and millwork
-         * that installs it; editing either there edits it here.
+         * The ruled heading and the three upright pictures. Two of them are
+         * the services page's own joinery entries, quoted by number rather
+         * than described again, so editing a service edits this too.
          */
         'scope' => [
-            'label' => 'What The Partnership Covers',
-            'heading' => 'Two of the ten services on this site are joinery, and both are delivered through Alwan.',
+            'heading' => 'Made in a workshop, finished on site',
+            'body' => 'Two of the ten services on this site are joinery, and both are delivered through Alwan — the bespoke work, and the carpentry and millwork that installs it.',
             'numbers' => ['05', '06'],
+            'third' => ['src' => 'images/about/approach-joinery.webp', 'alt' => 'A finished timber joinery wall with a lit reveal'],
         ],
 
         /*
-         * Three projects rather than three photographs. The heading says "in
-         * three of the projects on this site", and a stock workshop frame
-         * under that sentence does not answer it — these are the projects'
-         * own covers, and each tile is a way into the project it names.
-         *
-         * Slugs only: the cover and the title are the projects grid's, looked
-         * up rather than copied, so a project that is re-shot or renamed does
-         * not leave this page quoting the old one.
+         * The card on the dark band. Their card carries a price; this one
+         * carries scope, because what a joinery package costs is a function
+         * of the drawings and is quoted per project — a figure here would be
+         * one nobody could stand behind.
+         */
+        'package' => [
+            'title' => 'The Joinery Package',
+            'meta' => 'Drawing → workshop → site',
+            'items' => [
+                'Set-out drawings, agreed before anything is cut',
+                'Material and finish schedule',
+                'Bespoke joinery — feature elements and fitted furniture',
+                'Fully integrated interior components',
+                'Carpentry and millwork installation',
+                'Coordination against stone, ceilings and services',
+                'Snagging and handover',
+            ],
+            'summary' => 'Quoted per project',
+            'note' => 'Scope is set against the drawings for each project rather than sold by the metre, so the package is priced once the set-out is agreed.',
+            'cta' => ['label' => 'Start An Enquiry', 'href' => '/contact'],
+        ],
+
+        // Picture beside copy, as their studio band is arranged.
+        'studio' => [
+            'heading' => 'Why one package rather than three trades',
+            'body' => [
+                'A finish that meets cleanly was set out that way in advance. Where the joinery, the stone and the ceilings are drawn by different parties, the seams between them get resolved on site — late, and in whatever order the trades arrive.',
+                'Held as one package, the set-out is agreed once and everything after it is made to that drawing. It is the same reason a short programme runs: the long-lead work is ordered against a set-out nobody has to renegotiate.',
+            ],
+            // A project rather than the workshop frame above it: service-5
+            // is already the first of the three upright pictures, and the
+            // same photograph twice on one page reads as a shortage of them.
+            // This is the fitted kitchen at Jumeirah Golf Estate — the thing
+            // the paragraph beside it is describing.
+            'image' => ['src' => 'images/projects/jumeirah-golf-estate-villas/l10.webp', 'alt' => 'A fitted kitchen with an island and lit joinery reveals'],
+            'cta' => ['label' => 'Our Process', 'href' => '/process'],
+        ],
+
+        'faqs' => [
+            [
+                'q' => 'Who makes the joinery?',
+                'a' => 'Alwan Design. Every interior and joinery package on this site is made and fitted by them, working to the set-out agreed at the start of the project.',
+            ],
+            [
+                'q' => 'Who is responsible on site?',
+                'a' => 'Sama Al Tariq. We hold the programme, the site and the client, so there is one party accountable for the interior rather than a chain of subcontracts to follow.',
+            ],
+            [
+                'q' => 'What does the joinery package cover?',
+                'a' => 'The bespoke work and the carpentry and millwork that installs it — services 05 and 06 on the services page — from the set-out drawings through to snagging and handover.',
+            ],
+            [
+                'q' => 'Can I see the work?',
+                'a' => 'Yes. The projects below carry it, and every project on the projects page was delivered with the same interior package.',
+            ],
+        ],
+
+        /*
+         * Two large pictures to close, as their inspiration band does. Slugs
+         * only: the cover and the title are the projects grid's, looked up
+         * rather than copied, so a project that is re-shot does not leave
+         * this page quoting the old one.
          */
         'gallery' => [
-            'label' => 'Where It Shows',
-            'heading' => 'The same package, in three of the projects on this site.',
-            'projects' => ['jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'benjarong-dusit-thani'],
+            'heading' => 'Where it shows',
+            'projects' => ['jumeirah-golf-estate-villas', 'benjarong-dusit-thani'],
         ],
 
         'cta' => [

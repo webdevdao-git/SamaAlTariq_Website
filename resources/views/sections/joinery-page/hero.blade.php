@@ -1,60 +1,76 @@
 @php($hero = config('site.joinery_page.hero'))
+@php($partner = config('site.joinery_page.partner'))
+@php($logo = $partner['logo'] && file_exists(public_path($partner['logo'])) ? $partner['logo'] : null)
 
 {{--
-    NOT the full-bleed photographic hero the other pages open with, and
-    deliberately.
+    The opening, arranged as the reference page opens: a light band carrying a
+    centred serif slab over centred copy, and under it a half-and-half split of
+    picture against a solid panel.
 
-    Every joinery photograph this site holds is 1200 wide. Stretched across a
-    window it would land at 0.83 source pixels per CSS pixel at 1440 and half
-    that again on a retina screen — the exact softness the fit-out panel was
-    rebuilt to fix. Held to a 500 column it is 2.4 per pixel and sharp.
+    THE LEFT HALF OF THE SPLIT IS THE ALWAN MARK, which is what was asked for —
+    the first picture on the page is the partner's logo rather than a
+    photograph. It is set on the light ground rather than the dark one because
+    the artwork is drawn for white: the wordmark is black and the roundel runs
+    orange into green, none of which survives being dropped on #161616.
 
-    So the page opens on the night ground the site already uses, with the
-    photograph beside the title at a size it can carry. A wide workshop
-    photograph from Alwan is what this page needs to open like the others, and
-    the moment one exists this section can go back to the shared arrangement.
+    Until the file is there the half sets the name as type at the same size.
+    The band is not empty and nothing renders as a broken frame; the moment
+    public/images/partners/alwan-design.webp exists and the config points at
+    it, the mark takes its place.
 --}}
-<section id="top" class="relative isolate flex min-h-[100svh] flex-col bg-night text-white">
+<section id="top" class="relative isolate flex min-h-[100svh] flex-col bg-mist">
 
-    <x-site-header/>
+    <x-site-header tone="dark"/>
 
-    <div class="mt-auto pt-[clamp(4rem,12vh,9rem)] pb-[clamp(2.5rem,4.63vw,80px)]">
-        <div class="shell">
+    {{-- The title band. Centred, and the measure is held well inside the
+         gutters — the reference sets its copy to about half the page, which is
+         what keeps a centred paragraph from reading as a full-width block. --}}
+    {{-- Anchored under the header rather than centred in what is left of the
+         band, and that is the difference between a predictable gap and a
+         drifting one: centred, the space above the slab was whatever the
+         split below happened to leave — 65 at 1440, 52 at 1728 and 31 on a
+         phone, tightening exactly as the type grew.
 
-            {{-- The same hairline the process and about heroes carry, so a
-                 page that opens without a photograph still opens like one of
-                 this site's pages. --}}
-            <span aria-hidden="true" class="reveal-line block h-px w-full bg-white/25"></span>
+         The header is absolutely positioned, so this padding is what the
+         slab clears it by rather than a gap under it — the same expression
+         the contact page uses to sit its card clear of the same bar. Width
+         AND height, because a wide shallow window is where a figure read off
+         width alone pushes the block down the screen: 12.5vw of 1728 is 216
+         against the 200 that 20vh gives at 1000 tall, and the smaller wins.
+         The 6.5rem floor is the phone, where both terms are small. --}}
+    <div class="flex flex-1 flex-col pt-[max(6.5rem,min(12.5vw,20vh))] pb-[clamp(3rem,7vh,7rem)]">
+        <div class="shell flex flex-col items-center gap-[clamp(1rem,1.85vw,32px)] text-center">
+            <h1 class="editorial-heading text-fluid-section uppercase text-ink">
+                <span data-split data-split-delay="120">{{ $hero['heading'] }}</span>
+            </h1>
 
-            <div class="mt-[clamp(1.5rem,2.31vw,40px)] grid gap-[clamp(2rem,3.7vw,64px)] lg:grid-cols-[1fr_500px] lg:items-end lg:gap-[clamp(2.5rem,4.63vw,80px)]">
+            <p data-split data-split-delay="320" class="max-w-[24em] text-fluid-lead font-medium text-ink">{{ $hero['lead'] }}</p>
 
-                <div class="flex flex-col gap-[clamp(1rem,1.62vw,28px)]">
-                    <p class="reveal text-fluid-label font-medium text-teal">{{ $hero['label'] }}</p>
+            <p class="reveal max-w-[46em] text-fluid-body font-medium text-ink-muted" style="transition-delay:200ms">{{ $hero['body'] }}</p>
+        </div>
+    </div>
 
-                    <h1 class="editorial-heading text-fluid-hero uppercase">
-                        @foreach ($hero['heading'] as $line)
-                            <span data-split data-split-delay="{{ 120 + $loop->index * 200 }}" class="block">{{ $line }}</span>
-                        @endforeach
-                    </h1>
-
-                    {{-- Lead and body in one column at the measures the rest of
-                         the site sets: the lead is the sentence the page is
-                         about, the body the reason it matters. --}}
-                    <p data-split data-split-delay="360" class="max-w-[24em] text-fluid-lead font-medium">{{ $hero['lead'] }}</p>
-
-                    <p class="reveal max-w-[42ch] text-fluid-body font-medium text-white/70" style="transition-delay:200ms">{{ $hero['body'] }}</p>
+    {{-- The split. Equal halves from lg, stacked below it, and both halves are
+         given the same height so the panel is a block of colour against the
+         mark rather than a caption under it. --}}
+    <div class="grid lg:grid-cols-2">
+        <div class="reveal flex min-h-[clamp(18rem,38vh,30rem)] items-center justify-center bg-white px-[clamp(1.5rem,4vw,80px)] py-[clamp(2.5rem,5vw,80px)]">
+            @if ($logo)
+                <img src="{{ \App\Support\Asset::versioned($logo) }}" alt="{{ $partner['name'] }}"
+                     fetchpriority="high" decoding="async"
+                     class="w-full max-w-[clamp(16rem,32vw,520px)] object-contain">
+            @else
+                <div class="flex flex-col items-center gap-2 text-center">
+                    <p class="display text-fluid-h2 leading-[1.1] text-ink">{{ $partner['name'] }}</p>
+                    <p class="text-fluid-body font-semibold uppercase tracking-[0.08em] text-ink-muted">{{ $partner['descriptor'] }}</p>
                 </div>
+            @endif
+        </div>
 
-                {{-- Its own proportions, capped at the width the file can
-                     carry rather than stretched to the column. --}}
-                <figure class="reveal w-full lg:w-[500px]" style="transition-delay:160ms">
-                    <div class="relative aspect-[1200/1280] w-full overflow-hidden bg-white/5">
-                        <img src="{{ \App\Support\Asset::versioned($hero['image']['src']) }}" alt="{{ $hero['image']['alt'] }}"
-                             fetchpriority="high" decoding="async"
-                             class="absolute inset-0 h-full w-full object-cover">
-                    </div>
-                </figure>
-            </div>
+        <div class="reveal flex min-h-[clamp(18rem,38vh,30rem)] flex-col items-center justify-center gap-[clamp(1rem,1.62vw,28px)] bg-night px-[clamp(1.5rem,4vw,80px)] py-[clamp(2.5rem,5vw,80px)] text-center text-white"
+             style="transition-delay:120ms">
+            <h2 class="display text-fluid-h2 uppercase leading-[1.2]">{{ $hero['panel']['heading'] }}</h2>
+            <p class="max-w-[30em] text-fluid-body font-medium text-white/70">{{ $hero['panel']['body'] }}</p>
         </div>
     </div>
 </section>
