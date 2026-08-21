@@ -10,7 +10,7 @@ class SeoTest extends TestCase
     use RefreshDatabase;
 
     /** Every public page, and one project page as a sample of the eleven. */
-    private const PAGES = ['/', '/about', '/projects', '/services', '/process', '/contact', '/projects/emirates-hills-villa'];
+    private const PAGES = ['/', '/about', '/projects', '/services', '/joinery', '/process', '/contact', '/projects/emirates-hills-villa'];
 
     public function test_each_page_describes_itself(): void
     {

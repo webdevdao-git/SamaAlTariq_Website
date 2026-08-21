@@ -61,6 +61,35 @@ class PageController extends Controller
     }
 
     /**
+     * The Joinery page: the partner who makes and fits the interiors.
+     *
+     * Config-driven like the other marketing pages. The scope it lists is the
+     * services page's own entries, looked up by number rather than restated,
+     * so editing a service edits both places at once.
+     */
+    public function joinery(): View
+    {
+        $wanted = config('site.joinery_page.scope.numbers', []);
+        $facts = $this->projectFacts();
+
+        return view('joinery', [
+            'services' => array_values(array_filter(
+                config('site.services_page.services', []),
+                fn (array $service) => in_array($service['number'], $wanted, true),
+            )),
+            // The three projects the page closes on, resolved against the
+            // projects grid so the tile carries the cover and the title that
+            // grid carries — the same lookup the related rows use, and for
+            // the same reason: nothing is quoted twice and nothing drifts.
+            'gallery' => collect(config('site.joinery_page.gallery.projects', []))
+                ->map(fn (string $slug) => ($facts[$slug] ?? null) ? $facts[$slug] + ['slug' => $slug] : null)
+                ->filter()
+                ->values()
+                ->all(),
+        ]);
+    }
+
+    /**
      * One project, from Figma frame 1472:1339.
      *
      * The facts a project page quotes — title, category, location, area,

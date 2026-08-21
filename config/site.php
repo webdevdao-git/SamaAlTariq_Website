@@ -26,6 +26,7 @@ return [
         ['label' => 'About', 'href' => '/about'],
         ['label' => 'Projects', 'href' => '/projects'],
         ['label' => 'Services', 'href' => '/services'],
+        ['label' => 'Joinery', 'href' => '/joinery'],
         ['label' => 'Process', 'href' => '/process'],
         ['label' => 'Contact', 'href' => '/contact'],
     ],
@@ -657,6 +658,95 @@ return [
                 'label' => "Let's Talk",
                 'href' => '#contact',
             ],
+        ],
+    ],
+
+    /*
+     * The Joinery page.
+     *
+     * The interiors and joinery on a Sama Al Tariq project are made and fitted
+     * by Alwan Design, and this page says so. Everything on it is either that
+     * relationship or the joinery scope this site already sets out on the
+     * services page — quoted from there by number rather than written again,
+     * so the two cannot drift apart.
+     *
+     * Nothing here claims anything about Alwan as a company: no founding year,
+     * no address, no workshop, no capacity, no client list. Their own site
+     * (alwaninterior.com) answered 404 on every variant when this was built
+     * and no public record confirmed any of it, so those slots are null and
+     * the page omits what it has not been given. Fill one in and it appears.
+     */
+    'joinery_page' => [
+        'partner' => [
+            'name' => 'Alwan Design',
+            'descriptor' => 'Interior Design & Decor',
+
+            // The mark was handed over in a message rather than as a file, so
+            // there is nothing to point at yet and the band sets the name as
+            // type instead. Put the artwork at
+            // public/images/partners/alwan-design.webp and set this to that
+            // path — both together, because SiteAssetsTest fails a config
+            // path with no file behind it, which is the guard that stops a
+            // 404 reaching the Linux host.
+            'logo' => null,
+
+            // 404 on every variant at the time of writing. A link to a dead
+            // page is worse than no link, so the band draws one only once this
+            // is filled in.
+            'website' => null,
+
+            // Unknown rather than absent — see the note above.
+            'established' => null,
+            'location' => null,
+            'workshop' => null,
+        ],
+
+        /*
+         * No full-bleed photograph, which every other page on this site opens
+         * with. The joinery pictures we hold are 1200 wide, and a full-bleed
+         * hero would have to stretch one across the whole window — the blur
+         * the fit-out panel was just rebuilt to fix. Contained at its own
+         * size it is sharp. A wide workshop photograph from Alwan is what
+         * this page needs to open like the others.
+         */
+        'hero' => [
+            'label' => 'Interiors & Joinery',
+            'heading' => ['Joinery'],
+            'lead' => 'The interiors and joinery on a Sama Al Tariq project are made and fitted by Alwan Design.',
+            'body' => 'One partner carries the interior package from the set-out drawings through to the last fitted element, which is what allows the joinery, the stone and the ceilings to meet: they are drawn against each other before any of them is made, rather than resolved on site between three trades.',
+            'image' => ['src' => 'images/services/service-6.webp', 'alt' => 'A joiner fitting timber shelving on site'],
+        ],
+
+        /*
+         * The scope, taken from the services page by number rather than
+         * restated. 05 is the bespoke work and 06 the carpentry and millwork
+         * that installs it; editing either there edits it here.
+         */
+        'scope' => [
+            'label' => 'What The Partnership Covers',
+            'heading' => 'Two of the ten services on this site are joinery, and both are delivered through Alwan.',
+            'numbers' => ['05', '06'],
+        ],
+
+        /*
+         * Three projects rather than three photographs. The heading says "in
+         * three of the projects on this site", and a stock workshop frame
+         * under that sentence does not answer it — these are the projects'
+         * own covers, and each tile is a way into the project it names.
+         *
+         * Slugs only: the cover and the title are the projects grid's, looked
+         * up rather than copied, so a project that is re-shot or renamed does
+         * not leave this page quoting the old one.
+         */
+        'gallery' => [
+            'label' => 'Where It Shows',
+            'heading' => 'The same package, in three of the projects on this site.',
+            'projects' => ['jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'benjarong-dusit-thani'],
+        ],
+
+        'cta' => [
+            ['label' => 'All Services', 'href' => '/services'],
+            ['label' => 'Explore Projects', 'href' => '/projects'],
         ],
     ],
 
