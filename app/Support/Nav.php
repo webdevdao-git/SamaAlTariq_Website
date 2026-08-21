@@ -36,6 +36,22 @@ final class Nav
     private const EVERYWHERE = ['#contact'];
 
     /**
+     * Fragments that mean the whole landing page rather than a section of it,
+     * and so resolve to the page itself.
+     *
+     * '#top' is the hero's id, and off the landing page it was written as
+     * '/#top' — which works, but leaves the fragment sitting in the address
+     * bar for the rest of the visit. A visitor arriving at the landing page
+     * is at the top of it already, so the fragment has no work to do and the
+     * link is written as the bare path.
+     *
+     * On the landing page itself it stays a fragment: there it is a scroll,
+     * not a navigation, and smooth-scroll.js eases to the hero without
+     * putting anything in the URL.
+     */
+    private const WHOLE_PAGE = ['#top'];
+
+    /**
      * The nav from config with every href resolved for the current page.
      *
      * @return array<int, array{label: string, href: string}>
@@ -60,6 +76,10 @@ final class Nav
 
         if (request()->routeIs('home') || in_array($href, self::EVERYWHERE, true)) {
             return $href;
+        }
+
+        if (in_array($href, self::WHOLE_PAGE, true)) {
+            return '/';
         }
 
         // Root-relative rather than url()->to(): the fragment only has to leave
