@@ -1,170 +1,124 @@
 @php($footer = config('site.footer'))
 @php($nav = \App\Support\Nav::items())
 @php($social = config('site.social'))
+@php($contact = config('site.contact'))
 
 {{--
-    Figma: frame 1226:1038, 1728×774, background #3FA7B3.
+    Figma 1803:2, y9415–10030, on #3FA7B3.
 
-    Three columns above the wordmark lock-up: SAMA AL TARIQ over BUILDING
-    CONTRACTING LLC., both set in Juana Alt Medium and sized by measurement
-    rather than a fixed vw (see motion/fit-text.js).
+    Redrawn. It was a lock-up and nav at the gutter, a "Recently Completed"
+    card two thirds across and the marks in a strip beside it; the file
+    replaces all of that with one row — the mark, a line of copy and a pill on
+    the left, then four labelled columns, with the marks in a ROW under the
+    last of them — and the wordmark below, unchanged.
 
-    The columns are laid out on the same 12-column grid as the rest of the page
-    and share a top edge, so they read as one band instead of three floating
-    blocks. The design leaves columns 4–7 empty: the band is navigation at the
-    left gutter, the project card past the two-thirds mark, and social at the
-    right gutter, with nothing between them.
+    The tracks are the frame's own, measured from its content edges at 74 and
+    1654: 373 of left block, then 103, 182, 291 and 280, with 88 between each.
+    Written as those fractions so they hold their proportions at any width
+    rather than only at 1728.
+
+    No legal bar. The file draws no copyright down here, because the enquiry
+    card above already sets one — it has since that card was built, so nothing
+    is lost by following the file.
 --}}
 <footer class="overflow-hidden bg-teal pt-[clamp(2.5rem,4.63vw,80px)] text-white">
     <div class="shell">
-        <div class="grid gap-x-[clamp(1.5rem,2.3vw,40px)] gap-y-[clamp(2.5rem,4vw,68px)] lg:grid-cols-12">
 
-            {{-- Brand + navigation --}}
-            <div class="reveal flex flex-col gap-[clamp(1.25rem,2.14vw,37px)] lg:col-span-3">
+        {{-- One row from lg. Below that the left block stacks over the four
+             columns, and the columns themselves go two-up: at 390 the four
+             abreast leave "Office 804, Sapphire Tower Dubai" 60px to wrap in. --}}
+        {{-- The frame's five tracks from XL, not lg. At 1024 they are the
+             right proportions and the wrong sizes: the socials track comes out
+             at 130 and its five marks at 25 square, which is half a tap
+             target. Two columns carry it from sm to xl instead. --}}
+        <div class="grid gap-x-[clamp(1.5rem,5.1vw,88px)] gap-y-[clamp(2rem,3.7vw,64px)] sm:grid-cols-2 xl:grid-cols-[373fr_103fr_182fr_291fr_280fr]">
+
+            <div class="reveal flex flex-col gap-[clamp(1.25rem,2vw,34px)] sm:col-span-2 xl:col-span-1">
                 <img src="{{ asset('images/logo-mark.png') }}" alt="" width="540" height="462"
                      class="h-auto w-[clamp(44px,3.65vw,63px)]">
 
-                {{--
-                    Leading, not a row gap, sets the rhythm here: the design
-                    stacks the six links at roughly 1.28× their own size, which a
-                    gap on top of default leading overshoots by a third.
-                --}}
+                <p class="max-w-[373px] text-fluid-body font-medium leading-[1.35]">{{ $footer['lead'] }}</p>
+
+                {{-- White pill against the teal, which is the one place on the
+                     site the pill inverts — everywhere else it sits on white. --}}
+                <a href="{{ $footer['cta']['href'] }}"
+                   class="group inline-flex w-fit items-center gap-2 rounded-full bg-white px-[clamp(1.25rem,1.62vw,28px)] py-[clamp(0.625rem,0.75vw,13px)] text-fluid-sm font-medium text-teal transition-opacity hover:opacity-90">
+                    {{ $footer['cta']['label'] }}
+                    <x-icon name="arrow-right" class="w-[clamp(14px,0.93vw,16px)] transition-transform duration-300 group-hover:translate-x-0.5"/>
+                </a>
+            </div>
+
+            {{-- Navigate. Leading, not a row gap, sets the rhythm: the file
+                 stacks these at 29 on 18px type, which is 1.6. --}}
+            <div class="reveal flex flex-col gap-[clamp(1rem,1.7vw,29px)]" style="transition-delay:80ms">
+                <p class="text-fluid-sm font-medium text-white/60">{{ $footer['columns']['nav'] }}</p>
+
                 <nav aria-label="Footer">
-                    <ul class="flex flex-col text-fluid-body leading-[1.28] font-medium">
+                    <ul class="flex flex-col text-fluid-sm leading-[1.6] font-medium">
                         @foreach ($nav as $item)
                             <li>
                                 <a href="{{ $item['href'] }}"
-                                   class="inline-block py-[13px] -my-[13px] transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
+                                   class="inline-block py-[7px] -my-[7px] transition-opacity hover:opacity-70">{{ $item['label'] }}</a>
                             </li>
                         @endforeach
                     </ul>
                 </nav>
             </div>
 
-            {{--
-                Recently completed. Starts at column 8 rather than flowing on
-                from the navigation: the design sets the card two thirds across,
-                and the empty teal to its left is what gives the wordmark below
-                room to read as the footer's subject.
+            {{-- Contact. Each line draws only when it is set, so an unfilled
+                 number leaves no empty row behind it. --}}
+            <div class="reveal flex flex-col gap-[clamp(1rem,1.7vw,29px)]" style="transition-delay:140ms">
+                <p class="text-fluid-sm font-medium text-white/60">{{ $footer['columns']['contact'] }}</p>
 
-                The card is 417px in the design, which is wider than the three
-                columns it starts on, so above 2xl it overflows its track to the
-                right rather than claiming a fourth column.
+                <ul class="flex flex-col gap-[clamp(0.25rem,0.5vw,8px)] text-fluid-sm leading-[1.6] font-medium">
+                    @if ($contact['phone'])
+                        <li>
+                            <a href="tel:{{ preg_replace('~[^0-9+]~', '', $contact['phone']) }}"
+                               class="inline-block py-[7px] -my-[7px] transition-opacity hover:opacity-70">{{ $contact['phone'] }}</a>
+                        </li>
+                    @endif
 
-                The marks ride beside it in the same cell rather than in a
-                column of their own, which is what puts them against the picture
-                instead of out on the gutter with a field of teal between. It
-                also settles the overflow: placed on their own tracks they had
-                to dodge a card whose right edge moves 95px between 1536 and
-                1900, and as a flex sibling they simply start where it ends.
+                    @if ($contact['email'])
+                        <li>
+                            <a href="mailto:{{ $contact['email'] }}"
+                               class="inline-block py-[7px] -my-[7px] transition-opacity hover:opacity-70">{{ $contact['email'] }}</a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
 
-                The card shrinks rather than holding 417 when the row is tight —
-                at 1024 the cell has 373 to give and 417 plus a gap plus a mark
-                is more than that, so an unshrinkable card pushed the marks 21
-                past the gutter. It keeps its 417 from 2xl, where there is room
-                for it, which is the width the design draws.
-            --}}
-            <div class="lg:col-start-8 lg:col-end-13 flex flex-col gap-[clamp(1.5rem,2.3vw,40px)] lg:flex-row lg:items-stretch" style="transition-delay:120ms">
-                <a href="{{ \App\Support\Nav::href($footer['recent']['href']) }}"
-                   class="reveal group relative block w-full max-w-[417px] 2xl:min-w-[417px]" style="transition-delay:120ms">
-                    <span class="mb-[clamp(0.35rem,0.5vw,8.5px)] flex items-center gap-1.5">
-                        <x-icon name="dot" class="text-white"/>
-                        <span class="text-[clamp(11px,0.81vw,14px)] font-semibold">{{ $footer['recent']['label'] }}</span>
-                    </span>
+            <div class="reveal flex flex-col gap-[clamp(1rem,1.7vw,29px)]" style="transition-delay:200ms">
+                <p class="text-fluid-sm font-medium text-white/60">{{ $footer['columns']['address'] }}</p>
 
-                    <span class="relative block aspect-[417/259] w-full overflow-hidden bg-white/10">
-                        <img src="{{ asset($footer['recent']['image']) }}" alt="{{ $footer['recent']['alt'] }}"
-                             loading="lazy" decoding="async"
-                             class="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]">
-                    </span>
+                @if ($contact['address'])
+                    <p class="max-w-[291px] text-fluid-sm leading-[1.6] font-medium">{{ $contact['address'] }}</p>
+                @endif
+            </div>
 
-                    {{--
-                        Straddles the bottom edge two thirds along, as in the
-                        design — a bare white arrow half on the photograph and
-                        half on the teal, not a button. It sits outside the frame
-                        because that element clips its own overflow for the hover
-                        zoom, which would cut the arrow in half.
-                    --}}
-                    <span aria-hidden="true"
-                          class="pointer-events-none absolute bottom-0 left-[67%] translate-y-1/2 text-white transition-transform duration-500 group-hover:translate-y-[calc(50%-4px)] group-hover:translate-x-1">
-                        <x-icon name="diagonal-arrow" class="w-[clamp(28px,2.52vw,44px)]"/>
-                    </span>
-                </a>
+            {{-- Socials, in a row. Icons carry no text, so each link needs an
+                 accessible name of its own — aria-label supplies it and the
+                 mark itself stays aria-hidden. The 48px box is the file's and
+                 is also the tap target; the glyph inside it is 25. --}}
+            <div class="reveal flex flex-col gap-[clamp(1rem,1.7vw,29px)]" style="transition-delay:260ms">
+                <p class="text-fluid-sm font-medium text-white/60">{{ $footer['columns']['social'] }}</p>
 
-                {{--
-                    Social, as marks rather than as words. The same treatment the
-                    navigation overlay gives them, which is where the rest of the
-                    site meets these five.
-
-                    Each mark carries no text, so the link takes its accessible name
-                    from an aria-label and the glyph itself is hidden — otherwise
-                    the row reads to a screen reader as five unnamed links. The 44px
-                    box is the tap target: the mark is ~24, which is under the size
-                    a thumb reliably hits.
-
-                        Stacked from lg, one under the next, against the left of
-                    the space they are given — which there is the edge of the
-                    picture beside them. On a phone the picture is above rather
-                    than beside, so they run as a row under it: five 44s and
-                    their gaps come to 236 against the 280 a 320 screen has, and
-                    a column of them was 240 of empty teal.
-
-                    The row pulls 10px left of the picture's edge, which is what
-                    lines the two up. Each mark is a 24px glyph centred in a 44
-                    box, so its own left edge sits 10 inside the box it is drawn
-                    in, and flush boxes put the marks visibly inboard of the
-                    picture above them.
-
-                    And spread over that picture's height rather than bunched at
-                    its top: the column stretches with the row and the five
-                    marks space themselves between its ends, so the first sits
-                    on the picture's top edge and the last on its foot.
-
-                    Which puts a ceiling on the box, hence 2.6vw from lg rather
-                    than a flat 44: the picture is 259 tall at 1728 and 190 at
-                    1024, and five 44s are 220 — taller than the thing they are
-                    supposed to line up with, so at 1024 the last mark hung 30
-                    below its foot. Below lg there is no picture beside them,
-                    they take the full 44 again, and they close back up to a 4px
-                    stack.
-
-                    Which also takes the width problem off the table. Side by side
-                    they had to shrink to 24px to fit the 135 this block is given at
-                    lg, and to dodge the card that overflows its own track from 2xl;
-                    in a column each mark keeps a flat 44 at every width, tap target
-                    and all. It costs height — five of them run 236 against the
-                    card's 288 — and that is height the row already had.
-
-                    No tracks of its own: it is the card's neighbour in one cell,
-                    so it starts where the picture ends however far that has moved.
-                --}}
-                    <div class="reveal flex flex-col" style="transition-delay:180ms">
-                    {{-- One blank line of the card's label, which is what
-                         sets how far down its picture starts: same size, same
-                         margin, so the first mark lands on the picture's top
-                         edge rather than on the label's, and stays there as
-                         both scale.
-
-                         Zero width, or it is not spacing but a column: the
-                         label's own words in a 44px column wrap to two lines
-                         and push the marks 17 too far down, and stopping the
-                         wrap instead would make this stack as wide as the
-                         words. --}}
-                    <span aria-hidden="true"
-                          class="mb-[clamp(0.35rem,0.5vw,8.5px)] hidden w-0 overflow-hidden text-[clamp(11px,0.81vw,14px)] font-semibold lg:block">&nbsp;</span>
-
-                    <ul class="-ml-2.5 flex flex-wrap items-center gap-1 lg:ml-0 lg:flex-1 lg:flex-col lg:items-start lg:justify-between lg:gap-0">
-                        @foreach ($social as $s)
-                            <li>
-                                <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
-                                   aria-label="{{ $s['label'] }} — opens in a new tab"
-                                   class="grid size-11 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white lg:size-[min(2.6vw,44px)]">
-                                    <x-icon :name="$s['icon']" class="w-[clamp(20px,1.5vw,24px)] lg:w-[min(1.5vw,24px)]"/>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                {{-- The five share the track rather than each holding 48. The
+                     frame's column is 280 — exactly five 48s and four 10s —
+                     and that only fits at 1728: at 1440 the track scales to
+                     231 and the fifth mark wrapped to a line of its own.
+                     Flexible, they fill whatever the track is and cap at the
+                     frame's 48 on a wide screen. --}}
+                <ul class="flex w-full max-w-[280px] items-center gap-[clamp(0.375rem,0.58vw,10px)]">
+                    @foreach ($social as $s)
+                        <li class="min-w-0 max-w-12 flex-1">
+                            <a href="{{ $s['href'] }}" target="_blank" rel="noreferrer noopener"
+                               aria-label="{{ $s['label'] }} — opens in a new tab"
+                               class="grid aspect-square w-full place-items-center rounded-[10px] bg-white/15 text-white transition-colors duration-300 hover:bg-white/25">
+                                <x-icon :name="$s['icon']" class="w-[min(52%,25px)]"/>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
 
@@ -172,8 +126,14 @@
             Wordmark lock-up. No rule above it: the design separates it from the
             band by distance alone, and a hairline turned the two into stacked
             sections rather than one field with a mark sitting in it.
+
+            The bottom padding is the profile button's berth. That button is
+            fixed to a bottom corner — right on a phone, left from sm — so
+            whatever is last on the page is what it sits on, and since the legal
+            bar went with the redraw, that is now this lock-up. 76px clears the
+            pill's 48 and its gutter at either size.
         --}}
-        <div class="mt-[clamp(2.75rem,7.06vw,122px)] pb-[clamp(1.75rem,3.7vw,64px)]">
+        <div class="mt-[clamp(2.75rem,7.06vw,122px)] pb-[76px]">
             {{--
                 Face, weight, leading and the subtitle's tracking are in
                 .logotype / .logotype-sub — they are one typographic unit and
@@ -192,11 +152,6 @@
                 tail sweeps down past the subtitle's cap line and finishes
                 beside "LLC.", and padding that cleared the descender pushed the
                 two lines apart into stacked lines rather than one lock-up.
-
-                The subtitle's fallback vw is far below the title's because its
-                0.86em tracking adds most of the line's rendered width — the vw
-                that would fit these characters untracked overflows the shell
-                several times over once the tracking is on.
             --}}
             <p data-fit-text class="logotype text-[10.5vw]">
                 {{ Str::upper($footer['wordmark']) }}
@@ -204,24 +159,6 @@
             <p data-fit-text class="logotype logotype-sub mt-[0.28em] text-[1.7vw]">
                 {{ Str::upper($footer['wordmark_sub']) }}
             </p>
-        </div>
-
-        {{-- Legal bar --}}
-        {{-- The foot of this bar is the profile button's berth. The button is
-             fixed to a bottom corner — right on a phone, left from sm — so
-             whatever is last on the page is what it sits on, and that is this
-             line: at 1024 it covered the copyright outright. 76px clears the
-             pill's 48 and its gutter at either size. The teal it leaves below
-             the rule is empty, which is the one thing this footer has plenty
-             of. --}}
-        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 pt-[clamp(1rem,1.5vw,26px)] pb-[76px]">
-            <p class="text-fluid-sm text-white/80">{{ config('site.copyright') }}</p>
-            <a href="#top" class="group inline-flex items-center gap-1.5 py-2 -my-2 text-fluid-sm font-medium transition-opacity hover:opacity-70">
-                Back to top
-                <span class="inline-block rotate-[-90deg] transition-transform duration-300 group-hover:-translate-y-0.5">
-                    <x-icon name="arrow-right" class="w-[clamp(16px,1.16vw,20px)]"/>
-                </span>
-            </a>
         </div>
     </div>
 </footer>

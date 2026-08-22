@@ -42,8 +42,10 @@ return [
     'social' => [
         ['label' => 'Instagram', 'icon' => 'instagram', 'href' => 'https://www.instagram.com/samaaltariqcontracting'],
         ['label' => 'Facebook', 'icon' => 'facebook', 'href' => 'https://www.facebook.com/samaaltariq/'],
-        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => 'https://www.linkedin.com/company/sama-al-tariq'],
+        // TikTok before LinkedIn, which is the order the redrawn footer sets
+        // them in. The menu overlay draws the same list, so the two agree.
         ['label' => 'TikTok', 'icon' => 'tiktok', 'href' => 'https://www.tiktok.com/@samaaltariq'],
+        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => 'https://www.linkedin.com/company/sama-al-tariq'],
         ['label' => 'WhatsApp', 'icon' => 'whatsapp', 'href' => 'https://api.whatsapp.com/send/?phone=971543190845&text=Welcome%20To%20Sama%20Al%20Tariq%2C%20How%20can%20we%20help%20you%3F&type=phone_number&app_absent=0'],
     ],
 
@@ -1216,25 +1218,42 @@ return [
     ],
 
     /*
-     * Footer contact block. Only `email` is known — it is the mailbox the
-     * enquiry form already delivers to. `phone` and `address` are deliberately
-     * null rather than invented: the Figma file contains neither, and the
-     * footer renders each line only when it is set, so filling them in here is
-     * the only step needed to show them.
+     * Footer contact block. `phone` and `address` stood null here because the
+     * Figma file contained neither — the redrawn footer does, so they are the
+     * file's own now. Each line still renders only when it is set.
      */
     'contact' => [
         'heading' => 'Get in touch',
         'email' => env('ENQUIRY_TO', 'info@samaaltariq.org'),
-        'phone' => null,
-        'address' => null,
+        'phone' => '+971 54 319 0845',
+        'address' => 'Office 804, Sapphire Tower Dubai, United Arab Emirates',
     ],
 
+    /*
+     * The footer, redrawn — Figma 1803:2, y9415–10030.
+     *
+     * It was a lock-up and nav at the gutter, a "Recently Completed" card two
+     * thirds across and the marks in a strip beside it. The file replaces all
+     * of that with one row: the mark, a line of copy and a pill on the left,
+     * then four labelled columns — Navigate, Contact, Address, Socials — with
+     * the marks in a ROW under the last of them.
+     *
+     * The card is gone from the design, so it is gone from here; its picture
+     * stays on disk, unreferenced. The legal bar is gone too: the file carries
+     * no copyright line down here because the enquiry card above already sets
+     * one, which it has done since that card was built.
+     *
+     * The tracks are the frame's own, measured from its content edges: 373 of
+     * left block, then 103, 182, 291 and 280, with 88 between each.
+     */
     'footer' => [
-        'recent' => [
-            'label' => 'Recently Completed',
-            'image' => 'images/footer-recent.webp',
-            'alt' => 'Recently completed corporate lobby Fit-Out',
-            'href' => '#projects',
+        'lead' => 'Share your requirements and let\'s discuss the possibilities.',
+        'cta' => ['label' => 'Get In Touch', 'href' => '/contact'],
+        'columns' => [
+            'nav' => 'Navigate',
+            'contact' => 'Contact',
+            'address' => 'Address',
+            'social' => 'Socials',
         ],
         'wordmark' => 'Sama Al Tariq',
         'wordmark_sub' => 'Building Contracting LLC.',
