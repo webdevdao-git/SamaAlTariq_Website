@@ -13,6 +13,7 @@ import { initGrowScene } from './motion/grow-scene';
 import { initRevealScene } from './motion/reveal-scene';
 import { initServiceSlides } from './motion/service-slides';
 import { initScrollGallery, initSlideCycle } from './motion/scroll-gallery';
+import { initTextFill } from './motion/text-fill';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -55,6 +56,7 @@ function boot() {
     initServiceSlides();
     initScrollGallery();
     initSlideCycle();
+    initTextFill();
 
     // Split before reveal: splitting rewrites the element's children, and doing
     // it after a reveal would restart the transition from the hidden state.
