@@ -27,8 +27,10 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
  * its full size, the words at their places and the first slide visible, which
  * is the arrangement the frame draws. Nothing here is required to read it.
  */
-const SCALE_FROM = 0.2;   // their own starting scale
+const SCALE_FROM = 0.2;   // their own starting scale, unless the band names one
 const WORD_OFFSET = 50;   // px, their own — one word down, the other up
+const FADE_FROM = 0.55;   // the type holds this far, then goes
+const FADE_TO = 0.85;
 
 /** Ease-out, so the growth slows as the picture arrives rather than stopping. */
 function ease(t) {
@@ -45,13 +47,19 @@ export function initScrollGallery() {
         frame: section.querySelector('[data-gallery-frame]'),
         words: Array.from(section.querySelectorAll('[data-gallery-word]')),
         slides: Array.from(section.querySelectorAll('[data-gallery-slide]')),
+        // Everything that gets out of the picture's way as it grows: the two
+        // words and the labels above and below them.
+        fades: Array.from(section.querySelectorAll('[data-gallery-fade]')),
+        // The band may set where the growth starts. The file storyboards this
+        // one at 522 of 1728, which is 0.302 rather than the reference's 0.2.
+        from: Number(section.dataset.scrollGallery) || SCALE_FROM,
     })).filter((band) => band.pin && band.frame);
 
     if (bands.length === 0) return;
 
     for (const band of bands) band.section.dataset.galleryReady = 'true';
 
-    subscribeToScroll(({ vh }) => {
+    subscribeToScroll(({ vh, vw }) => {
         for (const band of bands) {
             const rect = band.section.getBoundingClientRect();
 
@@ -68,7 +76,29 @@ export function initScrollGallery() {
             const p = Math.min(1, Math.max(0, -rect.top / travel));
             const eased = ease(p);
 
-            band.frame.style.transform = `scale(${(SCALE_FROM + (1 - SCALE_FROM) * eased).toFixed(4)})`;
+            /*
+             * The start scale is the file's — 522 of 1728, or 0.302 — and on a
+             * phone that is a postage stamp: 118px wide on a 390 screen, since
+             * the box it scales is only the screen itself there. So narrow
+             * screens get a floor, and the picture opens at 62% of the width
+             * instead. The file storyboards this band at 1728 and says nothing
+             * about a phone.
+             */
+            const box = band.frame.offsetWidth || 1;
+            const from = vw < 640 ? Math.max(band.from, Math.min(1, (vw * 0.62) / box)) : band.from;
+
+            band.frame.style.transform = `scale(${(from + (1 - from) * eased).toFixed(4)})`;
+
+            /*
+             * The type gets out of the way. The file's last stage carries none
+             * of it — at full width the photograph is the whole band — so it
+             * holds while the picture is small and is gone by the time the
+             * picture reaches the gutters.
+             */
+            if (band.fades.length) {
+                const fade = 1 - Math.min(1, Math.max(0, (p - FADE_FROM) / (FADE_TO - FADE_FROM)));
+                for (const node of band.fades) node.style.opacity = fade.toFixed(3);
+            }
 
             /*
              * The words settle over the first half and then hold. Tying them to

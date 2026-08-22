@@ -727,22 +727,34 @@ return [
 
         /*
          * The two words either side of a picture, a centred label above and
-         * another below — the arrangement havenconstructions.com.au uses and
-         * which the client asked this band to animate like: the picture grows
-         * from a fifth of its size as the page scrolls while the words settle.
-         * `travel` is how much scrolling that takes, as a percentage of the
-         * screen's height.
+         * another below — and THE PICTURE IS A SEQUENCE THAT GROWS TO FILL THE
+         * SCREEN, which is what the client asked this band to do after
+         * havenconstructions.com.au.
          *
-         * The words are set in the sans at 64, not the display serif: the
-         * frame sets them in Manrope.
+         * The file storyboards it beside the frame: 522x362 in the band, then
+         * 723x502, then 1181x820, then 1728x980 — full width — with a
+         * different photograph at each stage. So the box is laid out at the
+         * last of those and scaled down to the first: 522/1728 is 0.302, which
+         * is where the growth starts.
+         *
+         * The words and the two labels hold while the picture is small and
+         * fade as it passes under them, because the file's last stage carries
+         * no type at all — at full width the photograph is the whole band.
+         *
+         * `travel` is how much scrolling the whole thing takes, as a
+         * percentage of the screen's height.
          */
         'wordmark' => [
             'label' => 'Specialist Craftsmanship',
             'words' => ['Bespoke', 'Joinery'],
             'footnote' => 'Made To Measure',
-            'travel' => 180,
+            'travel' => 260,
+            'scale_from' => 0.302,
             'images' => [
-                ['src' => 'images/joinery/bespoke.webp', 'alt' => 'A joiner running timber through a workshop machine'],
+                ['src' => 'images/joinery/bespoke-1.webp', 'alt' => 'A joiner running timber through a workshop machine'],
+                ['src' => 'images/joinery/bespoke-2.webp', 'alt' => 'A hand planing a length of timber'],
+                ['src' => 'images/joinery/bespoke-3.webp', 'alt' => 'A chisel worked along the edge of a board'],
+                ['src' => 'images/joinery/bespoke-4.webp', 'alt' => 'Sawdust thrown up as a board is cut'],
             ],
         ],
 

@@ -13,7 +13,7 @@
  */
 
 const subscribers = new Set();
-const state = { y: 0, vh: 0 };
+const state = { y: 0, vh: 0, vw: 0 };
 
 let frame = 0;
 let listening = false;
@@ -22,6 +22,10 @@ function tick() {
     frame = 0;
     state.y = window.scrollY;
     state.vh = window.innerHeight;
+    // Width as well as height: the scroll gallery sizes its picture against
+    // the screen's width, and reading it per subscriber would be a second
+    // layout read a frame.
+    state.vw = window.innerWidth;
     for (const fn of subscribers) fn(state);
 }
 
