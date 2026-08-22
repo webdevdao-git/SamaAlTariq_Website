@@ -364,16 +364,26 @@ return [
                 ],
             ],
             [
-                // 1443:1134 — the same row again, which is how the frame closes.
+                /*
+                 * 1443:1134 — the frame draws this row twice, the same project
+                 * on two photographs, and it read as two gyms: one caption
+                 * under each, both saying Fidelity Gym, JLT. It is named once
+                 * now.
+                 *
+                 * The second column stays, holding no tile. The row's tracks
+                 * are built from these `fr` figures, so dropping the column
+                 * would leave one track and stretch the picture across the
+                 * whole measure — 1568 wide on a 772x727 crop, half again as
+                 * tall as any other tile on the page. Empty, it keeps the
+                 * photograph at the size the frame draws it.
+                 */
                 'name' => 'Fitness & Spa',
                 'rows' => [
                     ['columns' => [
                         ['fr' => 772, 'tiles' => [
                             ['image' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
-                        ['fr' => 772, 'tiles' => [
-                            ['image' => 'fidelity-gym-jlt-2', 'project' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
-                        ]],
+                        ['fr' => 772, 'tiles' => []],
                     ]],
                 ],
             ],
