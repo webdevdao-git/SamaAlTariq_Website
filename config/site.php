@@ -364,16 +364,26 @@ return [
                 ],
             ],
             [
-                // 1443:1104 — even, and the frame's squarest pictures at 772x727.
+                /*
+                 * 1443:1104 — the frame draws this row twice, the same project
+                 * on two photographs, and it read as two restaurants: one
+                 * caption under each, both saying Benjarong, Dusit Thani. It
+                 * is named once now, as Fitness & Spa is.
+                 *
+                 * The second column stays, holding no tile. The row's tracks
+                 * are built from these `fr` figures, so dropping the column
+                 * would leave one track and stretch the photograph across the
+                 * whole measure — 1568 wide on a 772x727 crop, half again as
+                 * tall as any other tile on the page. Empty, it keeps the
+                 * picture at the size the frame draws it.
+                 */
                 'name' => 'Hospitality, F&B',
                 'rows' => [
                     ['columns' => [
                         ['fr' => 772, 'tiles' => [
                             ['image' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
-                        ['fr' => 772, 'tiles' => [
-                            ['image' => 'benjarong-dusit-thani-2', 'project' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
-                        ]],
+                        ['fr' => 772, 'tiles' => []],
                     ]],
                 ],
             ],
