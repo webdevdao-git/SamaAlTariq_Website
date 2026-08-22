@@ -17,7 +17,7 @@
     No copy under it. The frame carries none, and the two paragraphs that stood
     here before were written when the file could not be read.
 --}}
-<section class="bg-mist py-[clamp(3.5rem,5.79vw,100px)]">
+<section data-slide-cycle class="bg-mist py-[clamp(3.5rem,5.79vw,100px)]">
     <div class="shell">
         <h2 class="reveal editorial-heading text-fluid-section uppercase text-ink">
             <span class="block">{{ $band['words'][0] }}</span>
@@ -27,11 +27,18 @@
                  it. Below lg the line has no room for a picture inside it, so
                  it sits above the words instead and the indent is dropped. --}}
             <span class="flex flex-col gap-[0.15em] lg:ml-[48.8%] lg:flex-row lg:items-center lg:gap-[0.17em]">
+                {{-- Five photographs in the one box, cross-faded as the band
+                     crosses the screen — the file gives this slot five, and
+                     Halston closes on the same device. Decorative: the
+                     sentence around them carries the meaning, so the alt is
+                     empty by design. --}}
                 <span aria-hidden="true"
-                      class="block aspect-[218/106] w-full max-w-[8rem] shrink-0 overflow-hidden bg-white lg:h-[0.83em] lg:w-[1.7em] lg:max-w-none">
-                    <img src="{{ \App\Support\Asset::versioned($band['image']['src']) }}" alt="{{ $band['image']['alt'] }}"
-                         loading="lazy" decoding="async"
-                         class="h-full w-full object-cover">
+                      class="relative block aspect-[218/106] w-full max-w-[8rem] shrink-0 overflow-hidden bg-white lg:h-[0.83em] lg:w-[1.7em] lg:max-w-none">
+                    @foreach ($band['images'] as $src)
+                        <img data-gallery-slide src="{{ \App\Support\Asset::versioned($src) }}" alt=""
+                             loading="{{ $loop->first ? 'eager' : 'lazy' }}" decoding="async"
+                             class="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}">
+                    @endforeach
                 </span>
                 <span class="block">{{ $band['words'][1] }}</span>
             </span>

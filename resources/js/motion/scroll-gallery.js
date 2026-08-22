@@ -1,4 +1,4 @@
-import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
+import { subscribeToScroll, viewportProgress, prefersReducedMotion } from './scroll-engine';
 
 /**
  * The band where a picture grows between two words as the page scrolls.
@@ -123,6 +123,50 @@ export function initScrollGallery() {
                 for (const [i, slide] of band.slides.entries()) {
                     slide.style.opacity = i === active ? '1' : '0';
                 }
+            }
+        }
+    });
+}
+
+/**
+ * The other half of the same idea: a set of pictures that cross-fade as their
+ * section travels through the viewport, with nothing growing.
+ *
+ *   <section data-slide-cycle>
+ *     <figure data-gallery-slide>   one of several, cross-faded
+ *
+ * Used by the slab whose second line has a picture set inside it — the file
+ * gives that 218x106 box five photographs — and by anything else that wants a
+ * set shown in order without a pinned timeline of its own.
+ *
+ * The progress is the section's own travel across the screen rather than a
+ * pinned range, so the band keeps its natural height and nothing sticks.
+ */
+export function initSlideCycle() {
+    const sections = Array.from(document.querySelectorAll('[data-slide-cycle]'));
+    if (sections.length === 0 || prefersReducedMotion()) return;
+
+    const bands = sections
+        .map((section) => ({ section, slides: Array.from(section.querySelectorAll('[data-gallery-slide]')) }))
+        .filter((band) => band.slides.length > 1);
+
+    if (bands.length === 0) return;
+
+    subscribeToScroll(({ vh }) => {
+        for (const band of bands) {
+            const rect = band.section.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > vh) continue;
+
+            /*
+             * The middle 60% of the travel does the work. Reading the whole of
+             * it would spend the first and last slides while the band is still
+             * off the bottom or already off the top, where nobody sees them.
+             */
+            const p = Math.min(1, Math.max(0, (viewportProgress(rect, vh) - 0.2) / 0.6));
+            const active = Math.min(band.slides.length - 1, Math.floor(p * band.slides.length));
+
+            for (const [i, slide] of band.slides.entries()) {
+                slide.style.opacity = i === active ? '1' : '0';
             }
         }
     });

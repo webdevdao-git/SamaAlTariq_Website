@@ -793,7 +793,19 @@ return [
                     'body' => 'Purpose-built furniture, cabinetry, vanities, and integrated elements created to complete the interior as one cohesive environment.',
                 ],
             ],
-            'image' => ['src' => 'images/joinery/capabilities.webp', 'alt' => 'A joiner working a length of timber at the saw'],
+            /*
+             * A COLUMN OF THREE, not one picture. The client asked for the
+             * arrangement Halston's stats section uses
+             * (halston-architecture-template.webflow.io/services#stats): the
+             * cards hold while a taller column of photographs slides past
+             * them. The file has the other two beside the frame — 1830:229 and
+             * 1834:231, both at the frame's own 773x740.
+             */
+            'images' => [
+                ['src' => 'images/joinery/capabilities-1.webp', 'alt' => 'A joiner working a length of timber at the saw'],
+                ['src' => 'images/joinery/capabilities-2.webp', 'alt' => 'A timber-slatted facade seen from within'],
+                ['src' => 'images/joinery/capabilities-3.webp', 'alt' => 'A restaurant booth in timber and brass'],
+            ],
         ],
 
         /*
@@ -801,9 +813,25 @@ return [
          * own indent, and the picture sits before "Is Often" on the second.
          * No copy under it — the frame carries none.
          */
+        /*
+         * The slab, and the picture set inside its second line CYCLES. Halston
+         * closes on the same device — a picture inside a slab of type — and
+         * the file gives this one five photographs at its 218x106, so they
+         * cross-fade as the band crosses the screen.
+         *
+         * The pictures are decorative: the sentence they sit inside carries
+         * the meaning, so their alt is empty by design rather than by
+         * omission.
+         */
         'detail' => [
             'words' => ['What Defines A Space', 'Is Often', 'In The Details'],
-            'image' => ['src' => 'images/joinery/detail-inline.webp', 'alt' => ''],
+            'images' => [
+                'images/joinery/detail-1.webp',
+                'images/joinery/detail-2.webp',
+                'images/joinery/detail-3.webp',
+                'images/joinery/detail-4.webp',
+                'images/joinery/detail-5.webp',
+            ],
         ],
 
         'process' => [

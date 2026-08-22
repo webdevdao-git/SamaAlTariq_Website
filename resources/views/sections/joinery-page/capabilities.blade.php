@@ -21,13 +21,16 @@
             @endforeach
         </h2>
 
-        <div class="mt-[clamp(2rem,3.7vw,64px)] grid gap-[clamp(1rem,1.85vw,32px)] lg:grid-cols-[765fr_773fr] lg:items-stretch">
+        <div class="mt-[clamp(2rem,3.7vw,64px)] grid gap-[clamp(1rem,1.85vw,32px)] lg:grid-cols-[765fr_773fr] lg:items-start">
 
             {{-- The three cards divide the picture's height between them, so
                  the column ends level with it rather than short. --}}
-            <div class="flex flex-col gap-[clamp(0.75rem,1.16vw,20px)]">
+            {{-- Sticky from lg, and `self-start` is what lets it be: a grid
+                 item stretches to its row by default, and a full-height item
+                 has nothing to stick within. The offset clears the header. --}}
+            <div class="flex flex-col gap-[clamp(0.75rem,1.16vw,20px)] lg:sticky lg:top-[12vh] lg:self-start">
                 @foreach ($band['items'] as $item)
-                    <div class="reveal flex flex-1 flex-col justify-between gap-[clamp(1.5rem,2.8vw,48px)] bg-mist p-[clamp(1rem,1.5vw,26px)]"
+                    <div class="reveal flex flex-col justify-between gap-[clamp(1.5rem,2.8vw,48px)] bg-mist p-[clamp(1rem,1.5vw,26px)]"
                          style="transition-delay:{{ $loop->index * 100 }}ms">
                         <p class="max-w-[62ch] text-fluid-sm font-medium leading-[1.45] text-ink-muted">{{ $item['body'] }}</p>
 
@@ -39,11 +42,22 @@
                 @endforeach
             </div>
 
-            <figure class="reveal relative aspect-[773/740] w-full overflow-hidden bg-mist lg:aspect-auto" style="transition-delay:120ms">
-                <img src="{{ \App\Support\Asset::versioned($band['image']['src']) }}" alt="{{ $band['image']['alt'] }}"
-                     loading="lazy" decoding="async"
-                     class="absolute inset-0 h-full w-full object-cover">
-            </figure>
+            {{-- A COLUMN OF THREE, which is the arrangement Halston's stats
+                 section uses and what the client asked for here: the cards
+                 hold while the photographs slide past them. No JavaScript —
+                 the cards are sticky and this column is simply taller, so the
+                 page's own scrolling does the work. Below lg nothing sticks
+                 and the four blocks read in order. --}}
+            <div class="flex flex-col gap-[clamp(1rem,1.85vw,32px)]">
+                @foreach ($band['images'] as $image)
+                    <figure class="reveal relative aspect-[773/740] w-full overflow-hidden bg-mist"
+                            style="transition-delay:{{ $loop->index * 90 }}ms">
+                        <img src="{{ \App\Support\Asset::versioned($image['src']) }}" alt="{{ $image['alt'] }}"
+                             loading="{{ $loop->first ? 'eager' : 'lazy' }}" decoding="async"
+                             class="absolute inset-0 h-full w-full object-cover">
+                    </figure>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
