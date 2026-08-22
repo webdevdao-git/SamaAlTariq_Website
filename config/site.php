@@ -291,19 +291,30 @@ return [
         'views' => ['gallery' => 'Gallery', 'list' => 'List'],
         'groups' => [
             /*
-             * Residential, redrawn: frame 1443:534 on the same canvas now sets
-             * six tiles on one measure — three rows of two at 772x635 — where
-             * it used to run a 992 beside a stacked pair and then an even 772
-             * row. The order is the frame's own.
+             * Residential, redrawn again: the frame no longer runs three even
+             * rows of two. It opens and closes on the 772x635 pair and puts
+             * the Commercial group's own arrangement in the middle — two
+             * 620x332 tiles stacked against one 924x727 — which is what gives
+             * the block its break in rhythm.
              *
-             * Two of them are worth naming. WASL Properties HQ appears here as
-             * well as under Commercial & Corporate, labelled Corporate in both,
-             * which is what the file draws — and on a different photograph in
-             * each, so this tile takes a second cover cut from that project's
-             * own l8. `project` is what sends both to the one page. And Jumeirah Island Villa is no longer on
-             * this grid at all — its page still answers, on facts of its own
-             * (see project_pages), and the projects that list it as related
-             * still reach it.
+             *   772 Jumeirah Golf Estate Villas   772 Villa B200
+             *   620 W Residence                   924 WASL Properties HQ
+             *   620 Villa PV39
+             *   772 Jumeirah Island Villa         772 Emirates Hills Villa
+             *
+             * Two things moved. WASL Properties HQ is here on the dark lounge
+             * rather than the staircase — the same project as the Corporate
+             * tile below, labelled Corporate here too, which is what the file
+             * draws; `project` sends both to the one page. And JUMEIRAH ISLAND
+             * VILLA IS BACK ON THE GRID, on the dressing-room joinery rather
+             * than the exterior its old cover carried. Its page kept answering
+             * on facts of its own while it was off the grid (see
+             * project_pages); those facts and these now say the same thing.
+             *
+             * The two wide tiles are their own files rather than the covers
+             * they were cut beside: 620x332 is a different crop from 772x635,
+             * and the related rows on the project pages still draw the square
+             * one.
              */
             [
                 'name' => 'Residential',
@@ -317,16 +328,17 @@ return [
                         ]],
                     ]],
                     ['columns' => [
-                        ['fr' => 772, 'tiles' => [
-                            ['image' => 'villa-pv39-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
+                        ['fr' => 620, 'tiles' => [
+                            ['image' => 'w-residence-palm-jumeirah-wide', 'project' => 'w-residence-palm-jumeirah', 'ratio' => '620/332', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
+                            ['image' => 'villa-pv39-tilal-al-ghaf-wide', 'project' => 'villa-pv39-tilal-al-ghaf', 'ratio' => '620/332', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '6 Months'],
                         ]],
-                        ['fr' => 772, 'tiles' => [
-                            ['image' => 'w-residence-palm-jumeirah', 'ratio' => '772/635', 'title' => 'W Residence, Palm Jumeirah', 'category' => 'Luxury Residential', 'location' => 'Palm Jumeirah, Dubai', 'size' => '6,500 Sq Ft', 'duration' => '3 Months'],
+                        ['fr' => 924, 'tiles' => [
+                            ['image' => 'wasl-properties-hq-2', 'project' => 'wasl-properties-hq', 'ratio' => '924/727', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
                         ]],
                     ]],
                     ['columns' => [
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'wasl-properties-hq-2', 'project' => 'wasl-properties-hq', 'ratio' => '772/635', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
+                            ['image' => 'jumeirah-island-villa', 'ratio' => '772/635', 'title' => 'Jumeirah Island Villa', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Island, Dubai', 'size' => '14,000+ Sq Ft', 'duration' => '8 Months'],
                         ]],
                         ['fr' => 772, 'tiles' => [
                             ['image' => 'emirates-hills-villa', 'ratio' => '772/635', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
