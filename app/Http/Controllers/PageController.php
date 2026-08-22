@@ -61,37 +61,18 @@ class PageController extends Controller
     }
 
     /**
-     * The Joinery page: the partner who makes and fits the interiors.
+     * The Joinery page, from Figma frame 1803:2.
      *
-     * The three capabilities are the SERVICES PAGE's own entries for the two
-     * joinery services, looked up by number rather than described a second
-     * time, with the frame's third row appended from the config. Editing
-     * service 05 or 06 edits this page with it, which is the same rule the
-     * project pages follow for their facts.
-     *
-     * The numbers shown are the frame's — 01, 02, 03 down the band — not the
-     * services page's 05 and 06: there they are positions in a list of ten,
-     * here they are positions in a list of three.
+     * Config-driven like the other marketing pages, and nothing more: the
+     * three capabilities were being assembled here from the services page's
+     * joinery entries while the frame could not be read, but the file gives
+     * them their own names and their own copy — two of the three are not that
+     * page's entries at all — so they are written in config and this method
+     * has nothing left to compute.
      */
     public function joinery(): View
     {
-        $band = config('site.joinery_page.capabilities');
-
-        $capabilities = collect(config('site.services_page.services', []))
-            ->filter(fn (array $service) => in_array($service['number'], $band['numbers'], true))
-            ->map(fn (array $service) => [
-                // The services page sets these titles upper, where the AND in
-                // "Joinery, Carpentry AND Millwork" disappears into the line.
-                // Here they are title case and it shouts.
-                'title' => str_replace(' AND ', ' and ', implode(' ', $service['title'])),
-                'body' => $service['body'],
-            ])
-            ->push($band['third'])
-            ->values()
-            ->map(fn (array $item, int $i) => $item + ['number' => str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT)])
-            ->all();
-
-        return view('joinery', ['capabilities' => $capabilities]);
+        return view('joinery');
     }
 
     /**

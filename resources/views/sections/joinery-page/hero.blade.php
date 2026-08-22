@@ -42,8 +42,15 @@
                 <p class="reveal max-w-[670px] text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375]"
                    style="transition-delay:120ms">{{ $hero['summary'] }}</p>
 
-                <p class="reveal shrink-0 text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35] lg:text-right"
-                   style="transition-delay:220ms">{{ $hero['partner_label'] }}</p>
+                {{-- The frame closes the row with a link out, not a second
+                     label: "Explore Craft" with the arrow this site gives
+                     every such link. --}}
+                <a href="{{ $hero['cta']['href'] }}"
+                   class="reveal group flex shrink-0 items-center gap-2 py-2 -my-2 text-[clamp(0.875rem,1.042vw,18px)] font-medium transition-opacity hover:opacity-70"
+                   style="transition-delay:220ms">
+                    {{ $hero['cta']['label'] }}
+                    <x-icon name="arrow-right" :size="28" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
+                </a>
             </div>
 
             {{--

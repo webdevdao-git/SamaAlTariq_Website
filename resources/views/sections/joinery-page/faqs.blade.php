@@ -14,18 +14,29 @@
     <div class="shell">
         <div class="grid gap-[clamp(2rem,3.7vw,64px)] lg:grid-cols-2 lg:gap-[clamp(2.5rem,4.63vw,80px)]">
 
-            <div class="reveal flex flex-col gap-[clamp(0.75rem,1.16vw,20px)]">
+            <div class="reveal flex flex-col gap-[clamp(0.75rem,1.16vw,20px)] lg:min-h-full">
                 <p class="text-fluid-sm font-medium text-teal">{{ $band['label'] }}</p>
                 <h2 class="display max-w-[12em] text-fluid-h2 leading-[1.3]">
                     @foreach ($band['heading'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach
                 </h2>
+
+                {{-- The frame sets this pill at the FOOT of the column, level
+                     with the last question rather than under the heading, so
+                     the space between the two is what the column has left. --}}
+                <a href="{{ $band['cta']['href'] }}" class="pill group mt-auto w-fit">
+                    {{ $band['cta']['label'] }}
+                    <x-icon name="arrow-pill" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
+                </a>
             </div>
 
             <div class="flex flex-col">
                 @foreach ($band['items'] as $faq)
-                    <details class="reveal group border-b border-white/15" style="transition-delay:{{ $loop->index * 80 }}ms">
+                    {{-- The first row open, as the frame draws it: the band is
+                         otherwise six closed lines and nothing tells a reader
+                         they open. --}}
+                    <details @if ($loop->first) open @endif class="reveal group border-b border-white/15" style="transition-delay:{{ $loop->index * 80 }}ms">
                         <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-[clamp(1rem,1.62vw,28px)] text-fluid-body font-medium transition-colors hover:text-teal [&::-webkit-details-marker]:hidden">
                             {{ $faq['q'] }}
                             {{-- Drawn rather than a glyph: a + built from two

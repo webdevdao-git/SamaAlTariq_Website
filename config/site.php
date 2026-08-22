@@ -684,30 +684,25 @@ return [
     ],
 
     /*
-     * The Joinery page, arranged as the frame the client sent draws it.
+     * The Joinery page, from Figma frame 1803:2 ("Joinery", 1728x9790) on the
+     * Landing Page redesign canvas.
      *
-     * THE FIGMA FILE ITSELF COULD NOT BE READ. The token expired and the file
-     * key on hand holds only a Logo page, so this is built from the screenshot
-     * of the frame: the section order, the arrangement of each band and every
-     * heading that is legible in it are the file's. The body copy is not —
-     * at that size the paragraphs are a few pixels tall.
+     * Read from the file this time rather than from a screenshot of it: every
+     * string below is the frame's own, the boxes are its boxes, and the
+     * photographs are the originals its fills point at. The bands run:
+     * photographic hero with the title split across the gutters; the two words
+     * either side of a picture between two centred labels; the ecosystem
+     * statement over a ruled note-and-body row; three capability cards beside
+     * a tall picture; the slab with a picture set inside its second line; five
+     * steps staggered either side of a rule; two project tiles under CRAFT IN
+     * CONTEXT; and the dark question band.
      *
-     * So nothing here is invented about the work. Where the frame shows a
-     * paragraph, this carries what the page already said in the arrangement it
-     * replaces, or the services page's own words for the same service. The
-     * strings that are genuinely new are the step notes and the FAQ answers,
-     * and each of those restates something the site states elsewhere. Send the
-     * frame's own copy and it drops straight into these slots.
+     * The FAQ carries SIX questions where the frame draws five. The sixth —
+     * "What is Alwan Interiors?" — is the client's own, sent with the answers
+     * for this page after the frame was drawn, and it belongs at the top of
+     * the list rather than nowhere.
      */
     'joinery_page' => [
-        /*
-         * TWO NAMES ARE IN PLAY and they are not the same. The copy the client
-         * wrote calls the company Alwan Interiors, and the frame's label does
-         * too; the artwork itself reads "alwan Design — Interior Design &
-         * Decor" over alwaninterior.com. So `name` is the one the page speaks
-         * in, and `mark_alt` describes the picture as the picture reads. If
-         * one of the two is wrong, this is the pair to change.
-         */
         'partner' => [
             'name' => 'Alwan Interiors',
             'descriptor' => 'Interior Design & Decor',
@@ -722,112 +717,123 @@ return [
             'workshop' => null,
         ],
 
-        /*
-         * The frame opens on a photograph with the title split across the two
-         * gutters — CRAFT on the left, BEHIND THE BUILD ending on the right —
-         * a rule above it and a three-part row of label, summary and label.
-         *
-         * The photograph is images/joinery/hero.webp, made from the workshop
-         * frame at 2400: this is full-bleed, and the 1200-wide services file
-         * covers a window at 0.83 source pixels per CSS pixel. Same treatment
-         * as the fit-out panel — clean, two-step Lanczos, sharpen twice.
-         */
         'hero' => [
-            'label' => 'Joinery',
-            'summary' => 'Bespoke joinery, architectural woodwork and tailored interior elements, delivered by Alwan Interiors inside a Sama Al Tariq programme.',
-            'partner_label' => 'Alwan Interiors',
+            'label' => 'Alwan Interiors',
+            'summary' => 'Dedicated to bespoke joinery and interior execution, Alwan Interiors complements Sama Al Tariq\'s wider project delivery with specialist expertise.',
+            'cta' => ['label' => 'Explore Craft', 'href' => '#capabilities'],
             'words' => ['Craft', 'Behind The Build'],
-            'image' => ['src' => 'images/joinery/hero.webp', 'alt' => 'A joiner working timber by hand in the workshop'],
+            'image' => ['src' => 'images/joinery/hero.webp', 'alt' => 'Timber on the bed of a workshop saw'],
         ],
 
         /*
-         * The two words either side of a picture, under the mark.
+         * The two words either side of a picture, a centred label above and
+         * another below — the arrangement havenconstructions.com.au uses and
+         * which the client asked this band to animate like: the picture grows
+         * from a fifth of its size as the page scrolls while the words settle.
+         * `travel` is how much scrolling that takes, as a percentage of the
+         * screen's height.
          *
-         * This band carries the scroll animation the client asked for, from
-         * havenconstructions.com.au: the picture grows from a fifth of its size
-         * to full while the words settle into their places, and the pictures
-         * cross-fade as it goes. `travel` is how much scrolling that takes, as
-         * a percentage of the screen's height — 180 means the band is 1.8
-         * screens tall and the picture spends the extra 0.8 growing.
-         *
-         * THESE ARE OUR PHOTOGRAPHS, not the frame's. The Figma file holds the
-         * images this band is meant to show and it could not be read; these
-         * three are the joinery pictures this site already owns. Drop the
-         * file's own in and the band takes them.
+         * The words are set in the sans at 64, not the display serif: the
+         * frame sets them in Manrope.
          */
         'wordmark' => [
-            'label' => 'Alwan Interiors',
+            'label' => 'Specialist Craftsmanship',
             'words' => ['Bespoke', 'Joinery'],
+            'footnote' => 'Made To Measure',
             'travel' => 180,
             'images' => [
-                ['src' => 'images/about/approach-joinery.webp', 'alt' => 'A finished timber joinery wall with a lit reveal'],
-                ['src' => 'images/projects/jumeirah-island-villa/l3.webp', 'alt' => 'Dressing-room joinery with a lit reveal and a fitted island'],
-                ['src' => 'images/services/service-6.webp', 'alt' => 'A joiner fitting timber shelving on site'],
+                ['src' => 'images/joinery/bespoke.webp', 'alt' => 'A joiner running timber through a workshop machine'],
             ],
         ],
 
-        /*
-         * Teal label on the left, a serif statement and a paragraph on the
-         * right. The statement is the frame's own — it is one of the few lines
-         * legible in the screenshot.
-         */
         'ecosystem' => [
-            'label' => ['Within the Sama', 'Ecosystem'],
+            'label' => ['Within The Sama', 'Ecosystem'],
             'statement' => 'A closer connection between construction expertise and craft that defines the finished space.',
-            'body' => 'Alwan provides the specialist joinery and interior execution; Sama Al Tariq holds the programme, the site and the client. One party is responsible from the set-out drawings to the last fitted element, which is what allows the joinery, the stone and the ceilings to meet — they are drawn against each other before any of them is made, rather than resolved on site between three trades.',
+            'note' => ['Multiple', 'disciplines, one vision.'],
+            'body' => 'Sama Al Tariq brings together construction, contracting, project delivery, and integrated building expertise. Alwan Interiors adds specialist interior and joinery capability—creating a more connected route from the broader build to the details that define the finished environment.',
         ],
 
         /*
-         * Three numbered capabilities beside a tall photograph. 01 and 02 are
-         * the services page's own joinery entries, quoted by number so editing
-         * a service edits this too. 03 is the frame's third row, written from
-         * what the site already says about integrated interior components.
+         * Three cards on the mist ground, each with its copy at the top and
+         * the title and number on one line at the foot, beside a tall picture.
+         * Written out rather than quoted from the services page: the frame
+         * gives these three their own names and their own copy, and two of
+         * them are not the services page's joinery entries at all.
          */
         'capabilities' => [
             'heading' => ['Interior', 'Capabilities'],
-            'numbers' => ['05', '06'],
-            'third' => [
-                'title' => 'Custom Interiors',
-                'body' => 'Fitted interior elements made to the drawings for one space — storage, panelling and built-in furniture, coordinated with the finishes around them.',
+            'items' => [
+                [
+                    'number' => '01',
+                    'title' => 'Bespoke Joinery',
+                    'body' => 'Custom-crafted architectural elements developed around the character, dimensions, and requirements of each interior.',
+                ],
+                [
+                    'number' => '02',
+                    'title' => 'Architectural Woodwork',
+                    'body' => 'From wall panelling and doors to cabinetry and feature details, crafted woodwork that brings depth and identity to the space.',
+                ],
+                [
+                    'number' => '03',
+                    'title' => 'Custom Interiors',
+                    'body' => 'Purpose-built furniture, cabinetry, vanities, and integrated elements created to complete the interior as one cohesive environment.',
+                ],
             ],
-            'image' => ['src' => 'images/services/service-6.webp', 'alt' => 'A joiner fitting timber shelving on site'],
-        ],
-
-        // The slab with a picture set inside the line, as the frame draws it.
-        'detail' => [
-            'words' => ['What Defines A Space', 'Is Often', 'In The Details'],
-            'image' => ['src' => 'images/projects/jumeirah-island-villa/l3.webp', 'alt' => 'Dressing-room joinery with a lit reveal and a fitted island'],
-            'body' => [
-                'A finish that meets cleanly was set out that way in advance. Where the joinery, the stone and the ceilings are drawn by different parties, the seams between them get resolved on site — late, and in whatever order the trades arrive.',
-                'Held as one package, the set-out is agreed once and everything after it is made to that drawing. It is the same reason a short programme runs: the long-lead work is ordered against a set-out nobody has to renegotiate.',
-            ],
+            'image' => ['src' => 'images/joinery/capabilities.webp', 'alt' => 'A joiner working a length of timber at the saw'],
         ],
 
         /*
-         * The five steps, staggered either side of a rule. The names are the
-         * frame's; the notes under them restate the process page's own phases.
+         * The slab with a picture set inside the line. Three lines, each at its
+         * own indent, and the picture sits before "Is Often" on the second.
+         * No copy under it — the frame carries none.
          */
+        'detail' => [
+            'words' => ['What Defines A Space', 'Is Often', 'In The Details'],
+            'image' => ['src' => 'images/joinery/detail-inline.webp', 'alt' => ''],
+        ],
+
         'process' => [
             'label' => 'From Idea To Craft',
             'heading' => 'Every detail passes through a considered process.',
+            // Right of the rule first, then alternating — the frame's order.
             'steps' => [
-                ['title' => 'Understand', 'body' => 'Interpreting the design intent, the project requirements and the material direction.'],
-                ['title' => 'Develop', 'body' => 'Translating the concept into shop drawings, details and product requirements.'],
-                ['title' => 'Craft', 'body' => 'Manufacturing bespoke elements with controlled materials and workmanship.'],
-                ['title' => 'Install', 'body' => 'Coordinating delivery and installation inside the live project environment.'],
-                ['title' => 'Refine', 'body' => 'Reviewing the outcome on site until the finished detail is resolved.'],
+                ['title' => 'Understand', 'body' => 'Interpreting the design intent, project requirements, and material direction.'],
+                ['title' => 'Develop', 'body' => 'Translating concepts into practical shop drawings, details, and production requirements.'],
+                ['title' => 'Craft', 'body' => 'Manufacturing bespoke elements with controlled material selection and workmanship.'],
+                ['title' => 'Install', 'body' => 'Coordinating delivery and installation within the live project environment.'],
+                ['title' => 'Refine', 'body' => 'Reviewing the completed work to ensure the final detail feels resolved.'],
             ],
         ],
 
         /*
-         * The client's own six, verbatim — questions and answers both. The
-         * four that stood here before were written from what the rest of the
-         * site says, as a stand-in until the frame's copy arrived; these
-         * replace them outright.
+         * Two project tiles at the frame's 772x727, on the frame's own
+         * photographs rather than the projects grid's covers — it cuts these
+         * two differently there. `project` is the page each opens.
          */
+        'context' => [
+            'heading' => ['Craft In', 'Context'],
+            'body' => 'Explore selected interiors and joinery works where material, craftsmanship, and execution come together to shape the finished environment.',
+            'tiles' => [
+                [
+                    'image' => 'images/joinery/context-1.webp',
+                    'project' => 'fidelity-gym-jlt',
+                    'title' => 'Fidelity Gym, JLT',
+                    'category' => 'Fitness & Spa',
+                ],
+                [
+                    'image' => 'images/joinery/context-2.webp',
+                    'project' => 'jumeirah-island-villa',
+                    'title' => 'Jumeirah Island Villa',
+                    'category' => 'Luxury Residential',
+                ],
+            ],
+            'cta' => ['label' => 'Explore All Projects', 'href' => '/projects'],
+        ],
+
         'faqs' => [
             'label' => 'Common FAQ',
             'heading' => ['Clear answers to the details', 'that matter.'],
+            'cta' => ['label' => 'Have More Questions? Let\'s Talk', 'href' => '/contact'],
             'items' => [
                 [
                     'q' => 'What is Alwan Interiors?',

@@ -29,14 +29,19 @@
                          rule at the head of each step, which is what ties the
                          block to the line rather than leaving it floating
                          beside it. --}}
-                    <div class="relative pl-[clamp(1.5rem,2.31vw,40px)] lg:w-1/2 lg:pl-0 {{ $i % 2 ? 'lg:self-end lg:pl-[clamp(2rem,3.24vw,56px)]' : 'lg:self-start lg:pr-[clamp(2rem,3.24vw,56px)] lg:text-right' }}"
+                    {{-- Even steps to the RIGHT of the rule, odd to the left:
+                         the frame opens with Understand on the right and
+                         alternates from there. Both columns set their copy
+                         left — mirroring the left one to the rule reads as two
+                         different lists rather than one walk down it. --}}
+                    <div class="relative pl-[clamp(1.5rem,2.31vw,40px)] lg:w-1/2 lg:pl-0 {{ $i % 2 ? 'lg:self-start lg:pr-[clamp(2rem,3.24vw,56px)]' : 'lg:self-end lg:pl-[clamp(2rem,3.24vw,56px)]' }}"
                          style="transition-delay:{{ $i * 90 }}ms">
                         <span aria-hidden="true"
-                              class="absolute top-[0.6em] left-0 size-[9px] -translate-x-1/2 rounded-full bg-teal {{ $i % 2 ? 'lg:left-0' : 'lg:left-auto lg:right-0 lg:translate-x-1/2' }}"></span>
+                              class="absolute top-[0.6em] left-0 size-[9px] -translate-x-1/2 rounded-full bg-teal {{ $i % 2 ? 'lg:left-auto lg:right-0 lg:translate-x-1/2' : 'lg:left-0' }}"></span>
 
                         <div class="reveal flex flex-col gap-[clamp(0.375rem,0.58vw,10px)]">
-                            <h3 class="text-[clamp(1.0625rem,1.25vw,22px)] font-semibold text-teal">{{ $step['title'] }}</h3>
-                            <p class="max-w-[38ch] text-fluid-sm font-medium text-ink-muted {{ $i % 2 ? '' : 'lg:ml-auto' }}">{{ $step['body'] }}</p>
+                            <h3 class="text-[clamp(1.125rem,1.5vw,26px)] font-semibold text-teal">{{ $step['title'] }}</h3>
+                            <p class="max-w-[30ch] text-fluid-sm font-medium text-ink-muted">{{ $step['body'] }}</p>
                         </div>
                     </div>
                 @endforeach

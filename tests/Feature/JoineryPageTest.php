@@ -77,33 +77,35 @@ class JoineryPageTest extends TestCase
     }
 
     /**
-     * The first two capabilities are the services page's own joinery entries,
-     * filtered by number. If a number in the config stops matching a service —
-     * renumbered, removed — the band would quietly render two rows instead of
-     * three rather than fail, so it is asserted.
+     * The three capabilities are the frame's own — its names, its numbers and
+     * its copy. They were assembled from the services page's joinery entries
+     * while the file could not be read; two of these three are not that page's
+     * entries at all, so nothing is quoted from it any more.
      */
-    public function test_the_capabilities_quote_the_services_page(): void
+    public function test_the_capabilities_are_the_frames_own(): void
     {
-        $numbers = config('site.joinery_page.capabilities.numbers');
+        $html = $this->get('/joinery')->assertOk()->getContent();
+        $items = config('site.joinery_page.capabilities.items');
+
+        $this->assertCount(3, $items, 'the frame draws three');
+
+        foreach ($items as $i => $item) {
+            $this->assertStringContainsString(e($item['title']), $html);
+            $this->assertStringContainsString(e($item['body']), $html);
+            $this->assertSame(str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT), $item['number'], 'numbered in order');
+            $this->assertStringContainsString('>'.$item['number'].'<', $html);
+        }
+    }
+
+    /** Each closing tile is a real project page with a photograph on disk. */
+    public function test_the_context_tiles_open_projects(): void
+    {
         $html = $this->get('/joinery')->assertOk()->getContent();
 
-        $matched = array_filter(
-            config('site.services_page.services'),
-            fn (array $service) => in_array($service['number'], $numbers, true),
-        );
-
-        $this->assertCount(count($numbers), $matched, 'every number in the config matches a service');
-
-        foreach ($matched as $service) {
-            $this->assertStringContainsString(e($service['body']), $html, "service {$service['number']} is quoted");
-        }
-
-        // And the frame's third row, which the services page does not carry.
-        $this->assertStringContainsString(e(config('site.joinery_page.capabilities.third.title')), $html);
-
-        // Numbered by position in this band, not by position on that page.
-        foreach (['01', '02', '03'] as $n) {
-            $this->assertStringContainsString(">{$n}<", $html, "the band numbers its own rows: {$n}");
+        foreach (config('site.joinery_page.context.tiles') as $tile) {
+            $this->assertStringContainsString(route('projects.show', $tile['project']), $html, "{$tile['project']} is linked");
+            $this->assertFileExists(public_path($tile['image']), "{$tile['title']} has its picture");
+            $this->assertStringContainsString(e($tile['title']), $html);
         }
     }
 

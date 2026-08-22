@@ -26,6 +26,7 @@
         @include('sections.joinery-page.capabilities')
         @include('sections.joinery-page.detail')
         @include('sections.joinery-page.process')
+        @include('sections.joinery-page.context')
         @include('sections.joinery-page.faqs')
         @include('sections.inquiry')
     </main>
