@@ -754,13 +754,15 @@ return [
          * no type at all — at full width the photograph is the whole band.
          *
          * `travel` is how much scrolling the whole thing takes, as a
-         * percentage of the screen's height.
+         * percentage of the screen's height. 220 rather than 260: the picture
+         * is at full size by the end of the pinned range either way, and the
+         * extra 40 was scrolling spent on a picture that had stopped growing.
          */
         'wordmark' => [
             'label' => 'Specialist Craftsmanship',
             'words' => ['Bespoke', 'Joinery'],
             'footnote' => 'Made To Measure',
-            'travel' => 260,
+            'travel' => 220,
             'scale_from' => 0.302,
             'images' => [
                 ['src' => 'images/joinery/bespoke-1.webp', 'alt' => 'A joiner running timber through a workshop machine'],

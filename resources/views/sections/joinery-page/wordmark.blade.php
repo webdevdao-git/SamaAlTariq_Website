@@ -30,7 +30,7 @@
      without creating that box. The about-page hero carries the same note for
      the same reason. --}}
 <section data-scroll-gallery="{{ $band['scale_from'] }}"
-         class="group/gallery relative overflow-clip bg-white py-[clamp(3.5rem,5.79vw,100px)] group-data-[gallery-ready]/gallery:py-0"
+         class="group/gallery relative overflow-clip bg-white py-[clamp(3.5rem,5.79vw,100px)] data-[gallery-ready]:py-0"
          style="--travel:{{ $band['travel'] }}svh">
 
     <div class="group-data-[gallery-ready]/gallery:h-[var(--travel)]" data-gallery-track>
@@ -40,8 +40,15 @@
             {{-- The picture. Absolutely centred so the type around it keeps its
                  own places while this grows through them; capped at the
                  frame's 1728 so it never outruns the design's own width. --}}
+            {{-- THE BOX IS THE SCREEN, not the frame's 1728x980 ratio. The
+                 two are the same shape at 1728 wide, but on a taller window an
+                 aspect box finishes short of the pin — 817 of a 1117 screen at
+                 1440 — leaving 300 of white travelling under the picture and a
+                 near-empty screen as it left. Sized to the viewport it lands
+                 flush at every window shape, which is what the file's last
+                 stage is: the picture, full width, filling the band. --}}
             <div data-gallery-frame
-                 class="pointer-events-none absolute top-1/2 left-1/2 aspect-[1728/980] w-[min(100vw,1728px)] max-w-none origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-mist will-change-transform group-data-[gallery-ready]/gallery:pointer-events-auto">
+                 class="pointer-events-none absolute top-1/2 left-1/2 h-[100svh] w-[min(100vw,1728px)] max-w-none origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-mist will-change-transform group-data-[gallery-ready]/gallery:pointer-events-auto">
                 @foreach ($band['images'] as $image)
                     <figure data-gallery-slide
                             class="absolute inset-0 transition-opacity duration-700 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}">
