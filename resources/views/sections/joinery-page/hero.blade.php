@@ -64,7 +64,7 @@
                 <img src="{{ \App\Support\Asset::versioned($logo) }}"
                      alt="{{ $partner['name'] }} — {{ $partner['descriptor'] }}"
                      fetchpriority="high" decoding="async"
-                     class="w-full max-w-[clamp(16rem,32vw,520px)] object-contain">
+                     class="w-full max-w-[clamp(13rem,26vw,420px)] object-contain">
             @else
                 <div class="flex flex-col items-center gap-2 text-center">
                     <p class="display text-fluid-h2 leading-[1.1] text-ink">{{ $partner['name'] }}</p>

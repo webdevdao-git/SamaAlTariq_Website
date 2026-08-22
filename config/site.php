@@ -692,14 +692,20 @@ return [
              * THE FIRST PICTURE ON THE PAGE, which is what was asked for: the
              * split under the title gives its left half to this mark.
              *
-             * It arrived as a message rather than a file, so there is nothing
-             * to point at yet and that half sets the name as type instead.
-             * Put the artwork at public/images/partners/alwan-design.webp and
-             * set this to that path — both together, because SiteAssetsTest
-             * fails a config path with no file behind it, which is the guard
-             * that keeps a 404 off the host.
+             * The artwork is 700x256 — the file that was already sitting
+             * untracked in public/images. There is no white margin to trim;
+             * it fills its own frame. That is not much resolution for a mark
+             * this prominent, so the half draws it at 374 rather than the 461
+             * it had room for: 1.87 source pixels per CSS pixel instead of
+             * 1.52, which is the difference between soft and acceptable on a
+             * retina screen. A vector or a 1400-wide export would let it run
+             * at the larger size.
+             *
+             * If it is ever replaced, both this path and the file change
+             * together — SiteAssetsTest fails a config path with no file
+             * behind it, which is the guard that keeps a 404 off the host.
              */
-            'logo' => null,
+            'logo' => 'images/partners/alwan-design.webp',
 
             // 404 on every variant at the time of writing. A link to a dead
             // page is worse than no link, so it draws only once filled in.
