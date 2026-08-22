@@ -740,11 +740,30 @@ return [
             'image' => ['src' => 'images/joinery/hero.webp', 'alt' => 'A joiner working timber by hand in the workshop'],
         ],
 
-        // The two words either side of a small picture, under a centred label.
+        /*
+         * The two words either side of a picture, under the mark.
+         *
+         * This band carries the scroll animation the client asked for, from
+         * havenconstructions.com.au: the picture grows from a fifth of its size
+         * to full while the words settle into their places, and the pictures
+         * cross-fade as it goes. `travel` is how much scrolling that takes, as
+         * a percentage of the screen's height — 180 means the band is 1.8
+         * screens tall and the picture spends the extra 0.8 growing.
+         *
+         * THESE ARE OUR PHOTOGRAPHS, not the frame's. The Figma file holds the
+         * images this band is meant to show and it could not be read; these
+         * three are the joinery pictures this site already owns. Drop the
+         * file's own in and the band takes them.
+         */
         'wordmark' => [
             'label' => 'Alwan Interiors',
             'words' => ['Bespoke', 'Joinery'],
-            'image' => ['src' => 'images/about/approach-joinery.webp', 'alt' => 'A finished timber joinery wall with a lit reveal'],
+            'travel' => 180,
+            'images' => [
+                ['src' => 'images/about/approach-joinery.webp', 'alt' => 'A finished timber joinery wall with a lit reveal'],
+                ['src' => 'images/projects/jumeirah-island-villa/l3.webp', 'alt' => 'Dressing-room joinery with a lit reveal and a fitted island'],
+                ['src' => 'images/services/service-6.webp', 'alt' => 'A joiner fitting timber shelving on site'],
+            ],
         ],
 
         /*

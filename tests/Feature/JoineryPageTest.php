@@ -54,7 +54,7 @@ class JoineryPageTest extends TestCase
          */
         $marks = [
             config('site.joinery_page.hero.words.1'),
-            config('site.joinery_page.wordmark.image.alt'),
+            config('site.joinery_page.wordmark.images.0.alt'),
             config('site.joinery_page.ecosystem.statement'),
             config('site.joinery_page.capabilities.heading.1'),
             config('site.joinery_page.detail.words.0'),
@@ -63,7 +63,12 @@ class JoineryPageTest extends TestCase
         ];
 
         $at = -1;
-        foreach ($marks as $mark) {
+        foreach ($marks as $i => $mark) {
+            // A renamed config key returns null, and strpos(…, '') is 0 —
+            // which reads as "found, at the very top" and fails the next
+            // comparison with nothing to say about why. This is that message.
+            $this->assertNotEmpty($mark, "mark {$i} still resolves to a config value");
+
             $found = strpos($html, e($mark));
             $this->assertNotFalse($found, "{$mark} is on the page");
             $this->assertGreaterThan($at, $found, "{$mark} follows the band before it");
