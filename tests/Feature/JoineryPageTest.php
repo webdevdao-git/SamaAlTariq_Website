@@ -18,53 +18,48 @@ class JoineryPageTest extends TestCase
     }
 
     /**
-     * The split under the title gives its left half to the partner's mark —
-     * the first picture on the page, which is what the page was asked for.
-     * While no artwork exists that half sets the name as type instead, and
-     * the one thing it must never do is draw an <img> at a path with no file
-     * behind it.
+     * The frame has no slot of its own for the partner's mark, so it takes the
+     * label line above the two words — the line that names the company. While
+     * no artwork exists that line falls back to the label as type, and the one
+     * thing it must never do is draw an <img> at a path with no file behind it.
      */
-    public function test_the_first_picture_is_the_partner_mark(): void
+    public function test_the_partner_mark_is_drawn(): void
     {
         $logo = config('site.joinery_page.partner.logo');
         $html = $this->get('/joinery')->assertOk()->getContent();
 
         if ($logo === null) {
             $this->assertStringNotContainsString('images/partners/', $html, 'no mark is drawn while there is no file');
+            $this->assertStringContainsString(e(config('site.joinery_page.wordmark.label')), $html, 'the label stands in its place');
 
             return;
         }
 
         $this->assertFileExists(public_path($logo), 'the configured mark exists on disk');
-
-        /*
-         * First of the page's OWN pictures — not first in the markup. Every
-         * page carries this company's lock-up twice before any content: the
-         * preloader's mark and the header's. Asserting position zero passed
-         * only while the partner mark did not exist, and would have failed
-         * the moment it did.
-         */
-        preg_match_all('~<img[^>]+src="([^"?]+)~', $html, $images);
-        $content = array_values(array_filter(
-            $images[1],
-            fn (string $src) => ! str_contains($src, 'images/logo-mark'),
-        ));
-
-        $this->assertStringContainsString($logo, $content[0] ?? '', 'the mark is the first picture the page draws');
+        $this->assertStringContainsString($logo, $html, 'the mark is drawn');
     }
 
-    /** The bands run in the reference page's order. */
+    /** The bands run in the frame's order. */
     public function test_the_bands_run_in_order(): void
     {
-        $html = $this->get('/joinery')->assertOk()->getContent();
+        // From <body> on. The page's own description is the hero summary, so
+        // "Bespoke" appears in a meta tag 300 bytes in — ahead of every band,
+        // which made the first comparison fail on a page that was in order.
+        $html = substr(strstr($this->get('/joinery')->assertOk()->getContent(), '<body'), 0);
 
+        /*
+         * One mark per band, each unique to it. The obvious choices are not:
+         * the hero's summary opens with "Bespoke", which is also the wordmark
+         * band's first word, so that pair compared a band against itself.
+         */
         $marks = [
-            config('site.joinery_page.hero.panel.heading'),
-            config('site.joinery_page.scope.heading'),
-            config('site.joinery_page.package.title'),
-            config('site.joinery_page.studio.heading'),
-            config('site.joinery_page.faqs.0.q'),
-            config('site.joinery_page.gallery.heading'),
+            config('site.joinery_page.hero.words.1'),
+            config('site.joinery_page.wordmark.image.alt'),
+            config('site.joinery_page.ecosystem.statement'),
+            config('site.joinery_page.capabilities.heading.1'),
+            config('site.joinery_page.detail.words.0'),
+            config('site.joinery_page.process.heading'),
+            config('site.joinery_page.faqs.items.0.q'),
         ];
 
         $at = -1;
@@ -77,26 +72,14 @@ class JoineryPageTest extends TestCase
     }
 
     /**
-     * The card on the dark band quotes no price. A joinery package is priced
-     * against its drawings, so a figure here would be one nobody could stand
-     * behind — the card says so instead.
+     * The first two capabilities are the services page's own joinery entries,
+     * filtered by number. If a number in the config stops matching a service —
+     * renumbered, removed — the band would quietly render two rows instead of
+     * three rather than fail, so it is asserted.
      */
-    public function test_the_package_card_quotes_no_price(): void
+    public function test_the_capabilities_quote_the_services_page(): void
     {
-        $html = $this->get('/joinery')->assertOk()->getContent();
-
-        $this->assertStringContainsString(e(config('site.joinery_page.package.summary')), $html);
-        $this->assertDoesNotMatchRegularExpression('~(AED|USD|\$)\s?[0-9]~', strip_tags($html), 'no figure is quoted');
-    }
-
-    /**
-     * The scope is the services page's own entries, filtered by number. If a
-     * number in the config stops matching a service — renumbered, removed —
-     * the section would render empty rather than loudly, so it is asserted.
-     */
-    public function test_the_scope_is_the_services_pages_own_entries(): void
-    {
-        $numbers = config('site.joinery_page.scope.numbers');
+        $numbers = config('site.joinery_page.capabilities.numbers');
         $html = $this->get('/joinery')->assertOk()->getContent();
 
         $matched = array_filter(
@@ -107,26 +90,33 @@ class JoineryPageTest extends TestCase
         $this->assertCount(count($numbers), $matched, 'every number in the config matches a service');
 
         foreach ($matched as $service) {
-            $this->assertStringContainsString(e($service['lead']), $html, "service {$service['number']} is quoted");
+            $this->assertStringContainsString(e($service['body']), $html, "service {$service['number']} is quoted");
+        }
+
+        // And the frame's third row, which the services page does not carry.
+        $this->assertStringContainsString(e(config('site.joinery_page.capabilities.third.title')), $html);
+
+        // Numbered by position in this band, not by position on that page.
+        foreach (['01', '02', '03'] as $n) {
+            $this->assertStringContainsString(">{$n}<", $html, "the band numbers its own rows: {$n}");
         }
     }
 
-    /** Each closing tile is a real project with a cover on disk. */
-    public function test_the_closing_tiles_resolve_to_projects(): void
+    /** Every question on the page carries an answer. */
+    public function test_each_question_has_an_answer(): void
     {
-        $slugs = config('site.joinery_page.gallery.projects');
         $html = $this->get('/joinery')->assertOk()->getContent();
 
-        foreach ($slugs as $slug) {
-            $this->assertStringContainsString(route('projects.show', $slug), $html, "{$slug} is linked");
-            $this->assertFileExists(public_path("images/projects/covers/{$slug}.webp"), "{$slug} has a cover");
+        foreach (config('site.joinery_page.faqs.items') as $faq) {
+            $this->assertStringContainsString(e($faq['q']), $html);
+            $this->assertStringContainsString(e($faq['a']), $html);
         }
     }
 
     /**
      * Nothing on this page may claim anything about the partner that was not
-     * given. The three unknown facts are null in the config, and the band that
-     * would draw them must stay out of the markup while they are.
+     * given. The three unknown facts are null in the config, and nothing that
+     * would draw them may appear while they are.
      */
     public function test_unknown_partner_details_are_not_invented(): void
     {

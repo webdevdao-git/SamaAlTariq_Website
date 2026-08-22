@@ -63,30 +63,35 @@ class PageController extends Controller
     /**
      * The Joinery page: the partner who makes and fits the interiors.
      *
-     * Config-driven like the other marketing pages. The scope it lists is the
-     * services page's own entries, looked up by number rather than restated,
-     * so editing a service edits both places at once.
+     * The three capabilities are the SERVICES PAGE's own entries for the two
+     * joinery services, looked up by number rather than described a second
+     * time, with the frame's third row appended from the config. Editing
+     * service 05 or 06 edits this page with it, which is the same rule the
+     * project pages follow for their facts.
+     *
+     * The numbers shown are the frame's — 01, 02, 03 down the band — not the
+     * services page's 05 and 06: there they are positions in a list of ten,
+     * here they are positions in a list of three.
      */
     public function joinery(): View
     {
-        $wanted = config('site.joinery_page.scope.numbers', []);
-        $facts = $this->projectFacts();
+        $band = config('site.joinery_page.capabilities');
 
-        return view('joinery', [
-            'services' => array_values(array_filter(
-                config('site.services_page.services', []),
-                fn (array $service) => in_array($service['number'], $wanted, true),
-            )),
-            // The three projects the page closes on, resolved against the
-            // projects grid so the tile carries the cover and the title that
-            // grid carries — the same lookup the related rows use, and for
-            // the same reason: nothing is quoted twice and nothing drifts.
-            'gallery' => collect(config('site.joinery_page.gallery.projects', []))
-                ->map(fn (string $slug) => ($facts[$slug] ?? null) ? $facts[$slug] + ['slug' => $slug] : null)
-                ->filter()
-                ->values()
-                ->all(),
-        ]);
+        $capabilities = collect(config('site.services_page.services', []))
+            ->filter(fn (array $service) => in_array($service['number'], $band['numbers'], true))
+            ->map(fn (array $service) => [
+                // The services page sets these titles upper, where the AND in
+                // "Joinery, Carpentry AND Millwork" disappears into the line.
+                // Here they are title case and it shouts.
+                'title' => str_replace(' AND ', ' and ', implode(' ', $service['title'])),
+                'body' => $service['body'],
+            ])
+            ->push($band['third'])
+            ->values()
+            ->map(fn (array $item, int $i) => $item + ['number' => str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT)])
+            ->all();
+
+        return view('joinery', ['capabilities' => $capabilities]);
     }
 
     /**
