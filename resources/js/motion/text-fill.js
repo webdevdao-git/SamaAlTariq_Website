@@ -24,8 +24,7 @@ import { subscribeToScroll, viewportProgress, prefersReducedMotion } from './scr
  * JavaScript — or under prefers-reduced-motion — every line is simply full
  * ink, which is the frame.
  */
-const SPAN = 0.55;   // of the section's travel, per line
-const STAGGER = 0.12; // each line starts this much after the one above
+const STAGGER = 0.1; // each line starts this much after the one above
 
 export function initTextFill() {
     const sections = Array.from(document.querySelectorAll('[data-text-fill]'));
@@ -43,15 +42,33 @@ export function initTextFill() {
             if (rect.bottom < 0 || rect.top > vh) continue;
 
             /*
-             * The middle of the travel does the work: read end to end and the
-             * fill would finish while the band was still climbing into view.
+             * The band's whole crossing, end to end. Compressed into the
+             * middle of it — as this was — the writing and erasing both
+             * finished before the slab reached the centre of the screen, and
+             * it sat pale for the rest of the way up.
              */
-            const p = Math.min(1, Math.max(0, (viewportProgress(rect, vh) - 0.18) / 0.5));
+            const p = viewportProgress(rect, vh);
+            const span = 1 - (band.lines.length - 1) * STAGGER;
 
             for (const [i, line] of band.lines.entries()) {
-                const start = i * STAGGER;
-                const fill = Math.min(1, Math.max(0, (p - start) / SPAN));
-                line.style.setProperty('--fill', (fill * 100).toFixed(1));
+                /*
+                 * Written in, then erased. The reference does not settle on
+                 * full ink: the band of ink arrives from the left and leaves
+                 * from the left as the section carries on, so a line is pale,
+                 * then filling, then full, then emptying, then pale again.
+                 *
+                 * One number drives both edges. The writing edge covers the
+                 * line over the first half of its span and the erasing edge
+                 * follows over the second, so a line is at full ink exactly
+                 * when it is halfway across the screen — which is where it is
+                 * read — and pale at both ends of the journey.
+                 */
+                const t = Math.min(1, Math.max(0, (p - i * STAGGER) / span));
+                const to = Math.min(1, t * 2);
+                const from = Math.max(0, t * 2 - 1);
+
+                line.style.setProperty('--fill-to', (to * 100).toFixed(1));
+                line.style.setProperty('--fill-from', (from * 100).toFixed(1));
             }
         }
     });

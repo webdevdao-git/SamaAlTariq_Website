@@ -364,21 +364,28 @@
      * Type that fills as it scrolls — the slab on the Joinery page, after
      * halston-architecture-template.webflow.io/services#stats.
      *
-     * One layer, not two: a gradient with a hard stop is painted behind the
-     * line and clipped to the glyphs, and motion/text-fill.js moves the stop.
-     * The stop is a single position used twice, so there is no soft edge — the
-     * fill has a straight vertical boundary as it crosses each letter, which
-     * is what the reference does with a clipped layer.
+     * One layer, not two: a gradient painted behind the line and clipped to
+     * the glyphs, with motion/text-fill.js moving its stops. Each stop is a
+     * single position used twice, so there is no soft edge — the boundary is
+     * straight as it crosses a letter, which is what the reference gets from a
+     * clipped layer.
      *
-     * --fill defaults to 100, so with no JavaScript, under
+     * TWO stops, not one, because the reference does not stop at full ink: the
+     * band of ink is written in from the left and then erased from the left as
+     * the section keeps travelling. --fill-from is the erasing edge and
+     * --fill-to the writing one.
+     *
+     * They default to 0 and 100, so with no JavaScript, under
      * prefers-reduced-motion, or before the first frame, the line is simply
      * full ink. Nothing here is required to read the sentence.
      */
     .text-fill {
         background-image: linear-gradient(
             90deg,
-            var(--color-ink) calc(var(--fill, 100) * 1%),
-            color-mix(in srgb, var(--color-ink) 26%, transparent) calc(var(--fill, 100) * 1%)
+            color-mix(in srgb, var(--color-ink) 26%, transparent) calc(var(--fill-from, 0) * 1%),
+            var(--color-ink) calc(var(--fill-from, 0) * 1%),
+            var(--color-ink) calc(var(--fill-to, 100) * 1%),
+            color-mix(in srgb, var(--color-ink) 26%, transparent) calc(var(--fill-to, 100) * 1%)
         );
         -webkit-background-clip: text;
         background-clip: text;
