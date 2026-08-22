@@ -375,6 +375,12 @@
      * the section keeps travelling. --fill-from is the erasing edge and
      * --fill-to the writing one.
      *
+     * Outside that band the type is TRANSPARENT, not a pale grey: the letters
+     * are meant to arrive and leave, not to sit dimmed either side of the
+     * band. The words are still text — in the markup, in the page's outline
+     * and available to a screen reader — they are simply unpainted until the
+     * band reaches them.
+     *
      * They default to 0 and 100, so with no JavaScript, under
      * prefers-reduced-motion, or before the first frame, the line is simply
      * full ink. Nothing here is required to read the sentence.
@@ -382,10 +388,10 @@
     .text-fill {
         background-image: linear-gradient(
             90deg,
-            color-mix(in srgb, var(--color-ink) 26%, transparent) calc(var(--fill-from, 0) * 1%),
+            transparent calc(var(--fill-from, 0) * 1%),
             var(--color-ink) calc(var(--fill-from, 0) * 1%),
             var(--color-ink) calc(var(--fill-to, 100) * 1%),
-            color-mix(in srgb, var(--color-ink) 26%, transparent) calc(var(--fill-to, 100) * 1%)
+            transparent calc(var(--fill-to, 100) * 1%)
         );
         -webkit-background-clip: text;
         background-clip: text;
