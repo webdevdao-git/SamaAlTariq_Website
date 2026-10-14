@@ -59,6 +59,7 @@
                 </div>
             @endforeach
 
+            @if (! empty($page['body']))
             <div class="reveal grid gap-[clamp(0.5rem,1.389vw,24px)] lg:grid-cols-[561fr_983fr]">
                 <dt class="text-[clamp(1rem,1.157vw,20px)] font-bold leading-[1.35] text-ink">Overview</dt>
                 <dd class="flex flex-col gap-[clamp(1rem,1.389vw,24px)]">
@@ -67,6 +68,7 @@
                     @endforeach
                 </dd>
             </div>
+            @endif
         </dl>
     </div>
 </section>

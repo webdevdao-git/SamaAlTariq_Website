@@ -5,13 +5,14 @@
 @section('image', 'images/projects/covers/jumeirah-golf-estate-villas.webp')
 
 {{--
-    The projects page. Header, the grouped projects, then the landing page's
+    The projects page. Header, the tower of projects, the grouped projects, then the landing page's
     own enquiry card and footer — the same two this site closes every page
     with.
 --}}
 @section('content')
     <main>
         @include('sections.projects-page.header')
+        @include('sections.projects-page.tower')
         @include('sections.projects-page.groups')
         @include('sections.inquiry')
     </main>

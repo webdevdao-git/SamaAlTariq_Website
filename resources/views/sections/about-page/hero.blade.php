@@ -125,7 +125,7 @@
                             <div>
                                 <dt class="sr-only">{{ $stat['label'] }}</dt>
                                 <dd>
-                                    <span class="block text-[1.75rem] font-medium tracking-[-0.03em] sm:text-fluid-stat">{{ $stat['value'] }}</span>
+                                    <span data-count class="block text-[1.75rem] font-medium tracking-[-0.03em] sm:text-fluid-stat">{{ $stat['value'] }}</span>
                                     <span class="mt-1 block text-fluid-body">{{ $stat['label'] }}</span>
                                 </dd>
                             </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $project['title'] . ' — ' . config('site.legal_name'))
-@section('description', $page['lead'])
+@section('description', $page['lead'] ?? $project['title'] . ' — ' . $project['category'] . ', delivered by ' . config('site.legal_name') . '.')
 @section('image', 'images/projects/covers/' . $slug . '.webp')
 
 {{--

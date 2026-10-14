@@ -31,3 +31,6 @@ Thumbs.db
 
 /public/storage
 /database/database.sqlite
+
+# Raw photographs as supplied — converted into public/images, never served.
+/source-photos

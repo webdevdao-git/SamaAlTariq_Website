@@ -81,7 +81,7 @@
                                 <div class="flex flex-col gap-[clamp(1rem,1.389vw,24px)]">
                                     @foreach ($column['tiles'] as $item)
                                         @php($delay = $tile++ * 40)
-                                        <figure class="reveal-rise group relative flex flex-col"
+                                        <figure data-tilt class="reveal-rise group relative flex flex-col"
                                                 style="transition-delay:{{ $delay }}ms">
                                             {{--
                                                 The tile opens the project.
@@ -106,7 +106,7 @@
                                                class="block w-full overflow-hidden after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                                                style="aspect-ratio:{{ $item['ratio'] }}">
                                                 <img src="{{ \App\Support\Asset::versioned('images/projects/covers/' . $item['image'] . '.webp') }}"
-                                                     alt="{{ $item['title'] }} — {{ $item['location'] }}"
+                                                     alt="{{ $item['title'] }}{{ isset($item['location']) ? ' — ' . $item['location'] : '' }}"
                                                      loading="lazy" decoding="async"
                                                      class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]">
                                             </a>

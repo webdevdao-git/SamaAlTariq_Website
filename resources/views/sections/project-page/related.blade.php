@@ -25,7 +25,7 @@
                    class="reveal-rise group flex flex-col" style="transition-delay:{{ $i * 40 }}ms">
                     <div class="relative w-full overflow-hidden" style="aspect-ratio:772/635">
                         <img src="{{ \App\Support\Asset::versioned('images/projects/covers/' . $item['image'] . '.webp') }}"
-                             alt="{{ $item['title'] }} — {{ $item['location'] }}"
+                             alt="{{ $item['title'] }}{{ isset($item['location']) ? ' — ' . $item['location'] : '' }}"
                              loading="lazy" decoding="async"
                              class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]">
                     </div>

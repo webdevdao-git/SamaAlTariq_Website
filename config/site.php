@@ -346,6 +346,12 @@ return [
                             ['image' => 'emirates-hills-villa', 'ratio' => '772/635', 'title' => 'Emirates Hills Villa', 'category' => 'Luxury Residential', 'location' => 'Emirates Hills, Dubai', 'size' => '30,000 Sq Ft', 'duration' => '12 Months'],
                         ]],
                     ]],
+                    ['columns' => [
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'jp-villa', 'ratio' => '772/635', 'title' => 'JP Villa', 'category' => 'Residential'],
+                        ]],
+                        ['fr' => 772, 'tiles' => []],
+                    ]],
                 ],
             ],
             [
@@ -360,6 +366,14 @@ return [
                         ['fr' => 924, 'tiles' => [
                             ['image' => 'wasl-properties-hq', 'ratio' => '924/727', 'title' => 'WASL Properties HQ', 'category' => 'Corporate', 'location' => 'Sheikh Zayed Road, Dubai', 'size' => '45,000 Sq Ft', 'duration' => '4 Months'],
                         ]],
+                    ]],
+                    // Same empty-second-column arrangement as Hospitality, so
+                    // the single tile keeps the size the others are drawn at.
+                    ['columns' => [
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'dubai-hills-business-park', 'ratio' => '772/727', 'title' => 'Dubai Hills Business Park', 'category' => 'Commercial', 'location' => 'Dubai Hills, Dubai'],
+                        ]],
+                        ['fr' => 772, 'tiles' => []],
                     ]],
                 ],
             ],
@@ -383,7 +397,11 @@ return [
                         ['fr' => 772, 'tiles' => [
                             ['image' => 'benjarong-dusit-thani', 'ratio' => '772/727', 'title' => 'Benjarong, Dusit Thani', 'category' => 'Hospitality / F&B', 'location' => 'JVC, Dubai', 'size' => '10,000+ Sq Ft', 'duration' => '3 Months'],
                         ]],
-                        ['fr' => 772, 'tiles' => []],
+                        // Takes the column that stood empty beside Benjarong.
+                        // Location, area and duration are not supplied yet.
+                        ['fr' => 772, 'tiles' => [
+                            ['image' => 'pullman', 'ratio' => '772/727', 'title' => 'Pullman Hotel', 'category' => 'Hospitality'],
+                        ]],
                     ]],
                 ],
             ],
@@ -443,6 +461,29 @@ return [
      * only where there is a year to put in it, rather than carrying a guess.
      */
     'project_pages' => [
+        /*
+         * Added with their photographs and category only. The lead, overview,
+         * location, area and duration have not been supplied; the page leaves
+         * each one out until they are, rather than carrying a guess.
+         */
+        'pullman' => [
+            'about' => null,
+            'year' => null,
+            'tiles' => 9,
+            'related' => ['benjarong-dusit-thani', 'fidelity-gym-jlt', 'wasl-properties-hq', 'emirates-hills-villa'],
+        ],
+        'dubai-hills-business-park' => [
+            'about' => null,
+            'year' => null,
+            'tiles' => 9,
+            'related' => ['wasl-properties-hq', 'boulevard-plaza-office', 'i-rise-tower-office', 'pullman'],
+        ],
+        'jp-villa' => [
+            'about' => null,
+            'year' => null,
+            'tiles' => 7,
+            'related' => ['villa-b200-tilal-al-ghaf', 'emirates-hills-villa', 'jumeirah-island-villa', 'villa-pv39-tilal-al-ghaf'],
+        ],
         'jumeirah-golf-estate-villas' => [
             'about' => 'Full renovation & fit-out',
             'year' => '2024',
@@ -1087,6 +1128,22 @@ return [
         // does and had been pointing at #contact, so it scrolled a visitor
         // past the projects it was offering to show them.
         'cta' => ['label' => 'View All Projects', 'href' => '/projects'],
+        /*
+         * The projects the home page's 3D stage walks through, in this order.
+         * Eight of the fourteen: the rest are a click away on the projects
+         * page, which the stage's last panel leads to. Slugs, as on the
+         * projects page.
+         */
+        'featured' => [
+            'jumeirah-golf-estate-villas',
+            'emirates-hills-villa',
+            'villa-pv39-tilal-al-ghaf',
+            'wasl-properties-hq',
+            'benjarong-dusit-thani',
+            'fidelity-gym-jlt',
+            'pullman',
+            'boulevard-plaza-office',
+        ],
         'items' => [
             [
                 'title' => 'Jumeirah Golf Estate Villas',

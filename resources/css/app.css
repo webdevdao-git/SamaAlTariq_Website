@@ -1055,7 +1055,15 @@
      */
     .reveal-rise {
         opacity: 0;
-        transform: translateY(80px);
+        /*
+         * And tipped back in space as it comes: the tile starts on a plane
+         * leaning away from the viewer and swings flat as it lands, hinged on
+         * its top edge, so the grid reads as cards being laid down rather than
+         * pictures sliding up. The perspective is in the transform rather than
+         * on the parent so every tile carries its own vanishing point.
+         */
+        transform: perspective(1200px) translateY(80px) rotateX(14deg);
+        transform-origin: 50% 0;
         transition:
             opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
             transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -1074,7 +1082,7 @@
     /* 80px is a long way up a phone screen, where a tile is most of the fold. */
     @media (width < 48rem) {
         .reveal-rise {
-            transform: translateY(36px);
+            transform: perspective(1200px) translateY(36px) rotateX(8deg);
         }
     }
 
@@ -1140,18 +1148,26 @@
     .line-mask {
         display: block;
         overflow: clip;
+        perspective: 1000px;
     }
 
     .line-mask > span {
         display: block;
-        transform: translateY(105%);
+        /*
+         * Each line rises on a hinge: it starts below its mask turned away
+         * from the viewer and swings upright as it climbs into place, so a
+         * heading reads as being stood up rather than slid in. Hinged at the
+         * baseline, where the line ends up resting.
+         */
+        transform: translateY(105%) rotateX(-75deg);
+        transform-origin: 50% 100%;
         transition: transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform;
     }
 
     .is-visible .line-mask > span,
     .line-mask.is-visible > span {
-        transform: translateY(0);
+        transform: translateY(0) rotateX(0);
     }
 
     /*
@@ -1175,13 +1191,14 @@
 
     .unit-mask > span {
         display: inline-block;
-        transform: translateY(105%);
+        transform: translateY(105%) rotateX(-75deg);
+        transform-origin: 50% 100%;
         transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform;
     }
 
     .unit-mask.is-visible > span {
-        transform: translateY(0);
+        transform: translateY(0) rotateX(0);
     }
 
     /* Letter mode only: keeps a word from breaking between its own letters. */
@@ -1220,5 +1237,893 @@
                even though nothing has moved. */
             will-change: auto;
         }
+    }
+}
+
+/* ------------------------------------------------------------------
+   The premium layer: page transitions, tilt, the hero shader.
+   Everything here is drawn only once JavaScript has asked for it — each piece
+   is an element or class the scripts in resources/js/motion create — so with
+   no script, or under reduced motion, none of it exists.
+------------------------------------------------------------------- */
+@layer components {
+    /*
+     * The curtain a link draws over the page it is leaving. Same teal, same
+     * mark, same easing as the entry curtain, run the other way: up from the
+     * foot of the screen. The next page opens behind its own entry curtain,
+     * so the two meet as one wipe.
+     */
+    .page-cover {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-teal);
+        clip-path: inset(100% 0 0 0);
+        transition: clip-path 700ms cubic-bezier(0.76, 0, 0.24, 1);
+        perspective: 800px;
+    }
+
+    .page-cover.is-covering {
+        clip-path: inset(0 0 0 0);
+    }
+
+    .page-cover__mark {
+        opacity: 0;
+        transform: rotateX(-90deg) translateZ(-40px);
+        transition:
+            opacity 380ms ease-out 260ms,
+            transform 620ms cubic-bezier(0.16, 1, 0.3, 1) 260ms;
+    }
+
+    .page-cover.is-covering .page-cover__mark {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Arriving through a wipe the mark is already in place on the cover the
+       visitor just watched, so it does not turn in a second time. */
+    .intro-curtain.is-transit .intro-curtain__mark {
+        animation: none;
+    }
+
+    .intro-curtain.is-transit[data-lifting='true'] .intro-curtain__mark {
+        animation: intro-mark-turn-out 620ms cubic-bezier(0.76, 0, 0.24, 1) both;
+    }
+
+    /*
+     * Tilt. The frame keeps its box; tilt.js only turns it. The highlight is a
+     * soft white bloom centred on the pointer, screened over the picture so it
+     * lightens without washing out, and gone the moment the pointer leaves.
+     */
+    [data-tilt] {
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .tilt-glare {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: radial-gradient(
+            circle at var(--glare-x, 50%) var(--glare-y, 50%),
+            rgba(255, 255, 255, 0.28),
+            rgba(255, 255, 255, 0) 55%
+        );
+        mix-blend-mode: soft-light;
+        opacity: 0;
+        transition: opacity 500ms ease;
+    }
+
+    .is-tilting > .tilt-glare {
+        opacity: 1;
+    }
+
+    /* A settled tile is turned by the pointer frame by frame; the rise's own
+       one-second transform transition would drag every frame behind. */
+    .reveal-rise.is-settled[data-tilt] {
+        transition: opacity 1s ease;
+    }
+
+    /* The hero shader's canvas: over the photograph, under the gradients, and
+       invisible until it has drawn a frame. */
+    .hero-gl {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 600ms ease;
+    }
+
+    .hero-gl.is-ready {
+        opacity: 1;
+    }
+}
+
+
+@layer components {
+    /*
+     * The projects tower (sections/projects-page/tower.blade.php).
+     *
+     * At rest — no script, or reduced motion — this is the whole effect: the
+     * building standing assembled at its axonometric, one screen tall.
+     * project-tower.js adds .is-pinned, which buys the scroll the climb is
+     * spent over, and from then on writes every transform itself.
+     */
+    .project-tower {
+        --floor-w: clamp(240px, 30vw, 560px);
+        --gap: calc(var(--floor-w) * 0.085);
+        --peak: 0;
+        height: 100svh;
+        overflow: clip;
+    }
+
+    .project-tower.is-pinned {
+        /* About two-thirds of a screen of scroll per floor. */
+        height: calc((var(--count, 10) * 0.65 + 1.5) * 100svh);
+        overflow: visible;
+    }
+
+    @media (width < 48rem) {
+        .project-tower {
+            --floor-w: 64vw;
+        }
+    }
+
+    .project-tower__stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 2000px;
+        perspective-origin: 50% 40%;
+    }
+
+    .project-tower__body {
+        position: relative;
+        width: var(--floor-w);
+        aspect-ratio: 4 / 3;
+        margin-top: -6vh;
+        transform-style: preserve-3d;
+        transform: rotateX(58deg) rotateZ(-32deg) translateZ(calc(var(--gap) * (var(--count) - 1) / -2));
+        will-change: transform;
+    }
+
+    /*
+     * Pinned on a wide screen the tower stands left of centre, leaving the
+     * right of the stage for the floor that slides out of it. `translate`
+     * rather than a margin: it is applied in the screen's plane before the
+     * axonometric turn, so it moves the whole building sideways without
+     * tipping it.
+     */
+    @media (width >= 64rem) {
+        .project-tower.is-pinned .project-tower__body {
+            translate: -17vw 3vh;
+        }
+    }
+
+
+
+    .project-tower__floor {
+        --out: 0;
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transform: translateZ(calc(var(--i) * var(--gap)));
+    }
+
+    .project-tower__slab {
+        position: absolute;
+        inset: 0;
+        display: block;
+        overflow: hidden;
+    }
+
+    /*
+     * The slab's thickness: two faces hung off the edges the axonometric
+     * shows — the near long edge and the right short edge — folded down out of
+     * the floor's plane. Without them the floors read as photographs floating
+     * in a stack; with them they read as concrete.
+     */
+    .project-tower__floor::before,
+    .project-tower__floor::after {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .project-tower__floor::before {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: calc(var(--gap) * 0.32);
+        background: #3a3a3a;
+        transform-origin: 50% 100%;
+        transform: rotateX(90deg);
+    }
+
+    .project-tower__floor::after {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: calc(var(--gap) * 0.32);
+        background: #262626;
+        transform-origin: 100% 50%;
+        transform: rotateY(-90deg);
+    }
+
+    /*
+     * The building steps back into the night while a floor is out — the veil
+     * thickens with --peak on every slab but the one coming forward. The
+     * edges carry no veil of their own; they are already dark.
+     */
+    .project-tower__slab::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: var(--color-night);
+        opacity: calc((1 - var(--out)) * (0.12 + var(--peak) * 0.5));
+    }
+
+    .project-tower__slab img {
+        transition: scale 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-tower__slab:hover img {
+        scale: 1.04;
+    }
+
+    .project-tower__caption {
+        position: absolute;
+        inset-inline: 0;
+        /* Clear of the profile button, which is fixed to the same corner. */
+        bottom: clamp(4.5rem, 10vh, 6.5rem);
+    }
+}
+
+@layer components {
+    /*
+     * scroll-fx.js. Each class is added by the script, so none of this
+     * applies without it.
+     *
+     * The unmask runs on clip-path and the individual `scale` property: the
+     * images it touches may already carry a `transform` from the hover push-in
+     * or the parallax, and `scale` multiplies with that rather than replacing
+     * it.
+     */
+    .fx-unmask {
+        clip-path: inset(100% 0 0 0);
+        scale: 1.3;
+        transition:
+            clip-path 1.3s cubic-bezier(0.77, 0, 0.175, 1),
+            scale 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fx-unmask.is-in {
+        clip-path: inset(0 0 0 0);
+        scale: 1;
+    }
+
+    .fx-expand {
+        will-change: clip-path;
+    }
+
+    .fx-stand {
+        transform-origin: 50% 100%;
+        will-change: transform, opacity;
+    }
+}
+
+@layer components {
+    /*
+     * scenes.js. Every class here is added by the script inside a
+     * gsap.matchMedia block and removed again when that block reverts, so the
+     * page without them is the plain one.
+     */
+    .scene-word {
+        display: inline-block;
+        will-change: transform, opacity;
+    }
+
+    .scene-layer {
+        position: relative;
+        z-index: var(--layer, auto) !important;
+    }
+
+    .scene-veil {
+        position: absolute;
+        inset: 0;
+        z-index: 60;
+        pointer-events: none;
+        background: #000;
+        opacity: 0;
+    }
+
+    /*
+     * The projects rail. The two grid rows of the frame become one row of
+     * cards at a fixed height; the grids themselves step out of the layout
+     * (display: contents) so their cards line up as siblings. The frames give
+     * up their drawn ratio for the rail's height and crop to it.
+     */
+    #projects.is-rail {
+        display: flex;
+        min-height: 100svh;
+        flex-direction: column;
+        justify-content: center;
+        overflow: clip;
+    }
+
+    #projects.is-rail [data-rail] {
+        display: flex;
+        width: max-content;
+        max-width: none;
+        height: 58vh;
+        gap: clamp(1rem, 1.6vw, 28px);
+        perspective: 1400px;
+        will-change: transform;
+    }
+
+    #projects.is-rail [data-rail] > .grid,
+    #projects.is-rail [data-rail] > .grid > .grid {
+        display: contents;
+    }
+
+    #projects.is-rail [data-rail] figure {
+        flex: 0 0 auto;
+        width: 30vw;
+        height: 100%;
+        transform-style: preserve-3d;
+    }
+
+    #projects.is-rail [data-rail] figure:first-child {
+        width: 42vw;
+    }
+
+    #projects.is-rail [data-rail] figure > div:first-child {
+        aspect-ratio: auto !important;
+    }
+
+    /*
+     * The footer waiting underneath. The page above it is lifted onto its own
+     * layer with rounded foot and a shadow, and the footer sticks to the
+     * bottom of the screen behind it — so scrolling the last section away
+     * uncovers it rather than pulling it up. Only when it fits on the screen;
+     * scenes.js checks.
+     */
+    .scene-main {
+        position: relative;
+        z-index: 1;
+        background: #fff;
+        border-radius: 0 0 clamp(24px, 3vw, 48px) clamp(24px, 3vw, 48px);
+        box-shadow: 0 50px 90px -50px rgba(0, 0, 0, 0.5);
+        overflow: clip;
+    }
+
+    /* Whatever else stands before the footer in the page's flow — the project
+       pages' hero, which sits outside <main>. Raised only; its own
+       background stays. */
+    .scene-above {
+        position: relative;
+        z-index: 1;
+    }
+
+    .scene-footer {
+        position: sticky;
+        bottom: 0;
+        z-index: 0;
+    }
+}
+
+@layer components {
+    /*
+     * The featured projects as a 3D stage (motion/project-stage.js). The
+     * script adds .has-stage only once it has a WebGL context; until then,
+     * and without it, the section is the grid.
+     *
+     * One dark screen: the heading over the top left, the canvas filling the
+     * section, and underneath it the project in front — category and place,
+     * its name as a link — with the strip of every name sliding beneath.
+     */
+    #projects.has-stage {
+        position: relative;
+        height: 100svh;
+        padding: 0;
+        overflow: hidden;
+        color: #fff;
+        background:
+            radial-gradient(ellipse 70% 55% at 50% 42%, rgba(63, 167, 179, 0.16), transparent 70%),
+            radial-gradient(ellipse at 50% 40%, #242424 0%, #131313 58%, #0b0b0b 100%);
+    }
+
+    #projects.has-stage > .shell:not(.project-stage__caption) {
+        position: absolute;
+        inset-inline: 0;
+        top: clamp(1.5rem, 4vw, 64px);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* !important against the heading's own utilities, which sit in a later
+       layer than this one. Smaller than the section slab it is elsewhere:
+       on the stage it is a label over the scene, and at full size it ran
+       down into the panels. */
+    #projects.has-stage > .shell h2 {
+        color: #fff !important;
+        font-size: clamp(1.75rem, 2.9vw, 50px) !important;
+    }
+
+    /* The drawn grid steps aside; it is still the page without the stage. */
+    #projects.has-stage > .shell:has(> .grid) {
+        display: none;
+    }
+
+    /* The section's pill gives way to the stage's own seal. !important
+       against the pill row's own flex utility, a later layer. */
+    #projects.has-stage > .reveal {
+        display: none !important;
+    }
+
+    .project-stage {
+        position: absolute;
+        inset: 0;
+    }
+
+    .project-stage__canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .project-stage__caption {
+        position: absolute;
+        inset-inline: 0;
+        bottom: clamp(3.5rem, 9vh, 6.5rem);
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2rem;
+        pointer-events: none;
+    }
+
+    .project-stage__info {
+        pointer-events: auto;
+        will-change: transform, opacity;
+    }
+
+    .project-stage__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75em;
+        font-size: clamp(0.7rem, 0.8vw, 13px);
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-teal);
+    }
+
+    .project-stage__location {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .project-stage__location::before {
+        content: '';
+        display: inline-block;
+        width: 1.6em;
+        height: 1px;
+        margin-right: 0.75em;
+        vertical-align: middle;
+        background: rgba(255, 255, 255, 0.35);
+    }
+
+    .project-stage__location[hidden] {
+        display: none;
+    }
+
+    .project-stage__title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35em;
+        margin-top: 0.35em;
+        font-size: clamp(2rem, 3.9vw, 68px);
+        line-height: 1;
+        color: #fff;
+    }
+
+    .project-stage__arrow {
+        width: 0.55em;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-stage__title:hover .project-stage__arrow {
+        transform: translateX(0.2em);
+    }
+
+    .project-stage__count {
+        white-space: nowrap;
+        font-size: var(--text-fluid-body);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+}
+
+@layer components {
+    /*
+     * The client strip as a band round a cylinder (scenes.js clientsRing).
+     * Each mark stands on the rim at its share of the circle; the band turns
+     * on the same CSS animation clock as the flat strip it replaces, so the
+     * scroll boost in marquee-boost.js speeds it up too. Marks on the far
+     * side face away and are not drawn.
+     */
+    .marquee.has-ring {
+        /* Smaller marks than the flat strip: thirty-odd of them have to fit
+           round one circle tight enough for the curve to read. */
+        --cell: clamp(70px, 6.2vw, 110px);
+        --cell-h: clamp(26px, 2.7vw, 46px);
+        --r: calc(var(--cell) * var(--n, 16) * 1.08 / 6.2832);
+        position: relative;
+        height: calc(var(--cell-h) * 2.2);
+        perspective: 1100px;
+        /* The strip's edge fade is a mask, and a mask over 3D content makes
+           Chrome flatten and crop it to a sliver. The ring's own far side
+           falls away into perspective instead, so it needs no fade. */
+        overflow: visible;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    /* The flat strip stays for assistive tech, out of sight. */
+    .marquee.has-ring > .marquee__track:not(.logo-ring__spin) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .logo-ring {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-style: preserve-3d;
+    }
+
+    .logo-ring__spin {
+        position: relative;
+        width: 0;
+        height: 0;
+        transform-style: preserve-3d;
+        animation: logo-ring-spin calc(var(--n, 16) * 2.6s) linear infinite;
+    }
+
+    @keyframes logo-ring-spin {
+        from { transform: translateZ(calc(var(--r) * -1)) rotateX(-2deg) rotateY(0deg); }
+        to { transform: translateZ(calc(var(--r) * -1)) rotateX(-2deg) rotateY(-360deg); }
+    }
+
+    .logo-ring__cell {
+        position: absolute;
+        left: calc(var(--cell) / -2);
+        top: calc(var(--cell-h) / -2);
+        display: flex;
+        width: var(--cell);
+        height: var(--cell-h);
+        align-items: center;
+        justify-content: center;
+        transform: rotateY(calc(var(--i) * 360deg / var(--n))) translateZ(var(--r));
+        backface-visibility: hidden;
+    }
+
+    .logo-ring__cell img {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+}
+
+@layer components {
+    /*
+     * The landing hero's word mask (scenes.js heroZoom). Over the photograph
+     * and the headline, under the header bar (z-40), so MENU and the lock-up
+     * hold their place while the camera flies through the word.
+     */
+    .hero-mask {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    .hero-mask text {
+        font-family: var(--font-display);
+        font-weight: 500;
+        letter-spacing: -0.01em;
+    }
+
+    /* The scroll cue: a hairline that draws down and fades, on a loop, at the
+       foot of the screen. Decoration only — gone once the zoom begins. */
+    .hero-mask__cue {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(1.5rem, 5vh, 3rem);
+        z-index: 31;
+        width: 1px;
+        height: clamp(40px, 7vh, 72px);
+        overflow: hidden;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .hero-mask__cue::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--color-teal);
+        transform-origin: 50% 0;
+        animation: hero-cue 2.2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+    }
+
+    @keyframes hero-cue {
+        0% { transform: scaleY(0); transform-origin: 50% 0; }
+        45% { transform: scaleY(1); transform-origin: 50% 0; }
+        55% { transform: scaleY(1); transform-origin: 50% 100%; }
+        100% { transform: scaleY(0); transform-origin: 50% 100%; }
+    }
+}
+
+@layer components {
+    /*
+     * The stage's way out to every project: the button's label run round a
+     * circle that turns slowly about an arrow, top right of the stage. It
+     * turns faster and the arrow swings out under the pointer.
+     */
+    .project-stage__seal {
+        position: absolute;
+        z-index: 3;
+        top: clamp(1.25rem, 3.5vw, 56px);
+        right: var(--spacing-gutter);
+        display: grid;
+        width: clamp(96px, 8.5vw, 140px);
+        aspect-ratio: 1;
+        place-items: center;
+        border-radius: 50%;
+        color: #fff;
+    }
+
+    .project-stage__seal::before {
+        content: '';
+        position: absolute;
+        inset: 22%;
+        border-radius: 50%;
+        background: var(--color-teal);
+        transition: inset 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+    }
+
+    .project-stage__seal:hover::before {
+        inset: 14%;
+        background: var(--color-teal-dark);
+    }
+
+    .project-stage__seal-ring {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        animation: seal-turn 14s linear infinite;
+    }
+
+    .project-stage__seal:hover .project-stage__seal-ring {
+        animation-duration: 5s;
+    }
+
+    .project-stage__seal-ring text {
+        fill: #fff;
+        font-family: var(--font-sans);
+        font-size: 9.6px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+
+    .project-stage__seal-arrow {
+        position: relative;
+        width: 34%;
+        transform: rotate(-45deg);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-stage__seal:hover .project-stage__seal-arrow {
+        transform: rotate(0deg);
+    }
+
+    @keyframes seal-turn {
+        to { transform: rotate(360deg); }
+    }
+
+    /* On the closing panel the caption is the link to the rest. */
+    .project-stage__info.is-cta .project-stage__meta {
+        font-size: clamp(0.9rem, 1.1vw, 18px);
+    }
+}
+
+@layer components {
+    /*
+     * Our Expertise as a turning prism (scenes.js services). The box keeps
+     * its size; the panels are stood round a horizontal axis inside it and
+     * the frame between them is turned by the scroll. Every face is shown —
+     * the cross-fade the panels use on their own is switched off here — and
+     * the ones facing away are not drawn.
+     */
+    .service-slides.is-prism {
+        perspective: 2400px;
+        perspective-origin: 50% 50%;
+        background: var(--color-night);
+    }
+
+    .service-prism {
+        position: relative;
+        display: grid;
+        width: 100%;
+        height: 100%;
+        min-height: 100svh;
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .service-slides.is-prism .service-slide {
+        position: relative;
+        isolation: isolate;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transition: none !important;
+        backface-visibility: hidden;
+    }
+
+    .service-prism__veil {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+        background: #000;
+        opacity: 0;
+    }
+}
+
+@layer components {
+    /*
+     * The process timelapse (scenes.js processTimelapse). The four pictures
+     * stop being a column and become one frame, stacked; the script raises
+     * each into it in turn. Sized to the sticky text column beside it, so the
+     * two sides of the section stand the same height while it is held.
+     */
+    #process.is-timelapse {
+        display: flex;
+        min-height: 100svh;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #process.is-timelapse .process-film {
+        position: relative;
+        display: block;
+        height: 72vh;
+        overflow: hidden;
+        border-radius: clamp(10px, 1vw, 18px);
+        background: var(--color-night);
+    }
+
+    #process.is-timelapse .process-film > figure {
+        position: absolute !important;
+        inset: 0;
+        width: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        margin: 0 !important;
+        transform-origin: 50% 100%;
+        will-change: clip-path, transform;
+    }
+
+    #process.is-timelapse .process-film img {
+        transform-origin: 50% 100%;
+        will-change: transform;
+    }
+
+    .process-film__shade {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: #000;
+        opacity: 0;
+    }
+
+    /* The stage number, large in the frame's lower right, rolling to the
+       current one: each stands in the same place and only the current one
+       is up. */
+    .process-film__count {
+        position: absolute;
+        right: clamp(1rem, 2vw, 32px);
+        bottom: clamp(0.5rem, 1vw, 16px);
+        z-index: 5;
+        display: grid;
+        height: 1em;
+        overflow: hidden;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(4rem, 9vw, 160px);
+        line-height: 1;
+        color: #fff;
+        pointer-events: none;
+    }
+
+    /* Stacked in one grid cell rather than absolutely, so the box takes the
+       numbers' width and its clip does not cut them to nothing. */
+    .process-film__count span {
+        grid-area: 1 / 1;
+        justify-self: end;
+        transform: translateY(105%);
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .process-film__count span.is-current {
+        transform: translateY(0);
+    }
+
+    /* The rail beside the steps: a hairline that fills downward as the build
+       goes on, with a tick per stage lit once it is reached. */
+    .process-rail {
+        position: absolute;
+        left: calc(-1 * clamp(1rem, 2vw, 36px));
+        bottom: 0;
+        width: 1px;
+        height: clamp(120px, 18vh, 200px);
+        background: rgba(23, 23, 23, 0.12);
+    }
+
+    .process-rail__fill {
+        position: absolute;
+        inset: 0;
+        background: var(--color-teal);
+        transform: scaleY(0);
+        transform-origin: 50% 0;
+    }
+
+    .process-rail i {
+        position: absolute;
+        left: -3px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid rgba(23, 23, 23, 0.25);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .process-rail i:nth-of-type(1) { top: 0; }
+    .process-rail i:nth-of-type(2) { top: 33.33%; }
+    .process-rail i:nth-of-type(3) { top: 66.66%; }
+    .process-rail i:nth-of-type(4) { top: 100%; }
+
+    .process-rail i.is-done {
+        background: var(--color-teal);
+        border-color: var(--color-teal);
     }
 }

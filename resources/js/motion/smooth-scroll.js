@@ -1,5 +1,9 @@
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { pumpScroll, prefersReducedMotion } from './scroll-engine';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Lenis smooth scroll.
@@ -24,12 +28,18 @@ export function initSmoothScroll() {
 
     document.documentElement.classList.add('lenis-active');
 
-    const raf = (time) => {
-        lenis.raf(time);
+    /*
+     * One clock for Lenis and GSAP. ScrollTrigger reads the position Lenis
+     * has eased to rather than the native one, so a pinned scene and the
+     * scroll it is pinned to move on the same frame instead of one trailing
+     * the other.
+     */
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
         pumpScroll();
-        requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
+    });
+    gsap.ticker.lagSmoothing(0);
 
     // Route in-page anchors through Lenis so they ease to the target instead of
     // teleporting — and so they do not fight the CSS smooth-scroll we disabled.

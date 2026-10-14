@@ -21,7 +21,7 @@
     arrangement the projects page uses for its tiles.
 --}}
 <figure class="group relative flex h-full flex-col gap-3">
-    <div class="relative w-full flex-1 overflow-hidden bg-white" style="aspect-ratio:{{ $project['ratio'] }}">
+    <div data-tilt class="relative w-full flex-1 overflow-hidden bg-white" style="aspect-ratio:{{ $project['ratio'] }}">
         <div data-parallax="{{ $project['drift'] }}" class="absolute inset-x-0 -inset-y-[8%]" style="will-change:transform">
             <img src="{{ \App\Support\Asset::versioned($project['image']) }}" alt="{{ $project['title'] }}" loading="lazy" decoding="async"
                  class="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]">

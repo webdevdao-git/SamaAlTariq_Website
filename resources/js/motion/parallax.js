@@ -142,6 +142,10 @@ export function initHeroParallax() {
     const media = document.querySelector('[data-hero-media]');
     if (!section || !media || prefersReducedMotion()) return;
 
+    // The landing hero is pinned and zoomed by scenes.js now; sinking it as
+    // well would push its contents down the screen while it is held.
+    if (section.closest('[data-hero-zoom]')) return;
+
     subscribeToScroll(({ y, vh }) => {
         // Stop recalculating once the hero is well past — the page is ~9,500px.
         if (y > section.offsetHeight + vh) return;

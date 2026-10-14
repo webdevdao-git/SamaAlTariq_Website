@@ -45,7 +45,7 @@
 
             <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
                  @if ($i === 0)
-                     alt="{{ $project['title'] }} — {{ $project['location'] }}"
+                     alt="{{ $project['title'] }}{{ isset($project['location']) ? ' — ' . $project['location'] : '' }}"
                      fetchpriority="high"
                  @else
                      alt="" aria-hidden="true" loading="lazy"

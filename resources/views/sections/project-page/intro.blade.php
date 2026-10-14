@@ -31,8 +31,10 @@
         <div class="grid gap-[clamp(2rem,4.63vw,80px)] lg:grid-cols-[549fr_939fr]">
 
             {{-- 24/33 Manrope Bold, the frame's own measure. --}}
+            {{-- The track stays when there is no lead yet, so the grid keeps
+                 its place on the right. --}}
             <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-bold leading-[1.375] text-ink">
-                {{ $page['lead'] }}
+                {{ $page['lead'] ?? '' }}
             </p>
 
             <div data-lightbox class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
