@@ -19,7 +19,7 @@
         @include('sections.services-page.intro')
         @include('sections.services-page.services')
         @include('sections.process-page.consultation')
-        @include('sections.inquiry')
+        @include('sections.enquiry-band')
     </main>
 
     @include('sections.footer')

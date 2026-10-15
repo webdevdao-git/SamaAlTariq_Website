@@ -20,9 +20,11 @@ import { initTilt } from './motion/tilt';
 import { initCountUp } from './motion/count-up';
 import { initMarqueeBoost } from './motion/marquee-boost';
 import { initHeroGl } from './motion/hero-gl';
-import { initProjectTower } from './motion/project-tower';
 import { initScrollFx } from './motion/scroll-fx';
 import { initScenes } from './motion/scenes';
+import { initRefScenes } from './motion/ref-scenes';
+import { initProjectStack } from './motion/project-stack';
+import { initAboutScenes } from './motion/about-scenes';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -84,17 +86,13 @@ function boot() {
     initCountUp();
     initMarqueeBoost();
     initHeroGl();
-    initProjectTower();
     initScrollFx();
 
     // Last: the scenes pin and measure sections, so every other module has to
     // have finished laying the page out first.
-    /*
-     * The 3D projects stage is the one heavy module — Three.js — so it is
-     * fetched only by the page that has the stage, and only when it can run.
-     * The section is switched over synchronously so the rest of the scenes
-     * lay out against the stage, not the grid it replaces.
-     */
+    // The 3D projects stage (Three.js) is fetched only by the page that has
+    // it, and only when it can run; the section switches over first so the
+    // other scenes lay out against the stage, not the collage it replaces.
     const stage = document.querySelector('#projects [data-stage]');
     if (stage && stageCanRun()) {
         document.querySelector('#projects').classList.add('has-stage');
@@ -102,7 +100,22 @@ function boot() {
         import('./motion/project-stage').then(({ initProjectStage }) => initProjectStage());
     }
 
+    // The joinery table is Three.js too: fetched only where it is drawn.
+    if (document.querySelector('[data-jtable]') && stageCanRun()) {
+        import('./motion/joinery-table').then(({ initJoineryTable }) => initJoineryTable());
+    }
+
     initScenes();
+    initProjectStack();
+    initRefScenes();
+    initAboutScenes();
+}
+
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+} else {
+    boot();
 }
 
 function stageCanRun() {
@@ -113,10 +126,4 @@ function stageCanRun() {
     } catch {
         return false;
     }
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-} else {
-    boot();
 }

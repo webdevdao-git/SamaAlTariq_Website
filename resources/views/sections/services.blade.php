@@ -32,6 +32,8 @@
         @php($number = str_pad($i + 1, 2, '0', STR_PAD_LEFT))
 
         <article id="service-{{ $i + 1 }}"
+                 @isset($item['blueprint']) data-blueprint="{{ \App\Support\Asset::versioned($item['blueprint']) }}" @endisset
+                 data-photo="{{ \App\Support\Asset::versioned($item['image']) }}"
                  class="service-slide [grid-area:1/1] flex w-full flex-col overflow-hidden
                         px-[var(--spacing-gutter)] pt-[clamp(1.5rem,3.47vw,60px)] pb-[clamp(2rem,5vw,88px)]"
                  aria-labelledby="service-heading-{{ $i + 1 }}">

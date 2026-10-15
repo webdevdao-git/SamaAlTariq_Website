@@ -47,6 +47,9 @@
                         @endforeach
                     </h2>
                     <p class="text-fluid-body font-medium text-ink-muted">{{ $inquiry['body'] }}</p>
+                    @isset($inquiry['brief'])
+                        <p class="text-fluid-sm font-semibold text-teal">{{ $inquiry['brief'] }}</p>
+                    @endisset
                 </div>
 
                 <p class="text-fluid-body font-medium text-ink">{{ config('site.copyright') }}</p>

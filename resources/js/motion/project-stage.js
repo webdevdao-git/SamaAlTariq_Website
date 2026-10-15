@@ -26,7 +26,9 @@ gsap.registerPlugin(ScrollTrigger);
  * stays the grid it is drawn as, and nothing here runs.
  */
 const PANEL_W = 2.4;
-const PANEL_H = 1.6;
+// Close to the covers' own proportion (about 1.2:1), so a panel crops
+// little off a photograph rather than a band from top and bottom.
+const PANEL_H = 1.82;
 const PANEL_D = 0.16;
 const FACE = PANEL_W / PANEL_H;
 
@@ -81,28 +83,33 @@ function ctaTexture(item, renderer) {
     ctx.lineWidth = 3;
     ctx.strokeRect(48, 48, w - 96, h - 96);
 
-    const display = getComputedStyle(document.documentElement).getPropertyValue('--font-display') || 'Georgia, serif';
-    const sans = getComputedStyle(document.documentElement).getPropertyValue('--font-sans') || 'sans-serif';
+    const root = getComputedStyle(document.documentElement);
+    const display = root.getPropertyValue('--font-display') || 'Georgia, serif';
+    const sans = root.getPropertyValue('--font-sans') || 'sans-serif';
 
+    // The invitation, two lines in the display face, and the button's own
+    // label beneath with an arrow ruled out after it. No count of what is
+    // left — the panel only says there is more.
     ctx.fillStyle = '#fff';
     ctx.textBaseline = 'alphabetic';
-    if (item.category) {
-        ctx.font = `500 ${Math.round(h * 0.46)}px ${display}`;
-        ctx.fillText(item.category, 110, h * 0.58);
-    }
+    ctx.font = `500 ${Math.round(h * 0.2)}px ${display}`;
+    ctx.fillText('EXPLORE', 110, h * 0.42);
+    ctx.fillText('MORE', 110, h * 0.62);
 
-    ctx.font = `600 ${Math.round(h * 0.07)}px ${sans}`;
+    ctx.font = `600 ${Math.round(h * 0.05)}px ${sans}`;
     const label = item.title.toUpperCase().split('').join(String.fromCharCode(8202));
-    ctx.fillText(label, 116, h * 0.8);
+    ctx.fillText(label, 116, h * 0.82);
 
+    const y = h * 0.805;
     const textEnd = 116 + ctx.measureText(label).width + 40;
-    ctx.lineWidth = 6;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 5;
     ctx.beginPath();
-    ctx.moveTo(textEnd, h * 0.775);
-    ctx.lineTo(w - 140, h * 0.775);
-    ctx.moveTo(w - 175, h * 0.775 - 32);
-    ctx.lineTo(w - 140, h * 0.775);
-    ctx.lineTo(w - 175, h * 0.775 + 32);
+    ctx.moveTo(textEnd, y);
+    ctx.lineTo(w - 140, y);
+    ctx.moveTo(w - 170, y - 26);
+    ctx.lineTo(w - 140, y);
+    ctx.lineTo(w - 170, y + 26);
     ctx.stroke();
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -129,12 +136,12 @@ export function initProjectStage() {
      * of the brand's teal carrying how many more there are and the section's
      * own button label; brought to the front, the caption becomes that link.
      */
-    const more = Number(stage.dataset.more) || 0;
     const featured = items.length;
-    items.push({
+    // The closing panel only where there is somewhere further to go.
+    if (stage.dataset.moreLabel) items.push({
         cta: true,
         title: stage.dataset.moreLabel || 'View All Projects',
-        category: more > 0 ? `+${more}` : '',
+        category: '',
         location: null,
         href: stage.dataset.moreHref || '/projects',
     });
@@ -171,7 +178,7 @@ export function initProjectStage() {
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 60);
     // Aimed a little below the panels' centre, which lifts the line up the
     // screen and clear of the caption underneath it.
-    const look = new THREE.Vector3(0, -0.45, 0);
+    const look = new THREE.Vector3(0, -0.2, 0);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.35));
 
@@ -208,7 +215,13 @@ export function initProjectStage() {
     const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
     const panels = items.map((item, i) => {
-        const face = new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.42, metalness: 0.05 });
+        /*
+         * The photograph is not lit. Through the scene's lights and the
+         * filmic tone mapping it came out washed and grey — a white room went
+         * to paper — so the face shows the picture as it was taken, and only
+         * the stone edges take the light.
+         */
+        const face = new THREE.MeshBasicMaterial({ color: 0x1b1b1b, toneMapped: false });
 
         if (item.cta) {
             const paint = () => {
@@ -324,8 +337,8 @@ export function initProjectStage() {
 
             // Spread that tightens with distance, so far panels bunch into
             // the fog instead of running off the side of the screen.
-            const x = Math.sign(d) * Math.pow(a, 0.82) * spacing;
-            const z = -a * 1.35 + front * 0.9;
+            const x = Math.sign(d) * Math.pow(a, 0.8) * spacing;
+            const z = -a * 1.6 + front * 0.7;
             const y = Math.sin(t * 0.9 + panel.seed) * 0.035;
 
             /*
@@ -335,10 +348,13 @@ export function initProjectStage() {
              * screen. The ones either side swing further away, and the whole
              * line leans a few degrees, as if set down by hand.
              */
-            let rx = -0.1 + Math.sin(t * 0.7 + panel.seed) * 0.014;
-            let ry = -0.26 - clamp(d, -1.8, 1.8) * 0.36;
-            let rz = -0.07 + Math.sin(t * 0.5 + panel.seed) * 0.01;
-            const s = 1 + front * 0.28;
+            // Nearly square to the viewer in front — just enough turn to show
+            // the stone edge — and the ones either side swung away evenly, so
+            // the line reads as a fan round the front panel, not a slope.
+            let rx = -0.05 + Math.sin(t * 0.7 + panel.seed) * 0.01;
+            let ry = -0.12 * front - clamp(d, -1.6, 1.6) * 0.42;
+            let rz = Math.sin(t * 0.5 + panel.seed) * 0.008;
+            const s = 1 + front * 0.18;
 
             // The fly-in: from up and behind, turning, one after another
             // outward from the front.
@@ -380,7 +396,9 @@ export function initProjectStage() {
     const trigger = ScrollTrigger.create({
         trigger: section,
         start: 'top top',
-        end: () => `+=${window.innerHeight * steps * (wide ? 0.6 : 0.5)}`,
+        // Shorter per project when there are many, so a long list stays a
+        // reasonable scroll: about a quarter-screen each past eight.
+        end: () => `+=${window.innerHeight * steps * (steps > 8 ? 0.26 : (wide ? 0.38 : 0.32))}`,
         pin: true,
         scrub: true,
         snap: {
@@ -406,7 +424,12 @@ export function initProjectStage() {
     ScrollTrigger.create({
         trigger: section,
         start: 'top bottom',
-        end: 'bottom top',
+        // To the end of the pin and a screen past it, not the section's own
+        // foot: measured unpinned, the section is one screen tall, and the
+        // stage was taken for off-screen most of the way through its pin —
+        // it then crept a single eased step per scroll and stalled short of
+        // the last project.
+        end: () => `+=${trigger.end - trigger.start + window.innerHeight * 2}`,
         onToggle: (self) => {
             state.visible = self.isActive;
             if (state.visible) wake();

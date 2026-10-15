@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <main>
+    <main data-page="home">
         @include('sections.hero')
         @include('sections.about')
+        @include('sections.numbers')
         @include('sections.clients')
         @include('sections.projects')
-        @include('sections.services')
-        @include('sections.process')
-        @include('sections.precision')
+        @include('sections.scope')
+        @include('sections.sectors')
+        @include('sections.joinery-teaser')
         @include('sections.inquiry')
     </main>
 

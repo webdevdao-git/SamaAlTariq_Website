@@ -34,8 +34,11 @@
                  in its own right, and the staircase arrives a letter at a time
                  instead of three slabs dropping in. --}}
             <span data-split data-split-by="letter" data-split-delay="0" class="block">{{ $purpose['words'][0] }}</span>
-            <span data-split data-split-by="letter" data-split-delay="180" class="block md:text-right">{{ $purpose['words'][1] }}</span>
-            <span data-split data-split-by="letter" data-split-delay="360" class="block md:ml-[24.78%]">{{ $purpose['words'][2] }}</span>
+            {{-- Set flush left, one line under another, with the last word in
+                 teal. Staggered across the measure it read as three loose
+                 fragments once the slab came down to its smaller size. --}}
+            <span data-split data-split-by="letter" data-split-delay="180" class="block">{{ $purpose['words'][1] }}</span>
+            <span data-split data-split-by="letter" data-split-delay="360" class="block text-teal">{{ $purpose['words'][2] }}</span>
         </h2>
 
         {{-- Copy on the left, the button on the right gutter, tops level. --}}

@@ -13,14 +13,14 @@
     footer, both 980 and 774 tall in each file.
 --}}
 @section('content')
-    <main>
+    <main data-page="about">
         @include('sections.about-page.hero')
         @include('sections.about-page.intro')
+        @include('sections.about-page.facts')
         @include('sections.about-page.vision')
         @include('sections.about-page.approach')
-        @include('sections.about-page.values')
         @include('sections.about-page.purpose')
-        @include('sections.inquiry')
+        @include('sections.enquiry-band')
     </main>
 
     @include('sections.footer')

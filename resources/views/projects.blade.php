@@ -12,9 +12,8 @@
 @section('content')
     <main>
         @include('sections.projects-page.header')
-        @include('sections.projects-page.tower')
-        @include('sections.projects-page.groups')
-        @include('sections.inquiry')
+        @include('sections.projects-page.stage')
+        @include('sections.enquiry-band')
     </main>
 
     @include('sections.footer')

@@ -10,10 +10,8 @@
     pushes in to 1.1×, and the display words rise out of line masks.
 --}}
 {{-- data-hero-zoom hands the hero's scroll to scenes.js, which pins it and
-     zooms through a word — see heroZoom() there. The word is the first of
-     the company's own name (SAMA), read from config rather than typed into
-     the scene. --}}
-<section id="top" data-hero-zoom data-word="{{ Str::before(config('site.name'), ' ') }}" class="relative isolate min-h-[100svh] overflow-hidden bg-night">
+     zooms through the company's mark — see heroZoom() there. --}}
+<section id="top" data-hero-zoom class="relative isolate min-h-[100svh] overflow-hidden bg-night">
     <div data-hero class="relative flex min-h-[100svh] flex-col" style="will-change:transform">
 
         <div data-hero-media class="absolute inset-0 -z-10" style="will-change:transform;transform-origin:center">

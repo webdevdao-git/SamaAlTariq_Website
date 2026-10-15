@@ -51,20 +51,7 @@ function buildCover() {
     cover.className = 'page-cover';
     cover.setAttribute('aria-hidden', 'true');
 
-    // The same mark the entry curtain carries, so the hand-over between the
-    // two curtains is invisible: the new page's mark is already sitting there.
-    const source = document.querySelector('.intro-curtain__mark img, header img[src*="logo-mark"]');
-    const mark = document.createElement('div');
-    mark.className = 'page-cover__mark';
-    const img = document.createElement('img');
-    img.src = source?.getAttribute('src') ?? '/images/logo-mark.png';
-    img.alt = '';
-    img.width = 540;
-    img.height = 462;
-    img.className = 'h-auto w-[clamp(56px,6vw,96px)]';
-    mark.append(img);
-    cover.append(mark);
-
+    // Plain teal, like the entry curtain it hands over to.
     return cover;
 }
 

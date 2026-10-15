@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from './scroll-engine';
+import { LOGO } from './logo-paths';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -162,21 +163,20 @@ function heroClose() {
 /* ------------------------------------------------------------------ */
 
 /**
- * The landing hero: zoom through the word.
+ * The landing hero: zoom through the mark.
  *
- * The page opens on the night ground with the company's name — SAMA — set
- * across it, and the word is a window: the photograph is seen only through
- * its letters. Scrolling pins the hero and flies the camera into one stroke
- * of that word (an I if it has one, otherwise its middle letter, aimed at
- * the widest run of ink, so the opening is photograph and never the dark
- * between letters) until the word is larger than the screen and the
- * photograph is all that is left. Only then does the
- * headline and the intro come up over the room.
+ * The page opens on the night ground with the company's mark — the building
+ * of six bands — standing large in the middle of it, and the mark is a
+ * window: the hero photograph is seen only through its bands. Scrolling pins
+ * the hero and flies the camera into the peak of the top band, the one place
+ * in the mark solid enough to fill the screen, until the mark is larger than
+ * the screen and the room is all that is left. Then the headline and the
+ * intro come up over it.
  *
- * Drawn as an SVG mask — a night-coloured sheet with the word cut out of it
- * — laid over the photograph and under the header, so MENU and the lock-up
- * stay put throughout. The word is read from the section, and the type is
- * the page's display face.
+ * Drawn as an SVG mask — a night-coloured sheet with the mark cut out of it,
+ * from the vector trace in logo-paths.js so it stays sharp at any size — laid
+ * over the photograph and under the header, so MENU and the lock-up hold
+ * their place throughout.
  */
 function heroZoom() {
     const hero = document.querySelector('#top[data-hero-zoom]');
@@ -185,7 +185,6 @@ function heroZoom() {
     if (!hero || !media || !content) return;
 
     const img = media.querySelector('img');
-    const word = (hero.dataset.word || 'Sama').toUpperCase();
     const NS = 'http://www.w3.org/2000/svg';
     const id = 'hero-hole';
 
@@ -196,23 +195,30 @@ function heroZoom() {
         <defs>
             <mask id="${id}" maskUnits="userSpaceOnUse">
                 <rect data-sheet fill="#fff" x="0" y="0"/>
-                <g data-word><text fill="#000" text-anchor="middle">${word.replace(/[<&>]/g, '')}</text></g>
+                <g data-zoom><g data-fit>${LOGO.paths.map((d) => `<path fill="#000" d="${d}"/>`).join('')}</g></g>
             </mask>
         </defs>
         <rect data-ground fill="#161616" x="0" y="0" mask="url(#${id})"/>`;
 
-    const scrim = document.createElement('div');
-    scrim.className = 'hero-mask__cue';
-    scrim.setAttribute('aria-hidden', 'true');
+    const cue = document.createElement('div');
+    cue.className = 'hero-mask__cue';
+    cue.setAttribute('aria-hidden', 'true');
 
-    hero.append(svg, scrim);
+    hero.append(svg, cue);
 
     const sheet = svg.querySelector('[data-sheet]');
     const ground = svg.querySelector('[data-ground]');
-    const group = svg.querySelector('[data-word]');
-    const text = svg.querySelector('text');
+    const zoomGroup = svg.querySelector('[data-zoom]');
+    const fit = svg.querySelector('[data-fit]');
 
     const origin = { x: 0, y: 0 };
+    const zoom = { s: 1, o: 1, lift: 0 };
+
+    function draw() {
+        zoomGroup.setAttribute('transform',
+            `translate(${origin.x} ${origin.y - zoom.lift}) scale(${zoom.s}) translate(${-origin.x} ${-origin.y})`);
+        zoomGroup.style.opacity = zoom.o;
+    }
 
     const layout = () => {
         const w = hero.clientWidth;
@@ -223,105 +229,38 @@ function heroZoom() {
             r.setAttribute('height', h);
         }
 
-        // Fit the word to 88% of the width, capped so it never runs taller
-        // than two-fifths of the screen.
-        text.setAttribute('font-size', '100');
-        text.setAttribute('x', w / 2);
-        const measured = text.getComputedTextLength() || 1;
-        const size = Math.min((w * 0.88 * 100) / measured, h * 0.42);
-        text.setAttribute('font-size', size.toFixed(2));
-        text.setAttribute('y', (h / 2 + size * 0.34).toFixed(2));
+        // As large as the screen allows while leaving room round it: half the
+        // width on a wide screen, held to three-fifths of the height on a
+        // short one, and most of the width on a phone.
+        const aspect = LOGO.width / LOGO.height;
+        const lw = Math.min(w * (w < 768 ? 0.78 : 0.46), h * 0.6 * aspect);
+        const k = lw / LOGO.width;
+        const lh = LOGO.height * k;
+        const tx = (w - lw) / 2;
+        const ty = (h - lh) / 2;
+        fit.setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${k.toFixed(5)})`);
 
-        // The I nearest the middle of the word; failing that, the middle
-        // letter. Aimed a little below its centre, inside the stem.
-        const letters = [...word];
-        const middle = (letters.length - 1) / 2;
-        let pick = Math.round(middle);
-        let best = Infinity;
-        letters.forEach((ch, i) => {
-            if (ch === 'I' && Math.abs(i - middle) < best) {
-                best = Math.abs(i - middle);
-                pick = i;
-            }
-        });
-        try {
-            const box = text.getExtentOfChar(pick);
-            origin.x = box.x + box.width / 2;
-            origin.y = box.y + box.height * 0.55;
-            aimAtStroke(box, size);
-        } catch {
-            origin.x = w / 2;
-            origin.y = h / 2;
-        }
+        origin.x = tx + LOGO.origin.x * k;
+        origin.y = ty + LOGO.origin.y * k;
         draw();
     };
 
-    /*
-     * A letter's box is its advance, not its ink: the stem of a serif I does
-     * not sit in the middle of it, and aiming at the middle sent the zoom
-     * past the stroke's edge into the dark beside it. So the word is drawn
-     * once, off screen, in the same face and size, and the widest run of ink
-     * across the letter at mid-height is what the camera flies into.
-     */
-    function aimAtStroke(box, size) {
-        const probe = document.createElement('canvas');
-        const pad = Math.ceil(box.width);
-        probe.width = Math.ceil(box.width + pad * 2);
-        probe.height = Math.ceil(box.height);
-        const ctx = probe.getContext('2d');
-        if (!ctx) return;
-
-        const style = getComputedStyle(text);
-        ctx.font = `${style.fontWeight} ${size}px ${style.fontFamily}`;
-        ctx.textBaseline = 'alphabetic';
-        ctx.fillStyle = '#000';
-
-        // The same glyph, at the same place in the probe as in its box.
-        const baseline = Number(text.getAttribute('y')) - box.y;
-        ctx.fillText(word[pick], pad, baseline);
-
-        const y = Math.round(origin.y - box.y);
-        const row = ctx.getImageData(0, y, probe.width, 1).data;
-        let best = null;
-        let start = -1;
-        for (let x = 0; x <= probe.width; x++) {
-            const ink = x < probe.width && row[x * 4 + 3] > 128;
-            if (ink && start < 0) start = x;
-            if (!ink && start >= 0) {
-                if (!best || x - start > best[1] - best[0]) best = [start, x];
-                start = -1;
-            }
-        }
-        if (best) origin.x = box.x + (best[0] + best[1]) / 2 - pad;
-    }
-
-    /*
-     * The word's transform is written by hand, about the origin as it stands
-     * now. GSAP's svgOrigin is fixed when first set, and the first layout runs
-     * before the display face has loaded — the stroke it aimed at then is not
-     * where the I is once the real type is in, and the zoom flew into the dark
-     * between two letters.
-     */
-    const zoom = { s: 1, o: 1 };
-    function draw() {
-        group.setAttribute('transform',
-            `translate(${origin.x} ${origin.y}) scale(${zoom.s}) translate(${-origin.x} ${-origin.y})`);
-        group.style.opacity = zoom.o;
-    }
-
     layout();
-    document.fonts?.ready.then(layout);
     ScrollTrigger.addEventListener('refreshInit', layout);
+    window.addEventListener('resize', layout);
 
     // Held back until the zoom has opened the room.
     gsap.set(content, { autoAlpha: 0, y: 70 });
 
-    // The entrance: the word settles in from slightly large as the curtain
-    // lifts, and the room behind it drifts, so the letters read as windows
-    // onto a real place rather than a texture.
+    // The entrance: the mark rises into place band by band as the curtain
+    // lifts, and the room behind it drifts, so the bands read as windows onto
+    // a real place rather than a pattern.
+    const paths = Array.from(fit.querySelectorAll('path'));
     const enter = () => {
-        gsap.fromTo(zoom, { s: 1.12, o: 0 }, { s: 1, o: 1, duration: 1.8, ease: 'expo.out', delay: 0.35, onUpdate: draw });
-        if (img) gsap.fromTo(img, { scale: 1.45 }, { scale: 1.25, duration: 3, ease: 'expo.out', delay: 0.35 });
+        gsap.fromTo(paths,
+            { y: 60, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.4, ease: 'expo.out', stagger: { each: 0.08, from: 'end' }, delay: 0.3 });
+        if (img) gsap.fromTo(img, { scale: 1.45 }, { scale: 1.25, duration: 3, ease: 'expo.out', delay: 0.3 });
     };
     if (document.querySelector('.intro-curtain')) {
         window.addEventListener('curtain:lift', enter, { once: true });
@@ -333,20 +272,20 @@ function heroZoom() {
         scrollTrigger: {
             trigger: hero,
             start: 'top top',
-            end: () => `+=${window.innerHeight * 1.7}`,
+            end: () => `+=${window.innerHeight * 0.9}`,
             pin: true,
             scrub: 1,
             invalidateOnRefresh: true,
         },
     })
-        .fromTo(zoom, { s: 1 }, { s: 95, ease: 'power3.in', duration: 1, onUpdate: draw, immediateRender: false }, 0)
-        .to(scrim, { autoAlpha: 0, duration: 0.15 }, 0)
+        .fromTo(zoom, { s: 1 }, { s: 70, ease: 'power3.in', duration: 1, onUpdate: draw, immediateRender: false }, 0)
+        .to(cue, { autoAlpha: 0, duration: 0.15 }, 0)
         .fromTo(img, { scale: 1.25 }, { scale: 1, ease: 'none', duration: 1, immediateRender: false }, 0)
         .to(svg, { autoAlpha: 0, duration: 0.08 }, 0.9)
         .to(content, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.92);
 
     // The shader can lay its canvas over the photograph straight away: it
-    // sits under the mask, so it bends the room inside the letters too.
+    // sits under the mask, so it bends the room inside the bands too.
     window.__heroOpened = true;
     window.dispatchEvent(new CustomEvent('hero:opened'));
 }
@@ -423,114 +362,136 @@ function rail() {
 
 /* ------------------------------------------------------------------ */
 
+/**
+ * Our Expertise: from drawing to building.
+ *
+ * Each service's photograph is first shown as a sketch — the same picture
+ * traced to pencil line-work on the page's own paper — and a scan line
+ * crosses it left to right as the scroll moves, turning drawing into
+ * photograph wherever it has passed. The next service's drawing then lays
+ * itself over the finished picture and is scanned in turn. Beside the frame
+ * the service's number, name and description change with it, and a rail
+ * marks how far through the three the visitor is.
+ *
+ * Built from the panels' own markup: each carries its photograph and its
+ * blueprint as data attributes, and its title and description are read from
+ * it. The panels stay in the page, out of sight, as what a screen reader
+ * reads and what a narrow screen shows instead.
+ */
 function services() {
     const box = document.querySelector('#services .service-slides');
     if (!box) return;
 
     const slides = Array.from(box.querySelectorAll('.service-slide'));
-    const n = slides.length;
-    if (n < 2) return;
+    const items = slides.map((slide) => ({
+        photo: slide.dataset.photo,
+        blueprint: slide.dataset.blueprint,
+        // The panel's superscript number is left out — the scene sets the
+        // number large of its own.
+        title: Array.from(slide.querySelectorAll('h3 span')).map((n) => {
+            const copy = n.cloneNode(true);
+            copy.querySelectorAll('sup').forEach((sup) => sup.remove());
+            return copy.textContent.replace(/\s+/g, ' ').trim();
+        }).filter(Boolean),
+        titleText: slide.querySelector('h3')?.textContent.replace(/\s+/g, ' ').trim() ?? '',
+        body: slide.querySelector('p')?.textContent.trim() ?? '',
+    }));
+    const n = items.length;
+    if (n < 2 || items.some((item) => !item.photo || !item.blueprint)) return;
 
-    // Above <main>, which the footer reveal lifts onto layer 1: once the box is
-    // reparented to <body> for its pin it would otherwise sit underneath it.
-    box.style.zIndex = '20';
+    const pad = (i) => String(i + 1).padStart(2, '0');
+    const scene = document.createElement('div');
+    scene.className = 'bp-scene';
+    scene.setAttribute('aria-hidden', 'true');
+    scene.innerHTML = `
+        <div class="bp-scene__inner shell">
+            <div class="bp-copy">
+                <div class="bp-num">${items.map((_, i) => `<span>${pad(i)}</span>`).join('')}</div>
+                <div class="bp-titles">${items.map((item) => `<h3 class="service-title">${(item.title.length ? item.title : [item.titleText]).map((line) => `<span>${line}</span>`).join('')}</h3>`).join('')}</div>
+                <div class="bp-bodies">${items.map((item) => `<p>${item.body}</p>`).join('')}</div>
+                <ol class="bp-rail">${items.map((item, i) => `<li><span>${pad(i)}</span><i></i></li>`).join('')}</ol>
+            </div>
+            <div class="bp-frame">
+                ${items.map((item) => `
+                    <div class="bp-layer">
+                        <img class="bp-layer__draw" src="${item.blueprint}" alt="" decoding="async">
+                        <img class="bp-layer__photo" src="${item.photo}" alt="" decoding="async">
+                    </div>`).join('')}
+                <span class="bp-scan"></span>
+                <span class="bp-corner is-tl"></span><span class="bp-corner is-tr"></span>
+                <span class="bp-corner is-bl"></span><span class="bp-corner is-br"></span>
+            </div>
+        </div>`;
 
-    /*
-     * The panels become the faces of one prism — three services, three faces
-     * — and the scroll turns it. Each face is the panel exactly as it is
-     * drawn, tab row and all; they are only moved into a turning frame and
-     * stood round its axis. The frame pulls back from the screen as it turns,
-     * so the edge between two faces is seen coming past, and each face darkens
-     * as it turns away.
-     */
-    const prism = document.createElement('div');
-    prism.className = 'service-prism';
-    box.prepend(prism);
-    for (const slide of slides) prism.append(slide);
-    box.classList.add('is-prism');
+    box.before(scene);
+    box.classList.add('is-drawn');
 
-    const step = 360 / n;
-    const veils = slides.map((slide) => {
-        const veil = document.createElement('div');
-        veil.className = 'service-prism__veil';
-        veil.setAttribute('aria-hidden', 'true');
-        slide.append(veil);
-        return veil;
-    });
+    // Above <main>, which the footer reveal lifts onto layer 1: once the scene
+    // is reparented to <body> for its pin it would otherwise sit underneath.
+    scene.style.zIndex = '20';
 
-    // The distance from the axis to the middle of a face — the apothem of a
-    // regular n-gon whose side is the panel's height.
-    const apothem = () => box.clientHeight / (2 * Math.tan(Math.PI / n));
-
-    const place = () => {
-        const a = apothem();
-        slides.forEach((slide, i) => {
-            slide.style.transform = `rotateX(${-i * step}deg) translateZ(${a.toFixed(1)}px)`;
-        });
-    };
-    place();
-    window.addEventListener('resize', place);
+    const layers = Array.from(scene.querySelectorAll('.bp-layer'));
+    const photos = layers.map((layer) => layer.querySelector('.bp-layer__photo'));
+    const scan = scene.querySelector('.bp-scan');
+    const nums = Array.from(scene.querySelectorAll('.bp-num span'));
+    const titles = Array.from(scene.querySelectorAll('.bp-titles h3'));
+    const bodies = Array.from(scene.querySelectorAll('.bp-bodies p'));
+    const ticks = Array.from(scene.querySelectorAll('.bp-rail li'));
+    const fills = ticks.map((tick) => tick.querySelector('i'));
 
     let current = -1;
-    const turn = (f) => {
-        const a = apothem();
-        const between = Math.abs(f - Math.round(f));
-        const back = Math.sin(Math.min(between, 0.5) * Math.PI);
-        prism.style.transform =
-            `translateZ(${(-a - back * a * 0.9).toFixed(1)}px) rotateX(${(f * step).toFixed(3)}deg)`;
-
-        slides.forEach((_, i) => {
-            const off = Math.min(1, Math.abs(f - i));
-            veils[i].style.opacity = (off * 0.85).toFixed(3);
-        });
-
-        // Keep the tab rows marking the face in front.
-        const i = Math.max(0, Math.min(n - 1, Math.round(f)));
-        if (i !== current) {
-            current = i;
-            for (const slide of slides) {
-                for (const tab of slide.querySelectorAll('nav a')) {
-                    const on = tab.getAttribute('href') === `#${slides[i].id}`;
-                    tab.toggleAttribute('aria-current', on);
-                    tab.classList.toggle('is-current', on);
-                }
-            }
+    const show = (i) => {
+        if (i === current) return;
+        const from = current;
+        current = i;
+        [nums, titles, bodies].forEach((list) => list.forEach((node, k) => {
+            node.classList.toggle('is-current', k === i);
+            node.classList.toggle('is-past', k < i);
+        }));
+        ticks.forEach((tick, k) => tick.classList.toggle('is-current', k === i));
+        if (from >= 0) {
+            gsap.fromTo(titles[i].children, { yPercent: 100 }, { yPercent: 0, duration: 0.9, ease: 'expo.out', stagger: 0.07 });
         }
     };
 
-    const trigger = ScrollTrigger.create({
-        trigger: box,
-        start: 'top top',
-        end: () => `+=${window.innerHeight * (n - 1) * 1.1}`,
-        pin: true,
-        /*
-         * Lifted out to <body> while it is pinned. The services section is
-         * itself a layer in the stack below, and GSAP keeps a transform on it
-         * for that — which turns it into the containing block for anything
-         * fixed inside it. Pinned in place, the box was fixed to the section
-         * instead of the screen and scrolled away under a blank page.
-         */
-        pinReparent: true,
-        scrub: 1,
-        snap: { snapTo: 1 / (n - 1), duration: { min: 0.3, max: 0.8 }, delay: 0.05, ease: 'power2.inOut' },
-        invalidateOnRefresh: true,
-        onUpdate: (self) => turn(self.progress * (n - 1)),
-        onRefresh: (self) => turn(self.progress * (n - 1)),
-    });
-    turn(0);
+    const play = (f) => {
+        layers.forEach((layer, i) => {
+            // Each drawing lays itself over the finished picture before it.
+            layer.style.opacity = i === 0 ? '1' : Math.min(1, Math.max(0, (f - i + 0.12) / 0.12)).toFixed(3);
+            const local = Math.min(1, Math.max(0, f - i));
+            const s = Math.min(1, Math.max(0, (local - 0.12) / 0.7));
+            photos[i].style.clipPath = `inset(0 ${((1 - s) * 100).toFixed(2)}% 0 0)`;
+            fills[i].style.transform = `scaleX(${s.toFixed(3)})`;
+        });
 
-    // A tab turns the prism to its face by scrolling there, rather than
-    // switching panels in place.
-    box.addEventListener('click', (event) => {
-        const tab = event.target.closest('a[href^="#service-"]');
-        if (!tab) return;
-        const i = slides.findIndex((s) => `#${s.id}` === tab.getAttribute('href'));
-        if (i < 0) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const y = trigger.start + (trigger.end - trigger.start) * (i / (n - 1));
-        window.scrollTo({ top: y, behavior: 'smooth' });
-    }, true);
+        const i = Math.max(0, Math.min(n - 1, Math.floor(f)));
+        const local = Math.min(1, Math.max(0, f - i));
+        const s = Math.min(1, Math.max(0, (local - 0.12) / 0.7));
+        scan.style.left = `${(s * 100).toFixed(2)}%`;
+        scan.style.opacity = s > 0.005 && s < 0.995 ? '1' : '0';
+        show(i);
+    };
+
+    ScrollTrigger.create({
+        trigger: scene,
+        start: 'top top',
+        end: () => `+=${window.innerHeight * n * 0.9}`,
+        pin: true,
+        // Lifted out to <body> while pinned: the services section is a layer
+        // in the stack below and carries a transform for it, which would make
+        // it the containing block of anything fixed inside.
+        pinReparent: true,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => play(self.progress * n * 0.999),
+        onRefresh: (self) => play(self.progress * n * 0.999),
+    });
+    play(0);
+
+    return () => {
+        scene.remove();
+        box.classList.remove('is-drawn');
+    };
 }
 
 /* ------------------------------------------------------------------ */
@@ -551,12 +512,12 @@ function precision() {
         scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: () => `+=${window.innerHeight * 1.1}`,
+            end: () => `+=${window.innerHeight * 0.6}`,
             pin: true,
             scrub: 1,
         },
     })
-        .fromTo(word, { scale: 3.6, xPercent: 6, transformOrigin: '0% 100%' }, { scale: 1, xPercent: 0, ease: 'power3.inOut' }, 0)
+        .fromTo(word, { scale: 2, xPercent: 4, transformOrigin: '0% 100%' }, { scale: 1, xPercent: 0, ease: 'power3.inOut' }, 0)
         .fromTo(photo, { yPercent: 40, opacity: 0, scale: 0.8 }, { yPercent: 0, opacity: 1, scale: 1, ease: 'power3.out' }, 0.15)
         .fromTo(copy, { y: 60, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out' }, 0.45);
 }
@@ -585,146 +546,189 @@ function aboutUnfold() {
 }
 
 /**
- * Clients: the logo strip becomes a band wrapped round a cylinder, turning
- * slowly, the marks on the near side full and those swinging round to the
- * far side falling away. The flat strip stays in the markup underneath for a
- * screen reader and for anything that cannot run this.
+ * Process as a timeline that runs sideways.
+ *
+ * The section holds, its heading and button stay at the top, and beneath them
+ * the four stages stand as cards on one line that crosses the screen. The
+ * scroll walks the line from left to right: it draws itself as it goes, the
+ * card reaching the middle of the screen grows to full size and lights its
+ * marker on the line, and the photographs drift inside their frames against
+ * the travel. Unlike the services above it — one frame that changes in place
+ * — this is a path the visitor moves along.
+ *
+ * Built from the section's own steps and pictures; the original layout stays
+ * in the page, out of sight, for a screen reader and for narrow screens.
  */
-function clientsRing() {
-    const marquee = document.querySelector('.marquee');
-    const list = marquee?.querySelector('ul');
-    if (!marquee || !list) return;
-
-    const logos = Array.from(list.querySelectorAll('img'));
-    const n = logos.length;
-    if (n < 6) return;
-
-    const ring = document.createElement('div');
-    ring.className = 'logo-ring';
-    ring.setAttribute('aria-hidden', 'true');
-    const spin = document.createElement('div');
-    spin.className = 'logo-ring__spin marquee__track';
-    ring.append(spin);
-
-    logos.forEach((logo, i) => {
-        const cell = document.createElement('div');
-        cell.className = 'logo-ring__cell';
-        cell.style.setProperty('--i', i);
-        const copy = logo.cloneNode();
-        copy.alt = '';
-        copy.removeAttribute('loading');
-        cell.append(copy);
-        spin.append(cell);
-    });
-
-    // On the strip, not the ring: the radius is worked out there from the
-    // count, and a custom property only reaches down the tree.
-    marquee.style.setProperty('--n', n);
-    marquee.classList.add('has-ring');
-    marquee.append(ring);
-
-    return () => {
-        ring.remove();
-        marquee.classList.remove('has-ring');
-        marquee.style.removeProperty('--n');
-    };
-}
-
-/**
- * Process as a timelapse of the one house it photographs going up: an empty
- * plot, the set-out, the frame, the finished villa. The section holds and the
- * four pictures share one frame; each next stage rises up into it from the
- * ground line, settling from a push-in as the one beneath sinks back into
- * shadow. The step on the left changes with it, a rail beside the steps fills
- * as the build goes on, and the stage number stands large in the frame's
- * corner.
- */
-function processTimelapse() {
+function processTrack() {
     const root = document.querySelector('#process[data-process]');
-    const figures = Array.from(root?.querySelectorAll('[data-process-image]') ?? []);
     const steps = Array.from(root?.querySelectorAll('[data-process-step]') ?? []);
-    const stack = root?.querySelector('[data-process-stack]');
-    const n = figures.length;
-    if (!root || n < 2 || steps.length !== n || !stack) return;
+    const figures = Array.from(root?.querySelectorAll('[data-process-image]') ?? []);
+    const heading = root?.querySelector('h2');
+    const cta = root?.querySelector('.pill');
+    const n = steps.length;
+    if (!root || n < 2 || figures.length !== n || !heading) return;
 
-    root.classList.add('is-timelapse');
-    const film = figures[0].parentElement;
-    film.classList.add('process-film');
+    const items = steps.map((step, i) => ({
+        number: step.querySelector('p')?.textContent.trim() ?? String(i + 1).padStart(2, '0'),
+        title: step.querySelector('h3')?.textContent.trim() ?? '',
+        body: step.querySelectorAll('p')[1]?.textContent.trim() ?? '',
+        src: figures[i].querySelector('img')?.currentSrc || figures[i].querySelector('img')?.src,
+    }));
 
-    const images = figures.map((f) => f.querySelector('img'));
-    const shades = figures.map((figure) => {
-        const shade = document.createElement('div');
-        shade.className = 'process-film__shade';
-        shade.setAttribute('aria-hidden', 'true');
-        figure.append(shade);
-        return shade;
-    });
+    const scene = document.createElement('div');
+    scene.className = 'pt-scene';
+    scene.innerHTML = `
+        <div class="pt-head shell">
+            <h2 class="editorial-heading text-fluid-section uppercase text-ink" aria-hidden="true">${heading.innerHTML}</h2>
+        </div>
+        <div class="pt-viewport" aria-hidden="true">
+            <div class="pt-track">
+                <span class="pt-line"><span class="pt-line__fill"></span></span>
+                ${items.map((item) => `
+                    <article class="pt-card">
+                        <div class="pt-card__media"><img src="${item.src}" alt="" decoding="async"></div>
+                        <span class="pt-card__dot"></span>
+                        <div class="pt-card__text">
+                            <p class="pt-card__num">${item.number}</p>
+                            <h3 class="pt-card__title">${item.title}</h3>
+                            <p class="pt-card__body">${item.body}</p>
+                        </div>
+                    </article>`).join('')}
+            </div>
+        </div>`;
 
-    // The stage number in the frame's corner: the steps' own numbers.
-    const count = document.createElement('div');
-    count.className = 'process-film__count';
-    count.setAttribute('aria-hidden', 'true');
-    count.innerHTML = steps.map((step) => `<span>${step.querySelector('p')?.textContent.trim() ?? ''}</span>`).join('');
-    film.append(count);
-    const numbers = Array.from(count.children);
+    // The section's own button moves into the scene's head, so it is still
+    // the one link and keeps its place in the tab order.
+    const ctaRow = cta?.parentElement;
+    if (cta) scene.querySelector('.pt-head').append(cta);
 
-    // The rail beside the steps: one track, one fill, a tick per stage.
-    const rail = document.createElement('div');
-    rail.className = 'process-rail';
-    rail.setAttribute('aria-hidden', 'true');
-    rail.innerHTML = `<span class="process-rail__fill"></span>${steps.map(() => '<i></i>').join('')}`;
-    stack.parentElement.insertBefore(rail, stack);
-    const fill = rail.firstElementChild;
-    const ticks = Array.from(rail.querySelectorAll('i'));
+    root.classList.add('is-track');
+    root.prepend(scene);
 
-    let current = -1;
-    const play = (f) => {
-        figures.forEach((figure, i) => {
-            const rise = i === 0 ? 1 : Math.min(1, Math.max(0, f - (i - 1)));
-            const e = 1 - Math.pow(1 - rise, 3);
-            figure.style.clipPath = i === 0 ? '' : `inset(${((1 - e) * 100).toFixed(2)}% 0 0 0)`;
-            images[i].style.transform = `scale(${(1.22 - 0.22 * e).toFixed(4)})`;
+    const track = scene.querySelector('.pt-track');
+    const fill = scene.querySelector('.pt-line__fill');
+    const cards = Array.from(scene.querySelectorAll('.pt-card'));
+    const imgs = cards.map((card) => card.querySelector('img'));
 
-            // Sunk back once the next stage has risen over it.
-            const over = Math.min(1, Math.max(0, f - i));
-            shades[i].style.opacity = (over * 0.6).toFixed(3);
-            figure.style.transform = `scale(${(1 - over * 0.04).toFixed(4)})`;
+    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+
+    const play = (p) => {
+        const x = -distance() * p;
+        track.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+        fill.style.transform = `scaleX(${p.toFixed(4)})`;
+
+        const mid = window.innerWidth / 2;
+        cards.forEach((card, i) => {
+            const r = card.getBoundingClientRect();
+            const d = (r.left + r.width / 2 - mid) / window.innerWidth;
+            const near = Math.max(0, 1 - Math.abs(d) * 2.2);
+            card.style.setProperty('--near', near.toFixed(3));
+            card.classList.toggle('is-current', near > 0.6);
+            imgs[i].style.transform = `translate3d(${(d * -60).toFixed(1)}px, 0, 0) scale(1.15)`;
         });
-
-        fill.style.transform = `scaleY(${(f / (n - 1)).toFixed(4)})`;
-
-        const i = Math.max(0, Math.min(n - 1, Math.round(f)));
-        if (i === current) return;
-        current = i;
-        steps.forEach((step, k) => {
-            step.style.opacity = k === i ? '1' : '0';
-            step.style.transform = `translate3d(0, ${k === i ? 0 : (k < i ? -26 : 26)}px, 0)`;
-            step.toggleAttribute('aria-hidden', k !== i);
-        });
-        ticks.forEach((tick, k) => tick.classList.toggle('is-done', k <= i));
-        numbers.forEach((num, k) => num.classList.toggle('is-current', k === i));
     };
 
     ScrollTrigger.create({
         trigger: root,
         start: 'top top',
-        end: () => `+=${window.innerHeight * (n - 1) * 0.85}`,
+        end: () => `+=${distance() * 1.1}`,
         pin: true,
-        scrub: 1,
-        snap: { snapTo: 1 / (n - 1), duration: { min: 0.3, max: 0.8 }, delay: 0.05, ease: 'power2.inOut' },
+        scrub: 0.8,
         invalidateOnRefresh: true,
-        onUpdate: (self) => play(self.progress * (n - 1)),
-        onRefresh: (self) => play(self.progress * (n - 1)),
+        onUpdate: (self) => play(self.progress),
+        onRefresh: (self) => play(self.progress),
     });
     play(0);
 
     return () => {
-        root.classList.remove('is-timelapse');
-        film.classList.remove('process-film');
-        rail.remove();
-        count.remove();
-        shades.forEach((shade) => shade.remove());
+        if (cta && ctaRow) ctaRow.append(cta);
+        scene.remove();
+        root.classList.remove('is-track');
     };
+}
+
+/**
+ * We Do Everything: each row turns down into place like a leaf of a
+ * split-flap board — hinged on its top edge, from edge-on to flat — one
+ * after another as the list crosses the screen. The sectors below ink in
+ * word by word, from outline to solid.
+ */
+function scopeScene() {
+    const section = document.querySelector('#scope');
+    const list = section?.querySelector('.scope__list');
+    if (!section || !list) return;
+
+    list.style.perspective = '1200px';
+    const rows = Array.from(list.querySelectorAll('.scope__row'));
+    rows.forEach((row) => {
+        gsap.fromTo(row,
+            { rotateX: -88, opacity: 0, transformOrigin: '50% 0%' },
+            {
+                rotateX: 0,
+                opacity: 1,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: row, start: 'top 92%', end: 'top 62%', scrub: 0.6 },
+            });
+    });
+}
+
+/**
+ * Sectors We Serve: the list runs past a fixed frame. Whichever sector is at
+ * the middle of the screen lights, and the frame turns about its vertical
+ * axis to that sector's picture — the old one swinging away as the new one
+ * swings in.
+ */
+function sectorsScene() {
+    const section = document.querySelector('#sectors');
+    const items = Array.from(section?.querySelectorAll('[data-sector]') ?? []);
+    const pics = Array.from(section?.querySelectorAll('[data-sector-pic]') ?? []);
+    const n = items.length;
+    if (!section || n === 0) return;
+
+    let current = 0;
+    const show = (i) => {
+        if (i === current) return;
+        const forward = i > current;
+        const from = pics[current];
+        const to = pics[i];
+        items.forEach((item, k) => item.classList.toggle('is-current', k === i));
+        if (from) {
+            gsap.to(from, { rotateY: forward ? -70 : 70, opacity: 0, duration: 0.6, ease: 'power3.in', overwrite: true,
+                onComplete: () => from.classList.remove('is-current') });
+        }
+        if (to) {
+            to.classList.add('is-current');
+            gsap.fromTo(to, { rotateY: forward ? 70 : -70, opacity: 0 },
+                { rotateY: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.12, overwrite: true });
+        }
+        current = i;
+    };
+
+    // One trigger for the whole section: the scroll through the pin is cut
+    // into six equal stretches and the stretch decides the sector. Earlier
+    // each row had its own trigger, and a quick scroll fired them all in a
+    // burst — whichever came last won, which was always the last row.
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+        ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * (n - 1) * 0.45}`,
+            pin: true,
+            scrub: true,
+            snap: { snapTo: 1 / (n - 1), duration: { min: 0.2, max: 0.5 }, ease: 'power2.inOut' },
+            invalidateOnRefresh: true,
+            onUpdate: (self) => show(Math.min(n - 1, Math.round(self.progress * (n - 1)))),
+        });
+    }
+
+    gsap.fromTo(items, { xPercent: 8, opacity: 0 }, {
+        xPercent: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.07,
+        scrollTrigger: { trigger: section, start: 'top 70%' },
+    });
 }
 
 /**
@@ -887,10 +891,11 @@ export function initScenes() {
         if (home) {
             if (document.querySelector('#top[data-hero-zoom]')) heroZoom();
             else heroOpen();
-            aboutUnfold();
-            undo.push(clientsRing());
-            contactRise();
         }
+        // These two run wherever their sections are — the services page
+        // carries both as well as the landing page.
+        scopeScene();
+        sectorsScene();
         read();
         return () => undo.forEach((fn) => fn?.());
     });
@@ -903,9 +908,8 @@ export function initScenes() {
             // The projects section is the 3D stage now (project-stage.js);
             // the rail only runs where the stage could not be built.
             if (!document.querySelector('#projects.has-stage')) undo.push(rail());
-            services();
-            undo.push(processTimelapse());
-            stack(['#services', '#process']);
+            undo.push(services());
+            undo.push(processTrack());
             precision();
         }
 

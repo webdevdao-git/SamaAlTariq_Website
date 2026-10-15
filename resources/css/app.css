@@ -53,9 +53,9 @@
     --font-logo: 'Bodoni Moda', 'Bodoni 72', Didot, 'Times New Roman', serif;
 
     --text-fluid-hero: clamp(2.75rem, 6.25vw, 108px);
-    --text-fluid-mega: clamp(3.25rem, 7.41vw, 128px);
-    --text-fluid-section: clamp(2.5rem, 5.79vw, 100px);
-    --text-fluid-h2: clamp(1.75rem, 2.78vw, 48px);
+    --text-fluid-mega: clamp(2.5rem, 5vw, 86px);
+    --text-fluid-section: clamp(2rem, 3.8vw, 64px);
+    --text-fluid-h2: clamp(1.5rem, 2.2vw, 38px);
     --text-fluid-label: clamp(1.125rem, 1.62vw, 28px);
     --text-fluid-lead: clamp(1rem, 1.39vw, 24px);
     --text-fluid-body: clamp(0.9375rem, 1.16vw, 20px);
@@ -1363,8 +1363,9 @@
     }
 
     .project-tower.is-pinned {
-        /* About two-thirds of a screen of scroll per floor. */
-        height: calc((var(--count, 10) * 0.65 + 1.5) * 100svh);
+        /* A third of a screen of scroll per floor: enough for each to come
+           out and go back, without the tower taking a dozen screens. */
+        height: calc((var(--count, 10) * 0.32 + 1.2) * 100svh);
         overflow: visible;
     }
 
@@ -1510,6 +1511,16 @@
     .fx-unmask.is-in {
         clip-path: inset(0 0 0 0);
         scale: 1;
+    }
+
+    /* ref-scenes.js drift(): the picture held a little large so its scroll
+       travel never shows an edge of the frame. */
+    .fx-unmask.fx-drift {
+        translate: 0 var(--drift, 0%);
+    }
+
+    .fx-unmask.fx-drift.is-in {
+        scale: 1.12;
     }
 
     .fx-expand {
@@ -1759,83 +1770,6 @@
 
 }
 
-@layer components {
-    /*
-     * The client strip as a band round a cylinder (scenes.js clientsRing).
-     * Each mark stands on the rim at its share of the circle; the band turns
-     * on the same CSS animation clock as the flat strip it replaces, so the
-     * scroll boost in marquee-boost.js speeds it up too. Marks on the far
-     * side face away and are not drawn.
-     */
-    .marquee.has-ring {
-        /* Smaller marks than the flat strip: thirty-odd of them have to fit
-           round one circle tight enough for the curve to read. */
-        --cell: clamp(70px, 6.2vw, 110px);
-        --cell-h: clamp(26px, 2.7vw, 46px);
-        --r: calc(var(--cell) * var(--n, 16) * 1.08 / 6.2832);
-        position: relative;
-        height: calc(var(--cell-h) * 2.2);
-        perspective: 1100px;
-        /* The strip's edge fade is a mask, and a mask over 3D content makes
-           Chrome flatten and crop it to a sliver. The ring's own far side
-           falls away into perspective instead, so it needs no fade. */
-        overflow: visible;
-        -webkit-mask-image: none;
-        mask-image: none;
-    }
-
-    /* The flat strip stays for assistive tech, out of sight. */
-    .marquee.has-ring > .marquee__track:not(.logo-ring__spin) {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-    }
-
-    .logo-ring {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform-style: preserve-3d;
-    }
-
-    .logo-ring__spin {
-        position: relative;
-        width: 0;
-        height: 0;
-        transform-style: preserve-3d;
-        animation: logo-ring-spin calc(var(--n, 16) * 2.6s) linear infinite;
-    }
-
-    @keyframes logo-ring-spin {
-        from { transform: translateZ(calc(var(--r) * -1)) rotateX(-2deg) rotateY(0deg); }
-        to { transform: translateZ(calc(var(--r) * -1)) rotateX(-2deg) rotateY(-360deg); }
-    }
-
-    .logo-ring__cell {
-        position: absolute;
-        left: calc(var(--cell) / -2);
-        top: calc(var(--cell-h) / -2);
-        display: flex;
-        width: var(--cell);
-        height: var(--cell-h);
-        align-items: center;
-        justify-content: center;
-        transform: rotateY(calc(var(--i) * 360deg / var(--n))) translateZ(var(--r));
-        backface-visibility: hidden;
-    }
-
-    .logo-ring__cell img {
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-}
 
 @layer components {
     /*
@@ -1964,166 +1898,1512 @@
     }
 }
 
+
+
 @layer components {
     /*
-     * Our Expertise as a turning prism (scenes.js services). The box keeps
-     * its size; the panels are stood round a horizontal axis inside it and
-     * the frame between them is turned by the scroll. Every face is shown —
-     * the cross-fade the panels use on their own is switched off here — and
-     * the ones facing away are not drawn.
+     * About page scenes (about-scenes.js).
+     *
+     * The hero's blinds: night-coloured slats over the photograph that the
+     * script folds away from the centre outwards.
      */
-    .service-slides.is-prism {
-        perspective: 2400px;
-        perspective-origin: 50% 50%;
-        background: var(--color-night);
+    .about-blinds {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        pointer-events: none;
     }
 
-    .service-prism {
+    .about-blinds span {
+        flex: 1;
+        background: var(--color-night);
+        /* A hairline between slats so they read as blinds, not one sheet. */
+        box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* The values, held: one row lit at a time as the scroll moves through
+       them, the rest set back. The lit state is the row's own hover. */
+    .is-values-held li {
+        transition:
+            background-color 0.5s ease,
+            opacity 0.5s ease,
+            transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        opacity: 0.45 !important;
+        transform: scale(0.98) !important;
+    }
+
+    /* !important against the rows' reveal utilities, a later layer. */
+    .is-values-held li.is-lit {
+        opacity: 1 !important;
+        transform: scale(1.015) !important;
+        background-color: rgba(255, 255, 255, 0.55);
+    }
+
+    /* about-scenes.js zoom(): on `scale`, so it composes with whatever the
+       picture's transform is already doing. */
+    .fx-zoom {
+        scale: var(--zoom, 1);
+    }
+
+    /* The purpose strip as a carousel of prints. */
+    .marquee.is-coverflow li {
+        will-change: transform;
+        transform-origin: 50% 50%;
+    }
+}
+
+
+@layer components {
+    /*
+     * Our Expertise, drawing to building (scenes.js services). A plain sheet
+     * holding the copy on the left and the drawing frame on the right. The original panels stay in the page
+     * for a screen reader, out of sight.
+     */
+    .service-slides.is-drawn {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        min-height: 0 !important;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    /* A plain sheet of paper: the off-white the drawings are made on, so
+       the sketch and the page are one surface until the photograph comes. */
+    .bp-scene {
         position: relative;
+        display: flex;
+        height: 100svh;
+        align-items: center;
+        color: var(--color-ink);
+        background: #f5f3ef;
+        overflow: hidden;
+    }
+
+    .bp-scene__inner {
         display: grid;
         width: 100%;
+        grid-template-columns: 34fr 66fr;
+        align-items: center;
+        gap: clamp(2rem, 4vw, 72px);
+    }
+
+    .bp-copy {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1rem, 1.6vw, 28px);
+    }
+
+    /* Stacked in one grid cell, so each set takes the room of its largest and
+       swapping one for another moves nothing. */
+    .bp-num,
+    .bp-titles,
+    .bp-bodies {
+        display: grid;
+    }
+
+    .bp-num > *,
+    .bp-titles > *,
+    .bp-bodies > * {
+        grid-area: 1 / 1;
+    }
+
+    .bp-num {
+        height: 1em;
+        overflow: hidden;
+        font-family: var(--font-display);
+        font-size: clamp(3.5rem, 7vw, 124px);
+        line-height: 1;
+        color: var(--color-teal);
+    }
+
+    .bp-num span {
+        transform: translateY(105%);
+        transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bp-num span.is-past {
+        transform: translateY(-105%);
+    }
+
+    .bp-num span.is-current {
+        transform: translateY(0);
+    }
+
+    .bp-titles h3 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2.6vw, 46px);
+        text-transform: uppercase;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .bp-titles h3 span {
+        display: block;
+    }
+
+    .bp-titles h3.is-current {
+        opacity: 1;
+    }
+
+    .bp-bodies p {
+        max-width: 34ch;
+        margin: 0;
+        font-size: var(--text-fluid-body);
+        line-height: 1.5;
+        color: var(--color-ink-muted);
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bp-bodies p.is-current {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.15s;
+    }
+
+    .bp-rail {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin: clamp(1rem, 2vw, 36px) 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .bp-rail li {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        color: rgba(23, 23, 23, 0.35);
+        transition: color 0.4s ease;
+    }
+
+    .bp-rail li.is-current {
+        color: var(--color-ink);
+    }
+
+    .bp-rail li::after {
+        content: '';
+        order: 2;
+        height: 1px;
+        background: rgba(23, 23, 23, 0.15);
+    }
+
+    .bp-rail i {
+        order: 3;
+        height: 2px;
+        margin-top: -9px;
+        background: var(--color-teal);
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+    }
+
+    /* The drawing frame: hairline border, crop marks at the corners like a
+       sheet's, and the layers stacked inside. */
+    .bp-frame {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        border: 1px solid rgba(23, 23, 23, 0.12);
+        box-shadow: 0 40px 80px -50px rgba(0, 0, 0, 0.35);
+    }
+
+    .bp-layer {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .bp-layer img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
         height: 100%;
-        min-height: 100svh;
-        transform-style: preserve-3d;
+        object-fit: cover;
+    }
+
+    .bp-layer__photo {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    /* The scan: a bright teal line with a glow, riding the edge between
+       drawing and photograph. */
+    .bp-scan {
+        position: absolute;
+        top: -14px;
+        bottom: -14px;
+        z-index: 3;
+        width: 2px;
+        margin-left: -1px;
+        background: var(--color-teal);
+        box-shadow: 0 0 18px 2px rgba(63, 167, 179, 0.45);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+    }
+
+    .bp-scan::before,
+    .bp-scan::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        margin-left: -5px;
+        border: 2px solid var(--color-teal);
+        background: #f5f3ef;
+    }
+
+    .bp-scan::before { top: 0; }
+    .bp-scan::after { bottom: 0; }
+
+    .bp-corner {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border: 0 solid var(--color-teal);
+        pointer-events: none;
+    }
+
+    .bp-corner.is-tl { top: -12px; left: -12px; border-top-width: 2px; border-left-width: 2px; }
+    .bp-corner.is-tr { top: -12px; right: -12px; border-top-width: 2px; border-right-width: 2px; }
+    .bp-corner.is-bl { bottom: -12px; left: -12px; border-bottom-width: 2px; border-left-width: 2px; }
+    .bp-corner.is-br { bottom: -12px; right: -12px; border-bottom-width: 2px; border-right-width: 2px; }
+}
+
+
+@layer components {
+    /*
+     * Process as a sideways timeline (scenes.js processTrack). The section's
+     * own layout is kept for a screen reader, out of sight; the scene is one
+     * screen: the heading and button at the top, the line of cards below.
+     */
+    #process.is-track {
+        height: 100svh;
+        padding: 0 !important;
+        overflow: hidden;
+    }
+
+    #process.is-track > .shell {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .pt-scene {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        gap: clamp(1.5rem, 4vh, 48px);
+    }
+
+    .pt-head {
+        display: flex;
+        width: 100%;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .pt-viewport {
+        width: 100%;
+    }
+
+    .pt-track {
+        position: relative;
+        display: flex;
+        width: max-content;
+        gap: clamp(3rem, 7vw, 120px);
+        padding-inline: var(--spacing-gutter) 30vw;
         will-change: transform;
     }
 
-    .service-slides.is-prism .service-slide {
-        position: relative;
-        isolation: isolate;
-        opacity: 1 !important;
-        visibility: visible !important;
-        transition: none !important;
-        backface-visibility: hidden;
+    /* The line the cards stand on, at the foot of their pictures; it draws
+       itself across as the scroll moves along it. */
+    .pt-line {
+        position: absolute;
+        left: var(--spacing-gutter);
+        right: 0;
+        top: calc(var(--card-w) * 0.75 + 22px);
+        height: 1px;
+        background: rgba(23, 23, 23, 0.14);
     }
 
-    .service-prism__veil {
+    .pt-line__fill {
         position: absolute;
         inset: 0;
-        z-index: 5;
-        pointer-events: none;
-        background: #000;
+        background: var(--color-teal);
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+    }
+
+    .pt-track {
+        --card-w: clamp(320px, 34vw, 560px);
+    }
+
+    .pt-card {
+        --near: 0;
+        position: relative;
+        flex: 0 0 var(--card-w);
+        transform-origin: 50% 100%;
+        transform: scale(calc(0.86 + var(--near) * 0.14));
+        opacity: calc(0.45 + var(--near) * 0.55);
+    }
+
+    .pt-card__media {
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: clamp(10px, 1vw, 18px);
+        background: var(--color-mist);
+    }
+
+    .pt-card__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        will-change: transform;
+    }
+
+    .pt-card__dot {
+        position: absolute;
+        left: 0;
+        top: calc(var(--card-w) * 0.75 + 16px);
+        z-index: 1;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid rgba(23, 23, 23, 0.25);
+        transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pt-card.is-current .pt-card__dot {
+        background: var(--color-teal);
+        border-color: var(--color-teal);
+        transform: scale(1.4);
+    }
+
+    .pt-card__text {
+        padding-top: 44px;
+    }
+
+    .pt-card__num {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 4vw, 68px);
+        line-height: 1;
+        color: var(--color-teal);
+    }
+
+    .pt-card__title {
+        margin-top: 0.5rem;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(1.4rem, 2vw, 34px);
+        line-height: 1.1;
+        color: var(--color-ink);
+    }
+
+    .pt-card__body {
+        max-width: 40ch;
+        margin-top: 0.75rem;
+        font-size: var(--text-fluid-sm);
+        line-height: 1.5;
+        color: var(--color-ink-muted);
+    }
+}
+
+@layer components {
+    /* By the Numbers. */
+    .numbers__value {
+        font-size: clamp(2.25rem, 3.6vw, 60px);
+        line-height: 1;
+    }
+
+    /*
+     * We Do Everything: six large numbered rows. Under the pointer a teal
+     * sheet slides in from the left behind the row, the type turns white and
+     * an arrow comes in at the end.
+     */
+    .scope__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-top: 1px solid rgba(23, 23, 23, 0.14);
+    }
+
+    .scope__row {
+        position: relative;
+        display: grid;
+        grid-template-columns: clamp(3rem, 7vw, 120px) 1fr clamp(28px, 2.6vw, 44px);
+        align-items: center;
+        gap: clamp(1rem, 2vw, 32px);
+        padding: clamp(0.8rem, 1.3vw, 22px) clamp(0.5rem, 1vw, 16px);
+        overflow: hidden;
+        isolation: isolate;
+        border-bottom: 1px solid rgba(23, 23, 23, 0.14);
+        color: var(--color-ink);
+        transition: color 0.45s ease;
+    }
+
+    .scope__fill {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: var(--color-teal);
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .scope__row:hover {
+        color: #fff;
+    }
+
+    .scope__row:hover .scope__fill {
+        transform: scaleX(1);
+    }
+
+    .scope__num {
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--color-teal);
+        transition: color 0.45s ease;
+    }
+
+    .scope__row:hover .scope__num {
+        color: #fff;
+    }
+
+    .scope__name {
+        font-size: clamp(1.15rem, 1.9vw, 32px);
+        line-height: 1.1;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scope__row:hover .scope__name {
+        transform: translateX(clamp(0.5rem, 1.2vw, 20px));
+    }
+
+    .scope__arrow {
         opacity: 0;
+        transform: translateX(-24px) rotate(-45deg);
+        transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .scope__row:hover .scope__arrow {
+        opacity: 1;
+        transform: none;
+    }
+
+    /*
+     * The sectors: large words that start as outlines and ink in, one after
+     * another, as the section crosses the screen. --ink goes 0 to 1 per word
+     * (scenes.js scopeScene); with no script it stays at 1, solid.
+     */
+    .scope__sectors {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.15em 0.5em;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: clamp(1.5rem, 2.8vw, 48px);
+        line-height: 1.1;
+    }
+
+    .scope__sector {
+        --ink: 1;
+        color: rgb(23 23 23 / var(--ink));
+        -webkit-text-stroke: 1px rgba(23, 23, 23, 0.35);
+    }
+
+    .scope__sector:not(:last-child)::after {
+        content: '·';
+        margin-left: 0.5em;
+        color: var(--color-teal);
+        -webkit-text-stroke: 0;
     }
 }
 
 @layer components {
     /*
-     * The process timelapse (scenes.js processTimelapse). The four pictures
-     * stop being a column and become one frame, stacked; the script raises
-     * each into it in turn. Sized to the sticky text column beside it, so the
-     * two sides of the section stand the same height while it is held.
+     * The landing page set quieter. Its section headings ran at the full
+     * 100px slab and every section stood a screen or more tall; here they
+     * come down to a size that reads as a heading rather than a poster, and
+     * the sections keep the room their content needs.
      */
-    #process.is-timelapse {
-        display: flex;
-        min-height: 100svh;
-        flex-direction: column;
-        justify-content: center;
+    main[data-page='home'] .text-fluid-section {
+        font-size: clamp(2rem, 3.6vw, 62px);
     }
 
-    #process.is-timelapse .process-film {
-        position: relative;
-        display: block;
-        height: 72vh;
-        overflow: hidden;
-        border-radius: clamp(10px, 1vw, 18px);
-        background: var(--color-night);
+    main[data-page='home'] .text-fluid-mega {
+        font-size: clamp(2.5rem, 5.2vw, 90px);
     }
 
-    #process.is-timelapse .process-film > figure {
-        position: absolute !important;
-        inset: 0;
-        width: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        aspect-ratio: auto !important;
-        margin: 0 !important;
-        transform-origin: 50% 100%;
-        will-change: clip-path, transform;
+    main[data-page='home'] > section#about {
+        padding-block: clamp(2.75rem, 4.5vw, 72px);
     }
 
-    #process.is-timelapse .process-film img {
-        transform-origin: 50% 100%;
-        will-change: transform;
+    main[data-page='home'] #projects.has-stage {
+        height: 82svh;
     }
+}
 
-    .process-film__shade {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: #000;
-        opacity: 0;
-    }
+@layer components {
+    /* ref-scenes.js — the reference-site motion. */
 
-    /* The stage number, large in the frame's lower right, rolling to the
-       current one: each stands in the same place and only the current one
-       is up. */
-    .process-film__count {
-        position: absolute;
-        right: clamp(1rem, 2vw, 32px);
-        bottom: clamp(0.5rem, 1vw, 16px);
-        z-index: 5;
-        display: grid;
-        height: 1em;
-        overflow: hidden;
-        font-family: var(--font-display);
-        font-weight: 500;
-        font-size: clamp(4rem, 9vw, 160px);
-        line-height: 1;
-        color: #fff;
+    /* era-residence.com's scroll bar: a hairline down the right edge. */
+    .scroll-progress {
+        position: fixed;
+        top: 50%;
+        right: clamp(10px, 1.2vw, 20px);
+        z-index: 60;
+        width: 2px;
+        height: clamp(80px, 14vh, 140px);
+        translate: 0 -50%;
+        background: rgba(127, 127, 127, 0.25);
+        mix-blend-mode: difference;
         pointer-events: none;
     }
 
-    /* Stacked in one grid cell rather than absolutely, so the box takes the
-       numbers' width and its clip does not cut them to nothing. */
-    .process-film__count span {
-        grid-area: 1 / 1;
-        justify-self: end;
-        transform: translateY(105%);
-        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .process-film__count span.is-current {
-        transform: translateY(0);
-    }
-
-    /* The rail beside the steps: a hairline that fills downward as the build
-       goes on, with a tick per stage lit once it is reached. */
-    .process-rail {
-        position: absolute;
-        left: calc(-1 * clamp(1rem, 2vw, 36px));
-        bottom: 0;
-        width: 1px;
-        height: clamp(120px, 18vh, 200px);
-        background: rgba(23, 23, 23, 0.12);
-    }
-
-    .process-rail__fill {
+    .scroll-progress span {
         position: absolute;
         inset: 0;
-        background: var(--color-teal);
+        background: #fff;
         transform: scaleY(0);
         transform-origin: 50% 0;
     }
 
-    .process-rail i {
+    /* The picture opening inside the about heading. */
+    .inline-pic {
+        display: inline-block;
+        width: 0;
+        height: 0.82em;
+        margin-inline: 0.18em;
+        overflow: hidden;
+        vertical-align: -0.08em;
+        border-radius: 999px;
+    }
+
+    .inline-pic img {
+        display: block;
+        width: 2.6em;
+        max-width: none;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .read-word {
+        display: inline;
+    }
+
+    /* Featured Projects as a collage. Below md it is a plain column. */
+    .collage {
+        display: grid;
+        gap: clamp(2rem, 4vw, 64px);
+    }
+
+    .collage__item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        color: var(--color-ink);
+    }
+
+    .collage__frame {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+        background: var(--color-mist);
+    }
+
+    .collage__img {
         position: absolute;
-        left: -3px;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
+        inset: -15% 0;
+        width: 100%;
+        height: 130%;
+        object-fit: cover;
+        transition: scale 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .collage__item:hover .collage__img {
+        scale: 1.05;
+    }
+
+    .collage__caption {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        overflow: hidden;
+    }
+
+    .collage__meta {
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-teal);
+    }
+
+    .collage__title {
+        font-size: clamp(1.25rem, 1.8vw, 30px);
+        line-height: 1.15;
+    }
+
+    @media (width >= 48rem) {
+        .collage {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            row-gap: 0;
+        }
+
+        .collage__item--1 { grid-column: 1 / 7; }
+        .collage__item--1 .collage__frame { aspect-ratio: 4 / 5; }
+        .collage__item--2 { grid-column: 8 / 13; margin-top: 18vh; }
+        .collage__item--3 { grid-column: 2 / 6; margin-top: -10vh; }
+        .collage__item--3 .collage__frame { aspect-ratio: 1; }
+        .collage__item--4 { grid-column: 7 / 12; margin-top: 8vh; }
+        .collage__item--4 .collage__frame { aspect-ratio: 3 / 2; }
+    }
+
+    /*
+     * The joinery word mask. At rest — no script — the word stands on the
+     * night ground with the workshop showing through its letters. Live, the
+     * stage is a screen tall and the script grows the word until the picture
+     * behind fades up to fill it.
+     */
+    .jmask {
+        background: var(--color-night);
+    }
+
+    .jmask__stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        height: clamp(220px, 40vh, 420px);
+        overflow: hidden;
+    }
+
+    .jmask.is-live .jmask__stage {
+        height: 100svh;
+    }
+
+    .jmask__full {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+    }
+
+    .jmask__word {
+        position: relative;
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: clamp(4rem, 17vw, 300px);
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: transparent;
+        background-size: cover;
+        background-position: center;
+        -webkit-background-clip: text;
+        background-clip: text;
+        will-change: transform;
+    }
+
+    /* pelizzari.com's button roll: the label slides up out of the pill and
+       its copy slides in from below. */
+    .roll {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+    }
+
+    .roll__a,
+    .roll__b {
+        display: block;
+        transition: transform 0.7s cubic-bezier(0.52, 0, 0, 1);
+    }
+
+    .roll__b {
+        position: absolute;
+        inset: 0;
+        transform: translateY(105%);
+    }
+
+    .pill:hover .roll__a {
+        transform: translateY(-105%);
+    }
+
+    .pill:hover .roll__b {
+        transform: translateY(0);
+    }
+}
+
+@layer components {
+    /* With the 3D stage live, the collage and the header's own pill step
+       aside; the stage carries the turning seal instead. */
+    #projects.has-stage .collage,
+    #projects.has-stage > .shell .pill {
+        display: none !important;
+    }
+
+    main[data-page='home'] #projects.has-stage {
+        height: 100svh;
+    }
+}
+
+
+
+@layer components {
+    /* The joinery table (motion/joinery-table.js). The photographs show
+       until the model can be drawn, then give way to it. */
+    .jtable {
+        position: relative;
+    }
+
+    .jtable__canvas {
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    .jtable.is-live {
+        height: clamp(380px, 46vw, 700px);
+    }
+
+    .jtable.is-live .jtable__canvas {
+        display: block;
+    }
+
+    /* !important against the list's own `grid` utility, a later layer. */
+    .jtable.is-live .jtable__fallback {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* Sectors We Serve (sections/sectors.blade.php, scenes.js sectorsScene). */
+    .sectors__frame {
+        display: none;
+    }
+
+    .sectors__list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .sectors__item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .sectors__thumb {
+        display: block;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: 10px;
+        background: var(--color-teal);
+    }
+
+    .sectors__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .sectors__num {
+        display: none;
+    }
+
+    .sectors__name {
+        font-size: clamp(1rem, 4vw, 22px);
+        color: #fff;
+    }
+
+    /* Wide screens: one pinned screen, frame left, list right. */
+    @media (width >= 64rem) {
+        .sectors {
+            display: flex;
+            min-height: 100svh;
+            align-items: center;
+            padding-block: clamp(2rem, 5vh, 56px) !important;
+        }
+
+        .sectors > .shell {
+            width: 100%;
+            align-items: center;
+        }
+
+        .sectors__frame {
+            position: relative;
+            display: block;
+            aspect-ratio: 16 / 10;
+            perspective: 1400px;
+        }
+
+        .sectors__pic {
+            position: absolute;
+            inset: 0;
+            margin: 0;
+            overflow: hidden;
+            border-radius: clamp(8px, 0.8vw, 14px);
+            opacity: 0;
+            backface-visibility: hidden;
+        }
+
+        .sectors__pic.is-current {
+            opacity: 1;
+        }
+
+        .sectors__pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sectors__plain {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            place-items: center;
+            background: var(--color-teal);
+            font-size: clamp(2rem, 4vw, 64px);
+            color: #fff;
+        }
+
+        .sectors__list {
+            display: block;
+        }
+
+        .sectors__thumb {
+            display: none;
+        }
+
+        .sectors__item {
+            flex-direction: row;
+            align-items: baseline;
+            gap: clamp(1rem, 2vw, 32px);
+            padding-block: clamp(0.6rem, 1.6vh, 18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.22);
+            transition: color 0.5s ease;
+        }
+
+        .sectors__item.is-current {
+            color: #fff;
+        }
+
+        .sectors__num {
+            display: inline;
+            font-size: var(--text-fluid-sm);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.5s ease;
+        }
+
+        .sectors__item.is-current .sectors__num {
+            color: var(--color-teal);
+        }
+
+        .sectors__name {
+            font-size: clamp(1.75rem, 3.4vw, 58px);
+            color: inherit;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sectors__item.is-current .sectors__name {
+            transform: translateX(clamp(0.5rem, 1.2vw, 20px));
+        }
+    }
+}
+
+@layer components {
+    /* About: the profile's figures as an index (sections/about-page/facts). */
+    .about-facts__pic {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: clamp(8px, 0.8vw, 14px);
+    }
+
+    .about-facts__pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .about-facts__list {
+        margin: 0;
+    }
+
+    .about-facts__row {
+        --rule: 1;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 2rem;
+        padding-block: clamp(1.25rem, 2.6vw, 40px);
+    }
+
+    .about-facts__row::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: rgba(23, 23, 23, 0.16);
+        transform: scaleX(var(--rule));
+        transform-origin: 0 50%;
+    }
+
+    .about-facts__label {
+        max-width: 26ch;
+        font-size: var(--text-fluid-body);
+        color: var(--color-ink-muted);
+    }
+
+    .about-facts__value {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 88px);
+        line-height: 0.9;
+        color: var(--color-ink);
+    }
+
+    /* About: In Good Company — the profile's rounded logo tiles. */
+    .about-company__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(0.5rem, 1vw, 16px);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        perspective: 1200px;
+    }
+
+    @media (width >= 40rem) { .about-company__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (width >= 64rem) { .about-company__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+    .about-company__tile {
+        display: grid;
+        aspect-ratio: 16 / 9;
+        place-items: center;
+        padding: 14% 16%;
+        border: 1px solid rgba(23, 23, 23, 0.1);
+        border-radius: clamp(14px, 1.4vw, 24px);
         background: #fff;
-        border: 1px solid rgba(23, 23, 23, 0.25);
+        transition: border-color 0.3s ease, box-shadow 0.4s ease, translate 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .about-company__tile:hover {
+        border-color: var(--color-teal);
+        box-shadow: 0 20px 40px -28px rgba(0, 0, 0, 0.35);
+        translate: 0 -4px;
+    }
+
+    .about-company__tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+@layer components {
+    /*
+     * The whole site set tighter. Every section's padding came from the
+     * Figma frames at 80-140px; on a screen that is most of a fold of
+     * nothing. Sections that set their own block padding through a utility
+     * are held to a smaller range here — !important because those utilities
+     * sit in a later layer. Heroes and the pinned scenes carry heights, not
+     * padding, and are untouched.
+     */
+    main > section[class*='py-['],
+    main > section[class*='pt-['] {
+        padding-top: clamp(2.25rem, 3.6vw, 60px) !important;
+    }
+
+    main > section[class*='py-['],
+    main > section[class*='pb-['] {
+        padding-bottom: clamp(2.25rem, 3.6vw, 60px) !important;
+    }
+
+    /* About: its large pictures and its closing slab brought down to size. */
+    main[data-page='about'] .aspect-\[968\/752\] {
+        max-height: 62vh;
+    }
+
+    main[data-page='about'] h2.editorial-heading {
+        font-size: clamp(2rem, 4.6vw, 80px) !important;
+    }
+
+    main[data-page='about'] .md\:aspect-\[1570\/778\] {
+        max-height: 70vh;
+    }
+}
+
+@layer components {
+    /* Projects page: filters (sections/projects-page/header). */
+    .pfilter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .pfilter__btn {
+        padding: 0.55em 1.2em;
+        border: 1px solid rgba(23, 23, 23, 0.16);
+        border-radius: 999px;
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        color: var(--color-ink-muted);
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .pfilter__btn:hover {
+        border-color: var(--color-ink);
+        color: var(--color-ink);
+    }
+
+    .pfilter__btn.is-current {
+        border-color: var(--color-teal);
+        background: var(--color-teal);
+        color: #fff;
+    }
+
+    [data-group][hidden] {
+        display: none !important;
+    }
+
+    /* The index (projects-index.js). */
+    .pindex {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .pindex__row {
+        --rule: 1;
+        position: relative;
+    }
+
+    .pindex__row::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: rgba(23, 23, 23, 0.14);
+        transform: scaleX(var(--rule));
+        transform-origin: 0 50%;
+    }
+
+    .pindex__link {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.75rem 1rem;
+        padding-block: clamp(1rem, 2vw, 32px);
+        overflow: hidden;
+        color: var(--color-ink);
+    }
+
+    .pindex__thumb {
+        width: 76px;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: 6px;
+    }
+
+    .pindex__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .pindex__title {
+        font-size: clamp(1.4rem, 3.4vw, 58px);
+        line-height: 1.05;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+    }
+
+    .pindex__facts {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 1.25rem;
+        margin: 0;
+        font-size: var(--text-fluid-sm);
+        color: var(--color-ink-muted);
+    }
+
+    .pindex__facts dd { margin: 0; }
+    .pindex__facts dd:empty { display: none; }
+
+    .pindex__arrow {
+        display: none;
+    }
+
+    @media (width >= 64rem) and (hover: hover) {
+        .pindex__thumb { display: none; }
+
+        .pindex__link {
+            grid-template-columns: 1fr auto clamp(28px, 2.4vw, 40px);
+            gap: 2rem;
+        }
+
+        .pindex__facts {
+            grid-column: auto;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+        }
+
+        .pindex__facts dd { min-width: 9em; text-align: right; }
+
+        .pindex__arrow {
+            display: block;
+            opacity: 0;
+            transform: translateX(-16px) rotate(-45deg);
+            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Hovering the list dims every name but the one under the pointer. */
+        .pindex:hover .pindex__title { color: rgba(23, 23, 23, 0.25); }
+        .pindex .pindex__link:hover .pindex__title { color: var(--color-ink); transform: translateX(clamp(0.75rem, 1.6vw, 28px)); }
+        .pindex__link:hover .pindex__arrow { opacity: 1; transform: none; }
+    }
+
+    /* The card that follows the pointer. */
+    .pindex-card {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 70;
+        width: clamp(260px, 24vw, 420px);
+        aspect-ratio: 4 / 3;
+        pointer-events: none;
+        perspective: 900px;
+    }
+
+    .pindex-card__inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: clamp(8px, 0.8vw, 14px);
+        box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.45);
+        transform-style: preserve-3d;
+    }
+
+    .pindex-card__inner img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+@layer components {
+    /*
+     * The projects pyramid stack (sections/projects-page/stack,
+     * motion/project-stack.js). Without the script the cards are a row that
+     * scrolls sideways; live, they are stacked on one point and the script
+     * fans them into the pyramid.
+     */
+    .pstack {
+        padding-block: clamp(2.5rem, 5vw, 80px) clamp(1.5rem, 3vw, 48px);
+        overflow: hidden;
+    }
+
+    .pstack__stage {
+        position: relative;
+    }
+
+    .pstack__cards {
+        display: flex;
+        gap: 1rem;
+        margin: 0;
+        padding: 0 var(--spacing-gutter);
+        overflow-x: auto;
+        list-style: none;
+    }
+
+    .pstack {
+        --card-w: clamp(200px, 22vw, 340px);
+        --card-ratio: 9 / 14;
+        --card-h: calc(var(--card-w) * 14 / 9);
+    }
+
+    .pstack__card {
+        flex: 0 0 auto;
+        width: var(--card-w);
+        aspect-ratio: var(--card-ratio);
+    }
+
+    .pstack__card a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: clamp(14px, 1.4vw, 24px);
+        box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.7);
+    }
+
+    .pstack__card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: scale 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pstack__card.is-front a:hover img {
+        scale: 1.05;
+    }
+
+    .pstack.is-live .pstack__stage {
+        height: calc(var(--card-h) * 1.1);
+        perspective: 1600px;
+    }
+
+    .pstack.is-live .pstack__cards {
+        display: block;
+        overflow: visible;
+        padding: 0;
+    }
+
+    .pstack.is-live .pstack__card {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        margin-left: calc(var(--card-w) / -2);
+        transform-origin: 50% 0%;
+        will-change: transform, filter;
+    }
+
+    .pstack__bar {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: clamp(1rem, 2vw, 32px);
+        text-align: center;
+    }
+
+    .pstack__nav {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        color: #fff;
         transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
-    .process-rail i:nth-of-type(1) { top: 0; }
-    .process-rail i:nth-of-type(2) { top: 33.33%; }
-    .process-rail i:nth-of-type(3) { top: 66.66%; }
-    .process-rail i:nth-of-type(4) { top: 100%; }
-
-    .process-rail i.is-done {
+    .pstack__nav:hover {
         background: var(--color-teal);
         border-color: var(--color-teal);
+    }
+
+    .pstack__meta {
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-teal);
+    }
+
+    .pstack__title {
+        margin-top: 0.4rem;
+        font-size: clamp(1.5rem, 2.6vw, 44px);
+        line-height: 1.1;
+    }
+}
+
+@layer components {
+    /* Home: the featured projects as the scroll-driven stack. One screen,
+       heading on top, the stack filling the rest. */
+    .featured-stack {
+        display: flex;
+        min-height: 100svh;
+        flex-direction: column;
+    }
+
+    /*
+     * On the landing page the cards are sized from the screen's height, so
+     * the one in front is as large as the fold allows — the heading above
+     * and the caption below take what they need and the card the rest — and
+     * set a little wider than the projects page's, so a room reads in it.
+     */
+    .featured-stack .pstack {
+        /* The photographs' own 16:9, so each card shows its whole picture
+           rather than a tall slice of it. As wide as the screen allows while
+           the card still fits the height between heading and caption. */
+        --card-w: min(54vw, 60svh * 16 / 9);
+        --card-h: calc(var(--card-w) * 9 / 16);
+        --card-ratio: 16 / 9;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-block: clamp(0.5rem, 1.5vh, 20px);
+    }
+
+    .featured-stack .pstack__bar {
+        margin-top: clamp(0.25rem, 1vh, 12px);
+    }
+
+    .featured-stack .pstack__title {
+        font-size: clamp(1.4rem, 2.2vw, 38px);
+    }
+
+    .featured-stack > .shell {
+        padding-top: clamp(1.5rem, 4vh, 48px);
+    }
+
+    .featured-stack h2 {
+        font-size: clamp(1.75rem, 3vw, 52px) !important;
+    }
+}
+
+@layer components {
+    /* Projects page: every project as a card (sections/projects-page/panels). */
+    .pcards {
+        padding-block: clamp(1.5rem, 3vw, 48px) clamp(2.5rem, 4vw, 64px);
+    }
+
+    .pcards__grid {
+        display: grid;
+        gap: clamp(0.75rem, 1.4vw, 24px);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    @media (width >= 40rem) { .pcards__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (width >= 64rem) { .pcards__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+    .pcard__link {
+        position: relative;
+        display: block;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: clamp(12px, 1.2vw, 20px);
+        color: #fff;
+    }
+
+    .pcard__img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: scale 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pcard__link:hover .pcard__img {
+        scale: 1.07;
+    }
+
+    .pcard__shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.2) 100%);
+    }
+
+    .pcard__tag {
+        position: absolute;
+        top: clamp(0.75rem, 1.2vw, 20px);
+        left: clamp(0.75rem, 1.2vw, 20px);
+        padding: 0.4em 0.9em;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .pcard__info {
+        position: absolute;
+        left: clamp(1rem, 1.6vw, 26px);
+        right: clamp(3.5rem, 4.4vw, 76px);
+        bottom: clamp(1rem, 1.6vw, 26px);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pcard__title {
+        font-size: clamp(1.3rem, 1.9vw, 32px);
+        line-height: 1.08;
+    }
+
+    .pcard__facts {
+        font-size: var(--text-fluid-sm);
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .pcard__facts:empty {
+        display: none;
+    }
+
+    .pcard__arrow {
+        position: absolute;
+        right: clamp(1rem, 1.6vw, 26px);
+        bottom: clamp(1rem, 1.6vw, 26px);
+        display: grid;
+        width: clamp(36px, 3vw, 46px);
+        aspect-ratio: 1;
+        place-items: center;
+        padding: 0.7rem;
+        border-radius: 50%;
+        background: var(--color-teal);
+        transform: rotate(-45deg);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pcard__link:hover .pcard__arrow {
+        transform: rotate(0deg) scale(1.08);
+    }
+
+    .pcard__link:hover .pcard__info {
+        transform: translateY(-6px);
+    }
+}
+
+@layer components {
+    /* A phone: the front card takes most of the width; its neighbours show
+       only as edges either side. */
+    @media (width < 48rem) {
+        .featured-stack .pstack {
+            --card-w: 86vw;
+            --card-h: calc(var(--card-w) * 9 / 16);
+        }
     }
 }

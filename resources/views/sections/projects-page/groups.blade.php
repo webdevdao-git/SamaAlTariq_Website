@@ -43,10 +43,10 @@
     than a fetch, and the covers are the same files either way so the browser
     holds one copy.
 --}}
-<div data-project-view="gallery">
+<div data-project-view="list" data-project-index>
     @foreach ($page['groups'] as $group)
         {{-- 80 to the next group's line, which is the frame's outer stack. --}}
-        <section class="bg-white pb-[clamp(2.5rem,4.63vw,80px)]">
+        <section class="bg-white pb-[clamp(2.5rem,4.63vw,80px)]" data-group="{{ \Illuminate\Support\Str::slug($group['name']) }}">
             {{-- 79 left and 81 right, which is what the frame actually draws: its
              padding is 79 either side but its content children are fixed at
              1568, so the two spare pixels fall on the right. Matching the
@@ -141,20 +141,25 @@
                      below keys on it and the first tile of each project is the
                      one that stands for it. The gallery above is untouched:
                      two pictures there is the point. --}}
-                <ul class="project-list mt-[clamp(1rem,1.389vw,24px)]">
+                <ul class="project-list pindex mt-[clamp(1rem,1.389vw,24px)]">
                     @foreach (collect($group['rows'])->flatMap(fn ($row) => collect($row['columns'])->flatMap(fn ($column) => $column['tiles']))->unique(fn ($item) => $item['project'] ?? $item['image']) as $item)
-                        <li class="reveal border-t border-black/10 transition-colors duration-300 last:border-b hover:bg-black/[0.03]">
-                            <a href="{{ route('projects.show', $item['project'] ?? $item['image']) }}"
-                               class="flex flex-col gap-1 py-[clamp(1rem,1.39vw,24px)] md:grid md:grid-cols-[1fr_auto_auto_auto] md:items-baseline md:gap-[clamp(1.5rem,2.31vw,40px)]">
-                                <p class="text-fluid-body font-medium text-ink">{{ $item['title'] }}</p>
-                                <dl class="contents">
+                        @php($slug = $item['project'] ?? $item['image'])
+                        <li class="pindex__row">
+                            <a href="{{ route('projects.show', $slug) }}" class="pindex__link"
+                               data-img="{{ \App\Support\Asset::versioned('images/projects/covers/' . $item['image'] . '.webp') }}">
+                                <span class="pindex__thumb" aria-hidden="true">
+                                    <img src="{{ \App\Support\Asset::versioned('images/projects/covers/' . $item['image'] . '.webp') }}" alt="" loading="lazy" decoding="async">
+                                </span>
+                                <span class="pindex__title display">{{ $item['title'] }}</span>
+                                <dl class="pindex__facts">
                                     <dt class="sr-only">Category</dt>
-                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(120px,11vw,190px)]">{{ $item['category'] }}</dd>
+                                    <dd>{{ $item['category'] }}</dd>
+                                    <dt class="sr-only">Location</dt>
+                                    <dd>{{ $item['location'] ?? '' }}</dd>
                                     <dt class="sr-only">Area</dt>
-                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(90px,8vw,140px)]">{{ $item['size'] ?? '' }}</dd>
-                                    <dt class="sr-only">Duration</dt>
-                                    <dd class="text-fluid-sm text-ink-muted md:w-[clamp(70px,6vw,100px)] md:text-right">{{ $item['duration'] ?? '' }}</dd>
+                                    <dd>{{ $item['size'] ?? '' }}</dd>
                                 </dl>
+                                <span class="pindex__arrow" aria-hidden="true"><x-icon name="arrow-right" class="w-full"/></span>
                             </a>
                         </li>
                     @endforeach

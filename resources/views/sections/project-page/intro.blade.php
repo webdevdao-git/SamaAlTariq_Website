@@ -39,7 +39,7 @@
 
             <div data-lightbox class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
                 @for ($i = 1; $i <= $page['tiles']; $i++)
-                    <a data-lightbox-item
+                    <a data-lightbox-item data-tilt
                        href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
                        data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
                        aria-label="Open photograph {{ $i }} of {{ $photographs }}"

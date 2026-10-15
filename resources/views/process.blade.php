@@ -16,7 +16,7 @@
     <main>
         @include('sections.process-page.phases')
         @include('sections.process-page.consultation')
-        @include('sections.inquiry')
+        @include('sections.enquiry-band')
     </main>
 
     @include('sections.footer')

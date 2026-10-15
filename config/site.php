@@ -164,7 +164,7 @@ return [
         'vision' => [
             'heading' => ['One vision,', 'brought together under one roof.'],
             'body' => 'From the first tender to final handover, our teams work as one to create greater clarity throughout the build and lasting value in the finished result.',
-            'cta' => ['label' => 'See Our process', 'href' => '#process'],
+            'cta' => ['label' => 'See Our process', 'href' => '/process'],
             'image' => 'images/about/vision-lounge.webp',
             'alt' => 'Living room with a red and black artwork spanning the panelled wall',
         ],
@@ -175,7 +175,7 @@ return [
             'label' => 'Our Approach',
             'heading' => 'We believe exceptional spaces are shaped long before the first structure takes form.',
             'body' => 'A considered vision, collective expertise, and disciplined execution form the foundation of every project we undertake. By bringing diverse disciplines together, we create spaces that are purposeful, cohesive, and built to last.',
-            'cta' => ['label' => 'Explore Projects', 'href' => '#projects'],
+            'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
             'images' => [
                 'main' => ['src' => 'images/about/approach-villa.webp', 'alt' => 'Villa entrance under an open sky'],
                 'left' => ['src' => 'images/about/approach-joinery.webp', 'alt' => 'Timber joinery wall and lit reveal'],
@@ -290,7 +290,8 @@ return [
      */
     'projects_page' => [
         'heading' => ['Selected', 'Projects'],
-        'views' => ['gallery' => 'Gallery', 'list' => 'List'],
+        // No view toggle: the page shows its projects one way, as panels.
+        'views' => [],
         'groups' => [
             /*
              * Residential, redrawn again: the frame no longer runs three even
@@ -326,7 +327,7 @@ return [
                             ['image' => 'jumeirah-golf-estate-villas', 'ratio' => '772/635', 'title' => 'Jumeirah Golf Estate Villas', 'category' => 'Luxury Residential', 'location' => 'Jumeirah Golf Estate, Dubai', 'size' => '18,000 Sq Ft', 'duration' => '8 Months'],
                         ]],
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai'],
+                            ['image' => 'villa-b200-tilal-al-ghaf', 'ratio' => '772/635', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'category' => 'Luxury Residential', 'location' => 'Tilal-Al-Ghaf, Dubai', 'size' => '8,000 Sq Ft', 'duration' => '4 Months'],
                         ]],
                     ]],
                     ['columns' => [
@@ -564,16 +565,16 @@ return [
          * file.
          */
         'villa-b200-tilal-al-ghaf' => [
-            // Kept here as well as on the tile: area, duration and year are
-            // unknown to this site and their rows stay closed.
+            // Kept here as well as on the tile. Area, duration and scope are
+            // from the 2026 business profile; the year is still unknown.
             'facts' => [
                 'title' => 'Villa B200, Tilal-Al-Ghaf',
                 'category' => 'Luxury Residential',
                 'location' => 'Tilal-Al-Ghaf, Dubai',
-                'size' => null,
-                'duration' => null,
+                'size' => '8,000 Sq Ft',
+                'duration' => '4 Months',
             ],
-            'about' => 'Villa fit-out',
+            'about' => 'Full renovation & fit-out',
             'year' => null,
             'lead' => 'A second villa at Tilal-Al-Ghaf, alongside PV39 on the same development.',
             'body' => [
@@ -595,7 +596,7 @@ return [
             'related' => ['boulevard-plaza-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'benjarong-dusit-thani'],
         ],
         'boulevard-plaza-office' => [
-            'about' => 'Office fit-out',
+            'about' => 'Full renovation & fit-out',
             'year' => null,
             'lead' => 'More than 7,500 sq ft at Boulevard Plaza, fitted out in three months.',
             'body' => [
@@ -606,7 +607,7 @@ return [
             'related' => ['i-rise-tower-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'jumeirah-golf-estate-villas'],
         ],
         'wasl-properties-hq' => [
-            'about' => 'Corporate fit-out',
+            'about' => 'Fit-out · Joinery · MEP · Finishes',
             'year' => null,
             'lead' => 'A 45,000 sq ft corporate headquarters on Sheikh Zayed Road, delivered in four months.',
             'body' => [
@@ -672,9 +673,15 @@ return [
         'phases' => [
             [
                 'label' => 'Phase 01',
+                /*
+                 * The four phase pictures are one interior seen through its
+                 * build — the JP Villa media wall: measured up on site, drawn,
+                 * fitted, finished. The villa-shell photographs that stood
+                 * here showed structural work the company does not lead with.
+                 */
                 'title' => ['Tender And', 'Cost Estimation'],
                 'lead' => 'A structured start built on accuracy, clarity and confidence from the first step.',
-                'image' => 'images/process/phase-1.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/phase-interior-1.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Accurate Review', 'body' => 'We review RFQs, drawings and specifications in detail to understand the complete scope and requirements.'],
                     ['title' => 'Site Visit & Survey', 'body' => 'Thorough site assessment to identify risks, constraints and opportunities for successful delivery.'],
@@ -686,7 +693,7 @@ return [
                 'label' => 'Phase 02',
                 'title' => ['Engineering AND Pre-Construction'],
                 'lead' => 'The foundation for delivery, set through careful planning and procurement.',
-                'image' => 'images/process/phase-2.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/phase-interior-2.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Plan With Precision', 'body' => 'We develop detailed plans and strategies to ensure a smooth project journey.'],
                     ['title' => 'Coordinate & Validate', 'body' => 'Shop drawings, coordination and approvals to eliminate conflicts early.'],
@@ -698,7 +705,7 @@ return [
                 'label' => 'Phase 03',
                 'title' => ['Construction AND Execution'],
                 'lead' => 'Disciplined site delivery where engineering becomes a finished, functioning space.',
-                'image' => 'images/process/phase-3.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/phase-interior-3.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Build With Discipline', 'body' => 'Civil and structural works executed to drawing, with setting-out and quality checks at every stage.'],
                     ['title' => 'Install The Systems', 'body' => 'HVAC, electrical and plumbing installed and cleanly coordinated with the finishes.'],
@@ -710,7 +717,7 @@ return [
                 'label' => 'Phase 04',
                 'title' => ['Handover AND Defects Liability'],
                 'lead' => 'Final inspections, defect resolution and clean handover with full documentation and warranties.',
-                'image' => 'images/process/phase-4.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/phase-interior-4.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Snag & De-Snag', 'body' => 'Internal snag walks and joint inspections close every punch-list item before sign-off.'],
                     ['title' => 'Test & Commission', 'body' => 'System testing, functional checks and authority approvals confirm performance.'],
@@ -803,7 +810,7 @@ return [
             'label' => 'Specialist Craftsmanship',
             'words' => ['Bespoke', 'Joinery'],
             'footnote' => 'Made To Measure',
-            'travel' => 220,
+            'travel' => 130,
             'scale_from' => 0.302,
             'images' => [
                 ['src' => 'images/joinery/bespoke-1.webp', 'alt' => 'A joiner running timber through a workshop machine'],
@@ -983,7 +990,15 @@ return [
         ],
 
         'intro' => [
-            'label' => 'Our Expertise',
+            /*
+         * The three pictures are from the project shoots — Benjarong for the
+         * fit-out, the Emirates Hills villa for design and build, WASL's
+         * boardroom for commercial — and each has a `blueprint`: the same
+         * photograph traced to a pencil sketch, which the landing page's scene draws
+         * first and scans into the photograph. Both are generated from
+         * source-photos/ at the same crop, so they register exactly.
+         */
+        'label' => 'Our Expertise',
             'statement' => 'Expertise that brings every part of the build together.',
             'note' => ['Multiple', 'disciplines, one vision.'],
             'body' => 'From construction and fit-out to specialist joinery and MEP, we bring the people, disciplines and capabilities required to deliver complex environments as one coordinated team.',
@@ -1072,6 +1087,11 @@ return [
 
     'clients' => [
         'label' => ["Companies We've", 'Worked With'],
+        // From the 2026 business profile's "In Good Company" page.
+        'caption' => 'Trusted across government, hospitality, healthcare and luxury developers.',
+        // The About page sets the roster as the profile does, under its own
+        // heading, rather than repeating the landing page's strip.
+        'company_heading' => ['In', 'Good Company'],
         'logos' => [
             ['name' => 'Emaar', 'src' => 'images/clients/emaar.webp'],
             ['name' => 'DAMAC', 'src' => 'images/clients/damac.webp'],
@@ -1130,19 +1150,19 @@ return [
         'cta' => ['label' => 'View All Projects', 'href' => '/projects'],
         /*
          * The projects the home page's 3D stage walks through, in this order.
-         * Eight of the fourteen: the rest are a click away on the projects
-         * page, which the stage's last panel leads to. Slugs, as on the
-         * projects page.
+         * Eight, so the pyramid has cards either side of the one in front all
+         * the way through; the rest are on the projects page. Slugs, as on
+         * the projects page.
          */
         'featured' => [
             'jumeirah-golf-estate-villas',
             'emirates-hills-villa',
-            'villa-pv39-tilal-al-ghaf',
             'wasl-properties-hq',
             'benjarong-dusit-thani',
+            'villa-pv39-tilal-al-ghaf',
             'fidelity-gym-jlt',
-            'pullman',
             'boulevard-plaza-office',
+            'pullman',
         ],
         'items' => [
             [
@@ -1211,19 +1231,22 @@ return [
                 'tab' => 'Fit-Out Contracting',
                 'description' => 'End-to-end interior Fit-Out for commercial, retail, F&B and hospitality spaces, delivered turnkey from concept to handover.',
                 'title' => ['Fit Out Contracting', 'And Turnkey Solutions'],
-                'image' => 'images/services/fit-out-contracting.webp',
+                'image' => 'images/services/expertise-1.webp',
+                'blueprint' => 'images/services/expertise-1-blueprint.webp',
             ],
             [
                 'tab' => 'Design & Build',
                 'description' => 'Integrated design-and-build combining concept design, technical drawings, BOQ and full execution under a single point of responsibility.',
                 'title' => ['Design And Build', 'Interior And Architectural'],
-                'image' => 'images/services/design-and-build.webp',
+                'image' => 'images/services/expertise-2.webp',
+                'blueprint' => 'images/services/expertise-2-blueprint.webp',
             ],
             [
                 'tab' => 'Commercial & Office',
                 'description' => 'Workspace, office and corporate interior delivery — space planning, partitions, flooring, ceilings and finishes built for productive environments.',
                 'title' => ['Commercial And Office', 'Interior Solutions'],
-                'image' => 'images/services/commercial-and-office.webp',
+                'image' => 'images/services/expertise-3.webp',
+                'blueprint' => 'images/services/expertise-3-blueprint.webp',
             ],
         ],
     ],
@@ -1246,27 +1269,77 @@ return [
                 'number' => '01',
                 'title' => 'Tender And Cost Estimation',
                 'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.',
-                'image' => 'images/process/tender-and-cost-estimation.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/interior-1.webp', 'ratio' => '4 / 3',
             ],
             // PLACEHOLDER steps — only step 01 exists in the Figma file.
             [
                 'number' => '02',
                 'title' => 'Design And Engineering',
                 'body' => 'Detailed drawings, material selection, and value engineering that turn an approved budget into a buildable scheme.',
-                'image' => 'images/process/design-and-engineering.webp', 'ratio' => '1200 / 900',
+                'image' => 'images/process/interior-2.webp', 'ratio' => '4 / 3',
             ],
             [
                 'number' => '03',
                 'title' => 'Construction And Fit-Out',
                 'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.',
-                'image' => 'images/process/construction-and-fit-out.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/interior-3.webp', 'ratio' => '4 / 3',
             ],
             [
                 'number' => '04',
                 'title' => 'Handover And Aftercare',
                 'body' => 'Snagging, testing and commissioning, full documentation, and a maintenance period that protects the finished asset.',
-                'image' => 'images/process/handover-and-aftercare.webp', 'ratio' => '1200 / 867',
+                'image' => 'images/process/interior-4.webp', 'ratio' => '4 / 3',
             ],
+        ],
+    ],
+
+    /*
+     * From the Sama Al Tariq Business Profile 2026, verbatim: the figures on
+     * its "By the Numbers" page, the six scopes of "We Do Everything Your
+     * Project Needs", the six sectors of "Sectors We Serve", and the trade
+     * licence from "Licences & Certifications". Change them here when the
+     * profile changes.
+     */
+    'numbers' => [
+        'label' => 'By the Numbers',
+        'tagline' => 'One contractor. Every part of the build.',
+        'items' => [
+            ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen in-house'],
+            ['value' => '12+', 'label' => 'Flagship projects delivered'],
+            ['value' => '250k+', 'label' => 'Meter square designed, built and fitted'],
+            ['value' => '95%', 'label' => 'On-programme handovers'],
+            ['value' => '100%', 'label' => 'In-house joinery and MEP coordination'],
+            ['value' => '06', 'label' => 'Sectors served in total'],
+        ],
+    ],
+
+    'scope' => [
+        'heading' => ['We Do Everything', 'Your Project Needs'],
+        'body' => 'Every scope is coordinated under one programme and one project lead.',
+        'items' => [
+            'Building Construction & Civil Works',
+            'Façade & Exterior Works',
+            'Interior Fit-Out & Renovation',
+            'Custom Joinery & Furniture',
+            'MEP Coordination & Execution',
+            'AMC & Property Management',
+        ],
+        'sectors_label' => 'Sectors We Serve',
+        'sectors_body' => 'We deliver tailored construction and fit-out solutions for diverse environments, adapting our approach to each space, its function and its requirements.',
+        'sectors' => ['Residential', 'Commercial', 'Hospitality & F&B', 'Fitness', 'Retail', 'Institutional'],
+        /*
+         * A picture per sector for the sectors section, each a cover of a
+         * project the site already shows in that sector. Retail has no
+         * project here yet, so it carries none rather than a borrowed one —
+         * add a cover when there is one.
+         */
+        'sector_images' => [
+            'Residential' => 'images/projects/covers/jumeirah-golf-estate-villas.webp',
+            'Commercial' => 'images/projects/covers/boulevard-plaza-office.webp',
+            'Hospitality & F&B' => 'images/projects/covers/benjarong-dusit-thani.webp',
+            'Fitness' => 'images/projects/covers/fidelity-gym-jlt.webp',
+            'Retail' => null,
+            'Institutional' => 'images/projects/covers/wasl-properties-hq.webp',
         ],
     ],
 
@@ -1282,6 +1355,8 @@ return [
         'label' => 'Inquiries',
         'heading' => ['Let’s Build the', 'Future Together.'],
         'body' => "Every successful development begins with the right partner. Let's discuss your goals and create a solution tailored to your project's unique requirements",
+        // From the 2026 business profile's closing page.
+        'brief' => 'Send us your drawings, BOQ or project brief for an initial scope review.',
         'submit' => 'Send Inquiry',
         'background' => 'images/inquiry-bg.webp',
         /*

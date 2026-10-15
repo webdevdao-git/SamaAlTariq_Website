@@ -62,13 +62,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="antialiased">
-    {{-- Entry curtain: in the HTML so it paints with the page, not after it. --}}
-    <div class="intro-curtain" data-lifting="false" aria-hidden="true">
-        <div class="intro-curtain__mark">
-            <img src="{{ asset('images/logo-mark.png') }}" alt=""
-                 class="h-auto w-[clamp(56px,6vw,96px)]" width="540" height="462">
-        </div>
-    </div>
+    {{-- Entry curtain: in the HTML so it paints with the page, not after it.
+         A plain teal wipe — the mark makes its entrance in the landing hero,
+         so it is not spent here first. --}}
+    <div class="intro-curtain" data-lifting="false" aria-hidden="true"></div>
 
     @yield('content')
 

@@ -69,6 +69,9 @@
                             </h1>
 
                             <p class="text-fluid-body font-medium text-ink-muted">{{ $contact['body'] }}</p>
+                            @isset(config('site.inquiry')['brief'])
+                                <p class="text-fluid-sm font-semibold text-teal">{{ config('site.inquiry.brief') }}</p>
+                            @endisset
 
                         </div>
 

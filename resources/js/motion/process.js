@@ -83,7 +83,7 @@ export function initProcessScroll() {
         // The landing page's timelapse (scenes.js) stacks the pictures in one
         // frame and drives the steps from its own scroll, so there is no
         // picture position here to read them from.
-        if (root.classList.contains('is-timelapse')) return;
+        if (root.classList.contains('is-timelapse') || root.classList.contains('is-track')) return;
 
         const stackRect = stack.getBoundingClientRect();
         // Cheap bail-out: nothing to do while the section is far off screen.

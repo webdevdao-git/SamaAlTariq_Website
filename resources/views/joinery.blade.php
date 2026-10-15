@@ -24,11 +24,12 @@
         @include('sections.joinery-page.wordmark')
         @include('sections.joinery-page.ecosystem')
         @include('sections.joinery-page.capabilities')
+        @include('sections.joinery-page.table')
         @include('sections.joinery-page.detail')
         @include('sections.joinery-page.process')
         @include('sections.joinery-page.context')
         @include('sections.joinery-page.faqs')
-        @include('sections.inquiry')
+        @include('sections.enquiry-band')
     </main>
 
     @include('sections.footer')
