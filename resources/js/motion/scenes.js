@@ -198,7 +198,7 @@ function heroZoom() {
                 <g data-zoom><g data-fit>${LOGO.paths.map((d) => `<path fill="#000" d="${d}"/>`).join('')}</g></g>
             </mask>
         </defs>
-        <rect data-ground fill="#161616" x="0" y="0" mask="url(#${id})"/>`;
+        <rect data-ground fill="#3fa7b3" x="0" y="0" mask="url(#${id})"/>`;
 
     const cue = document.createElement('div');
     cue.className = 'hero-mask__cue';

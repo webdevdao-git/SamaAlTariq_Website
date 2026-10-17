@@ -42,7 +42,7 @@
     and the scroll — pinned — walks them forward one at a time
     (motion/project-stack.js, scroll mode).
 --}}
-<section id="projects" class="featured-stack bg-night text-white">
+<section id="projects" class="featured-stack bg-mist text-ink">
     <div class="shell flex flex-col gap-6 pt-[clamp(2.5rem,5vw,80px)] md:flex-row md:items-end md:justify-between">
         <h2 class="editorial-heading text-fluid-section uppercase">
             @foreach ($projects['heading'] as $i => $line)

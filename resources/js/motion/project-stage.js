@@ -169,7 +169,8 @@ export function initProjectStage() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x111111, 9, 22);
+    // Fog the page's own off-white, so far panels fade into the ground.
+    scene.fog = new THREE.Fog(0xf9f9f9, 9, 24);
 
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;

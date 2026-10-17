@@ -68,7 +68,7 @@
              class="pointer-events-none absolute inset-0 z-20 origin-bottom overflow-hidden will-change-transform">
             <div data-reveal-media class="absolute inset-0 origin-bottom will-change-transform">
                 <p data-reveal-title-white style="opacity:0"
-                   class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal text-white">
+                   class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal text-white">
                     {{ $hero['lines'][1] }}
                 </p>
             </div>
@@ -81,7 +81,7 @@
         <div class="relative z-10 flex-1">
             <h1 class="absolute inset-0">
                 <span data-reveal-title-ink
-                      class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal text-ink">
+                      class="absolute inset-x-0 top-1/2 -translate-y-1/2 px-[clamp(1.25rem,4.63vw,80px)] text-center font-display text-[clamp(1.75rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal text-ink">
                     <span data-split data-split-by="word">{{ $hero['lines'][0] }}</span>
                 </span>
 

@@ -8,7 +8,7 @@
     only ever be one.
 --}}
 <div id="site-menu" data-menu role="dialog" aria-modal="true" aria-label="Site navigation"
-     class="pointer-events-none fixed inset-0 z-50 bg-night/95 opacity-0 backdrop-blur-sm transition-opacity duration-500">
+     class="pointer-events-none fixed inset-0 z-50 bg-teal/97 opacity-0 backdrop-blur-sm transition-opacity duration-500">
     <div class="shell flex h-full flex-col py-[clamp(1.25rem,2.55vw,44px)]">
         <div class="flex items-center justify-end">
             <button type="button" data-menu-close
@@ -18,7 +18,7 @@
         <nav class="flex flex-1 flex-col justify-center gap-2">
             @foreach ($nav as $item)
                 <a href="{{ $item['href'] }}" data-menu-link
-                   class="display group flex w-fit items-center gap-5 py-[6px] -my-[6px] text-[clamp(1.875rem,4vw,66px)] uppercase text-white transition-colors hover:text-teal">
+                   class="display group flex w-fit items-center gap-5 py-[6px] -my-[6px] text-[clamp(1.875rem,4vw,66px)] uppercase text-white transition-colors hover:text-white/70">
                     {{ $item['label'] }}
                     <x-icon name="arrow-right" class="w-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
                 </a>
@@ -41,7 +41,7 @@
                 saves a redirect.
             --}}
             <a href="{{ auth()->check() ? route('portal.dashboard') : route('login') }}" data-menu-link
-               class="display group flex w-fit items-center gap-5 py-[6px] -my-[6px] text-[clamp(1.875rem,4vw,66px)] uppercase text-white transition-colors hover:text-teal">
+               class="display group flex w-fit items-center gap-5 py-[6px] -my-[6px] text-[clamp(1.875rem,4vw,66px)] uppercase text-white transition-colors hover:text-white/70">
                 {{ auth()->check() ? 'Portal' : 'Login' }}
                 <x-icon name="arrow-right" class="w-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"/>
             </a>

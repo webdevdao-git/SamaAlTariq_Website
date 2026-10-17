@@ -33,7 +33,7 @@
              1179 of its 1728 — wider than the 958 picture it crosses, which is
              the overhang the frame draws. It goes as the picture opens. --}}
         <h2 data-grow-word
-            class="pointer-events-none absolute z-30 w-[68.2%] text-center font-display text-[clamp(2.5rem,7.41vw,128px)] font-semibold uppercase leading-[1.367] tracking-normal text-white">
+            class="pointer-events-none absolute z-30 w-[68.2%] text-center font-display text-[clamp(2.5rem,5.56vw,96px)] font-semibold uppercase leading-[1.367] tracking-normal text-white">
             <span data-split data-split-by="letter">{{ $consultation['word'] }}</span>
         </h2>
 

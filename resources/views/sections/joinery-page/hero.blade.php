@@ -10,7 +10,7 @@
     set the way those set them: anchored from the foot rather than the head, so
     the row cannot drift as the copy reflows.
 --}}
-<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-night">
+<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-teal">
 
     {{-- 2400 wide, made from the 1200 workshop frame. This is full-bleed and
          the services file covers a window at 0.83 source pixels per CSS pixel

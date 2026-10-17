@@ -10,6 +10,7 @@
         @include('sections.scope')
         @include('sections.sectors')
         @include('sections.joinery-teaser')
+        @include('sections.team-band')
         @include('sections.inquiry')
     </main>
 

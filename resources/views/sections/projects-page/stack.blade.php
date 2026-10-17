@@ -33,7 +33,7 @@
     Each card is a link to its project. Without the script the cards sit in
     a row that scrolls sideways.
 --}}
-<div class="pstack bg-night text-white" data-pstack @if ($scroll) data-pstack-scroll @endif>
+<div class="pstack text-ink" data-pstack @if ($scroll) data-pstack-scroll @endif>
     <div class="pstack__stage">
         <ul class="pstack__cards">
             @foreach ($stack as $i => $item)
@@ -50,7 +50,7 @@
     <div class="pstack__bar shell" aria-hidden="true">
         <button type="button" class="pstack__nav" data-pstack-prev><x-icon name="arrow-right" class="w-5 rotate-180"/></button>
         <div class="pstack__caption">
-            <p class="pstack__meta"><span data-pstack-category>{{ $stack[0]['category'] ?? '' }}</span> <span data-pstack-location class="text-white/55">{{ $stack[0]['location'] ?? '' }}</span></p>
+            <p class="pstack__meta"><span data-pstack-category>{{ $stack[0]['category'] ?? '' }}</span> <span data-pstack-location class="text-ink-muted">{{ $stack[0]['location'] ?? '' }}</span></p>
             <p class="pstack__title display" data-pstack-title>{{ $stack[0]['title'] ?? '' }}</p>
         </div>
         <button type="button" class="pstack__nav" data-pstack-next><x-icon name="arrow-right" class="w-5"/></button>

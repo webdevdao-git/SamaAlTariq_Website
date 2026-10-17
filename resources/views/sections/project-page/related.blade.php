@@ -13,7 +13,7 @@
 --}}
 <section class="bg-white pt-[clamp(3rem,5.79vw,100px)] pb-[clamp(3rem,5.79vw,100px)]">
     <div class="shell">
-        <h2 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium uppercase leading-[0.936] tracking-normal text-ink">
+        <h2 class="font-display text-[clamp(2.25rem,4.69vw,81px)] font-medium uppercase leading-[0.936] tracking-normal text-ink">
             <span data-split class="block">Related</span>
             <span data-split data-split-delay="110" class="block">Projects</span>
         </h2>

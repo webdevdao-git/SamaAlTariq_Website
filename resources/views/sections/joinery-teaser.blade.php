@@ -1,47 +1,55 @@
 @php
-    $joinery = config('site.joinery_page');
-    $partner = $joinery['partner'];
-    $pictures = $joinery['wordmark']['images'];
+    $partner = config('site.joinery_page.partner');
+    $feature = config('site.alwan_feature');
 @endphp
 
 {{--
-    A short pointer to the joinery side of the business: Alwan Interiors, the
-    workshop behind the fit-outs. Copy and pictures are the Joinery page's own
-    (config/site.php joinery_page), so the two never say different things;
-    the section only sends the visitor there.
+    Alwan Interiors, the joinery side of the business, shown through the
+    hardest kind of piece it makes: a ribbed wall that curves up into the
+    ceiling, the one in the About photograph.
+
+    Told in 3D on one held screen (motion/rib-vault.js): a flat sheet of
+    board, the CNC tracing every rib's profile across it, the cut pieces
+    lifting off and standing up one after another into the curved vault,
+    and then the photograph of the real one. Where WebGL can't run, the
+    photograph is simply the picture.
 --}}
-<section id="joinery" class="bg-mist">
-    <div class="py-[clamp(3rem,5vw,80px)]">
-    <div class="shell grid items-center gap-[clamp(2rem,4vw,64px)] lg:grid-cols-[5fr_7fr]">
-        <div class="flex flex-col gap-[clamp(1rem,1.6vw,24px)]">
-            <img src="{{ asset($partner['logo']) }}" alt="{{ $partner['mark_alt'] }}"
-                 loading="lazy" decoding="async" class="reveal h-[clamp(36px,3.2vw,52px)] w-auto self-start">
-            <p class="reveal text-fluid-sm font-semibold uppercase tracking-[0.14em] text-teal">{{ $joinery['wordmark']['label'] }}</p>
-            <h2 class="reveal display text-fluid-h2 leading-[1.15] text-ink">{{ implode(' ', $joinery['hero']['words']) }}</h2>
-            <p class="reveal max-w-[44ch] text-fluid-body text-ink-muted">{{ $joinery['hero']['summary'] }}</p>
-            <a href="{{ route('joinery') }}" class="reveal pill group mt-2 self-start">
+<section id="joinery" class="rv bg-mist">
+    <div class="shell rv__grid py-[clamp(3rem,5vw,80px)]">
+        <div class="rv__copy">
+            <div class="rv__brand">
+                <img src="{{ asset($partner['logo']) }}" alt="{{ $partner['mark_alt'] }}" loading="lazy" decoding="async">
+                <p>{{ $feature['label'] }}</p>
+            </div>
+            <h2 class="rv__heading display">
+                @foreach ($feature['heading'] as $i => $line)
+                    <span data-split data-split-delay="{{ $i * 110 }}" class="block {{ $i === 1 ? 'text-teal' : '' }}">{{ $line }}</span>
+                @endforeach
+            </h2>
+            <p class="reveal rv__body">{{ $feature['body'] }}</p>
+            <a href="{{ route('joinery') }}" class="reveal pill group self-start">
                 Explore Joinery
                 <x-icon name="arrow-pill" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
             </a>
         </div>
 
-        {{--
-            A piece of joinery, made in front of the visitor: a walnut dining
-            table modelled in Three.js (motion/joinery-table.js), its legs
-            rising and its top coming down onto them as the section scrolls
-            in, then turning under the pointer. The workshop photographs are
-            what shows until — or unless — it can be drawn.
-        --}}
-        <div class="jtable" data-jtable>
-            <canvas class="jtable__canvas" aria-hidden="true"></canvas>
-            <ul class="jtable__fallback grid grid-cols-2 gap-[clamp(0.5rem,1vw,16px)]">
-                @foreach ($pictures as $picture)
-                    <li class="relative aspect-[4/3] overflow-hidden rounded-[clamp(6px,0.6vw,10px)]">
-                        <img src="{{ asset($picture['src']) }}" alt="{{ $picture['alt'] }}" loading="lazy" decoding="async" class="h-full w-full object-cover">
-                    </li>
+        <div class="rv__visual" data-rvault>
+            <canvas class="rv__canvas" aria-hidden="true"></canvas>
+
+            <ol data-rv-phases class="rv__phases" aria-hidden="true">
+                @foreach ($feature['phases'] as $i => $phase)
+                    <li class="{{ $i === 0 ? 'is-on' : '' }}"><span>{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>{{ $phase }}</li>
                 @endforeach
-            </ul>
+            </ol>
+
+            <figure data-rv-photo class="rv__photo">
+                <img src="{{ \App\Support\Asset::versioned($feature['image']) }}" alt="{{ $feature['alt'] }}" loading="lazy" decoding="async">
+                <figcaption>
+                    <span>{{ $feature['caption'][0] }}</span>
+                    <x-icon name="arrow-pill"/>
+                    <span>{{ $feature['caption'][1] }}</span>
+                </figcaption>
+            </figure>
         </div>
-    </div>
     </div>
 </section>

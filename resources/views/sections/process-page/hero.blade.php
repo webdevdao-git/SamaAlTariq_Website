@@ -9,7 +9,7 @@
     title 148, 280 up to the row of copy, 26 more to the hairline. Anchoring
     from the top would let the row drift as the copy reflows.
 --}}
-<section id="top" class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
+<section id="top" class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-teal">
 
     {{-- Bottom, not centre. The frame's SVG gives the photograph's placement
          as matrix(0.00025 0 0 0.00038675 0 -0.160687) on the 1728x1117 rect:
@@ -74,7 +74,7 @@
             </div>
 
             {{-- 280 to the title, then the two words on the two gutters. --}}
-            <h1 class="mt-[clamp(2.5rem,16.2vw,280px)] flex items-baseline justify-between gap-8 font-display text-[clamp(2.5rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal">
+            <h1 class="mt-[clamp(2.5rem,16.2vw,280px)] flex items-baseline justify-between gap-8 font-display text-[clamp(2.5rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal">
                 <span data-split data-split-by="word">{{ $hero['heading'][0] }}</span>
                 <span data-split data-split-by="word" data-split-delay="140">{{ $hero['heading'][1] }}</span>
             </h1>

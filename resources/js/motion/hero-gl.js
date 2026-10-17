@@ -130,7 +130,9 @@ function initShader(hero, media, img) {
     canvas.className = 'hero-gl';
     canvas.setAttribute('aria-hidden', 'true');
 
-    const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+    // WebGL2 where there is one: it can mipmap a picture of any size, which is
+    // what keeps a 3200px photograph clean when drawn at a laptop's width.
+    const gl = canvas.getContext('webgl2', { antialias: false, alpha: false, powerPreference: 'low-power' }) || canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
     if (!gl) return;
 
     let program;
@@ -170,7 +172,9 @@ function initShader(hero, media, img) {
     };
 
     const resize = () => {
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        // The screen's own density, up to 2x, so the redrawn photograph is as
+        // sharp as the <img> it sits over.
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
         const rect = media.getBoundingClientRect();
         // The box before parallax.js scales it — offsetWidth ignores transforms.
         canvas.width = Math.max(1, Math.round(media.offsetWidth * dpr));
@@ -213,7 +217,9 @@ function initShader(hero, media, img) {
         gl.bindTexture(gl.TEXTURE_2D, tex);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, texture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        const canMip = typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext;
+        if (canMip) gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, canMip ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -305,5 +311,6 @@ export function initHeroGl() {
     ].filter(([node]) => node);
 
     initDepth(hero, media, layers);
-    initShader(hero, media, img);
+    // The liquid lens over the photograph is off: the hero shows its picture
+    // as it is. initShader stays in this module should it be wanted back.
 }

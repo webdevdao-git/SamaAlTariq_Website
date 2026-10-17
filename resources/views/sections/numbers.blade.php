@@ -8,7 +8,7 @@
     the hairline over it draws across; the markup carries the final figure,
     so without JavaScript the band simply reads as written.
 --}}
-<section class="numbers bg-night py-[clamp(3rem,5vw,80px)] text-white">
+<section class="numbers bg-teal py-[clamp(3rem,5vw,80px)] text-white">
     <div class="shell">
         <div class="flex flex-col gap-[clamp(1.5rem,3vw,52px)] lg:flex-row lg:items-end lg:justify-between">
             <h2 class="editorial-heading text-fluid-h2 uppercase">

@@ -108,7 +108,7 @@ function read() {
      * the client strip, the 3D stage and the stat labels are left alone —
      * they are not prose.
      */
-    const skip = 'form, .marquee, [data-stage], .numbers dd, .scope__row, .sectors__item, footer, header, .service-slides, nav, li';
+    const skip = 'form, .marquee, [data-stage], .numbers dd, .scope__row, .sstage, .sx, .rv, .sectors__item, footer, header, .service-slides, nav, li';
     const paragraphs = Array.from(document.querySelectorAll('main p'))
         .filter((p) => !p.closest(skip) && p.textContent.trim().length > 90 && !p.querySelector('a, input, img'));
 

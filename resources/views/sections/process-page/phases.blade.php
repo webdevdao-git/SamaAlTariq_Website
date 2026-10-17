@@ -31,7 +31,7 @@
                              its consultation band, and the ten service titles.
                              These phase titles were the only ones left in
                              sentence case. --}}
-                        <h2 class="font-display text-[clamp(1.75rem,3.7vw,64px)] font-medium uppercase leading-[0.9375] tracking-normal text-ink">
+                        <h2 class="font-display text-[clamp(1.75rem,2.78vw,48px)] font-medium uppercase leading-[0.9375] tracking-normal text-ink">
                             @foreach ($phase['title'] as $line)
                                 <span data-split data-split-delay="{{ $loop->index * 110 }}" class="block">{{ $line }}</span>
                             @endforeach

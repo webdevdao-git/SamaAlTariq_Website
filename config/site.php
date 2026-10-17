@@ -28,6 +28,7 @@ return [
         ['label' => 'Services', 'href' => '/services'],
         ['label' => 'Joinery', 'href' => '/joinery'],
         ['label' => 'Process', 'href' => '/process'],
+        ['label' => 'Team', 'href' => '/team'],
         ['label' => 'Contact', 'href' => '/contact'],
     ],
 
@@ -71,11 +72,32 @@ return [
         // lines deep, and "Delivering Quality" is the only pair of words that
         // fits one of them. Left to the browser at the width the line needs,
         // the year falls to a third line on its own.
-        'eyebrow' => ['Delivering Quality', 'Since 2023'],
-        'intro' => 'We deliver exceptional construction, engineering, and contracting solutions that shape modern communities through innovation and uncompromising standards.',
+        'eyebrow' => ['Since 2023', 'Dubai, UAE'],
+        // Interior fit-out is the core of the business; construction, joinery
+        // and MEP are what let the company deliver it under one contract.
+        'intro' => 'Interior fit-out contractor in Dubai: gypsum and ceilings, finishing, joinery and MEP, all by our own team.',
         'cta' => ['label' => 'Explore Projects', 'href' => '#projects'],
-        'words' => ['first' => 'Building', 'second' => 'With Precision', 'third' => 'Future'],
-        'image' => 'images/hero.webp',
+        // "Fit Out" without the hyphen: the display face's demo cut draws "-"
+        // as an ornament, so the slab stays on letters it draws correctly.
+        /*
+         * The hero's slides, each with its own message. Pictures are cut at
+         * 2880px from the original shoots (source-photos/), not the site's
+         * 2200px project copies. The headline lines go into the display
+         * face, so they keep to letters, spaces and commas.
+         */
+        // Shown over every slide: what the company is best known for.
+        'specialism' => ['Interior Fit-Out', 'Gypsum & Ceiling Specialists'],
+        'slides' => [
+            ['src' => 'images/hero/w-residence.webp', 'title' => 'W Residence, Palm Jumeirah', 'lines' => ['Residences Finished', 'To The Last Detail']],
+            // Gypsum is the company's core trade, so it has a slide of its own.
+            ['src' => 'images/hero/boulevard.webp', 'title' => 'Boulevard Plaza Office', 'lines' => ['Gypsum Ceilings,', 'Our Core Expertise']],
+            ['src' => 'images/hero/pullman.webp', 'title' => 'Pullman Hotel', 'lines' => ['Hospitality,', 'Delivered End To End']],
+            ['src' => 'images/hero/benjarong.webp', 'title' => 'Benjarong, Dusit Thani', 'lines' => ['Restaurants With', 'A Story To Tell']],
+            ['src' => 'images/hero/wasl.webp', 'title' => 'WASL Properties HQ', 'lines' => ['Workplaces Built', 'Around People']],
+            ['src' => 'images/hero/b200.webp', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'lines' => ['Villas Renewed,', 'Room By Room']],
+            ['src' => 'images/hero/pv39.webp', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'lines' => ['Interior Fit Out,', 'One Contractor']],
+        ],
+        'image' => 'images/hero/w-residence.webp',
         // The frame's own photograph, taken from the hero's image fill.
         'alt' => 'Double-height living room opening onto a beach and the Dubai skyline',
     ],
@@ -83,16 +105,16 @@ return [
     'about' => [
         'label' => 'Who We Are',
         'heading' => [
-            'We build with precision,',
-            'delivering structures that stand as',
-            'lasting symbols of quality and trust.',
+            'An interior fit-out contractor in Dubai,',
+            'finishing villas, hotels, restaurants',
+            'and offices with our own team.',
         ],
         'image' => 'images/about-interior.webp',
         'alt' => 'Curved timber-ribbed interior with a sculpted lounge chair',
-        'subheading' => ['Redefining', 'Construction Excellence'],
+        'subheading' => ['Shell To Handover,', 'One Team'],
         'body' => [
-            'Every successful structure begins with thoughtful planning, expert engineering, and flawless execution. These principles guide every decision we make and every project we deliver.',
-            'By combining technical expertise with innovative construction practices, Sama Al Tariq create developments that stand the test of time.',
+            'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 150 of our own people do the work, without subcontracting.',
+            'Our joinery is made in our own workshop, Alwan Interiors. After handover, our AMC team keeps the space in the condition we handed it over in.',
         ],
         'stats' => [
             ['value' => '03+', 'label' => 'Years of Expertise'],
@@ -137,7 +159,7 @@ return [
             // 'Who', not 'Why' — the same label the landing page's about
             // band carries, and the only place the two disagreed.
             'label' => 'Who We Are',
-            'body' => 'We Build the Foundations of What Comes Next. Construction Shaped By Expertise, Intention, And Enduring Quality.',
+            'body' => 'Interior Fit-Out Contractor In Dubai. Gypsum, Finishing, Joinery And MEP, Delivered By Our Own Team.',
             'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
             'word' => 'About Us',
             'stats' => [
@@ -146,7 +168,7 @@ return [
                 ['value' => '250k+', 'label' => 'm² Delivered'],
             ],
             'image' => 'images/about/hero.webp',
-            'alt' => 'White villa with a reflecting pool and palms',
+            'alt' => 'Double-height villa interior around an indoor tree',
         ],
 
         // Frame 1377:26. Image left, one paragraph in the right column, its
@@ -154,7 +176,7 @@ return [
         // set in the semibold cut, as in the design.
         'intro' => [
             'lead' => 'Sama Al Tariq Building Contracting L.L.C.',
-            'body' => 'is a Dubai-based construction and fit-out company bringing multiple disciplines together under one integrated approach. From luxury residences and hospitality environments to corporate, retail, healthcare and government projects, we manage every stage from tender and planning through construction and handover.',
+            'body' => 'is a Dubai-based interior fit-out company. Our own teams handle gypsum ceilings and partitions, finishing, joinery and MEP for villas, apartments, hotels, restaurants, offices, gyms and clinics. We cover every stage, from the first drawing and BOQ to handover and maintenance.',
             'image' => 'images/about/intro-stair.webp',
             'alt' => 'Curved stone staircase in a sunlit hall',
         ],
@@ -163,7 +185,7 @@ return [
         // Its heading is set in the sans, not the display serif.
         'vision' => [
             'heading' => ['One vision,', 'brought together under one roof.'],
-            'body' => 'From the first tender to final handover, our teams work as one to create greater clarity throughout the build and lasting value in the finished result.',
+            'body' => 'From the first drawing to the final handover, one team runs the whole interior. You deal with one programme, one project lead and one contract.',
             'cta' => ['label' => 'See Our process', 'href' => '/process'],
             'image' => 'images/about/vision-lounge.webp',
             'alt' => 'Living room with a red and black artwork spanning the panelled wall',
@@ -173,8 +195,8 @@ return [
         // the logo mark centred over it, then copy in the right column.
         'approach' => [
             'label' => 'Our Approach',
-            'heading' => 'We believe exceptional spaces are shaped long before the first structure takes form.',
-            'body' => 'A considered vision, collective expertise, and disciplined execution form the foundation of every project we undertake. By bringing diverse disciplines together, we create spaces that are purposeful, cohesive, and built to last.',
+            'heading' => 'We believe great interiors are planned long before the first ceiling goes up.',
+            'body' => 'Every project starts with the drawings, the BOQ and a site survey. Ceilings, joinery and MEP are coordinated on paper first, so on site every trade fits together and the finish is right the first time.',
             'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
             'images' => [
                 'main' => ['src' => 'images/about/approach-villa.webp', 'alt' => 'Villa entrance under an open sky'],
@@ -191,7 +213,7 @@ return [
         'values' => [
             'label_left' => 'Modern',
             'heading' => 'Principles that shape every decision we make.',
-            'label_right' => 'Construction',
+            'label_right' => 'Interiors',
             'image' => 'images/about/values-lounge.webp',
             'alt' => 'Timber-lined lounge under a sculptural light',
             'items' => [
@@ -227,7 +249,7 @@ return [
          * staircase.
          */
         'purpose' => [
-            'words' => ['Construction', 'With A Clearer', 'Purpose'],
+            'words' => ['Interiors', 'With A Clearer', 'Purpose'],
             'body' => 'Have a project in mind? Speak with our team and discover how the right expertise can turn your ambition into a considered, well-delivered reality.',
             'cta' => ['label' => 'Get a free consultation', 'href' => '#contact'],
             /*
@@ -239,7 +261,6 @@ return [
                 ['src' => 'images/about/strip-living.webp', 'alt' => 'Living room with a sculpted feature wall'],
                 ['src' => 'images/about/strip-lounge.webp', 'alt' => 'Timber-lined lounge with modular seating'],
                 ['src' => 'images/about/strip-bedroom.webp', 'alt' => 'Bedroom under a timber ceiling opening to a terrace'],
-                ['src' => 'images/about/strip-terrace.webp', 'alt' => 'Planted roof terrace with an outdoor dining table'],
                 ['src' => 'images/about/strip-dining-room.webp', 'alt' => 'Dining room with an arched mirror and upholstered chairs'],
                 ['src' => 'images/about/strip-salon.webp', 'alt' => 'Salon with a curved illuminated ceiling'],
                 ['src' => 'images/about/strip-bar.webp', 'alt' => 'Lounge with a dark fitted bar and tufted seating'],
@@ -488,9 +509,9 @@ return [
         'jumeirah-golf-estate-villas' => [
             'about' => 'Full renovation & fit-out',
             'year' => '2024',
-            'lead' => 'A refined residential project in Dubai, combining sophisticated interiors with precise construction and bespoke detailing.',
+            'lead' => 'A refined residential project in Dubai, combining sophisticated interiors with precise finishing and bespoke detailing.',
             'body' => [
-                'Jumeirah Golf Estate Villas were delivered as a full renovation and fit-out over eight months. The programme brought together an open island-led kitchen, light-filled lounges, timber-slat ceilings, a poolside terrace and coordinated joinery and finishes across the home.',
+                'Jumeirah Golf Estate Villas were delivered as a full renovation and fit-out over eight months. The programme brought together an open island-led kitchen, light-filled lounges, timber-slat ceilings and coordinated joinery and finishes across the home.',
                 'The villas were delivered with a focus on material quality, seamless finishes, and carefully coordinated architectural and interior elements—creating elegant, functional spaces designed for contemporary luxury living.',
             ],
             'tiles' => 9,
@@ -550,7 +571,7 @@ return [
                 'The Jumeirah Island villa was delivered as a full interior fit-out, the living spaces, kitchen and bedrooms taken together as one package rather than let separately.',
                 'One package is what allows a single set-out to run through the house — the joinery, the stone and the ceilings meet because they were drawn against each other before any of them was made.',
             ],
-            'tiles' => 4,
+            'tiles' => 3,
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
         ],
         /*
@@ -691,7 +712,7 @@ return [
             ],
             [
                 'label' => 'Phase 02',
-                'title' => ['Engineering AND Pre-Construction'],
+                'title' => ['Planning AND Shop Drawings'],
                 'lead' => 'The foundation for delivery, set through careful planning and procurement.',
                 'image' => 'images/process/phase-interior-2.webp', 'ratio' => '1200 / 867',
                 'items' => [
@@ -703,11 +724,11 @@ return [
             ],
             [
                 'label' => 'Phase 03',
-                'title' => ['Construction AND Execution'],
-                'lead' => 'Disciplined site delivery where engineering becomes a finished, functioning space.',
+                'title' => ['Fit-Out AND Execution'],
+                'lead' => 'Disciplined site delivery, where the drawings become a finished, working interior.',
                 'image' => 'images/process/phase-interior-3.webp', 'ratio' => '1200 / 867',
                 'items' => [
-                    ['title' => 'Build With Discipline', 'body' => 'Civil and structural works executed to drawing, with setting-out and quality checks at every stage.'],
+                    ['title' => 'Build With Discipline', 'body' => 'Partitions, ceilings and fit-out works executed to drawing, with setting-out and quality checks at every stage.'],
                     ['title' => 'Install The Systems', 'body' => 'HVAC, electrical and plumbing installed and cleanly coordinated with the finishes.'],
                     ['title' => 'Finish To Perfection', 'body' => 'Flooring, ceilings, joinery and decorative finishes delivered to specification.'],
                     ['title' => 'Control The Quality', 'body' => 'Weekly progress, inspection sign-offs and strict HSE keep delivery on track.'],
@@ -822,9 +843,9 @@ return [
 
         'ecosystem' => [
             'label' => ['Within The Sama', 'Ecosystem'],
-            'statement' => 'A closer connection between construction expertise and craft that defines the finished space.',
+            'statement' => 'The fit-out and the craft that finishes it, from one team.',
             'note' => ['Multiple', 'disciplines, one vision.'],
-            'body' => 'Sama Al Tariq brings together construction, contracting, project delivery, and integrated building expertise. Alwan Interiors adds specialist interior and joinery capability—creating a more connected route from the broader build to the details that define the finished environment.',
+            'body' => 'Sama Al Tariq delivers the interior fit-out: ceilings, partitions, finishing and MEP. Alwan Interiors, our own joinery workshop, makes the woodwork that completes it. The room and everything built into it come from one team.',
         ],
 
         /*
@@ -863,7 +884,7 @@ return [
              */
             'images' => [
                 ['src' => 'images/joinery/capabilities-1.webp', 'alt' => 'A joiner working a length of timber at the saw'],
-                ['src' => 'images/joinery/capabilities-2.webp', 'alt' => 'A timber-slatted facade seen from within'],
+                ['src' => 'images/joinery/capabilities-2.webp', 'alt' => 'Timber slats seen in raking light'],
                 ['src' => 'images/joinery/capabilities-3.webp', 'alt' => 'A restaurant booth in timber and brass'],
             ],
         ],
@@ -959,7 +980,7 @@ return [
                 ],
                 [
                     'q' => 'How does Alwan work with Sama Al Tariq?',
-                    'a' => 'Alwan provides specialist joinery and interior execution within Sama Al Tariq\'s wider project delivery structure, allowing the two teams to coordinate closely across the build.',
+                    'a' => 'Alwan provides specialist joinery and interior execution within Sama Al Tariq\'s wider project delivery structure, allowing the two teams to coordinate closely across the fit-out.',
                 ],
             ],
         ],
@@ -990,74 +1011,102 @@ return [
         ],
 
         'intro' => [
-            /*
-         * The three pictures are from the project shoots — Benjarong for the
-         * fit-out, the Emirates Hills villa for design and build, WASL's
-         * boardroom for commercial — and each has a `blueprint`: the same
-         * photograph traced to a pencil sketch, which the landing page's scene draws
-         * first and scans into the photograph. Both are generated from
-         * source-photos/ at the same crop, so they register exactly.
-         */
-        'label' => 'Our Expertise',
-            'statement' => 'Expertise that brings every part of the build together.',
-            'note' => ['Multiple', 'disciplines, one vision.'],
-            'body' => 'From construction and fit-out to specialist joinery and MEP, we bring the people, disciplines and capabilities required to deliver complex environments as one coordinated team.',
+            'label' => 'What We Do',
+            'statement' => 'Interior fit-out from first drawing to final handover, under one contractor.',
+            'note' => ['Design, build,', 'and care after.'],
+            'body' => 'Our own teams handle design, approvals, finishing, joinery and MEP, and we stay on after handover with maintenance. You get one programme, one point of contact and one team responsible for the result.',
         ],
 
+        /*
+         * Eight services, each with the scope it covers. The page sets them as
+         * an index: the list on one side and the photograph of whichever row
+         * is active on the other (sections/services-page/services).
+         */
         'services' => [
             [
-                'number' => '01', 'title' => ['Fit-Out Contracting'], 'image' => 'images/services/service-1.webp',
-                'lead' => 'From shell to finished environment.',
-                'body' => 'Complete interior fit-out solutions for commercial, retail, F&B, hospitality and residential environments, coordinated from preparation through final delivery.',
+                'number' => '01', 'title' => ['Interior Fit-Out'], 'image' => 'images/services/service-1.webp',
+                'lead' => 'Turnkey fit-out, from shell to handover.',
+                'points' => ['Civil and interior works', 'Flooring, wall finishes and ceilings', 'Site supervision, snagging and handover'],
             ],
             [
-                'number' => '02', 'title' => ['Design', 'AND Build'], 'image' => 'images/services/service-2.webp',
-                'lead' => 'One vision. One coordinated delivery.',
-                'body' => 'Bringing design development and construction expertise together to create practical, cohesive environments aligned with the project\'s objectives and requirements.',
+                'number' => '02', 'title' => ['Design & Build'], 'image' => 'images/services/service-2.webp',
+                'lead' => 'One team from concept to keys.',
+                'points' => ['Space planning and mood boards', 'Material and finishes selection', 'Shop drawings and technical details'],
             ],
             [
-                'number' => '03', 'title' => ['Commercial AND Office Interiors'], 'image' => 'images/services/service-3.webp',
-                'lead' => 'Workspaces shaped around modern business.',
-                'body' => 'Bringing design development and construction expertise together to create practical, cohesive environments aligned with the project\'s objectives and requirements.',
+                'number' => '03', 'title' => ['Villa Renovation'], 'image' => 'images/services/service-4.webp',
+                'lead' => 'Homes renewed room by room.',
+                'points' => ['Kitchens, bathrooms and living areas', 'Layout changes and upgrades', 'Phased works for families living in'],
             ],
             [
-                'number' => '04', 'title' => ['Villa Renovation AND Refurbishment'], 'image' => 'images/services/service-4.webp',
-                'lead' => 'Reimagining spaces with considered detail.',
-                'body' => 'Comprehensive renovation and refurbishment for villas and private residences, transforming existing environments while respecting their character and improving their performance.',
+                'number' => '04', 'title' => ['Bespoke Joinery'], 'image' => 'images/services/service-6.webp',
+                'lead' => 'Made in our own workshop, Alwan Interiors.',
+                'points' => ['Wardrobes, kitchens and vanities', 'Wall panelling and feature pieces', 'Loose furniture made to order'],
             ],
             [
-                'number' => '05', 'title' => ['Bespoke Joinery'], 'image' => 'images/services/service-5.webp',
-                'lead' => 'Details made specifically for the space.',
-                'body' => 'Custom joinery created to complement architectural intent, material palettes and functional requirements—from feature elements to fully integrated interior components.',
+                'number' => '05', 'title' => ['Ceilings & Finishing'], 'image' => 'images/services/service-7.webp',
+                'lead' => 'The surfaces you see every day.',
+                'points' => ['Gypsum ceilings and bulkheads', 'Partitions and drywall', 'Paint, tiling and stone'],
             ],
             [
-                'number' => '06', 'title' => ['Joinery, Carpentry AND Millwork'], 'image' => 'images/services/service-6.webp',
-                'lead' => 'Crafted elements that complete the environment.',
-                'body' => 'Specialist carpentry and millwork installation delivered with careful coordination across architectural details, finishes and site requirements.',
+                'number' => '06', 'title' => ['MEP Works'], 'image' => 'images/services/service-8.webp',
+                'lead' => 'Systems resolved before the ceiling closes.',
+                'points' => ['HVAC, electrical and plumbing', 'Lighting and power layouts', 'Coordination drawings with the design'],
             ],
             [
-                'number' => '07', 'title' => ['Gypsum, Ceilings AND Partitions'], 'image' => 'images/services/service-7.webp',
-                'lead' => 'The framework behind the finished interior.',
-                'body' => 'Precision installation of ceilings, bulkheads and partitions to establish the structure, proportions and technical requirements of each interior environment.',
+                'number' => '07', 'title' => ['Authority Approvals'], 'image' => 'images/services/service-9.webp',
+                'lead' => 'Permits and NOCs, handled for you.',
+                'points' => ['Submission drawings', 'Landlord and building NOCs', 'Follow-up until approval'],
             ],
             [
-                'number' => '08', 'title' => ['MEP Services'], 'image' => 'images/services/service-8.webp',
-                'lead' => 'The systems that make spaces perform.',
-                'body' => 'Integrated mechanical, electrical and plumbing services coordinated with the wider build to support comfort, functionality, efficiency and long-term performance.',
+                'number' => '08', 'title' => ['AMC & Aftercare'], 'image' => 'images/services/service-10.webp',
+                'lead' => 'We stay after the handover.',
+                'points' => ['Annual maintenance contracts', 'Defects and snag support', 'Planned and reactive repairs'],
             ],
-            [
-                'number' => '09', 'title' => ['Authority AND Departmental Approvals'], 'image' => 'images/services/service-9.webp',
-                'lead' => 'Keeping complexity under control.',
-                'body' => 'Managing submissions, permits, NOCs, and regulatory approvals with the relevant Dubai and UAE authorities.',
+        ],
+
+        // Two ways to engage, depending on whether the client has a designer.
+        'delivery' => [
+            'label' => 'How You Can Work With Us',
+            'models' => [
+                [
+                    'title' => 'Design & Build',
+                    'for' => 'You have a space and a brief.',
+                    'body' => 'We design it, get it approved, build it and hand it over. One contract and one team from start to finish.',
+                    'points' => ['Concept and technical design', 'Approvals and procurement', 'Fit-out, joinery and MEP', 'Handover and aftercare'],
+                ],
+                [
+                    'title' => 'Build Only',
+                    'for' => 'You already have a designer.',
+                    'body' => 'Send us the approved drawings and BOQ. We build to them exactly and coordinate with your consultant on site.',
+                    'points' => ['Drawing and BOQ review', 'Shop drawings and samples', 'Fit-out, joinery and MEP', 'Snagging and handover'],
+                ],
             ],
-            [
-                // The one band whose title box the frame widens: 589 of the 602
-                // column rather than the 535 the other nine share, which is
-                // what keeps this title on two lines instead of three.
-                'number' => '10', 'title' => ['Project Management AND Coordination'], 'title_box' => '97.84%',
-                'image' => 'images/services/service-10.webp',
-                'lead' => 'Keeping complexity under control.',
-                'body' => 'Dedicated project leadership connecting consultants, suppliers, trades and site teams around a clear programme, coordinated decisions and defined responsibilities.',
+        ],
+
+        // Working in occupied hotels, offices and homes.
+        'live' => [
+            'label' => 'Occupied Spaces',
+            'heading' => ['Works Inside', 'Spaces That Stay Open'],
+            'body' => 'Hotels, offices and homes rarely stop for a renovation. We plan the works so guests, staff and families can carry on around us.',
+            'image' => 'images/projects/pullman/l1.webp',
+            'steps' => [
+                ['title' => 'Map', 'body' => 'Walk the space and learn how it runs day to day.'],
+                ['title' => 'Phase', 'body' => 'Split the works into zones and agree the order.'],
+                ['title' => 'Protect', 'body' => 'Screen off each zone and control dust, noise and access.'],
+                ['title' => 'Hand Over', 'body' => 'Finish and return each zone before the next one opens.'],
+            ],
+        ],
+
+        'faq' => [
+            'label' => 'Questions',
+            'items' => [
+                ['q' => 'What kind of projects do you take on?', 'a' => 'Interior fit-out and renovation for residences, villas, hotels, restaurants, offices, gyms and clinics across Dubai and the UAE.'],
+                ['q' => 'Can you work from our designer\'s drawings?', 'a' => 'Yes. With Build Only, we take your approved drawings and BOQ, then build to them and coordinate with your consultant.'],
+                ['q' => 'Do you handle authority approvals?', 'a' => 'Yes. We prepare submission drawings and follow up on landlord, building and authority NOCs until they are approved.'],
+                ['q' => 'Is the joinery made in house?', 'a' => 'Yes. Wardrobes, kitchens, panelling and furniture are made by our joinery division, Alwan Interiors.'],
+                ['q' => 'How long does a fit-out take?', 'a' => 'It depends on size and scope. We give you a programme with the proposal and report against it every week.'],
+                ['q' => 'What happens after handover?', 'a' => 'Snagging support, and an annual maintenance contract (AMC) if you want us to look after the space.'],
             ],
         ],
     ],
@@ -1077,7 +1126,7 @@ return [
     'contact_page' => [
         'heading' => ["Let's Shape", 'Your Vision'],
         'label' => 'Speak to our team',
-        'body' => "Have a project in mind? Tell us what you're building and let's explore how our expertise can bring it to life.",
+        'body' => "Planning a fit-out or renovation? Tell us about the space, and our team will get back to you with the next steps.",
         'details' => [
             ['label' => 'Telephone', 'value' => '+971 54 319 0845', 'href' => 'tel:+971543190845'],
             ['label' => 'Email', 'value' => 'info@samaaltariq.org', 'href' => 'mailto:info@samaaltariq.org'],
@@ -1302,7 +1351,7 @@ return [
      */
     'numbers' => [
         'label' => 'By the Numbers',
-        'tagline' => 'One contractor. Every part of the build.',
+        'tagline' => 'One contractor. Every part of the interior.',
         'items' => [
             ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen in-house'],
             ['value' => '12+', 'label' => 'Flagship projects delivered'],
@@ -1313,19 +1362,95 @@ return [
         ],
     ],
 
+    /*
+     * The Team page, and the band on the landing page that leads to it.
+     *
+     * Built on the business profile's own figures (150+ in-house, joinery
+     * and MEP 100% in-house) and its six scopes, which are the departments.
+     * Each department's `roles` is the usual ladder of a contracting team and
+     * `structure` how a project is staffed — written to the profile's scopes,
+     * not taken from any document of the company's: CONFIRM BOTH WITH THE
+     * BUSINESS and correct them here. `leadership` is empty until names,
+     * titles and photographs are supplied; the section draws only once it
+     * has someone in it.
+     */
+    'team_page' => [
+        'label' => 'Our Team',
+        'heading' => ['One Team,', 'In House'],
+        'lead' => '150+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
+        'body' => 'Interior fit-out, joinery, finishing and MEP are delivered by our own people, not subcontracted. One programme, one project lead and one team carry a project from tender to handover.',
+        'image' => 'images/process/phase-interior-3.webp',
+        'figures' => [
+            ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen'],
+            ['value' => '06', 'label' => 'In-house departments'],
+            ['value' => '100%', 'label' => 'In-house joinery and MEP'],
+        ],
+        'departments' => [
+            ['name' => 'Management & Engineering', 'image' => 'images/services/service-10.webp',
+             'roles' => ['Project Managers', 'Project Coordinators', 'Architects & Draftsmen', 'Quantity Surveyors', 'Authority Approvals']],
+            ['name' => 'Finishing Works', 'image' => 'images/services/service-7.webp',
+             'roles' => ['Gypsum, Ceiling & Partition Teams', 'Flooring & Stone Teams', 'Painting & Wall Finishes', 'Site Supervisors & Foremen']],
+            ['name' => 'AMC & Property Care', 'image' => 'images/services/service-6.webp',
+             'roles' => ['Maintenance Engineers', 'MEP Technicians', 'Joinery & Finishing Repairs', 'Planned & Reactive Service']],
+            ['name' => 'Interior Fit-Out', 'image' => 'images/process/phase-interior-3.webp',
+             'roles' => ['Fit-Out Managers', 'Site Supervisors & Foremen', 'Gypsum, Ceiling & Partition Teams', 'Flooring, Stone & Painting Teams']],
+            ['name' => 'Joinery — Alwan Interiors', 'image' => 'images/joinery/hero.webp',
+             'roles' => ['Head of Joinery', 'Production Manager', 'Draftsmen', 'Workshop Craftsmen', 'Installation Team']],
+            ['name' => 'MEP', 'image' => 'images/services/service-8.webp',
+             'roles' => ['HVAC & Electrical Engineers', 'Plumbing & Drainage', 'Fire & Low Current', 'Technicians & Installers']],
+        ],
+        'structure' => [
+            'top' => ['Operations Manager', 'Project Manager', 'Project Coordinator'],
+            'leads' => ['Architect', 'MEP Engineers', 'Site Engineer', 'Authority Approvals'],
+            'heads' => ['Fit-Out', 'Finishing', 'Joinery', 'MEP', 'AMC'],
+        ],
+        'leadership' => [],
+    ],
+
     'scope' => [
         'heading' => ['We Do Everything', 'Your Project Needs'],
         'body' => 'Every scope is coordinated under one programme and one project lead.',
+        /*
+         * Each scope is a full-screen photograph of that work, with a card
+         * that rises over it (sections/scope). `credit` names the project
+         * the photograph is from, so the picture and the copy agree.
+         */
         'items' => [
-            'Building Construction & Civil Works',
-            'Façade & Exterior Works',
-            'Interior Fit-Out & Renovation',
-            'Custom Joinery & Furniture',
-            'MEP Coordination & Execution',
-            'AMC & Property Management',
+            [
+                'title' => 'Interior Fit-Out & Renovation',
+                'image' => 'images/projects/villa-pv39-tilal-al-ghaf/hero-3.webp',
+                'credit' => 'Villa PV39, Tilal Al Ghaf',
+                'lead' => 'From bare shell to a finished, furnished space.',
+                'body' => 'Ceilings, partitions, flooring, stone and paint, delivered by our own site teams for homes, hotels, restaurants and offices.',
+                'points' => ['Turnkey fit-out', 'Villa renovation', 'Finishing works'],
+            ],
+            [
+                'title' => 'Custom Joinery & Furniture',
+                'image' => 'images/projects/jumeirah-island-villa/hero-3.webp',
+                'credit' => 'Jumeirah Island Villa',
+                'lead' => 'Made in our own workshop, Alwan Interiors.',
+                'body' => 'Wardrobes, kitchens, wall panelling and loose furniture, drawn, made and installed by one team so every piece fits the space it was made for.',
+                'points' => ['Wardrobes & kitchens', 'Wall panelling', 'Bespoke furniture'],
+            ],
+            [
+                'title' => 'MEP Coordination & Execution',
+                'image' => 'images/projects/boulevard-plaza-office/hero-2.webp',
+                'credit' => 'Boulevard Plaza Office',
+                'lead' => 'Systems resolved before the ceiling closes.',
+                'body' => 'HVAC, lighting, power and plumbing coordinated with the design from the first drawing, so what you see and what runs behind it work together.',
+                'points' => ['HVAC', 'Lighting & power', 'Plumbing'],
+            ],
+            [
+                'title' => 'AMC & Property Management',
+                'image' => 'images/projects/w-residence-palm-jumeirah/hero-3.webp',
+                'credit' => 'W Residence, Palm Jumeirah',
+                'lead' => 'We stay after the handover.',
+                'body' => 'Annual maintenance contracts that keep finished homes and workplaces in the condition we handed them over in, with planned visits and fast repairs.',
+                'points' => ['Annual maintenance', 'Planned visits', 'Reactive repairs'],
+            ],
         ],
         'sectors_label' => 'Sectors We Serve',
-        'sectors_body' => 'We deliver tailored construction and fit-out solutions for diverse environments, adapting our approach to each space, its function and its requirements.',
+        'sectors_body' => 'Interior fit-out for every kind of space, each one planned around how it will be used.',
         'sectors' => ['Residential', 'Commercial', 'Hospitality & F&B', 'Fitness', 'Retail', 'Institutional'],
         /*
          * A picture per sector for the sectors section, each a cover of a
@@ -1353,8 +1478,8 @@ return [
 
     'inquiry' => [
         'label' => 'Inquiries',
-        'heading' => ['Let’s Build the', 'Future Together.'],
-        'body' => "Every successful development begins with the right partner. Let's discuss your goals and create a solution tailored to your project's unique requirements",
+        'heading' => ['Tell Us About', 'Your Space.'],
+        'body' => "Villa, apartment, office, restaurant or hotel: tell us what you have in mind, and we'll come back with a scope and an estimate.",
         // From the 2026 business profile's closing page.
         'brief' => 'Send us your drawings, BOQ or project brief for an initial scope review.',
         'submit' => 'Send Inquiry',
@@ -1429,5 +1554,21 @@ return [
         ],
         'wordmark' => 'Sama Al Tariq',
         'wordmark_sub' => 'Building Contracting LLC.',
+    ],
+
+    /*
+     * The Alwan section on the landing page. The piece it builds in 3D is the
+     * ribbed, curving wall-into-ceiling of the About photograph — the kind of
+     * work most workshops turn down — and the photograph itself arrives once
+     * the model is complete (motion/rib-vault.js).
+     */
+    'alwan_feature' => [
+        'label' => 'Alwan Interiors · Joinery',
+        'heading' => ['The Hard Pieces,', 'Made In House'],
+        'body' => 'Ribbed walls that turn into ceilings, curves cut to the millimetre, furniture made for one room. Drawn, made and fitted by our own workshop.',
+        'image' => 'images/about-interior.webp',
+        'alt' => 'Curved ribbed wall flowing into the ceiling, finished by Sama Al Tariq',
+        'caption' => ['Designed in 3D', 'Built for real'],
+        'phases' => ['Flat board', 'CNC cut', 'Assembled', 'Built for real'],
     ],
 ];

@@ -8,7 +8,7 @@
     while the frame turns to a project of that sector (scenes.js
     sectorsScene). On a phone each sector is a card with its own picture.
 --}}
-<section id="sectors" class="sectors bg-night py-[clamp(3.5rem,6vw,100px)] text-white">
+<section id="sectors" class="sectors bg-teal py-[clamp(3.5rem,6vw,100px)] text-white">
     <div class="shell grid gap-[clamp(2rem,4vw,72px)] lg:grid-cols-[5fr_7fr]">
         <div class="sectors__aside">
             <div class="sectors__sticky">

@@ -11,113 +11,68 @@
 --}}
 {{-- data-hero-zoom hands the hero's scroll to scenes.js, which pins it and
      zooms through the company's mark — see heroZoom() there. --}}
-<section id="top" data-hero-zoom class="relative isolate min-h-[100svh] overflow-hidden bg-night">
+<section id="top" data-hero-zoom class="relative isolate min-h-[100svh] overflow-hidden bg-teal">
     <div data-hero class="relative flex min-h-[100svh] flex-col" style="will-change:transform">
 
         <div data-hero-media class="absolute inset-0 -z-10" style="will-change:transform;transform-origin:center">
             {{-- Versioned: the CDN holds static files for a week, so replacing
                  the photograph without changing its name would leave visitors
                  on the old one. The stamp is the file's own mtime. --}}
-            <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" alt="{{ $hero['alt'] }}"
+            @php($first = $hero['slides'][0])
+            <img src="{{ \App\Support\Asset::versioned($first['src']) }}" alt="{{ $first['title'] }}"
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full object-cover">
-            <div aria-hidden="true" class="absolute inset-0"
-                 style="background-image:linear-gradient(0deg,rgba(0,0,0,0.47) 0%,rgba(102,102,102,0) 116.97%),linear-gradient(90deg,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 100%)"></div>
+            {{-- The rest of the slides, stacked over the first and shown in
+                 turn by motion/hero-slider.js. Lazy: the first is what paints. --}}
+            @foreach (array_slice($hero['slides'], 1) as $slide)
+                <img src="{{ \App\Support\Asset::versioned($slide['src']) }}" alt="" loading="lazy" decoding="async"
+                     data-hero-slide
+                     class="hero-slide absolute inset-0 h-full w-full object-cover">
+            @endforeach
+            {{-- z-10: always over the slides, which hero-slider.js raises to 2 as
+                 each one comes in. --}}
+            <div aria-hidden="true" class="absolute inset-0 z-10"
+                 style="background-image:linear-gradient(0deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.18) 45%,rgba(0,0,0,0) 70%),linear-gradient(90deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 55%),linear-gradient(180deg,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 22%)"></div>
         </div>
 
         <x-site-header/>
 
-        {{-- The stack is anchored to the bottom, so this gap is what places the
-             hairline: the design sits it just under the half-height mark. --}}
-        <div class="relative z-10 mt-auto flex flex-col gap-[clamp(2.75rem,15vh,9rem)] pt-[clamp(9rem,30vh,20rem)] pb-[clamp(2rem,5.5vh,4.5rem)]">
-            {{-- Intro row --}}
+        {{-- One message per slide, stacked in place; motion/hero-slider.js
+             shows the one that goes with the picture. Under it, the project
+             the picture is from and where the slider stands. --}}
+        <div class="relative z-10 mt-auto pb-[clamp(2rem,6vh,4.5rem)] text-white [text-shadow:0_1px_18px_rgba(0,0,0,0.35)]">
+            <h1 class="sr-only">{{ config('site.legal_name') }} — Interior Fit-Out in Dubai</h1>
             <div class="shell">
-                <div class="border-t border-white/25 pt-[clamp(1.25rem,1.5vw,26px)]">
-                    <div class="grid gap-x-6 gap-y-5 text-white md:grid-cols-12 md:items-start">
-                        {{-- 9.5em rather than the frame's 170: "Delivering
-                             Quality" sets 177 in our Manrope, so the frame's
-                             own box would break the line it is drawn around.
-                             In em, not px, because it has to clear that line at
-                             every size the fluid type takes and an em cap
-                             tracks the type rather than holding a width the
-                             small end never needs. --}}
-                        <p data-split data-split-delay="520"
-                           class="text-fluid-body font-semibold md:col-span-3 md:max-w-[9.5em]">@foreach ($hero['eyebrow'] as $i => $line)@if ($i)<br>@endif{{ $line }}@endforeach</p>
-
-                        {{--
-                            From lg the intro sits on columns 5–10 rather than
-                            centred on the page: the design puts it much closer
-                            to the CTA than to the eyebrow, which is what stops
-                            the row reading as three evenly spaced blocks. At md
-                            the tracks are too narrow to give the link its own
-                            two columns, so the row stays evenly spaced there.
-
-                            Set as the frame sets it: LEFT, with its first line
-                            indented. The indent is the frame's own — it opens
-                            the text with 22 spaces, 110 at full size, which is
-                            the 4.583em below — and it is what makes the file's
-                            three lines break after "engineering," rather than
-                            after "and". Centred was the reading of that shape
-                            before the file was read.
-
-                            30.17em rather than the frame's 670: our Manrope
-                            sets this sentence about 4% wider than the file's
-                            does, so 670 with the indent runs to four lines.
-                            700 to 748 all give the frame's three, and this is
-                            the middle of that band. In em, so the measure
-                            shrinks with the type and carries the same three
-                            lines at every width rather than only at 1728.
-                        --}}
-                        <p data-split data-split-delay="600"
-                           class="text-fluid-lead font-medium md:col-span-6 md:justify-self-center lg:col-start-5 lg:justify-self-end lg:w-[30.17em] lg:indent-[4.583em]">{{ $hero['intro'] }}</p>
-
-                        <a href="{{ $hero['cta']['href'] }}"
-                           class="group inline-flex items-center gap-1 py-2 -my-2 text-fluid-sm font-medium md:col-span-3 md:justify-self-end md:text-right lg:col-span-2 lg:whitespace-nowrap">
-                            {{ $hero['cta']['label'] }}
-                            <x-icon name="arrow-right" class="w-[clamp(20px,1.62vw,28px)] transition-transform duration-300 group-hover:translate-x-1"/>
-                        </a>
+                @isset($hero['specialism'])
+                    <p class="hero-spec">
+                        @foreach ($hero['specialism'] as $i => $part)
+                            @if ($i > 0)<span aria-hidden="true" class="hero-spec__dot"></span>@endif
+                            <span>{{ $part }}</span>
+                        @endforeach
+                    </p>
+                @endisset
+                <div class="hero-msgs editorial-heading text-fluid-hero uppercase" aria-hidden="true">
+                    @foreach ($hero['slides'] as $i => $slide)
+                        <p class="hero-msg {{ $i === 0 ? 'is-current' : '' }}" data-hero-msg>
+                            @foreach ($slide['lines'] as $line)
+                                <span class="hero-msg__line"><span>{{ $line }}</span></span>
+                            @endforeach
+                        </p>
+                    @endforeach
+                </div>
+                <div class="mt-[clamp(1rem,2.4vh,1.75rem)] flex items-center justify-between gap-4 border-t border-white/30 pt-[clamp(0.75rem,1.6vh,1.25rem)]">
+                    <script type="application/json" data-hero-titles>@json(array_column($hero['slides'], 'title'))</script>
+                    <p class="text-fluid-sm font-medium"><span data-hero-caption>{{ $hero['slides'][0]['title'] }}</span></p>
+                    <div class="flex items-center gap-4">
+                        <div class="hero-dots" aria-hidden="true">
+                            @foreach ($hero['slides'] as $i => $slide)
+                                <span class="{{ $i === 0 ? 'is-current' : '' }}"></span>
+                            @endforeach
+                        </div>
+                        <p class="text-fluid-sm font-medium tabular-nums text-white/70"><span data-hero-index>01</span> / {{ str_pad(count($hero['slides']), 2, '0', STR_PAD_LEFT) }}</p>
                     </div>
                 </div>
             </div>
-
-            {{--
-                Display type: two lines, not three. The first runs gutter to
-                gutter with the words pushed apart, the second centres under the
-                space they leave.
-
-                The first line is a flex row rather than columns of a grid
-                because the display face here is a substitute that sets wider
-                than the licensed one in the Figma file — on a twelve-column
-                split "Precision" fell off the end of its track and wrapped.
-                Pushing the two words to opposite gutters lets the gap between
-                them, not the line count, absorb the difference. `shrink-0`
-                keeps flex from squeezing them back into a wrap.
-            --}}
-            {{--
-                The sentence reads BUILDING FUTURE WITH PRECISION, and on the
-                frame's two lines that is what it says: the first line's two
-                words are pushed to opposite gutters and FUTURE is centred
-                under the gap between them, so the eye takes it second.
-
-                Stacked on a phone there is no gap to sit in, and the three
-                came out in DOM order — BUILDING, WITH PRECISION, FUTURE —
-                which reads as a different sentence. So the row is `contents`
-                below md, which drops its two words into the same stack as the
-                third, and WITH PRECISION is ordered last. From md it is a flex
-                row again and the order goes back to the frame's.
-            --}}
-            <h1 class="shell editorial-heading text-fluid-hero uppercase text-white">
-                <span class="grid gap-y-[0.08em]">
-                    <span class="contents md:flex md:items-baseline md:justify-between">
-                        <span data-split data-split-delay="120"
-                              class="block md:shrink-0 md:whitespace-nowrap">{{ $hero['words']['first'] }}</span>
-                        <span data-split data-split-delay="320"
-                              class="order-3 block md:order-none md:shrink-0 md:whitespace-nowrap md:text-right">{{ $hero['words']['second'] }}</span>
-                    </span>
-                    <span data-split data-split-delay="220"
-                          class="block md:w-9/12 md:text-center">{{ $hero['words']['third'] }}</span>
-                </span>
-            </h1>
         </div>
     </div>
 </section>

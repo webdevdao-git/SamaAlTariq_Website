@@ -11,8 +11,8 @@
         og:title and og:description carried the landing page's copy hardcoded —
         so every page on the site shared as the home page, whatever it was.
     --}}
-    @php($metaTitle = trim($__env->yieldContent('title', config('site.legal_name').' — Building With Precision')))
-    @php($metaDescription = trim($__env->yieldContent('description', 'Sama Al Tariq delivers exceptional construction, engineering, and contracting solutions across Dubai — Fit-Out, design & build, villa renovation, joinery, and millwork.')))
+    @php($metaTitle = trim($__env->yieldContent('title', config('site.legal_name').' — Interior Fit-Out in Dubai')))
+    @php($metaDescription = trim($__env->yieldContent('description', 'Sama Al Tariq is an interior fit-out contractor in Dubai: gypsum and ceilings, finishing, bespoke joinery and MEP for villas, hotels, restaurants and offices, all by our own team.')))
     @php($metaImage = \App\Support\Asset::versioned(trim($__env->yieldContent('image', 'images/hero.webp'))))
 
     <title>{{ $metaTitle }}</title>

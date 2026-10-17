@@ -47,6 +47,7 @@ class SeoController extends Controller
             ['/about', '0.8', 'monthly'],
             ['/joinery', '0.8', 'monthly'],
             ['/process', '0.8', 'monthly'],
+            ['/team', '0.7', 'monthly'],
             ['/contact', '0.7', 'monthly'],
         ];
 

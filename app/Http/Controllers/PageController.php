@@ -60,6 +60,12 @@ class PageController extends Controller
         return view('process');
     }
 
+    /** The in-house team: departments, how a project is staffed, leadership. */
+    public function team(): View
+    {
+        return view('team');
+    }
+
     /**
      * The Joinery page, from Figma frame 1803:2.
      *

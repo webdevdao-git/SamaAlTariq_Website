@@ -41,7 +41,7 @@
     it needs both and returns when either is missing, so the landing page keeps
     its own behaviour untouched.
 --}}
-<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-clip bg-night">
+<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-clip bg-teal">
 
     <div data-hero-bg aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[200svh]">
         <div data-hero-pin class="sticky top-0 h-[100svh] w-full overflow-hidden">
@@ -95,7 +95,7 @@
                      350 to give it, so the page scrolled sideways by up to 87 on a
                      320. Above 448 the vw term is the larger of the two and the
                      desktop size is untouched. --}}
-                <h1 class="font-display text-[clamp(1.75rem,6.25vw,108px)] font-medium uppercase leading-[1.37] tracking-normal">
+                <h1 class="font-display text-[clamp(1.75rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal">
                     <span data-split data-split-by="word">{{ $hero['word'] }}</span>
                 </h1>
 

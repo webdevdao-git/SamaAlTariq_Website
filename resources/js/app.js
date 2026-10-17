@@ -19,12 +19,15 @@ import { initMagnetic } from './motion/magnetic';
 import { initTilt } from './motion/tilt';
 import { initCountUp } from './motion/count-up';
 import { initMarqueeBoost } from './motion/marquee-boost';
-import { initHeroGl } from './motion/hero-gl';
 import { initScrollFx } from './motion/scroll-fx';
 import { initScenes } from './motion/scenes';
+import { initTeamScenes } from './motion/team-scenes';
+import { initHeroSlider } from './motion/hero-slider';
 import { initRefScenes } from './motion/ref-scenes';
 import { initProjectStack } from './motion/project-stack';
 import { initAboutScenes } from './motion/about-scenes';
+import { initServicesIndex } from './motion/services-index';
+import { initScopeStage } from './motion/scope-stage';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -85,7 +88,6 @@ function boot() {
     initTilt();
     initCountUp();
     initMarqueeBoost();
-    initHeroGl();
     initScrollFx();
 
     // Last: the scenes pin and measure sections, so every other module has to
@@ -105,10 +107,19 @@ function boot() {
         import('./motion/joinery-table').then(({ initJoineryTable }) => initJoineryTable());
     }
 
+    // So is the ribbed vault on the landing page's Alwan section.
+    if (document.querySelector('[data-rvault]') && stageCanRun()) {
+        import('./motion/rib-vault').then(({ initRibVault }) => initRibVault());
+    }
+
     initScenes();
+    initTeamScenes();
+    initHeroSlider();
     initProjectStack();
     initRefScenes();
     initAboutScenes();
+    initServicesIndex();
+    initScopeStage();
 }
 
 

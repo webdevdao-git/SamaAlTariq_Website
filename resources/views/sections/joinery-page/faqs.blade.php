@@ -10,12 +10,12 @@
     JavaScript, and what a screen reader announces as one. The marker is hidden
     because the design draws its own, and it turns from + to − on open.
 --}}
-<section class="bg-night py-[clamp(3.5rem,5.79vw,100px)] text-white">
+<section class="bg-teal py-[clamp(3.5rem,5.79vw,100px)] text-white">
     <div class="shell">
         <div class="grid gap-[clamp(2rem,3.7vw,64px)] lg:grid-cols-2 lg:gap-[clamp(2.5rem,4.63vw,80px)]">
 
             <div class="reveal flex flex-col gap-[clamp(0.75rem,1.16vw,20px)] lg:min-h-full">
-                <p class="text-fluid-sm font-medium text-teal">{{ $band['label'] }}</p>
+                <p class="text-fluid-sm font-medium text-white/75">{{ $band['label'] }}</p>
                 <h2 class="display max-w-[12em] text-fluid-h2 leading-[1.3]">
                     @foreach ($band['heading'] as $line)
                         <span class="block">{{ $line }}</span>
@@ -37,7 +37,7 @@
                          otherwise six closed lines and nothing tells a reader
                          they open. --}}
                     <details @if ($loop->first) open @endif class="reveal group border-b border-white/15" style="transition-delay:{{ $loop->index * 80 }}ms">
-                        <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-[clamp(1rem,1.62vw,28px)] text-fluid-body font-medium transition-colors hover:text-teal [&::-webkit-details-marker]:hidden">
+                        <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-[clamp(1rem,1.62vw,28px)] text-fluid-body font-medium transition-colors hover:text-white/70 [&::-webkit-details-marker]:hidden">
                             {{ $faq['q'] }}
                             {{-- Drawn rather than a glyph: a + built from two
                                  rules, the upright of which is scaled away when

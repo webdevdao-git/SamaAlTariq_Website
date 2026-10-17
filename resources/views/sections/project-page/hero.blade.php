@@ -34,7 +34,7 @@
     much on a particular project.
 --}}
 <section id="top" data-hero-slides
-         class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-night">
+         class="relative isolate flex h-[100svh] flex-col overflow-hidden bg-teal">
 
     @foreach ($slides as $i => $slide)
         {{-- The wrapper stays even with one picture in it: it is what the
@@ -86,7 +86,7 @@
                 longer titles break where the frame breaks this one.
             --}}
             <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
-                <h1 class="font-display text-[clamp(2.25rem,6.25vw,108px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
+                <h1 class="font-display text-[clamp(2.25rem,4.69vw,81px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
                     <span data-split data-split-by="word">{{ $project['title'] }}</span>
                 </h1>
 

@@ -5,7 +5,7 @@
     page's: a tall picture on the left and the six figures running down the
     right as an index, each figure counting up as its row arrives.
 --}}
-<section class="about-facts bg-alabaster py-[clamp(3rem,5vw,88px)]">
+<section class="about-facts bg-mist py-[clamp(3rem,5vw,88px)]">
     <div class="shell grid items-start gap-[clamp(2rem,4vw,72px)] lg:grid-cols-[5fr_7fr]">
         <div class="about-facts__aside">
             <p class="reveal text-fluid-label font-medium text-teal">{{ $numbers['label'] }}</p>

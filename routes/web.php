@@ -27,6 +27,7 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/process', [PageController::class, 'process'])->name('process');
+Route::get('/team', [PageController::class, 'team'])->name('team');
 Route::get('/joinery', [PageController::class, 'joinery'])->name('joinery');
 Route::get('/projects', [PageController::class, 'projects'])->name('projects');
 

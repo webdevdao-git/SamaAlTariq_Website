@@ -47,7 +47,7 @@
             instead of two thirds across, which is where the frame has it.
         --}}
         <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
-            <h1 class="text-[clamp(2.75rem,6.25vw,108px)] font-display font-medium uppercase leading-[0.936] tracking-normal text-ink">
+            <h1 class="text-[clamp(2.75rem,4.69vw,81px)] font-display font-medium uppercase leading-[0.936] tracking-normal text-ink">
                 @foreach ($page['heading'] as $i => $line)
                     <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
                 @endforeach

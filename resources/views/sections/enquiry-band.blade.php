@@ -10,7 +10,7 @@
     to call. A full form at the foot of every page was more page than the
     visitor needed there.
 --}}
-<section id="contact" class="enquiry-band bg-alabaster py-[clamp(2.5rem,4.5vw,72px)]">
+<section id="contact" class="enquiry-band bg-mist py-[clamp(2.5rem,4.5vw,72px)]">
     <div class="shell flex flex-col gap-[clamp(1.25rem,2.5vw,40px)] md:flex-row md:items-end md:justify-between">
         <div class="max-w-[38rem]">
             <p class="reveal text-fluid-sm font-semibold uppercase tracking-[0.14em] text-teal">{{ $inquiry['label'] }}</p>

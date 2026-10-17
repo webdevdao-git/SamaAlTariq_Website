@@ -22,7 +22,7 @@
     scroll walking them past. The full list follows below, so the stage
     carries no closing "explore" panel of its own.
 --}}
-<section id="projects" class="bg-night">
+<section id="projects" class="bg-mist">
     <div data-stage data-items='@json($stage)' class="project-stage" hidden>
         <canvas data-stage-canvas class="project-stage__canvas" aria-hidden="true"></canvas>
         <div class="project-stage__caption shell">

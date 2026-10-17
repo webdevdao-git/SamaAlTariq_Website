@@ -1,7 +1,14 @@
 {
-  "_RoomEnvironment-C360ZOFX.js": {
-    "file": "assets/RoomEnvironment-C360ZOFX.js",
+  "_RoomEnvironment-4lK_LniD.js": {
+    "file": "assets/RoomEnvironment-4lK_LniD.js",
     "name": "RoomEnvironment"
+  },
+  "_RoundedBoxGeometry-B90-8ERZ.js": {
+    "file": "assets/RoundedBoxGeometry-B90-8ERZ.js",
+    "name": "RoundedBoxGeometry",
+    "imports": [
+      "_RoomEnvironment-4lK_LniD.js"
+    ]
   },
   "_cormorant-garamond-400-normal-B-1hWBU7.woff2": {
     "file": "assets/cormorant-garamond-400-normal-B-1hWBU7.woff2",
@@ -48,7 +55,7 @@
     "src": "_playfair-display-600-normal-CxxueQ0Z.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DYC6lIQN.css",
+    "file": "assets/app-DnzX0O0_.css",
     "name": "app",
     "names": [
       "app.css"
@@ -99,33 +106,46 @@
     "src": "resources/fonts/manrope-semibold.otf"
   },
   "resources/js/app.js": {
-    "file": "assets/app-V68hvYqn.js",
+    "file": "assets/app-Bd6ds-_B.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
       "resources/js/motion/project-stage.js",
-      "resources/js/motion/joinery-table.js"
+      "resources/js/motion/joinery-table.js",
+      "resources/js/motion/rib-vault.js"
     ]
   },
   "resources/js/motion/joinery-table.js": {
-    "file": "assets/joinery-table-ZkxqGejv.js",
+    "file": "assets/joinery-table-CKgjc4sC.js",
     "name": "joinery-table",
     "src": "resources/js/motion/joinery-table.js",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_RoomEnvironment-C360ZOFX.js"
+      "_RoomEnvironment-4lK_LniD.js",
+      "_RoundedBoxGeometry-B90-8ERZ.js"
     ]
   },
   "resources/js/motion/project-stage.js": {
-    "file": "assets/project-stage-DkP2SIV9.js",
+    "file": "assets/project-stage-CPxqCI7O.js",
     "name": "project-stage",
     "src": "resources/js/motion/project-stage.js",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_RoomEnvironment-C360ZOFX.js"
+      "_RoomEnvironment-4lK_LniD.js",
+      "_RoundedBoxGeometry-B90-8ERZ.js"
+    ]
+  },
+  "resources/js/motion/rib-vault.js": {
+    "file": "assets/rib-vault-B6mdJgLj.js",
+    "name": "rib-vault",
+    "src": "resources/js/motion/rib-vault.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_RoomEnvironment-4lK_LniD.js"
     ]
   },
   "resources/js/portal.js": {

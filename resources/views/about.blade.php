@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'About — ' . config('site.legal_name'))
-@section('description', 'Sama Al Tariq Building Contracting L.L.C. is a Dubai-based construction and fit-out company, managing every stage from tender and planning through construction and handover.')
+@section('description', 'Sama Al Tariq Building Contracting L.L.C. is a Dubai-based interior fit-out company: gypsum, finishing, joinery and MEP by our own team, from the first drawing to handover.')
 @section('image', config('site.about_page.hero.image'))
 
 {{--

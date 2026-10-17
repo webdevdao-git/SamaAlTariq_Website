@@ -22,7 +22,7 @@ export function initLightbox() {
 
     const overlay = document.createElement('div');
     overlay.className =
-        'fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 opacity-0 transition-opacity duration-300';
+        'fixed inset-0 z-[100] hidden items-center justify-center bg-teal/95 opacity-0 transition-opacity duration-300';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-label', 'Project photographs');
