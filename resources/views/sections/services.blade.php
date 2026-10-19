@@ -118,7 +118,7 @@
             --}}
             <div class="mt-[clamp(2rem,3.7vw,64px)] flex flex-col gap-[clamp(0.75rem,1.4vw,24px)]">
                 <h3 id="service-heading-{{ $i + 1 }}"
-                    class="service-title text-[clamp(2.25rem,2.9vw,50px)] uppercase text-white">
+                    class="service-title text-[clamp(1.404rem,1.81vw,31.2px)] uppercase text-white">
                     <span class="block">
                         {{--
                             Sans, and sized against the headline in `em` so it

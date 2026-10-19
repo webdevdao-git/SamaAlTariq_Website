@@ -15,11 +15,7 @@
 @section('content')
     <main data-page="about">
         @include('sections.about-page.hero')
-        @include('sections.about-page.intro')
-        @include('sections.about-page.facts')
-        @include('sections.about-page.vision')
-        @include('sections.about-page.approach')
-        @include('sections.about-page.purpose')
+        @include('sections.about-page.story')
         @include('sections.enquiry-band')
     </main>
 

@@ -95,7 +95,7 @@
                      350 to give it, so the page scrolled sideways by up to 87 on a
                      320. Above 448 the vw term is the larger of the two and the
                      desktop size is untouched. --}}
-                <h1 class="font-display text-[clamp(1.75rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal">
+                <h1 class="font-display text-[clamp(1.092rem,2.927vw,50.544px)] font-medium uppercase leading-[1.37] tracking-normal">
                     <span data-split data-split-by="word">{{ $hero['word'] }}</span>
                 </h1>
 

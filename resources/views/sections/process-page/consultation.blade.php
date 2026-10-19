@@ -33,7 +33,7 @@
              1179 of its 1728 — wider than the 958 picture it crosses, which is
              the overhang the frame draws. It goes as the picture opens. --}}
         <h2 data-grow-word
-            class="pointer-events-none absolute z-30 w-[68.2%] text-center font-display text-[clamp(2.5rem,5.56vw,96px)] font-semibold uppercase leading-[1.367] tracking-normal text-white">
+            class="pointer-events-none absolute z-30 w-[68.2%] text-center font-display text-[clamp(1.56rem,3.469vw,59.904px)] font-semibold uppercase leading-[1.367] tracking-normal text-white">
             <span data-split data-split-by="letter">{{ $consultation['word'] }}</span>
         </h2>
 
@@ -52,7 +52,7 @@
         <div data-grow-copy
              class="pointer-events-none absolute inset-x-0 top-[11%] z-40 opacity-0">
             <div class="shell">
-                <p class="text-[clamp(1.25rem,1.85vw,32px)] font-medium leading-[1.3] text-white">
+                <p class="text-[clamp(0.975rem,1.443vw,24.96px)] font-medium leading-[1.3] text-white">
                     @foreach ($consultation['cta']['lines'] as $line)
                         <span class="block">{{ $line }}</span>
                     @endforeach

@@ -28,6 +28,9 @@ import { initProjectStack } from './motion/project-stack';
 import { initAboutScenes } from './motion/about-scenes';
 import { initServicesIndex } from './motion/services-index';
 import { initScopeStage } from './motion/scope-stage';
+import { initStoryBackdrop } from './motion/story-backdrop';
+import { initProfileDownload } from './motion/profile-download';
+import { initGypsumWipe } from './motion/gypsum-wipe';
 import { initFieldSelect } from './field-select';
 
 /**
@@ -120,6 +123,9 @@ function boot() {
     initAboutScenes();
     initServicesIndex();
     initScopeStage();
+    initStoryBackdrop();
+    initProfileDownload();
+    initGypsumWipe();
 }
 
 

@@ -3,14 +3,12 @@
 @section('content')
     <main data-page="home">
         @include('sections.hero')
-        @include('sections.about')
-        @include('sections.numbers')
-        @include('sections.clients')
-        @include('sections.projects')
-        @include('sections.scope')
-        @include('sections.sectors')
-        @include('sections.joinery-teaser')
-        @include('sections.team-band')
+        {{-- Who we are, services, how we work, projects, Alwan and questions,
+             as cards over one held photograph. The sections this replaced
+             (about, numbers, clients, projects, scope, sectors,
+             joinery-teaser, team-band) are kept in sections/ for now. --}}
+        @include('sections.trust')
+        @include('sections.story')
         @include('sections.inquiry')
     </main>
 

@@ -86,7 +86,7 @@
                 longer titles break where the frame breaks this one.
             --}}
             <div class="flex flex-col gap-[clamp(1.5rem,2.31vw,40px)] md:flex-row md:items-end md:justify-between">
-                <h1 class="font-display text-[clamp(2.25rem,4.69vw,81px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
+                <h1 class="font-display text-[clamp(1.404rem,2.927vw,50.544px)] font-medium uppercase leading-[0.917] tracking-normal lg:max-w-[68.7vw]">
                     <span data-split data-split-by="word">{{ $project['title'] }}</span>
                 </h1>
 

@@ -32,7 +32,9 @@
     which is the one moment a visitor is not looking for a download. The entry
     curtain is at 9999 and covers it either way.
 --}}
-<a href="{{ asset($profile['file']) }}" download
+{{-- Tucked away while the first screen is up: there it sat on the hero's
+     caption (and on the slide counter on a phone). profile-download.js. --}}
+<a href="{{ asset($profile['file']) }}" download data-profile-dl
    aria-label="{{ $profile['aria'] }}"
    class="group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-40 sm:right-auto sm:left-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-teal shadow-[0_14px_30px_rgba(17,17,17,0.18)] transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal sm:h-auto sm:w-auto sm:gap-2 sm:px-4 sm:py-2.5 md:bottom-7 md:left-7">
     <x-icon name="download" :size="14" class="transition-transform duration-300 group-hover:translate-y-0.5"/>

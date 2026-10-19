@@ -29,7 +29,7 @@
              320 screen has to give, and the page scrolled sideways by that
              difference. 36px brings it to 268. Above 486 the vw term is the
              larger of the two and the frame's own size is untouched. --}}
-        <h2 class="editorial-heading text-[clamp(2.25rem,5.56vw,96px)] uppercase text-ink">
+        <h2 class="editorial-heading text-[clamp(1.404rem,3.469vw,59.904px)] uppercase text-ink">
             {{-- Letter masks rather than lines. At 128px each glyph is a shape
                  in its own right, and the staircase arrives a letter at a time
                  instead of three slabs dropping in. --}}

@@ -47,13 +47,13 @@
                     @foreach ($process['steps'] as $i => $step)
                         <div data-process-step="{{ $i }}"
                              class="process-step flex flex-col gap-[clamp(0.5rem,0.7vw,12px)]">
-                            <p class="display text-[clamp(1.35rem,1.85vw,32px)] text-teal">{{ $step['number'] }}</p>
+                            <p class="display text-[clamp(1.053rem,1.443vw,24.96px)] text-teal">{{ $step['number'] }}</p>
                             {{-- Title case, with the section heading above it:
                                  a step set upper under a heading that is not
                                  reads as the louder of the two, which inverts
                                  the order they belong in. The process page
                                  still sets these four phase names upper. --}}
-                            <h3 class="display text-[clamp(1.5rem,2.2vw,38px)] text-ink">{{ $step['title'] }}</h3>
+                            <h3 class="display text-[clamp(0.936rem,1.373vw,23.712px)] text-ink">{{ $step['title'] }}</h3>
                             <p class="max-w-[46ch] text-fluid-body font-medium text-ink-muted">{{ $step['body'] }}</p>
                         </div>
                     @endforeach

@@ -39,7 +39,7 @@ class JoineryPageTest extends TestCase
         $this->assertStringContainsString($logo, $html, 'the mark is drawn');
     }
 
-    /** The bands run in the frame's order. */
+    /** The chapters run in order: Alwan, the workshop, the process, the work, questions. */
     public function test_the_bands_run_in_order(): void
     {
         // From <body> on. The page's own description is the hero summary, so
@@ -54,11 +54,11 @@ class JoineryPageTest extends TestCase
          */
         $marks = [
             config('site.joinery_page.hero.words.1'),
-            config('site.joinery_page.wordmark.images.0.alt'),
             config('site.joinery_page.ecosystem.statement'),
-            config('site.joinery_page.capabilities.heading.1'),
-            config('site.joinery_page.detail.words.0'),
+            config('site.joinery_page.capabilities.items.0.title'),
+            'Every piece is drawn, cut, finished and fitted by one team.',
             config('site.joinery_page.process.heading'),
+            config('site.joinery_page.context.tiles.0.title'),
             config('site.joinery_page.faqs.items.0.q'),
         ];
 

@@ -38,8 +38,7 @@
         <x-site-header/>
 
         {{-- One message per slide, stacked in place; motion/hero-slider.js
-             shows the one that goes with the picture. Under it, the project
-             the picture is from and where the slider stands. --}}
+             shows the one that goes with the picture. --}}
         <div class="relative z-10 mt-auto pb-[clamp(2rem,6vh,4.5rem)] text-white [text-shadow:0_1px_18px_rgba(0,0,0,0.35)]">
             <h1 class="sr-only">{{ config('site.legal_name') }} — Interior Fit-Out in Dubai</h1>
             <div class="shell">
@@ -59,18 +58,6 @@
                             @endforeach
                         </p>
                     @endforeach
-                </div>
-                <div class="mt-[clamp(1rem,2.4vh,1.75rem)] flex items-center justify-between gap-4 border-t border-white/30 pt-[clamp(0.75rem,1.6vh,1.25rem)]">
-                    <script type="application/json" data-hero-titles>@json(array_column($hero['slides'], 'title'))</script>
-                    <p class="text-fluid-sm font-medium"><span data-hero-caption>{{ $hero['slides'][0]['title'] }}</span></p>
-                    <div class="flex items-center gap-4">
-                        <div class="hero-dots" aria-hidden="true">
-                            @foreach ($hero['slides'] as $i => $slide)
-                                <span class="{{ $i === 0 ? 'is-current' : '' }}"></span>
-                            @endforeach
-                        </div>
-                        <p class="text-fluid-sm font-medium tabular-nums text-white/70"><span data-hero-index>01</span> / {{ str_pad(count($hero['slides']), 2, '0', STR_PAD_LEFT) }}</p>
-                    </div>
                 </div>
             </div>
         </div>

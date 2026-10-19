@@ -16,12 +16,7 @@
     @include('sections.services-page.hero')
 
     <main>
-        @include('sections.services-page.intro')
-        @include('sections.services-page.services')
-        @include('sections.services-page.delivery')
-        @include('sections.services-page.live')
-        @include('sections.process-page.consultation')
-        @include('sections.services-page.faq')
+        @include('sections.services-page.story')
         @include('sections.enquiry-band')
     </main>
 

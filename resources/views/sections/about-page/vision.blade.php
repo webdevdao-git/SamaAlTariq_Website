@@ -30,7 +30,7 @@
                  instead of the three fading in as one slab. --}}
             <div class="flex flex-col justify-between gap-[clamp(2rem,4.63vw,80px)]">
                 <div>
-                    <h2 class="text-[clamp(1.375rem,1.85vw,32px)] font-semibold leading-[1.375] text-ink">
+                    <h2 class="text-[clamp(1.073rem,1.443vw,24.96px)] font-semibold leading-[1.375] text-ink">
                         @foreach ($vision['heading'] as $i => $line)
                             <span data-split data-split-by="word" data-split-delay="{{ $i * 220 }}"
                                   class="block">{{ $line }}</span>

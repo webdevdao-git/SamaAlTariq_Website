@@ -86,11 +86,11 @@
                  box's width, over the box's ratio. --}}
             <div data-gallery-fade
                  class="shell relative z-10 flex w-full flex-col items-center justify-center gap-[clamp(1.25rem,2.5vw,44px)] sm:h-[calc(min(100vw,1728px)*0.302/1.7633)] sm:flex-row sm:justify-between">
-                <p data-gallery-word="0" class="shrink-0 text-[clamp(1.75rem,2.78vw,48px)] leading-[1.1] font-medium text-ink will-change-transform">{{ $band['words'][0] }}</p>
+                <p data-gallery-word="0" class="shrink-0 text-[clamp(1.092rem,1.735vw,29.952px)] leading-[1.1] font-medium text-ink will-change-transform">{{ $band['words'][0] }}</p>
 
                 <span aria-hidden="true" class="hidden shrink-0 sm:block sm:w-[30.2vw] sm:max-w-[522px]"></span>
 
-                <p data-gallery-word="1" class="shrink-0 text-[clamp(1.75rem,2.78vw,48px)] leading-[1.1] font-medium text-ink will-change-transform">{{ $band['words'][1] }}</p>
+                <p data-gallery-word="1" class="shrink-0 text-[clamp(1.092rem,1.735vw,29.952px)] leading-[1.1] font-medium text-ink will-change-transform">{{ $band['words'][1] }}</p>
             </div>
 
             <p data-gallery-fade class="reveal relative z-10 text-fluid-sm font-medium uppercase tracking-[0.08em] text-ink">{{ $band['footnote'] }}</p>

@@ -74,7 +74,7 @@
             </div>
 
             {{-- 280 to the title, then the two words on the two gutters. --}}
-            <h1 class="mt-[clamp(2.5rem,16.2vw,280px)] flex items-baseline justify-between gap-8 font-display text-[clamp(2.5rem,4.69vw,81px)] font-medium uppercase leading-[1.37] tracking-normal">
+            <h1 class="mt-[clamp(2.5rem,16.2vw,280px)] flex items-baseline justify-between gap-8 font-display text-[clamp(1.56rem,2.927vw,50.544px)] font-medium uppercase leading-[1.37] tracking-normal">
                 <span data-split data-split-by="word">{{ $hero['heading'][0] }}</span>
                 <span data-split data-split-by="word" data-split-delay="140">{{ $hero['heading'][1] }}</span>
             </h1>

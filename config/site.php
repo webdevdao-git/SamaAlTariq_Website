@@ -1044,7 +1044,7 @@ return [
                 'points' => ['Wardrobes, kitchens and vanities', 'Wall panelling and feature pieces', 'Loose furniture made to order'],
             ],
             [
-                'number' => '05', 'title' => ['Ceilings & Finishing'], 'image' => 'images/services/service-7.webp',
+                'number' => '05', 'title' => ['Gypsum, Ceilings & Finishing'], 'image' => 'images/workers/work-17.webp',
                 'lead' => 'The surfaces you see every day.',
                 'points' => ['Gypsum ceilings and bulkheads', 'Partitions and drywall', 'Paint, tiling and stone'],
             ],
@@ -1165,7 +1165,7 @@ return [
             ['name' => 'Al Madar', 'src' => 'images/clients/al-madar.webp'],
             ['name' => 'Bin Dalmook Consultants', 'src' => 'images/clients/bin-dalmook-consultants.webp'],
             ['name' => 'Crystel', 'src' => 'images/clients/crystel.webp'],
-            ['name' => 'bluecamel', 'src' => 'images/clients/bluecamel.webp'],
+            ['name' => 'bluecamel', 'src' => 'images/clients/bluecamel.svg'],
             ['name' => 'Sweet Homes', 'src' => 'images/clients/sweet-homes.webp'],
             ['name' => 'DAO Marketing Management', 'src' => 'images/clients/dao-marketing-management.webp'],
             ['name' => 'Perfect Creations', 'src' => 'images/clients/perfect-creations.webp'],
@@ -1184,7 +1184,8 @@ return [
              */
             ['name' => 'ArchSmith', 'src' => 'images/clients/archsmith.webp'],
             ['name' => 'Caparol', 'src' => 'images/clients/caparol.webp'],
-            ['name' => 'DATCO', 'src' => 'images/clients/datco.webp'],
+            ['name' => 'DUTCO', 'src' => 'images/clients/dutco.webp'],
+            ['name' => 'Al Marjan Island', 'src' => 'images/clients/al-marjan-island.webp'],
             ['name' => 'GBM', 'src' => 'images/clients/gbm.webp'],
             ['name' => 'GYPSEMNA', 'src' => 'images/clients/gypsemna.webp'],
             ['name' => 'Jotun', 'src' => 'images/clients/jotun.webp'],
@@ -1379,7 +1380,7 @@ return [
         'heading' => ['One Team,', 'In House'],
         'lead' => '150+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
         'body' => 'Interior fit-out, joinery, finishing and MEP are delivered by our own people, not subcontracted. One programme, one project lead and one team carry a project from tender to handover.',
-        'image' => 'images/process/phase-interior-3.webp',
+        'image' => 'images/workers/work-17.webp',
         'figures' => [
             ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen'],
             ['value' => '06', 'label' => 'In-house departments'],
@@ -1388,13 +1389,13 @@ return [
         'departments' => [
             ['name' => 'Management & Engineering', 'image' => 'images/services/service-10.webp',
              'roles' => ['Project Managers', 'Project Coordinators', 'Architects & Draftsmen', 'Quantity Surveyors', 'Authority Approvals']],
-            ['name' => 'Finishing Works', 'image' => 'images/services/service-7.webp',
+            ['name' => 'Finishing Works', 'image' => 'images/workers/work-19.webp',
              'roles' => ['Gypsum, Ceiling & Partition Teams', 'Flooring & Stone Teams', 'Painting & Wall Finishes', 'Site Supervisors & Foremen']],
             ['name' => 'AMC & Property Care', 'image' => 'images/services/service-6.webp',
              'roles' => ['Maintenance Engineers', 'MEP Technicians', 'Joinery & Finishing Repairs', 'Planned & Reactive Service']],
-            ['name' => 'Interior Fit-Out', 'image' => 'images/process/phase-interior-3.webp',
+            ['name' => 'Interior Fit-Out', 'image' => 'images/workers/work-9.webp',
              'roles' => ['Fit-Out Managers', 'Site Supervisors & Foremen', 'Gypsum, Ceiling & Partition Teams', 'Flooring, Stone & Painting Teams']],
-            ['name' => 'Joinery — Alwan Interiors', 'image' => 'images/joinery/hero.webp',
+            ['name' => 'Joinery — Alwan Interiors', 'image' => 'images/workers/work-14.webp',
              'roles' => ['Head of Joinery', 'Production Manager', 'Draftsmen', 'Workshop Craftsmen', 'Installation Team']],
             ['name' => 'MEP', 'image' => 'images/services/service-8.webp',
              'roles' => ['HVAC & Electrical Engineers', 'Plumbing & Drainage', 'Fire & Low Current', 'Technicians & Installers']],
@@ -1570,5 +1571,116 @@ return [
         'alt' => 'Curved ribbed wall flowing into the ceiling, finished by Sama Al Tariq',
         'caption' => ['Designed in 3D', 'Built for real'],
         'phases' => ['Flat board', 'CNC cut', 'Assembled', 'Built for real'],
+    ],
+
+    /*
+     * The landing page after the hero, after kojinteriors.com's model: one
+     * photograph held full-screen behind the page (it changes, and settles
+     * from a slight zoom, as each chapter arrives), and the content on white
+     * cards scrolling over it. Between the cards the photograph shows, with
+     * the chapter's title across it (sections/story, motion/story-backdrop.js).
+     */
+    'story' => [
+        'about' => [
+            'bg' => 'images/projects/w-residence-palm-jumeirah/hero-3.webp',
+            'eyebrow' => 'Who We Are',
+            'title' => ['Interiors,', 'Built In House'],
+            'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
+            'body' => 'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 150 of our own people do the work, without subcontracting.',
+            'image' => 'images/about-interior.webp',
+            'image_alt' => 'Curved ribbed wall flowing into the ceiling, finished by Sama Al Tariq',
+            'trades' => ['Gypsum & Ceilings', 'Interior Fit-Out', 'Finishing Works', 'Bespoke Joinery', 'MEP', 'AMC'],
+            'cta' => ['label' => 'More About Us', 'href' => '/about'],
+            'stats' => [
+                ['value' => '150+', 'label' => 'In-house team'],
+                ['value' => '250k+', 'label' => 'm² finished'],
+                ['value' => '95%', 'label' => 'On-programme handovers'],
+                ['value' => '06', 'label' => 'Sectors served'],
+            ],
+        ],
+        /*
+         * The core trade, given its own chapter: the same ceiling framed and
+         * then finished, the second photograph wiping over the first as the
+         * card crosses the screen (sections/story, motion/gypsum-wipe.js).
+         */
+        'gypsum' => [
+            'bg' => 'images/hero/boulevard.webp',
+            'eyebrow' => 'Our Core Expertise',
+            'title' => ['Gypsum', '& Ceilings'],
+            'heading' => 'Gypsum and ceilings are our core trade, done by our own teams.',
+            'body' => 'Our own gypsum teams set out, frame, board and finish every ceiling and partition, so the lines stay straight, the coves stay clean and the lighting sits exactly where it was drawn.',
+            'framed' => ['src' => 'images/workers/work-19.webp', 'label' => 'Framed'],
+            'finished' => ['src' => 'images/hero/boulevard.webp', 'label' => 'Finished'],
+            'list' => [
+                'Suspended and floating ceilings',
+                'Coves, bulkheads and light troughs',
+                'Curved and stepped profiles',
+                'Partitions and drywall',
+                'Cornices and decorative profiles',
+                'Access panels and MEP openings',
+            ],
+        ],
+        'services' => [
+            'bg' => 'images/projects/dubai-hills-business-park/hero-2.webp',
+            'eyebrow' => 'What We Do',
+            'title' => ['Every Interior', 'Trade, In House'],
+            'heading' => ['Interior Fit-Out', 'Services'],
+            'body' => 'Every trade an interior needs, done by our own teams under one programme and one project lead.',
+            'cta' => ['label' => 'All Services', 'href' => '/services'],
+            // The Services page's own list, so the two never disagree.
+            'pick' => [4, 0, 1, 2, 3, 5, 6, 7],
+        ],
+        'work' => [
+            'bg' => 'images/projects/villa-pv39-tilal-al-ghaf/hero-3.webp',
+            'eyebrow' => 'How We Work',
+            'title' => ['One Team,', 'Shell To Handover'],
+            'heading' => ['Two Ways', 'To Work With Us'],
+            'body' => 'Bring us a space and a brief, or a finished design and BOQ. Either way one team runs the job from the first drawing to the handover.',
+            'steps' => [
+                ['title' => 'Estimate', 'body' => 'Drawings and BOQ reviewed, site surveyed, every item priced.'],
+                ['title' => 'Plan', 'body' => 'Shop drawings, samples and approvals before work starts.'],
+                ['title' => 'Fit-Out', 'body' => 'Ceilings, finishes, joinery and MEP by our own teams.'],
+                ['title' => 'Hand Over', 'body' => 'Snagged, tested and handed over, with AMC after.'],
+            ],
+            'cta' => ['label' => 'Our Process', 'href' => '/process'],
+        ],
+        'projects_label' => 'Featured Projects',
+        'projects' => [
+            ['slug' => 'jumeirah-golf-estate-villas', 'title' => ['Jumeirah Golf', 'Estate Villas'], 'category' => 'Luxury Residential', 'line' => 'Villas fitted out to one standard, from the entrance to the last bedroom.'],
+            ['slug' => 'wasl-properties-hq', 'title' => ['WASL', 'Properties HQ'], 'category' => 'Corporate', 'line' => 'A 45,000 sq ft headquarters on Sheikh Zayed Road, delivered in four months.'],
+            ['slug' => 'benjarong-dusit-thani', 'title' => ['Benjarong,', 'Dusit Thani'], 'category' => 'Hospitality / F&B', 'line' => 'A restaurant of more than 10,000 sq ft, delivered in three months.'],
+            ['slug' => 'pullman', 'title' => ['Pullman', 'Hotel'], 'category' => 'Hospitality', 'line' => 'Hotel interiors, fitted out end to end.'],
+        ],
+        'projects_cta' => ['label' => 'View All Projects', 'href' => '/projects'],
+        // Our own people at work, from the client's own site photographs
+        // (source-photos/workers): proof that the work is not subcontracted.
+        'crew' => [
+            'bg' => 'images/workers/work-19.webp',
+            'eyebrow' => 'Our People On Site',
+            'title' => ['Our Own Hands,', 'On Every Site'],
+            'heading' => ['150+ of our own people.', 'No subcontractors.'],
+            'body' => 'Gypsum fixers, carpenters, painters, MEP technicians and site engineers, all employed by Sama Al Tariq. The people who quote your project are the people who build it.',
+            'photos' => [
+                ['src' => 'images/workers/work-17.webp', 'caption' => 'Gypsum ceiling framing', 'wide' => true],
+                ['src' => 'images/workers/work-10.webp', 'caption' => 'Fluted panel and lighting'],
+                ['src' => 'images/workers/work-3.webp', 'caption' => 'Wall cladding install'],
+                ['src' => 'images/workers/work-12.webp', 'caption' => 'Alwan workshop'],
+                ['src' => 'images/workers/work-11.webp', 'caption' => 'Curved column cladding'],
+                ['src' => 'images/workers/work-9.webp', 'caption' => 'Feature wall, on site'],
+                ['src' => 'images/workers/work-18.webp', 'caption' => 'Panel cutting'],
+            ],
+            'cta' => ['label' => 'Meet The Team', 'href' => '/team'],
+        ],
+        'alwan' => [
+            'bg' => 'images/projects/jumeirah-island-villa/hero-3.webp',
+            'eyebrow' => 'Our Joinery Workshop',
+            'title' => ['Alwan', 'Interiors'],
+            'heading' => 'Joinery made by our own hands.',
+            'body' => 'Wardrobes, kitchens, wall panelling, curved and ribbed feature walls and furniture, drawn, made and fitted by Alwan Interiors, our own workshop.',
+            'image' => 'images/workers/work-8.webp',
+            'cta' => ['label' => 'Explore Joinery', 'href' => '/joinery'],
+            'team' => ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
+        ],
+        'faq_heading' => ['Questions', 'We Get Asked'],
     ],
 ];

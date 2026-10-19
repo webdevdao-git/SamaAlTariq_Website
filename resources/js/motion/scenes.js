@@ -268,6 +268,23 @@ function heroZoom() {
         enter();
     }
 
+    /*
+     * The copy is not scrubbed. Tied to the scroll it faded in across the
+     * last tenth of the pin and finished only at its very end, so a visitor
+     * who stopped scrolling a little short read the headline at half opacity
+     * over the photograph — which looks like blurred type. It is shown in
+     * full, on its own clock, once the room is mostly open, and hidden again
+     * only if they scroll back into the mark.
+     */
+    let shown = false;
+    const reveal = (on) => {
+        if (on === shown) return;
+        shown = on;
+        gsap.to(content, on
+            ? { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', overwrite: true }
+            : { autoAlpha: 0, y: 70, duration: 0.3, ease: 'power2.in', overwrite: true });
+    };
+
     gsap.timeline({
         scrollTrigger: {
             trigger: hero,
@@ -276,13 +293,14 @@ function heroZoom() {
             pin: true,
             scrub: 1,
             invalidateOnRefresh: true,
+            onUpdate: (self) => reveal(self.progress > 0.7),
+            onLeave: () => reveal(true),
         },
     })
         .fromTo(zoom, { s: 1 }, { s: 70, ease: 'power3.in', duration: 1, onUpdate: draw, immediateRender: false }, 0)
         .to(cue, { autoAlpha: 0, duration: 0.15 }, 0)
         .fromTo(img, { scale: 1.25 }, { scale: 1, ease: 'none', duration: 1, immediateRender: false }, 0)
-        .to(svg, { autoAlpha: 0, duration: 0.08 }, 0.9)
-        .to(content, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.92);
+        .to(svg, { autoAlpha: 0, duration: 0.08 }, 0.9);
 
     // The shader can lay its canvas over the photograph straight away: it
     // sits under the mask, so it bends the room inside the bands too.

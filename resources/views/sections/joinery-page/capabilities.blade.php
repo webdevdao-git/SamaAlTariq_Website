@@ -36,7 +36,7 @@
 
                         <div class="flex items-baseline justify-between gap-6">
                             <h3 class="text-[clamp(1.0625rem,1.62vw,28px)] font-medium text-ink">{{ $item['title'] }}</h3>
-                            <span aria-hidden="true" class="shrink-0 text-[clamp(1.25rem,2.31vw,40px)] font-medium text-teal">{{ $item['number'] }}</span>
+                            <span aria-hidden="true" class="shrink-0 text-[clamp(0.78rem,1.441vw,24.96px)] font-medium text-teal">{{ $item['number'] }}</span>
                         </div>
                     </div>
                 @endforeach
