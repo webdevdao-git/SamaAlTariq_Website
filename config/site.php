@@ -113,7 +113,7 @@ return [
         'alt' => 'Curved timber-ribbed interior with a sculpted lounge chair',
         'subheading' => ['Shell To Handover,', 'One Team'],
         'body' => [
-            'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 150 of our own people do the work, without subcontracting.',
+            'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 200 of our own people do the work, without subcontracting.',
             'Our joinery is made in our own workshop, Alwan Interiors. After handover, our AMC team keeps the space in the condition we handed it over in.',
         ],
         'stats' => [
@@ -1354,7 +1354,7 @@ return [
         'label' => 'By the Numbers',
         'tagline' => 'One contractor. Every part of the interior.',
         'items' => [
-            ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen in-house'],
+            ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen in-house'],
             ['value' => '12+', 'label' => 'Flagship projects delivered'],
             ['value' => '250k+', 'label' => 'Meter square designed, built and fitted'],
             ['value' => '95%', 'label' => 'On-programme handovers'],
@@ -1366,7 +1366,7 @@ return [
     /*
      * The Team page, and the band on the landing page that leads to it.
      *
-     * Built on the business profile's own figures (150+ in-house, joinery
+     * Built on the business profile's own figures (200+ in-house, joinery
      * and MEP 100% in-house) and its six scopes, which are the departments.
      * Each department's `roles` is the usual ladder of a contracting team and
      * `structure` how a project is staffed — written to the profile's scopes,
@@ -1378,11 +1378,11 @@ return [
     'team_page' => [
         'label' => 'Our Team',
         'heading' => ['One Team,', 'In House'],
-        'lead' => '150+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
+        'lead' => '200+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
         'body' => 'Interior fit-out, joinery, finishing and MEP are delivered by our own people, not subcontracted. One programme, one project lead and one team carry a project from tender to handover.',
         'image' => 'images/workers/work-17.webp',
         'figures' => [
-            ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen'],
+            ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen'],
             ['value' => '06', 'label' => 'In-house departments'],
             ['value' => '100%', 'label' => 'In-house joinery and MEP'],
         ],
@@ -1586,13 +1586,13 @@ return [
             'eyebrow' => 'Who We Are',
             'title' => ['Interiors,', 'Built In House'],
             'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
-            'body' => 'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 150 of our own people do the work, without subcontracting.',
+            'body' => 'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 200 of our own people do the work, without subcontracting.',
             'image' => 'images/about-interior.webp',
             'image_alt' => 'Curved ribbed wall flowing into the ceiling, finished by Sama Al Tariq',
             'trades' => ['Gypsum & Ceilings', 'Interior Fit-Out', 'Finishing Works', 'Bespoke Joinery', 'MEP', 'AMC'],
             'cta' => ['label' => 'More About Us', 'href' => '/about'],
             'stats' => [
-                ['value' => '150+', 'label' => 'In-house team'],
+                ['value' => '200+', 'label' => 'In-house team'],
                 ['value' => '250k+', 'label' => 'm² finished'],
                 ['value' => '95%', 'label' => 'On-programme handovers'],
                 ['value' => '06', 'label' => 'Sectors served'],
@@ -1658,7 +1658,7 @@ return [
             'bg' => 'images/workers/work-19.webp',
             'eyebrow' => 'Our People On Site',
             'title' => ['Our Own Hands,', 'On Every Site'],
-            'heading' => ['150+ of our own people.', 'No subcontractors.'],
+            'heading' => ['200+ of our own people.', 'No subcontractors.'],
             'body' => 'Gypsum fixers, carpenters, painters, MEP technicians and site engineers, all employed by Sama Al Tariq. The people who quote your project are the people who build it.',
             'photos' => [
                 ['src' => 'images/workers/work-17.webp', 'caption' => 'Gypsum ceiling framing', 'wide' => true],
@@ -1679,7 +1679,7 @@ return [
             'body' => 'Wardrobes, kitchens, wall panelling, curved and ribbed feature walls and furniture, drawn, made and fitted by Alwan Interiors, our own workshop.',
             'image' => 'images/workers/work-8.webp',
             'cta' => ['label' => 'Explore Joinery', 'href' => '/joinery'],
-            'team' => ['value' => '150+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
+            'team' => ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
         ],
         'faq_heading' => ['Questions', 'We Get Asked'],
     ],
