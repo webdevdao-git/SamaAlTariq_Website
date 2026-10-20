@@ -21,7 +21,7 @@
 --}}
 <section id="contact"
          class="relative isolate flex min-h-[100svh] items-center border-t border-hairline px-[clamp(1rem,4.63vw,80px)] py-[clamp(2rem,3.4vw,58px)]">
-    <img src="{{ asset($inquiry['background']) }}" alt="" loading="lazy" decoding="async"
+    <img src="{{ \App\Support\Asset::versioned($inquiry['background']) }}" srcset="{{ \App\Support\Asset::srcset($inquiry['background']) }}" sizes="100vw" alt="" loading="lazy" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover">
 
     <div class="reveal mx-auto w-full max-w-[1466px] rounded-[clamp(20px,2.31vw,40px)] bg-white p-[clamp(1.25rem,2.78vw,48px)] shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)]">

@@ -28,4 +28,22 @@ class Asset
 
         return asset($path).'?v='.(@filemtime($file) ?: 1);
     }
+
+    /**
+     * A srcset for a full-screen photograph that has a 4K cut beside it
+     * (`name-4k.webp`): the picture as it is for ordinary screens, the 4K one
+     * for large and high-density ones. Empty when there is no 4K cut, so the
+     * plain src stands on its own.
+     */
+    public static function srcset(string $path): string
+    {
+        $large = preg_replace('/\.webp$/', '-4k.webp', $path);
+        if ($large === $path || ! is_file(public_path($large))) {
+            return '';
+        }
+
+        $width = @getimagesize(public_path($path))[0] ?: 1920;
+
+        return self::versioned($path).' '.$width.'w, '.self::versioned($large).' 3840w';
+    }
 }

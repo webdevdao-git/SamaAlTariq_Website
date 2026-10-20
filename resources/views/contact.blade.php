@@ -40,7 +40,7 @@
     <main>
         <section id="contact"
                  class="relative isolate flex min-h-[100svh] items-center px-[clamp(1rem,4.63vw,80px)] pt-[max(7.5rem,min(15.5vw,24vh))] pb-[clamp(2.5rem,4vw,70px)]">
-            <img src="{{ \App\Support\Asset::versioned(config('site.inquiry.background')) }}" alt=""
+            <img src="{{ \App\Support\Asset::versioned(config('site.inquiry.background')) }}" srcset="{{ \App\Support\Asset::srcset(config('site.inquiry.background')) }}" sizes="100vw" alt=""
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
             {{-- A soft white fade at the top so the header sits on something

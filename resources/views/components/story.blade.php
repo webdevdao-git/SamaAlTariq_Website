@@ -10,7 +10,7 @@
     <div class="story__bd" aria-hidden="true">
         @foreach ($bgs as $key => $src)
             <div class="story__bg {{ $loop->first ? 'is-on' : '' }}" data-story-bg="{{ $key }}">
-                <img src="{{ \App\Support\Asset::versioned($src) }}" alt="" loading="{{ $loop->first ? 'eager' : 'lazy' }}" decoding="async">
+                <img src="{{ \App\Support\Asset::versioned($src) }}" srcset="{{ \App\Support\Asset::srcset($src) }}" sizes="100vw" alt="" loading="{{ $loop->first ? 'eager' : 'lazy' }}" decoding="async">
             </div>
         @endforeach
         <div class="story__shade"></div>

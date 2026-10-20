@@ -16,7 +16,7 @@
          the services file covers a window at 0.83 source pixels per CSS pixel
          — the softness the fit-out panel was rebuilt to fix, and the same
          treatment applied here. --}}
-    <img src="{{ \App\Support\Asset::versioned($hero['image']['src']) }}" alt="{{ $hero['image']['alt'] }}"
+    <img src="{{ \App\Support\Asset::versioned($hero['image']['src']) }}" srcset="{{ \App\Support\Asset::srcset($hero['image']['src']) }}" sizes="100vw" alt="{{ $hero['image']['alt'] }}"
          fetchpriority="high" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover">
 

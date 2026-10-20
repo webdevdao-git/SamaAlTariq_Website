@@ -44,6 +44,7 @@
              style="opacity:{{ $i === 0 ? '1' : '0' }};transform:scale({{ $i === 0 ? '1' : '1.2' }})">
 
             <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/' . $slide) }}"
+                 srcset="{{ \App\Support\Asset::srcset('images/projects/' . $slug . '/' . $slide) }}" sizes="100vw"
                  @if ($i === 0)
                      alt="{{ $project['title'] }}{{ isset($project['location']) ? ' — ' . $project['location'] : '' }}"
                      fetchpriority="high"

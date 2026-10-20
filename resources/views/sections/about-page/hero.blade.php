@@ -45,7 +45,7 @@
 
     <div data-hero-bg aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[200svh]">
         <div data-hero-pin class="sticky top-0 h-[100svh] w-full overflow-hidden">
-            <img src="{{ asset($hero['image']) }}" alt="{{ $hero['alt'] }}"
+            <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" srcset="{{ \App\Support\Asset::srcset($hero['image']) }}" sizes="100vw" alt="{{ $hero['alt'] }}"
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full object-cover">
             {{-- One gradient, not the landing hero's two. Measured off the

@@ -40,7 +40,7 @@
     <div class="sticky top-0 isolate flex h-[100svh] flex-col overflow-hidden bg-white">
 
         {{-- The drawing, underneath. --}}
-        <img src="{{ \App\Support\Asset::versioned($hero['outline']) }}" alt=""
+        <img src="{{ \App\Support\Asset::versioned($hero['outline']) }}" srcset="{{ \App\Support\Asset::srcset($hero['outline']) }}" sizes="100vw" alt=""
              aria-hidden="true" fetchpriority="high" decoding="async"
              class="absolute inset-0 -z-20 h-full w-full object-cover">
 
@@ -49,7 +49,7 @@
              so the picture stands still while the window grows. --}}
         <div data-reveal-window
              class="absolute inset-0 -z-10 origin-bottom overflow-hidden will-change-transform">
-            <img data-reveal-media src="{{ \App\Support\Asset::versioned($hero['image']) }}" alt=""
+            <img data-reveal-media src="{{ \App\Support\Asset::versioned($hero['image']) }}" srcset="{{ \App\Support\Asset::srcset($hero['image']) }}" sizes="100vw" alt=""
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full origin-bottom object-cover will-change-transform">
         </div>

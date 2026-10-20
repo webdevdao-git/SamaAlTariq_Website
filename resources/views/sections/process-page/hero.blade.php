@@ -17,7 +17,7 @@
          1296 against its 1117, and the -0.160687 is -179.5px — the whole 179
          of overflow taken off the head, none off the foot. Centred, as this
          was, it takes 90 off each and the room sits 90 too low. --}}
-    <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" alt=""
+    <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" srcset="{{ \App\Support\Asset::srcset($hero['image']) }}" sizes="100vw" alt=""
          fetchpriority="high" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover object-bottom">
 

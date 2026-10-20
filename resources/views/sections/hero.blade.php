@@ -1,4 +1,6 @@
-@php($hero = config('site.hero'))
+@php
+    $hero = config('site.hero');
+@endphp
 
 {{--
     Figma: frame 1195:3, 1728×1117.
@@ -18,14 +20,27 @@
             {{-- Versioned: the CDN holds static files for a week, so replacing
                  the photograph without changing its name would leave visitors
                  on the old one. The stamp is the file's own mtime. --}}
-            @php($first = $hero['slides'][0])
-            <img src="{{ \App\Support\Asset::versioned($first['src']) }}" alt="{{ $first['title'] }}"
+            @php
+                $first = $hero['slides'][0];
+                // 4K for large and high-density screens, a 1920 cut for the
+                // rest; the browser picks from the screen it is on.
+                $srcset = function (string $src) {
+                    $small = preg_replace('/\.webp$/', '-1920.webp', $src);
+                    $set = [];
+                    if (file_exists(public_path($small))) {
+                        $set[] = \App\Support\Asset::versioned($small).' 1920w';
+                    }
+                    $set[] = \App\Support\Asset::versioned($src).' 3840w';
+                    return implode(', ', $set);
+                };
+            @endphp
+            <img src="{{ \App\Support\Asset::versioned($first['src']) }}" srcset="{{ $srcset($first['src']) }}" sizes="100vw" alt="{{ $first['title'] }}"
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full object-cover">
             {{-- The rest of the slides, stacked over the first and shown in
                  turn by motion/hero-slider.js. Lazy: the first is what paints. --}}
             @foreach (array_slice($hero['slides'], 1) as $slide)
-                <img src="{{ \App\Support\Asset::versioned($slide['src']) }}" alt="" loading="lazy" decoding="async"
+                <img src="{{ \App\Support\Asset::versioned($slide['src']) }}" srcset="{{ $srcset($slide['src']) }}" sizes="100vw" alt="" loading="lazy" decoding="async"
                      data-hero-slide
                      class="hero-slide absolute inset-0 h-full w-full object-cover">
             @endforeach
