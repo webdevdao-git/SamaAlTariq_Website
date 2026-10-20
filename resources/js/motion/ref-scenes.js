@@ -108,7 +108,7 @@ function read() {
      * the client strip, the 3D stage and the stat labels are left alone —
      * they are not prose.
      */
-    const skip = 'form, .marquee, [data-stage], .numbers dd, .scope__row, .sstage, .sx, .rv, .story__card, .sectors__item, footer, header, .service-slides, nav, li';
+    const skip = 'form, .marquee, [data-stage], .numbers dd, .scope__row, .sstage, .sx, .rv, .story__card, #contact, .sectors__item, footer, header, .service-slides, nav, li';
     const paragraphs = Array.from(document.querySelectorAll('main p'))
         .filter((p) => !p.closest(skip) && p.textContent.trim().length > 90 && !p.querySelector('a, input, img'));
 
@@ -270,9 +270,10 @@ export function initRefScenes() {
             undo.push(aboutInline());
             if (!document.querySelector('#projects.has-stage')) projectsCollage();
         }
-        // Every marketing page: paragraphs read in, framed pictures drift
-        // against the scroll, and the enquiry band opens.
-        read();
+        // Every marketing page: framed pictures drift against the scroll,
+        // and the enquiry band opens. Paragraphs no longer read in word by
+        // word: a visitor who stopped scrolling saw the end of a sentence
+        // still at a fifth of its strength, which read as blurred text.
         undo.push(drift());
         inquiryOpen();
         return () => undo.forEach((fn) => fn?.());

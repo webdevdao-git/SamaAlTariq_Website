@@ -43,6 +43,9 @@
             <img src="{{ \App\Support\Asset::versioned(config('site.inquiry.background')) }}" alt=""
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 -z-10 h-full w-full object-cover">
+            {{-- A soft white fade at the top so the header sits on something
+                 quiet: on a phone the logo and Menu landed on the track lights. --}}
+            <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-[5] h-[clamp(9rem,22vh,15rem)] bg-gradient-to-b from-white/90 via-white/60 to-transparent"></div>
 
             {{-- 1340: wider than it was and still under the shared band's
                  1466, which is what leaves the photograph behind it reading as

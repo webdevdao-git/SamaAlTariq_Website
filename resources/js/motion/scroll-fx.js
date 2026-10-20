@@ -21,7 +21,7 @@ import { subscribeToScroll, prefersReducedMotion } from './scroll-engine';
 const OWNED = [
     '#top', '[data-hero]', '[data-tower]', '.marquee', '[data-grow-scene]', '[data-reveal-scene]',
     '[data-scroll-gallery]', '[data-slide-cycle]', '[data-process]', '[data-lightbox]',
-    '.service-slides', '.svc-media', '.sstage', '.sx', '.rv__visual', '.story__bd', '.gyp__wipe', '.intro-curtain', 'footer', 'header', '.project-list', '#contact',
+    '.service-slides', '.svc-media', '.sstage', '.sx', '.rv__visual', '.story__bd', '.gyp__wipe', '.tm-wall', '.tm-reel', '.tm-card', '.intro-curtain', 'footer', 'header', '.project-list', '#contact',
     // Every picture on the About page has a scene of its own (about-scenes.js);
     // a second mask on top of those clipped the collage to a sliver.
     'main[data-page="about"]',
