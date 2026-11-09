@@ -11,9 +11,9 @@
     questions, each a card over its own photograph.
 --}}
 <x-story :bgs="[
-    'services' => 'images/projects/dubai-hills-business-park/hero-2.webp',
+    'services' => 'images/projects/fidelity-gym-jlt/hero.webp',
     'models' => 'images/projects/villa-b200-tilal-al-ghaf/hero-2.webp',
-    'live' => 'images/projects/pullman/hero-4.webp',
+    'live' => 'images/projects/benjarong-dusit-thani/hero.webp',
 ]">
     <x-story-win key="services" :eyebrow="$page['intro']['label']" :title="['Every Interior Trade,', 'In House']"/>
 

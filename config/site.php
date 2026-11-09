@@ -88,16 +88,16 @@ return [
         // Shown over every slide: what the company is best known for.
         'specialism' => ['Interior Fit-Out', 'Gypsum & Ceiling Specialists'],
         'slides' => [
+            ['src' => 'images/hero/wasl.webp', 'title' => 'WASL Properties HQ', 'lines' => ['Workplaces Built', 'Around People']],
             ['src' => 'images/hero/w-residence.webp', 'title' => 'W Residence, Palm Jumeirah', 'lines' => ['Residences Finished', 'To The Last Detail']],
             // Gypsum is the company's core trade, so it has a slide of its own.
             ['src' => 'images/hero/boulevard.webp', 'title' => 'Boulevard Plaza Office', 'lines' => ['Gypsum Ceilings,', 'Our Core Expertise']],
             ['src' => 'images/hero/pullman.webp', 'title' => 'Pullman Hotel', 'lines' => ['Hospitality,', 'Delivered End To End']],
             ['src' => 'images/hero/benjarong.webp', 'title' => 'Benjarong, Dusit Thani', 'lines' => ['Restaurants With', 'A Story To Tell']],
-            ['src' => 'images/hero/wasl.webp', 'title' => 'WASL Properties HQ', 'lines' => ['Workplaces Built', 'Around People']],
             ['src' => 'images/hero/b200.webp', 'title' => 'Villa B200, Tilal-Al-Ghaf', 'lines' => ['Villas Renewed,', 'Room By Room']],
             ['src' => 'images/hero/pv39.webp', 'title' => 'Villa PV39, Tilal-Al-Ghaf', 'lines' => ['Interior Fit Out,', 'One Contractor']],
         ],
-        'image' => 'images/hero/w-residence.webp',
+        'image' => 'images/hero/wasl.webp',
         // The frame's own photograph, taken from the hero's image fill.
         'alt' => 'Double-height living room opening onto a beach and the Dubai skyline',
     ],
@@ -1582,7 +1582,7 @@ return [
      */
     'story' => [
         'about' => [
-            'bg' => 'images/projects/w-residence-palm-jumeirah/hero-3.webp',
+            'bg' => 'images/projects/villa-b200-tilal-al-ghaf/hero-4.webp',
             'eyebrow' => 'Who We Are',
             'title' => ['Interiors,', 'Built In House'],
             'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
@@ -1621,7 +1621,7 @@ return [
             ],
         ],
         'services' => [
-            'bg' => 'images/projects/dubai-hills-business-park/hero-2.webp',
+            'bg' => 'images/projects/fidelity-gym-jlt/hero.webp',
             'eyebrow' => 'What We Do',
             'title' => ['Every Interior', 'Trade, In House'],
             'heading' => ['Interior Fit-Out', 'Services'],
@@ -1631,7 +1631,7 @@ return [
             'pick' => [4, 0, 1, 2, 3, 5, 6, 7],
         ],
         'work' => [
-            'bg' => 'images/projects/villa-pv39-tilal-al-ghaf/hero-3.webp',
+            'bg' => 'images/projects/wasl-properties-hq/hero-2.webp',
             'eyebrow' => 'How We Work',
             'title' => ['One Team,', 'Shell To Handover'],
             'heading' => ['Two Ways', 'To Work With Us'],
@@ -1655,24 +1655,26 @@ return [
         // Our own people at work, from the client's own site photographs
         // (source-photos/workers): proof that the work is not subcontracted.
         'crew' => [
-            'bg' => 'images/workers/work-19.webp',
+            'bg' => 'images/projects/benjarong-dusit-thani/hero-3.webp',
             'eyebrow' => 'Our People On Site',
             'title' => ['Our Own Hands,', 'On Every Site'],
             'heading' => ['200+ of our own people.', 'No subcontractors.'],
             'body' => 'Gypsum fixers, carpenters, painters, MEP technicians and site engineers, all employed by Sama Al Tariq. The people who quote your project are the people who build it.',
+            // Five trades, one photograph each: a row of tall panels, the one
+            // under the pointer opening out (sections/story, .crew-panels).
             'photos' => [
-                ['src' => 'images/workers/work-17.webp', 'caption' => 'Gypsum ceiling framing', 'wide' => true],
-                ['src' => 'images/workers/work-10.webp', 'caption' => 'Fluted panel and lighting'],
-                ['src' => 'images/workers/work-3.webp', 'caption' => 'Wall cladding install'],
-                ['src' => 'images/workers/work-12.webp', 'caption' => 'Alwan workshop'],
-                ['src' => 'images/workers/work-11.webp', 'caption' => 'Curved column cladding'],
-                ['src' => 'images/workers/work-9.webp', 'caption' => 'Feature wall, on site'],
-                ['src' => 'images/workers/work-18.webp', 'caption' => 'Panel cutting'],
+                // Cropped tight on the work and graded as one set
+                // (hi-vis yellow toned down), from source-photos/workers.
+                ['src' => 'images/workers/craft-1.webp', 'trade' => 'Gypsum & Ceilings', 'caption' => 'Framing a suspended ceiling, level by level.'],
+                ['src' => 'images/workers/craft-2.webp', 'trade' => 'Joinery Workshop', 'caption' => 'Every panel finished by hand at Alwan Interiors.'],
+                ['src' => 'images/workers/craft-3.webp', 'trade' => 'Fit-Out Crew', 'caption' => 'Wall panels set out and fixed on site.'],
+                ['src' => 'images/workers/craft-4.webp', 'trade' => 'Precision Cutting', 'caption' => 'Boards cut to the millimetre before they reach site.'],
+                ['src' => 'images/workers/craft-5.webp', 'trade' => 'Lighting & MEP', 'caption' => 'Lighting wired in before the finish goes on.'],
             ],
             'cta' => ['label' => 'Meet The Team', 'href' => '/team'],
         ],
         'alwan' => [
-            'bg' => 'images/projects/jumeirah-island-villa/hero-3.webp',
+            'bg' => 'images/projects/jp-villa/hero-2.webp',
             'eyebrow' => 'Our Joinery Workshop',
             'title' => ['Alwan', 'Interiors'],
             'heading' => 'Joinery made by our own hands.',

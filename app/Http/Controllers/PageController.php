@@ -155,7 +155,10 @@ class PageController extends Controller
             foreach ($group['rows'] as $row) {
                 foreach ($row['columns'] as $column) {
                     foreach ($column['tiles'] as $tile) {
-                        $facts[$tile['image']] ??= $tile;
+                        // By the project it opens, not the picture: two tiles
+                        // use a "-wide" cut of their cover, and keyed by the
+                        // picture their pages found no facts and answered 404.
+                        $facts[$tile['project'] ?? $tile['image']] ??= $tile;
                     }
                 }
             }

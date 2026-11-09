@@ -48,7 +48,7 @@ function storyBackdrop(root) {
         if (still) return;
         const img = layers.get(key)?.querySelector('img');
         if (!img) return;
-        gsap.fromTo(img, { scale: 1.22 }, {
+        gsap.fromTo(img, { scale: 1.06 }, {
             scale: 1,
             ease: 'none',
             scrollTrigger: {

@@ -18,10 +18,10 @@
     in context, and common questions.
 --}}
 <x-story :bgs="[
-    'alwan' => 'images/projects/emirates-hills-villa/hero-4.webp',
-    'workshop' => 'images/projects/jp-villa/hero-4.webp',
-    'process' => 'images/projects/dubai-hills-business-park/hero-3.webp',
-    'context' => 'images/projects/jp-villa/hero-2.webp',
+    'alwan' => 'images/projects/jp-villa/hero-2.webp',
+    'workshop' => 'images/projects/wasl-properties-hq/hero-3.webp',
+    'process' => 'images/projects/villa-b200-tilal-al-ghaf/hero-2.webp',
+    'context' => 'images/projects/fidelity-gym-jlt/hero.webp',
 ]">
     <x-story-win key="alwan" :eyebrow="implode(' ', $page['ecosystem']['label'])" :title="['Joinery, Made', 'By Our Own Hands']"/>
 

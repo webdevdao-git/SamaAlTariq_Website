@@ -260,7 +260,9 @@ function heroZoom() {
         gsap.fromTo(paths,
             { y: 60, opacity: 0 },
             { y: 0, opacity: 1, duration: 1.4, ease: 'expo.out', stagger: { each: 0.08, from: 'end' }, delay: 0.3 });
-        if (img) gsap.fromTo(img, { scale: 1.45 }, { scale: 1.25, duration: 3, ease: 'expo.out', delay: 0.3 });
+        let opened = false;
+        try { opened = sessionStorage.getItem('sama:hero-opened') === '1'; } catch { /* private mode */ }
+        if (img && !opened) gsap.fromTo(img, { scale: 1.45 }, { scale: 1.25, duration: 3, ease: 'expo.out', delay: 0.3 });
     };
     if (document.querySelector('.intro-curtain')) {
         window.addEventListener('curtain:lift', enter, { once: true });
@@ -285,22 +287,60 @@ function heroZoom() {
             : { autoAlpha: 0, y: 70, duration: 0.3, ease: 'power2.in', overwrite: true });
     };
 
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: hero,
-            start: 'top top',
-            end: () => `+=${window.innerHeight * 0.9}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => reveal(self.progress > 0.7),
-            onLeave: () => reveal(true),
-        },
-    })
-        .fromTo(zoom, { s: 1 }, { s: 70, ease: 'power3.in', duration: 1, onUpdate: draw, immediateRender: false }, 0)
-        .to(cue, { autoAlpha: 0, duration: 0.15 }, 0)
-        .fromTo(img, { scale: 1.25 }, { scale: 1, ease: 'none', duration: 1, immediateRender: false }, 0)
-        .to(svg, { autoAlpha: 0, duration: 0.08 }, 0.9);
+    /*
+     * The logo zoom plays once. The first time the visitor scrolls through it,
+     * the scene is taken down for good: the mark and its pin go, the room
+     * stays open, and the page is moved up by the length of the pin so the
+     * screen does not jump. Scrolling back up then shows the photograph, not
+     * the mark closing over it again. The session remembers, so coming back
+     * to the landing page from another page opens straight onto the room.
+     */
+    const KEY = 'sama:hero-opened';
+    const seen = () => { try { return sessionStorage.getItem(KEY) === '1'; } catch { return false; } };
+    const remember = () => { try { sessionStorage.setItem(KEY, '1'); } catch { /* private mode */ } };
+    const opened = () => {
+        svg.remove();
+        cue.remove();
+        gsap.set(img, { scale: 1 });
+        reveal(true);
+    };
+
+    if (seen()) {
+        opened();
+    } else {
+        let tl;
+        let done = false;
+        const finish = (self) => {
+            if (done) return;
+            done = true;
+            remember();
+            const distance = self.end - self.start;
+            tl.progress(1);
+            self.kill();
+            tl.kill();
+            opened();
+            const y = Math.max(0, window.scrollY - distance);
+            if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true, force: true });
+            else window.scrollTo(0, y);
+            ScrollTrigger.refresh();
+        };
+        tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: hero,
+                start: 'top top',
+                end: () => `+=${window.innerHeight * 0.9}`,
+                pin: true,
+                scrub: 1,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => reveal(self.progress > 0.7),
+                onLeave: (self) => finish(self),
+            },
+        })
+            .fromTo(zoom, { s: 1 }, { s: 70, ease: 'power3.in', duration: 1, onUpdate: draw, immediateRender: false }, 0)
+            .to(cue, { autoAlpha: 0, duration: 0.15 }, 0)
+            .fromTo(img, { scale: 1.25 }, { scale: 1, ease: 'none', duration: 1, immediateRender: false }, 0)
+            .to(svg, { autoAlpha: 0, duration: 0.08 }, 0.9);
+    }
 
     // The shader can lay its canvas over the photograph straight away: it
     // sits under the mask, so it bends the room inside the bands too.

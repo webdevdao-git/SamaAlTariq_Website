@@ -6200,3 +6200,94 @@
         object-position: 50% 30%;
     }
 }
+
+/*
+ * Home, "Our Own Hands": the trades as five equal tiles at the photographs'
+ * own shape, in their graded colour.
+ */
+@layer components {
+    .crew-panels {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: clamp(0.5rem, 1vw, 14px);
+        margin-top: clamp(1rem, 2vw, 28px);
+    }
+
+    .crew-panel {
+        position: relative;
+        overflow: hidden;
+        /* The photographs' own 3:4, so nothing is cut off. */
+        aspect-ratio: 3 / 4;
+        border-radius: clamp(12px, 1.2vw, 18px);
+        background: #1f3a44;
+        outline: none;
+    }
+
+    .crew-panel img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: scale 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .crew-panel:hover img,
+    .crew-panel:focus-visible img {
+        scale: 1.04;
+    }
+
+    .crew-panel::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(0deg, rgba(10, 20, 24, 0.82) 0%, rgba(10, 20, 24, 0.25) 38%, rgba(10, 20, 24, 0) 60%);
+    }
+
+    .crew-panel__label {
+        position: absolute;
+        left: clamp(0.75rem, 1.2vw, 18px);
+        right: clamp(0.75rem, 1.2vw, 18px);
+        bottom: clamp(0.75rem, 1.2vw, 18px);
+        z-index: 2;
+        color: #fff;
+    }
+
+    .crew-panel__num {
+        display: block;
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--color-teal);
+    }
+
+    .crew-panel__trade {
+        margin-top: 0.3rem;
+        font-family: var(--font-display);
+        font-size: var(--text-fluid-lead);
+        line-height: 1.15;
+    }
+
+    .crew-panel__caption {
+        margin-top: 0.35rem;
+        font-size: var(--text-fluid-sm);
+        line-height: 1.4;
+        opacity: 0.8;
+    }
+
+    @media (max-width: 899px) {
+        .crew-panels {
+            grid-template-columns: none;
+            grid-auto-flow: column;
+            grid-auto-columns: 62%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .crew-panel {
+            scroll-snap-align: start;
+        }
+    }
+}

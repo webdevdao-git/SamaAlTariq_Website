@@ -258,11 +258,16 @@
                 </div>
             </div>
 
-            <ul class="story__crew">
+            {{-- The trades as five equal tiles, one look for all. --}}
+            <ul class="crew-panels">
                 @foreach ($crew['photos'] as $photo)
-                    <li class="reveal {{ ! empty($photo['wide']) ? 'is-wide' : '' }}" style="transition-delay:{{ ($loop->index % 4) * 80 }}ms">
-                        <img src="{{ $img($photo['src']) }}" alt="Sama Al Tariq team: {{ strtolower($photo['caption']) }}" loading="lazy" decoding="async">
-                        <span>{{ $photo['caption'] }}</span>
+                    <li class="crew-panel reveal" style="transition-delay:{{ $loop->index * 70 }}ms" tabindex="0">
+                        <img src="{{ $img($photo['src']) }}" alt="Sama Al Tariq {{ strtolower($photo['trade']) }} team at work" loading="lazy" decoding="async" style="object-position:{{ $photo['focus'] ?? '50% 40%' }}">
+                        <div class="crew-panel__label">
+                            <span class="crew-panel__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            <h4 class="crew-panel__trade">{{ $photo['trade'] }}</h4>
+                            <p class="crew-panel__caption">{{ $photo['caption'] }}</p>
+                        </div>
                     </li>
                 @endforeach
             </ul>

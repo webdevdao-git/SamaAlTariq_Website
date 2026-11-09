@@ -3,10 +3,10 @@
     $img = fn (string $path) => \App\Support\Asset::versioned($path);
     // A photograph per phase, in page order.
     $bgs = [
-        'phase-1' => 'images/projects/wasl-properties-hq/hero-4.webp',
-        'phase-2' => 'images/projects/i-rise-tower-office/hero-2.webp',
+        'phase-1' => 'images/projects/wasl-properties-hq/hero-2.webp',
+        'phase-2' => 'images/projects/fidelity-gym-jlt/hero-2.webp',
         'phase-3' => 'images/workers/work-19.webp',
-        'phase-4' => 'images/projects/emirates-hills-villa/hero-3.webp',
+        'phase-4' => 'images/projects/villa-b200-tilal-al-ghaf/hero-4.webp',
     ];
 @endphp
 

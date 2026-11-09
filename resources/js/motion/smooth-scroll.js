@@ -27,6 +27,9 @@ export function initSmoothScroll() {
     });
 
     document.documentElement.classList.add('lenis-active');
+    // Reachable by the scenes that need to move the page without easing
+    // (the landing page's hero, once its logo zoom has played).
+    window.__lenis = lenis;
 
     /*
      * One clock for Lenis and GSAP. ScrollTrigger reads the position Lenis
