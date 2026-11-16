@@ -54,9 +54,6 @@
                  class="absolute inset-0 h-full w-full origin-bottom object-cover will-change-transform">
         </div>
 
-        <div aria-hidden="true" class="absolute inset-0 -z-10"
-             style="background-image:linear-gradient(0deg,rgba(0,0,0,0.46) 0%,rgba(102,102,102,0) 117%)"></div>
-
         {{-- The title again in white, inside a second window on the same
              transform as the photograph's — so a word turns white exactly as
              the picture reaches it rather than the whole title turning at once

@@ -44,11 +44,14 @@
 --}}
 <section id="projects" class="featured-stack bg-mist text-ink">
     <div class="shell flex flex-col gap-6 pt-[clamp(2.5rem,5vw,80px)] md:flex-row md:items-end md:justify-between">
-        <h2 class="editorial-heading text-fluid-section uppercase">
+        <div>
+            <p class="featured-stack__eyebrow reveal">{{ $projects['eyebrow'] }}</p>
+            <h2 class="featured-stack__title display">
             @foreach ($projects['heading'] as $i => $line)
                 <span data-split data-split-delay="{{ $i * 110 }}" class="block">{{ $line }}</span>
             @endforeach
-        </h2>
+            </h2>
+        </div>
         <a href="{{ $projects['cta']['href'] }}" class="pill reveal self-start md:self-auto">
             {{ $projects['cta']['label'] }}
             <x-icon name="arrow-pill"/>

@@ -10,9 +10,9 @@
     each a card over its own photograph.
 --}}
 <x-story :bgs="[
-    'intro' => 'images/projects/villa-b200-tilal-al-ghaf/hero-2.webp',
-    'vision' => 'images/projects/wasl-properties-hq/hero-3.webp',
-    'approach' => 'images/projects/benjarong-dusit-thani/hero-3.webp',
+    'intro' => 'images/projects/jumeirah-golf-estate-villas/hero-2.webp',
+    'vision' => 'images/projects/jumeirah-island-villa/hero.webp',
+    'approach' => 'images/projects/boulevard-plaza-office/hero.webp',
 ]">
     <x-story-win key="intro" eyebrow="Who We Are" :title="['One Contractor,', 'Every Interior Trade']"/>
 

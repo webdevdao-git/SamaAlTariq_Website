@@ -44,10 +44,6 @@
                      data-hero-slide
                      class="hero-slide absolute inset-0 h-full w-full object-cover">
             @endforeach
-            {{-- z-10: always over the slides, which hero-slider.js raises to 2 as
-                 each one comes in. --}}
-            <div aria-hidden="true" class="absolute inset-0 z-10"
-                 style="background-image:linear-gradient(0deg,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.18) 45%,rgba(0,0,0,0) 70%),linear-gradient(90deg,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0) 55%),linear-gradient(180deg,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 22%)"></div>
         </div>
 
         <x-site-header/>

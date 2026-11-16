@@ -1308,20 +1308,6 @@
         will-change: transform;
     }
 
-    .tilt-glare {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        background: radial-gradient(
-            circle at var(--glare-x, 50%) var(--glare-y, 50%),
-            rgba(255, 255, 255, 0.28),
-            rgba(255, 255, 255, 0) 55%
-        );
-        mix-blend-mode: soft-light;
-        opacity: 0;
-        transition: opacity 500ms ease;
-    }
 
     .is-tilting > .tilt-glare {
         opacity: 1;
@@ -3333,11 +3319,6 @@
         scale: 1.07;
     }
 
-    .pcard__shade {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.2) 100%);
-    }
 
     .pcard__tag {
         position: absolute;
@@ -3345,9 +3326,8 @@
         left: clamp(0.75rem, 1.2vw, 20px);
         padding: 0.4em 0.9em;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.16);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--color-teal);
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.06em;
@@ -3736,12 +3716,6 @@
         scale: 1.07;
     }
 
-    .team-band__item a::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0) 55%);
-    }
 
     .team-band__item span {
         position: absolute;
@@ -4115,15 +4089,6 @@
         visibility: visible;
     }
 
-    .sx__shade {
-        position: absolute;
-        inset: 0;
-        z-index: 20;
-        pointer-events: none;
-        background:
-            linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0) 62%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(0, 0, 0, 0) 22%);
-    }
 
     .sx__intro {
         position: absolute;
@@ -4300,7 +4265,6 @@
         padding: clamp(1.15rem, 2vw, 32px);
         border-radius: clamp(12px, 1.2vw, 20px);
         background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(12px);
         color: var(--color-ink);
     }
 
@@ -4567,7 +4531,6 @@
         border: 1px solid rgba(255, 255, 255, 0.45);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(8px);
         font-size: var(--text-fluid-sm);
         font-weight: 600;
         letter-spacing: 0.1em;
@@ -4623,13 +4586,11 @@
         height: 100%;
         object-fit: cover;
         will-change: transform;
+        /* Held a touch down so the bright interiors don't read as white
+           behind the cards. One even value, no gradient, nothing soft. */
+        filter: brightness(0.8);
     }
 
-    .story__shade {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(0, 0, 0, 0.18) 100%);
-    }
 
     .story__flow {
         position: relative;
@@ -5178,6 +5139,13 @@
         aspect-ratio: auto;
     }
 
+    /* Out of flow, so a landscape frame takes the row's height from the
+       portraits beside it instead of setting a taller one of its own. */
+    .story__crew li.is-wide img {
+        position: absolute;
+        inset: 0;
+    }
+
     .story__crew img {
         width: 100%;
         height: 100%;
@@ -5189,13 +5157,6 @@
         scale: 1.06;
     }
 
-    .story__crew li::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 45%);
-        pointer-events: none;
-    }
 
     .story__crew span {
         position: absolute;
@@ -5380,7 +5341,7 @@
     /* Phones: the same cards with the secondary detail left out, so each
        still fits one screen. Everything left out is on the inner pages. */
     @media (max-width: 899px) {
-        .story__split > .story__pic:not(.story__pic--tall),
+        .story__split > .story__pic:not(.story__pic--tall):not(.story__pic--keep),
         .story__row:not(.story__row--logos) {
             display: none;
         }
@@ -5539,12 +5500,6 @@
         scale: 1.05;
     }
 
-    .story__pair-item::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 50%);
-    }
 
     .story__pair-item span {
         position: absolute;
@@ -5674,6 +5629,13 @@
     @media (min-width: 900px) {
         .story__split > .story__pic.story__pic--tall {
             justify-self: start;
+        }
+
+        /* The portrait is narrower than half the card, so its column is
+           only as wide as the picture and the copy sits beside it rather
+           than across an empty gap. */
+        .story__split:has(> .story__pic--tall) {
+            grid-template-columns: auto minmax(0, 1fr);
         }
     }
 
@@ -6092,12 +6054,6 @@
         scale: 1.06;
     }
 
-    .tm-card__pic::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0) 55%);
-    }
 
     .tm-card__num {
         position: absolute;
@@ -6237,13 +6193,6 @@
         scale: 1.04;
     }
 
-    .crew-panel::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        background: linear-gradient(0deg, rgba(10, 20, 24, 0.82) 0%, rgba(10, 20, 24, 0.25) 38%, rgba(10, 20, 24, 0) 60%);
-    }
 
     .crew-panel__label {
         position: absolute;
@@ -6289,5 +6238,210 @@
         .crew-panel {
             scroll-snap-align: start;
         }
+    }
+}
+
+@layer components {
+    /*
+     * The featured stack, finished: each picture a little wider than its
+     * card so it can drift inside the frame (motion/project-stack.js), the
+     * cards behind veiled in the off-white, a hairline of light round every
+     * frame, and the front card's own "View Project" tag.
+     */
+    .featured-stack .pstack__card a {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .featured-stack .pstack__card img {
+        position: relative;
+        width: 108%;
+        max-width: none;
+        margin-left: -4%;
+    }
+
+    .featured-stack .pstack__card a::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        border-radius: inherit;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+        pointer-events: none;
+    }
+
+    .pstack__veil {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: var(--color-mist);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .pstack__view {
+        position: absolute;
+        right: clamp(0.75rem, 1.4vw, 22px);
+        bottom: clamp(0.75rem, 1.4vw, 22px);
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 0.7em 1.15em;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--color-teal);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, color 0.3s ease;
+        pointer-events: none;
+    }
+
+    .pstack__card.is-front .pstack__view {
+        opacity: 1;
+        transform: none;
+    }
+
+    .pstack__card.is-front a:hover .pstack__view {
+        background: var(--color-teal);
+        color: #fff;
+    }
+
+    .featured-stack .pstack__card.is-front a {
+        box-shadow: 0 50px 90px -45px rgba(23, 23, 23, 0.5), 0 30px 60px -40px rgba(63, 167, 179, 0.45);
+    }
+
+    /* The title rises into its own line, masked. */
+    .featured-stack .pstack__title {
+        overflow: hidden;
+        padding-bottom: 0.08em;
+    }
+
+    .featured-stack .pstack__title > span {
+        display: inline-block;
+    }
+
+    .featured-stack .pstack__meta [data-pstack-location]::before {
+        content: '';
+        display: inline-block;
+        width: 1.6em;
+        height: 1px;
+        margin: 0 0.7em 0.3em;
+        vertical-align: middle;
+        background: currentColor;
+        opacity: 0.5;
+    }
+
+    .featured-stack .pstack__meta [data-pstack-location]:empty::before {
+        display: none;
+    }
+
+    /* Where in the stack: 03 —— 08, the line filling as the scroll walks it. */
+    .pstack__progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.9rem;
+        margin-top: clamp(0.5rem, 1.2vh, 14px);
+        font-size: 12px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.12em;
+        color: var(--color-ink-muted);
+    }
+
+    .pstack__progress [data-pstack-count] {
+        color: var(--color-teal);
+    }
+
+    .pstack__progress i {
+        position: relative;
+        width: clamp(90px, 12vw, 180px);
+        height: 1px;
+        background: rgba(23, 23, 23, 0.15);
+    }
+
+    .pstack__progress b {
+        position: absolute;
+        inset: 0;
+        background: var(--color-teal);
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    /* Without the script there is no stack to count through. */
+    .pstack:not(.is-live) .pstack__progress {
+        display: none;
+    }
+}
+
+@layer components {
+    /* The featured stack's heading, set like the story chapters' titles. */
+    .featured-stack__eyebrow {
+        margin-bottom: 0.9rem;
+        font-size: var(--text-fluid-sm);
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-teal);
+    }
+
+    .featured-stack__title {
+        line-height: 1.02;
+    }
+}
+
+@layer components {
+    /* A phone: category over location, no rule between, and a smaller tag. */
+    @media (width < 48rem) {
+        .featured-stack .pstack__meta {
+            letter-spacing: 0.06em;
+        }
+
+        .featured-stack .pstack__meta [data-pstack-location] {
+            display: block;
+            margin-top: 0.2rem;
+        }
+
+        .featured-stack .pstack__meta [data-pstack-location]::before {
+            display: none;
+        }
+
+        .pstack__view {
+            padding: 0.55em 0.9em;
+            font-size: 10px;
+        }
+    }
+}
+
+@layer components {
+    /*
+     * No scrim, no frosted glass: nothing is laid over a photograph on this
+     * site, so it shows exactly as it was shot. White type over a picture
+     * carries its own soft shadow instead — around the letters only, not
+     * across the image.
+     */
+    #top .text-white,
+    #top h1,
+    .hero-spec,
+    .story__win,
+    .sx__ui,
+    .service-title,
+    #services article,
+    .team-band__item span,
+    .story__crew span,
+    .story__pair-item span,
+    .tm-card__pic,
+    .crew-panel__label,
+    .pcard__info {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 2px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .hero-spec {
+        background: transparent;
     }
 }

@@ -1,14 +1,20 @@
 @php
     $page = config('site.joinery_page');
     $img = fn (string $path) => \App\Support\Asset::versioned($path);
-    // The workshop and site photographs from the client's own folder.
+    // The client's own workshop photographs, two rows of six columns: each
+    // row has one landscape frame spanning two, so nothing wide is cropped
+    // to a portrait.
     $workshop = [
-        ['src' => 'images/workers/work-12.webp', 'caption' => 'Sanding in the workshop'],
-        ['src' => 'images/workers/work-8.webp', 'caption' => 'A curved panel, formed'],
-        ['src' => 'images/workers/work-14.webp', 'caption' => 'Cutting to size'],
-        ['src' => 'images/workers/work-16.webp', 'caption' => 'Setting out'],
-        ['src' => 'images/workers/work-13.webp', 'caption' => 'Frame assembly'],
-        ['src' => 'images/workers/work-10.webp', 'caption' => 'Fitted on site'],
+        ['src' => 'images/workshop/edging.webp', 'caption' => 'Edging and assembly', 'wide' => true],
+        ['src' => 'images/workshop/cabinetry.webp', 'caption' => 'Cabinetry in production'],
+        ['src' => 'images/workshop/oak-stool.webp', 'caption' => 'A stool in solid oak'],
+        ['src' => 'images/workshop/relief-panel.webp', 'caption' => 'A relief panel, formed'],
+        ['src' => 'images/workshop/bed-frame.webp', 'caption' => 'A bed frame, assembled'],
+        ['src' => 'images/workshop/sanding.webp', 'caption' => 'Sanding a curved form'],
+        ['src' => 'images/workshop/table-saw.webp', 'caption' => 'Cutting to size'],
+        ['src' => 'images/workshop/frames.webp', 'caption' => 'Frames on the bench', 'wide' => true],
+        ['src' => 'images/workshop/setting-out.webp', 'caption' => 'Setting out'],
+        ['src' => 'images/workshop/slatted-panel.webp', 'caption' => 'A slatted panel, fixed'],
     ];
 @endphp
 
@@ -19,9 +25,9 @@
 --}}
 <x-story :bgs="[
     'alwan' => 'images/projects/jp-villa/hero-2.webp',
-    'workshop' => 'images/projects/wasl-properties-hq/hero-3.webp',
-    'process' => 'images/projects/villa-b200-tilal-al-ghaf/hero-2.webp',
-    'context' => 'images/projects/fidelity-gym-jlt/hero.webp',
+    'workshop' => 'images/projects/emirates-hills-villa/hero-4.webp',
+    'process' => 'images/projects/wasl-properties-hq/hero-4.webp',
+    'context' => 'images/projects/jumeirah-island-villa/hero-3.webp',
 ]">
     <x-story-win key="alwan" :eyebrow="implode(' ', $page['ecosystem']['label'])" :title="['Joinery, Made', 'By Our Own Hands']"/>
 
@@ -33,7 +39,7 @@
                 <p class="story__body reveal">{{ $page['ecosystem']['body'] }}</p>
             </div>
             <figure class="story__pic">
-                <img src="{{ $img('images/about-interior.webp') }}" alt="Curved ribbed wall and ceiling made by Alwan Interiors" loading="lazy" decoding="async">
+                <img src="{{ $img('images/workshop/oak-wall.webp') }}" alt="An oak-veneered wall with built-in shelving and bench, made by Alwan Interiors" loading="lazy" decoding="async">
             </figure>
         </div>
         <ol class="story__steps story__steps--3">
@@ -58,7 +64,7 @@
         </div>
         <ul class="story__crew story__crew--6">
             @foreach ($workshop as $photo)
-                <li class="reveal" style="transition-delay:{{ ($loop->index % 6) * 70 }}ms">
+                <li class="reveal {{ ($photo['wide'] ?? false) ? 'is-wide' : '' }}" style="transition-delay:{{ ($loop->index % 5) * 70 }}ms">
                     <img src="{{ $img($photo['src']) }}" alt="Alwan Interiors: {{ strtolower($photo['caption']) }}" loading="lazy" decoding="async">
                     <span>{{ $photo['caption'] }}</span>
                 </li>

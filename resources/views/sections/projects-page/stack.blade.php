@@ -41,6 +41,9 @@
                     data-title="{{ $item['title'] }}" data-category="{{ $item['category'] }}" data-location="{{ $item['location'] }}">
                     <a href="{{ $item['href'] }}" aria-label="{{ $item['title'] }}">
                         <img src="{{ $item['src'] }}" alt="" loading="{{ $i < 5 ? 'eager' : 'lazy' }}" decoding="async">
+                        {{-- The off-white the cards behind fade into, rather than a darkening. --}}
+                        <span class="pstack__veil" aria-hidden="true"></span>
+                        <span class="pstack__view" aria-hidden="true">View Project <x-icon name="arrow-outward" class="w-3.5"/></span>
                     </a>
                 </li>
             @endforeach
@@ -51,7 +54,12 @@
         <button type="button" class="pstack__nav" data-pstack-prev><x-icon name="arrow-right" class="w-5 rotate-180"/></button>
         <div class="pstack__caption">
             <p class="pstack__meta"><span data-pstack-category>{{ $stack[0]['category'] ?? '' }}</span> <span data-pstack-location class="text-ink-muted">{{ $stack[0]['location'] ?? '' }}</span></p>
-            <p class="pstack__title display" data-pstack-title>{{ $stack[0]['title'] ?? '' }}</p>
+            <p class="pstack__title display"><span data-pstack-title>{{ $stack[0]['title'] ?? '' }}</span></p>
+            <div class="pstack__progress">
+                <span data-pstack-count>01</span>
+                <i><b data-pstack-fill></b></i>
+                <span>{{ str_pad(count($stack), 2, '0', STR_PAD_LEFT) }}</span>
+            </div>
         </div>
         <button type="button" class="pstack__nav" data-pstack-next><x-icon name="arrow-right" class="w-5"/></button>
     </div>

@@ -288,8 +288,9 @@
 
         <section class="story__card">
             <div class="story__split">
-                <figure class="story__pic story__pic--tall">
-                    <img src="{{ $img($alwan['image']) }}" alt="A curved panel being finished in the Alwan Interiors workshop" loading="lazy" decoding="async">
+                {{-- Kept on phones: the workshop is the point of this card. --}}
+                <figure class="story__pic story__pic--keep">
+                    <img src="{{ $img($alwan['image']) }}" alt="An oak-veneered wall with built-in shelving in the Alwan Interiors workshop" loading="lazy" decoding="async">
                 </figure>
                 <div>
                     <img src="{{ asset(config('site.joinery_page.partner.logo')) }}" alt="{{ config('site.joinery_page.partner.mark_alt') }}" loading="lazy" decoding="async" class="story__logo reveal">

@@ -20,12 +20,6 @@
          fetchpriority="high" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover">
 
-    {{-- The scrim every photographic hero on this site carries: the ramp, then
-         the flat black over it, so white type reads the same here as there. --}}
-    <div aria-hidden="true" class="absolute inset-0 -z-10"
-         style="background-image:linear-gradient(0deg,rgba(0,0,0,0.47) 0%,rgba(102,102,102,0) 117%)"></div>
-    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-black/20"></div>
-
     <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">

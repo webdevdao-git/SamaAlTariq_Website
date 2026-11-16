@@ -168,7 +168,7 @@ return [
                 ['value' => '250k+', 'label' => 'm² Delivered'],
             ],
             'image' => 'images/about/hero.webp',
-            'alt' => 'Double-height villa interior around an indoor tree',
+            'alt' => 'Teal banquettes under woven pendants at Benjarong, Dusit Thani',
         ],
 
         // Frame 1377:26. Image left, one paragraph in the right column, its
@@ -481,6 +481,13 @@ return [
      *
      * `year` is only known for the project the frame names. The row is drawn
      * only where there is a year to put in it, rather than carrying a guess.
+     *
+     * NO PHOTOGRAPH TWICE. The hero frames are cut from the same shoot as
+     * the gallery — hero-2 is l2, hero-3 is l3 — so `hero` says how many
+     * slides the hero cycles, and `gallery` lists the l-photographs the grid
+     * and the lightbox show: the shoot without the frames the hero already
+     * used, and without the near-identical second takes. A small shoot gives
+     * the hero fewer slides rather than leave the grid nearly empty.
      */
     'project_pages' => [
         /*
@@ -492,18 +499,24 @@ return [
             'about' => null,
             'year' => null,
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [1, 2, 3, 4, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17, 19, 20, 22],
             'related' => ['benjarong-dusit-thani', 'fidelity-gym-jlt', 'wasl-properties-hq', 'emirates-hills-villa'],
         ],
         'dubai-hills-business-park' => [
             'about' => null,
             'year' => null,
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [5, 6, 7, 8, 9, 10, 11],
             'related' => ['wasl-properties-hq', 'boulevard-plaza-office', 'i-rise-tower-office', 'pullman'],
         ],
         'jp-villa' => [
             'about' => null,
             'year' => null,
             'tiles' => 7,
+            'hero' => 1,
+            'gallery' => [2, 3, 4, 5],
             'related' => ['villa-b200-tilal-al-ghaf', 'emirates-hills-villa', 'jumeirah-island-villa', 'villa-pv39-tilal-al-ghaf'],
         ],
         'jumeirah-golf-estate-villas' => [
@@ -515,6 +528,8 @@ return [
                 'The villas were delivered with a focus on material quality, seamless finishes, and carefully coordinated architectural and interior elements—creating elegant, functional spaces designed for contemporary luxury living.',
             ],
             'tiles' => 9,
+            'hero' => 3,
+            'gallery' => [4, 5, 6, 7, 8, 9, 10, 11],
             'related' => ['villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa', 'jumeirah-island-villa'],
         ],
         'villa-pv39-tilal-al-ghaf' => [
@@ -526,6 +541,8 @@ return [
                 'The programme was sequenced so that the finishes meet cleanly from room to room — stone, timber and plaster set out against one another in advance rather than resolved on site.',
             ],
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [4, 5, 6, 7, 8, 9, 10, 11],
             'related' => ['jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'emirates-hills-villa', 'jumeirah-island-villa'],
         ],
         'w-residence-palm-jumeirah' => [
@@ -537,6 +554,8 @@ return [
                 'A short programme is won before the first delivery arrives: long-lead joinery and stone were ordered against a set-out agreed at the start, so the trades on site followed one drawing rather than three.',
             ],
             'tiles' => 4,
+            'hero' => 2,
+            'gallery' => [3, 4],
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'emirates-hills-villa', 'jumeirah-island-villa'],
         ],
         'emirates-hills-villa' => [
@@ -548,6 +567,8 @@ return [
                 'The house was handed over room by room in that order, which is what keeps a project of this length from finishing everything at the same time and nothing before it.',
             ],
             'tiles' => 9,
+            'hero' => 3,
+            'gallery' => [4, 5, 6, 7, 8, 9],
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'jumeirah-island-villa'],
         ],
         /*
@@ -572,6 +593,8 @@ return [
                 'One package is what allows a single set-out to run through the house — the joinery, the stone and the ceilings meet because they were drawn against each other before any of them was made.',
             ],
             'tiles' => 3,
+            'hero' => 1,
+            'gallery' => [2, 3],
             'related' => ['jumeirah-golf-estate-villas', 'villa-pv39-tilal-al-ghaf', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
         ],
         /*
@@ -603,6 +626,8 @@ return [
                 'Two houses on one development are rarely the same house twice: the set-out is redrawn against the plot and the light it gets, and only the standard of finish carries across unchanged.',
             ],
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [5, 6, 7, 8, 9, 10, 11],
             'related' => ['villa-pv39-tilal-al-ghaf', 'jumeirah-golf-estate-villas', 'w-residence-palm-jumeirah', 'emirates-hills-villa'],
         ],
         'i-rise-tower-office' => [
@@ -614,6 +639,8 @@ return [
                 'A tower fit-out is a logistics problem before it is a joinery one — deliveries, hoists and noise all run to the building\'s hours, and the programme is built around them rather than against them.',
             ],
             'tiles' => 8,
+            'hero' => 2,
+            'gallery' => [3, 4, 5, 6, 7, 8],
             'related' => ['boulevard-plaza-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'benjarong-dusit-thani'],
         ],
         'boulevard-plaza-office' => [
@@ -625,6 +652,8 @@ return [
                 'The finishes were coordinated with the base build rather than laid over it, so ceilings, lighting and partitions line through as one setting-out.',
             ],
             'tiles' => 8,
+            'hero' => 2,
+            'gallery' => [3, 4, 5, 6, 7, 8],
             'related' => ['i-rise-tower-office', 'wasl-properties-hq', 'fidelity-gym-jlt', 'jumeirah-golf-estate-villas'],
         ],
         'wasl-properties-hq' => [
@@ -636,6 +665,8 @@ return [
                 'The fit-out covers the workspace, the meeting and reception areas and the finishes throughout, coordinated so that a floor could be closed out while the next was still in progress.',
             ],
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [5, 6, 7, 8, 9, 10, 11, 12, 13],
             'related' => ['i-rise-tower-office', 'boulevard-plaza-office', 'benjarong-dusit-thani', 'fidelity-gym-jlt'],
         ],
         'benjarong-dusit-thani' => [
@@ -647,6 +678,8 @@ return [
                 'A restaurant is finished to be looked at from a seat rather than from a drawing: the joinery, the lighting and the loose furniture were set out together so the room reads as one from every table.',
             ],
             'tiles' => 7,
+            'hero' => 1,
+            'gallery' => [2, 3, 4, 5, 6, 7],
             'related' => ['fidelity-gym-jlt', 'wasl-properties-hq', 'i-rise-tower-office', 'jumeirah-golf-estate-villas'],
         ],
         'fidelity-gym-jlt' => [
@@ -658,6 +691,8 @@ return [
                 'A gym carries loads and services a fit-out usually does not — plant, ventilation and drainage were set out with the structure rather than fitted around it once the floor was down.',
             ],
             'tiles' => 9,
+            'hero' => 4,
+            'gallery' => [5, 6, 7, 8, 9, 10, 11, 12, 13],
             'related' => ['benjarong-dusit-thani', 'wasl-properties-hq', 'boulevard-plaza-office', 'jumeirah-golf-estate-villas'],
         ],
     ],
@@ -803,7 +838,7 @@ return [
             'summary' => 'Dedicated to bespoke joinery and interior execution, Alwan Interiors complements Sama Al Tariq\'s wider project delivery with specialist expertise.',
             'cta' => ['label' => 'Explore Craft', 'href' => '#capabilities'],
             'words' => ['Craft', 'Behind The Build'],
-            'image' => ['src' => 'images/joinery/hero.webp', 'alt' => 'Timber on the bed of a workshop saw'],
+            'image' => ['src' => 'images/joinery/hero.webp', 'alt' => 'A curved reception counter finished in the Alwan Interiors workshop'],
         ],
 
         /*
@@ -1193,7 +1228,8 @@ return [
     ],
 
     'projects' => [
-        'heading' => ['Featured', 'Projects'],
+        'eyebrow' => 'Featured Projects',
+        'heading' => ['Interiors We', 'Have Delivered'],
         // The projects page, not the enquiry form: the button says what it
         // does and had been pointing at #contact, so it scrolled a visitor
         // past the projects it was offering to show them.
@@ -1582,7 +1618,7 @@ return [
      */
     'story' => [
         'about' => [
-            'bg' => 'images/projects/villa-b200-tilal-al-ghaf/hero-4.webp',
+            'bg' => 'images/projects/emirates-hills-villa/hero.webp',
             'eyebrow' => 'Who We Are',
             'title' => ['Interiors,', 'Built In House'],
             'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
@@ -1604,7 +1640,7 @@ return [
          * card crosses the screen (sections/story, motion/gypsum-wipe.js).
          */
         'gypsum' => [
-            'bg' => 'images/hero/boulevard.webp',
+            'bg' => 'images/projects/dubai-hills-business-park/hero.webp',
             'eyebrow' => 'Our Core Expertise',
             'title' => ['Gypsum', '& Ceilings'],
             'heading' => 'Gypsum and ceilings are our core trade, done by our own teams.',
@@ -1621,7 +1657,7 @@ return [
             ],
         ],
         'services' => [
-            'bg' => 'images/projects/fidelity-gym-jlt/hero.webp',
+            'bg' => 'images/projects/i-rise-tower-office/hero-3.webp',
             'eyebrow' => 'What We Do',
             'title' => ['Every Interior', 'Trade, In House'],
             'heading' => ['Interior Fit-Out', 'Services'],
@@ -1631,7 +1667,7 @@ return [
             'pick' => [4, 0, 1, 2, 3, 5, 6, 7],
         ],
         'work' => [
-            'bg' => 'images/projects/wasl-properties-hq/hero-2.webp',
+            'bg' => 'images/projects/pullman/hero.webp',
             'eyebrow' => 'How We Work',
             'title' => ['One Team,', 'Shell To Handover'],
             'heading' => ['Two Ways', 'To Work With Us'],
@@ -1655,7 +1691,7 @@ return [
         // Our own people at work, from the client's own site photographs
         // (source-photos/workers): proof that the work is not subcontracted.
         'crew' => [
-            'bg' => 'images/projects/benjarong-dusit-thani/hero-3.webp',
+            'bg' => 'images/projects/fidelity-gym-jlt/hero-3.webp',
             'eyebrow' => 'Our People On Site',
             'title' => ['Our Own Hands,', 'On Every Site'],
             'heading' => ['200+ of our own people.', 'No subcontractors.'],
@@ -1674,12 +1710,12 @@ return [
             'cta' => ['label' => 'Meet The Team', 'href' => '/team'],
         ],
         'alwan' => [
-            'bg' => 'images/projects/jp-villa/hero-2.webp',
+            'bg' => 'images/projects/villa-pv39-tilal-al-ghaf/hero-3.webp',
             'eyebrow' => 'Our Joinery Workshop',
             'title' => ['Alwan', 'Interiors'],
             'heading' => 'Joinery made by our own hands.',
             'body' => 'Wardrobes, kitchens, wall panelling, curved and ribbed feature walls and furniture, drawn, made and fitted by Alwan Interiors, our own workshop.',
-            'image' => 'images/workers/work-8.webp',
+            'image' => 'images/workshop/oak-shelving.webp',
             'cta' => ['label' => 'Explore Joinery', 'href' => '/joinery'],
             'team' => ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
         ],

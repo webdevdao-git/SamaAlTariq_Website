@@ -8,7 +8,7 @@
     only ever be one.
 --}}
 <div id="site-menu" data-menu role="dialog" aria-modal="true" aria-label="Site navigation"
-     class="pointer-events-none fixed inset-0 z-50 bg-teal/97 opacity-0 backdrop-blur-sm transition-opacity duration-500">
+     class="pointer-events-none fixed inset-0 z-50 bg-teal/97 opacity-0 transition-opacity duration-500">
     <div class="shell flex h-full flex-col py-[clamp(1.25rem,2.55vw,44px)]">
         <div class="flex items-center justify-end">
             <button type="button" data-menu-close

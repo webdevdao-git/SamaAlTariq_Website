@@ -47,20 +47,6 @@
                  class="absolute inset-0 -z-20 h-full w-full object-cover">
 
             {{--
-                Two gradients, because the type sits in two places. The 90deg
-                one carries the weight: it shades the left column the headline
-                occupies and lets the photograph open up to the right, which is
-                what keeps the panel from reading as a flat scrim. The 180deg
-                one is a light top wash for the tab row, which runs the full
-                width and would otherwise cross whatever the image happens to
-                be bright in — the ceilings in two of these three.
-            --}}
-            <div aria-hidden="true" class="absolute inset-0 -z-10"
-                 style="background:
-                        linear-gradient(180deg,rgba(0,0,0,0.42) 0%,rgba(0,0,0,0.10) 22%,rgba(0,0,0,0) 40%),
-                        linear-gradient(90deg,rgba(0,0,0,0.52) 0%,rgba(0,0,0,0.26) 45%,rgba(0,0,0,0.08) 100%)"></div>
-
-            {{--
                 The row repeats in every panel as a visual device, but there is
                 only one navigation here. The first copy is the real one; the
                 rest are hidden from assistive tech and taken out of the tab

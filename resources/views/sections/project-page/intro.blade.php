@@ -22,8 +22,9 @@
     corner-bracket glyph and grows the photograph under the pointer, which is
     what tells a visitor the picture is a door rather than a decoration.
     Measured off it: the glyph sits 4 from the corner at 80% opacity and 0.8
-    scale, goes to full on hover, and the photograph runs to 1.2 inside the
-    tile's clip. Nothing here moves the grid — the glyph is positioned out of
+    scale, goes to full on hover, and the photograph grows inside the tile's
+    clip — to 1.05, not the reference's 1.2, which took it past its own
+    pixels and showed it soft; no tilt either, for the same reason. Nothing here moves the grid — the glyph is positioned out of
     flow and the zoom happens inside a box that keeps its size.
 --}}
 <section class="bg-white py-[clamp(2.5rem,4.63vw,80px)]">
@@ -38,31 +39,34 @@
             </p>
 
             <div data-lightbox class="grid grid-cols-2 gap-[clamp(1.5rem,3.7vw,64px)] sm:grid-cols-3">
-                @for ($i = 1; $i <= $page['tiles']; $i++)
-                    <a data-lightbox-item data-tilt
-                       href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
-                       data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
-                       aria-label="Open photograph {{ $i }} of {{ $photographs }}"
-                       class="reveal-rise group relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
-                       style="transition-delay:{{ ($i - 1) * 40 }}ms">
-                        <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/g' . $i . '.webp') }}"
-                             alt="" loading="lazy" decoding="async"
-                             class="h-full w-full scale-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.2]">
-                        <x-icon name="expand" :size="24"
-                                class="absolute bottom-1 right-1 scale-[0.8] text-white opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition duration-300 ease-out group-hover:scale-100 group-hover:opacity-100"/>
-                    </a>
-                @endfor
-
-                {{-- The photographs past the frame's nine. Hidden, so the grid
-                     is exactly what the frame draws, but present, so the
-                     lightbox steps through the whole shoot rather than
-                     stopping at the ninth. --}}
-                @for ($i = $page['tiles'] + 1; $i <= $photographs; $i++)
-                    <a data-lightbox-item class="hidden"
-                       href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
-                       data-lightbox-alt="{{ $project['title'] }} — photograph {{ $i }}"
-                       tabindex="-1" aria-hidden="true">Photograph {{ $i }}</a>
-                @endfor
+                @foreach ($photographs as $k => $i)
+                    @php
+                        $tile = $k < $page['tiles'];
+                    @endphp
+                    @if ($tile)
+                        <a data-lightbox-item
+                           href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                           data-lightbox-alt="{{ $project['title'] }} — photograph {{ $k + 1 }}"
+                           aria-label="Open photograph {{ $k + 1 }} of {{ count($photographs) }}"
+                           class="reveal-rise group relative aspect-[270/240] w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                           style="transition-delay:{{ $k * 40 }}ms">
+                            <img src="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/g' . $i . '.webp') }}"
+                                 alt="" loading="lazy" decoding="async"
+                                 class="h-full w-full scale-100 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]">
+                            <x-icon name="expand" :size="24"
+                                    class="absolute bottom-1 right-1 scale-[0.8] text-white opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition duration-300 ease-out group-hover:scale-100 group-hover:opacity-100"/>
+                        </a>
+                    @else
+                        {{-- The photographs past the frame's nine. Hidden, so the
+                             grid is exactly what the frame draws, but present, so
+                             the lightbox steps through the whole shoot rather
+                             than stopping at the ninth. --}}
+                        <a data-lightbox-item class="hidden"
+                           href="{{ \App\Support\Asset::versioned('images/projects/' . $slug . '/l' . $i . '.webp') }}"
+                           data-lightbox-alt="{{ $project['title'] }} — photograph {{ $k + 1 }}"
+                           tabindex="-1" aria-hidden="true">Photograph {{ $k + 1 }}</a>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>

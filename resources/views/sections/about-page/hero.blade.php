@@ -48,12 +48,6 @@
             <img src="{{ \App\Support\Asset::versioned($hero['image']) }}" srcset="{{ \App\Support\Asset::srcset($hero['image']) }}" sizes="100vw" alt="{{ $hero['alt'] }}"
                  fetchpriority="high" decoding="async"
                  class="absolute inset-0 h-full w-full object-cover">
-            {{-- One gradient, not the landing hero's two. Measured off the
-                 frame: the overlay is ~0.05 at the top and ~0.46 at the foot,
-                 which is this ramp alone — the flat 25% black the landing page
-                 also carries would darken the whole photo by a further third. --}}
-            <div class="absolute inset-0"
-                 style="background-image:linear-gradient(0deg,rgba(0,0,0,0.47) 0%,rgba(102,102,102,0) 116.97%)"></div>
         </div>
     </div>
 

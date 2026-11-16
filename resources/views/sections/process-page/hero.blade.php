@@ -21,24 +21,14 @@
          fetchpriority="high" decoding="async"
          class="absolute inset-0 -z-10 h-full w-full object-cover object-bottom">
 
-    {{-- The same scrim the project heroes carry, so a page of white type over
-         a photograph reads the same wherever it appears on this site. --}}
-    <div aria-hidden="true" class="absolute inset-0 -z-10"
-         style="background-image:linear-gradient(0deg,rgba(0,0,0,0.47) 0%,rgba(102,102,102,0) 117%)"></div>
-
-    {{-- And the flat black the frame lays over that gradient. Its SVG is
-         explicit about both: a 0.47 gradient rect and then a black rect at
-         0.2, one on top of the other. Only the gradient was here, which left
-         the photograph a fifth brighter than the file. --}}
-    <div aria-hidden="true" class="absolute inset-0 bg-black/20"></div>
-
     <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1rem,1.91vw,33px)] text-white">
         <div class="shell">
 
-            {{-- 0.5px of white at half strength, drawn left to right. --}}
-            <span aria-hidden="true" class="reveal-line block h-[0.5px] w-full bg-white/50"></span>
+            {{-- The rule and the row under it sit on the room's pale wall, and
+                 nothing darkens the photograph, so they are set in ink. --}}
+            <span aria-hidden="true" class="reveal-line block h-[0.5px] w-full bg-ink/40"></span>
 
             {{-- Label, summary and the link out, 26 under the rule.
 
@@ -59,7 +49,7 @@
                  the 1568 and push the summary 13 past where the frame has it.
                  The gap still applies below lg, where the three are a
                  column. --}}
-            <div class="mt-[clamp(1rem,1.505vw,26px)] flex flex-col gap-[clamp(1rem,2.31vw,40px)] lg:grid lg:grid-cols-[578fr_670fr_320fr] lg:items-start lg:gap-0">
+            <div class="mt-[clamp(1rem,1.505vw,26px)] text-ink [text-shadow:none] flex flex-col gap-[clamp(1rem,2.31vw,40px)] lg:grid lg:grid-cols-[578fr_670fr_320fr] lg:items-start lg:gap-0">
                 <p class="reveal text-[clamp(1rem,1.157vw,20px)] font-semibold leading-[1.35]">{{ $hero['label'] }}</p>
 
                 <p class="reveal text-[clamp(1.125rem,1.389vw,24px)] font-medium leading-[1.375]"

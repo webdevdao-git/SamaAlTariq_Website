@@ -111,13 +111,21 @@ class PageController extends Controller
             // — Jumeirah Golf Estate, whose bedroom is still in the grid as l8
             // — opened on a slide pointing at a file that is no longer there.
             'slides' => collect(glob(public_path("images/projects/$slug/hero.webp")))
-                ->concat(collect(glob(public_path("images/projects/$slug/hero-*.webp")))->sort()->values())
+                // hero-2.webp and the like, never their -4k or -1920 copies:
+                // those are the same frame at another size, served through
+                // srcset, and counted here they doubled every slide.
+                ->concat(collect(glob(public_path("images/projects/$slug/hero-*.webp")))
+                    ->reject(fn (string $f) => preg_match('/-(4k|\d{3,4})\.webp$/', $f))
+                    ->sort()->values())
                 ->map(fn (string $f) => basename($f))
+                ->take($page['hero'] ?? 4)
                 ->values()
                 ->all(),
-            // Every photograph the project has, counted off disk. The grid
-            // draws the frame's nine; the rest are reachable once one is open.
-            'photographs' => count(glob(public_path("images/projects/$slug/l*.webp"))),
+            // The photographs the gallery shows, by number: config's list,
+            // which leaves out the frames the hero has already shown, or the
+            // whole shoot counted off disk for a project without one.
+            'photographs' => $page['gallery']
+                ?? range(1, count(glob(public_path("images/projects/$slug/l*.webp")))),
             'project' => $page['facts'] ?? $facts[$slug] ?? abort(404),
             // A related project resolves off the grid first and its own page
             // second: a project can be published without a tile — Jumeirah

@@ -56,12 +56,6 @@
         </div>
     @endforeach
 
-    {{-- The frame's own scrim: one linear gradient, black at the foot to a
-         transparent grey that runs out past the top of the picture, the whole
-         fill at 46%. Written out at that strength rather than layered. --}}
-    <div aria-hidden="true" class="absolute inset-0 -z-10"
-         style="background-image:linear-gradient(0deg,rgba(0,0,0,0.46) 0%,rgba(102,102,102,0) 117%)"></div>
-
     <x-site-header/>
 
     <div class="relative z-10 mt-auto pb-[clamp(1.5rem,3.47vw,60px)] text-white">

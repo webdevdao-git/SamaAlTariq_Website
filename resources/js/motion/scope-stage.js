@@ -34,7 +34,6 @@ export function initScopeStage() {
     const count = root.querySelector('[data-sx-count]');
     const intro = root.querySelector('[data-sx-intro]');
     const ui = root.querySelector('[data-sx-ui]');
-    const shade = root.querySelector('[data-sx-shade]');
     const n = bgs.length;
 
     root.classList.add('is-live');
@@ -71,7 +70,6 @@ export function initScopeStage() {
     }, { ...full, duration: 1, ease: 'power2.inOut' }, 0)
         .fromTo(imgs[0], { scale: 1.3 }, { scale: 1, duration: 1, ease: 'power2.out' }, 0)
         .to(intro, { autoAlpha: 0, y: -40, duration: 0.45 }, 0)
-        .fromTo(shade, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, 0.6)
         .fromTo(ui, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.7)
         .fromTo(titles[0], { yPercent: 110 }, { yPercent: 0, duration: 0.35, ease: 'power3.out' }, 0.75)
         .fromTo(cards[0], { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power3.out' }, 0.8)

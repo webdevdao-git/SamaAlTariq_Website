@@ -5,9 +5,8 @@ import { prefersReducedMotion } from './scroll-engine';
  *
  * `data-tilt` goes on a picture's clipping frame. The frame rotates about its
  * own centre toward the pointer — a few degrees, never enough to show an edge
- * of the photograph behind it — and a soft highlight tracks the pointer across
- * the surface, which is what sells the tilt as light falling on a print rather
- * than a flat picture skewing.
+ * of the photograph behind it. No highlight over the picture: anything laid
+ * on a photograph here costs it its clarity.
  *
  * The frame, not the <img>: the picture inside already carries the scroll
  * drift and the hover push-in, and its transform is theirs. The frame has none
@@ -22,11 +21,6 @@ export function initTilt() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     for (const frame of document.querySelectorAll('[data-tilt]')) {
-        const glare = document.createElement('span');
-        glare.className = 'tilt-glare';
-        glare.setAttribute('aria-hidden', 'true');
-        frame.append(glare);
-
         const state = { rx: 0, ry: 0, tx: 0, ty: 0, frame: 0 };
 
         const render = () => {
@@ -65,8 +59,6 @@ export function initTilt() {
             state.ty = (px - 0.5) * 2 * MAX_DEG;
             state.tx = (0.5 - py) * 2 * MAX_DEG;
 
-            frame.style.setProperty('--glare-x', `${(px * 100).toFixed(1)}%`);
-            frame.style.setProperty('--glare-y', `${(py * 100).toFixed(1)}%`);
             frame.classList.add('is-tilting');
             wake();
         });

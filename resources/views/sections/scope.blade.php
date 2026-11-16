@@ -25,7 +25,6 @@
                          loading="{{ $i === 0 ? 'eager' : 'lazy' }}" decoding="async">
                 </div>
             @endforeach
-            <div data-sx-shade aria-hidden="true" class="sx__shade"></div>
         </div>
 
         <div data-sx-intro class="sx__intro shell">

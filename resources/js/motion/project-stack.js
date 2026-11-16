@@ -19,18 +19,21 @@ gsap.registerPlugin(ScrollTrigger);
  * its link.
  */
 const TALL = {
-    0: { x: 0, y: 0, scale: 1, z: 50, brightness: 1 },
-    1: { x: 0.62, y: 0.06, scale: 0.78, z: 40, brightness: 0.62 },
-    2: { x: 1.08, y: 0.12, scale: 0.6, z: 30, brightness: 0.4 },
-    3: { x: 1.36, y: 0.16, scale: 0.46, z: 20, brightness: 0.2 },
+    0: { x: 0, y: 0, scale: 1, z: 50, veil: 0 },
+    1: { x: 0.62, y: 0.06, scale: 0.78, z: 40, veil: 0.3 },
+    2: { x: 1.08, y: 0.12, scale: 0.6, z: 30, veil: 0.58 },
+    3: { x: 1.36, y: 0.16, scale: 0.46, z: 20, veil: 0.85 },
 };
+// Cards behind the front fade into the section's off-white rather than
+// darkening — the brand has no black — and each picture drifts the other way
+// inside its frame as the card travels, so the stack reads in depth.
 // Landscape cards: half the sideways step, a little more drop, so the wide
 // pictures still stack into a pyramid inside the screen.
 const WIDE = {
-    0: { x: 0, y: 0, scale: 1, z: 50, brightness: 1 },
-    1: { x: 0.36, y: 0.1, scale: 0.8, z: 40, brightness: 0.6 },
-    2: { x: 0.64, y: 0.2, scale: 0.62, z: 30, brightness: 0.38 },
-    3: { x: 0.84, y: 0.28, scale: 0.48, z: 20, brightness: 0.2 },
+    0: { x: 0, y: 0, scale: 1, z: 50, veil: 0 },
+    1: { x: 0.36, y: 0.1, scale: 0.8, z: 40, veil: 0.3 },
+    2: { x: 0.64, y: 0.2, scale: 0.62, z: 30, veil: 0.58 },
+    3: { x: 0.84, y: 0.28, scale: 0.48, z: 20, veil: 0.85 },
 };
 let SLOTS = TALL;
 
@@ -47,6 +50,12 @@ export function initProjectStack() {
     const category = root.querySelector('[data-pstack-category]');
     const location = root.querySelector('[data-pstack-location]');
     const caption = root.querySelector('.pstack__caption');
+    const meta = root.querySelector('.pstack__meta');
+    const count = root.querySelector('[data-pstack-count]');
+    const fill = root.querySelector('[data-pstack-fill]');
+    const veils = cards.map((card) => card.querySelector('.pstack__veil'));
+    const pics = cards.map((card) => card.querySelector('img'));
+    const pad = (k) => String(k + 1).padStart(2, '0');
 
     let front = 0;
     const reduced = prefersReducedMotion();
@@ -72,10 +81,11 @@ export function initProjectStack() {
                 scale: s.scale,
                 zIndex: s.z,
                 opacity: hidden ? 0 : 1,
-                filter: `brightness(${s.brightness})`,
                 rotationY: -Math.sign(d) * Math.min(a, 2) * 6,
             };
             card.classList.toggle('is-front', d === 0);
+            gsap.set(veils[i], { opacity: s.veil });
+            gsap.set(pics[i], { xPercent: Math.max(-2, Math.min(2, d)) * -3 });
             card.setAttribute('aria-hidden', hidden ? 'true' : 'false');
             if (animate && !reduced) {
                 gsap.to(card, { ...vars, duration: 1, ease: 'expo.inOut', overwrite: true });
@@ -86,6 +96,8 @@ export function initProjectStack() {
 
         const card = cards[front];
         const write = () => {
+            count.textContent = pad(front);
+            gsap.set(fill, { scaleX: n > 1 ? front / (n - 1) : 1 });
             title.textContent = card.dataset.title;
             category.textContent = card.dataset.category;
             location.textContent = card.dataset.location || '';
@@ -138,7 +150,7 @@ export function initProjectStack() {
                 x: lerp(lo.x, hi.x, t),
                 y: lerp(lo.y, hi.y, t),
                 scale: lerp(lo.scale, hi.scale, t),
-                brightness: lerp(lo.brightness, hi.brightness, t),
+                veil: lerp(lo.veil, hi.veil, t),
             };
         };
         let shown = -1;
@@ -154,20 +166,25 @@ export function initProjectStack() {
                     scale: s.scale,
                     zIndex: Math.round(50 - a * 10),
                     opacity: a > 2.6 ? Math.max(0, 1 - (a - 2.6) * 2.5) : 1,
-                    filter: `brightness(${s.brightness})`,
                     rotationY: -Math.sign(d) * Math.min(a, 2) * 6,
                 });
+                gsap.set(veils[i], { opacity: s.veil });
+                gsap.set(pics[i], { xPercent: Math.max(-2, Math.min(2, d)) * -3 });
                 card.classList.toggle('is-front', a < 0.5);
             });
+            gsap.set(fill, { scaleX: f / (n - 1) });
             const i = Math.round(f);
             if (i !== shown) {
                 shown = i;
                 front = i;
                 const card = cards[i];
+                count.textContent = pad(i);
                 title.textContent = card.dataset.title;
                 category.textContent = card.dataset.category;
                 location.textContent = card.dataset.location || '';
-                gsap.fromTo(caption, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'expo.out', overwrite: true });
+                // The title rises into its line as a mask; the meta follows it in.
+                gsap.fromTo(title, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: 'expo.out', overwrite: true });
+                gsap.fromTo(meta, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.08, ease: 'expo.out', overwrite: true });
             }
         };
 
@@ -184,6 +201,15 @@ export function initProjectStack() {
             onRefresh: (self) => scrub(self.progress * (n - 1)),
         });
         scrub(0);
+
+        // On the way in, before the pin: the stack rises out of the page and
+        // opens to its full size, so the section arrives rather than appears.
+        gsap.fromTo(root.querySelector('.pstack__stage'),
+            { y: () => window.innerHeight * 0.18, scale: 0.86, opacity: 0.2 },
+            {
+                y: 0, scale: 1, opacity: 1, ease: 'none',
+                scrollTrigger: { trigger: section, start: 'top bottom', end: 'top top', scrub: 0.6, invalidateOnRefresh: true },
+            });
 
         // This pin is made after the scenes below it (the sectors pin among
         // them), which measured their starts without its scroll in the page.

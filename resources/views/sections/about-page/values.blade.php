@@ -34,7 +34,6 @@
          class="absolute inset-0 -z-10 h-full w-full object-cover">
     {{-- The photo is bright enough in places to lose white text, so it is sat
          under a flat scrim rather than trusted as-is. --}}
-    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-black/55"></div>
 
     {{-- 1fr_auto_1fr, not three equal thirds: the sentence is wider than a
          third of the page and would wrap, and the design runs it across the
@@ -68,7 +67,7 @@
                  hovered, so this is the same white carried further, not a tint
                  of another colour. Colour only — the row must not move, or the
                  four would jostle each other as the pointer runs down. --}}
-            <li class="reveal group flex min-h-[120px] items-stretch overflow-hidden bg-white/12 backdrop-blur-md hover:bg-white/55"
+            <li class="reveal group flex min-h-[120px] items-stretch overflow-hidden bg-white/12 hover:bg-white/55"
                 style="transition-delay:{{ $i * 100 }}ms">
                 <span aria-hidden="true"
                       class="grid w-[50px] shrink-0 place-items-center bg-teal/90 text-fluid-sm font-medium text-white">
