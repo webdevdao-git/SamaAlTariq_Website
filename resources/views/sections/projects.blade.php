@@ -25,10 +25,14 @@
         })
         ->values();
 
-    // The featured few, in their listed order.
+    // The featured few, in their listed order, each on its chosen photograph.
     $featured = $projects['featured'] ?? [];
     $stage = collect($featured)
-        ->map(fn ($slug) => $all->first(fn ($item) => str_ends_with($item['href'], '/' . $slug)))
+        ->map(function ($image, $slug) use ($all) {
+            $item = $all->first(fn ($item) => str_ends_with($item['href'], '/' . $slug));
+
+            return $item ? ['src' => \App\Support\Asset::versioned($image)] + $item : null;
+        })
         ->filter()
         ->values();
     if ($stage->isEmpty()) {

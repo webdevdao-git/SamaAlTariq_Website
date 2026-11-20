@@ -223,8 +223,8 @@ return [
             'body' => 'Every project starts with the drawings, the BOQ and a site survey. Ceilings, joinery and MEP are coordinated on paper first, so on site every trade fits together and the finish is right the first time.',
             'cta' => ['label' => 'Explore Projects', 'href' => '/projects'],
             'images' => [
-                'main' => ['src' => 'images/about/approach-villa.webp', 'alt' => 'Villa entrance under an open sky'],
-                'left' => ['src' => 'images/about/approach-joinery.webp', 'alt' => 'Timber joinery wall and lit reveal'],
+                'main' => ['src' => 'images/projects/i-rise-tower-office/hero.webp', 'alt' => 'Timber-lined reception under a sculpted pendant at I-Rise Tower'],
+                'left' => ['src' => 'images/projects/boulevard-plaza-office/l7.webp', 'alt' => 'Meeting room under a lit gypsum cove ceiling at Boulevard Plaza'],
                 'right' => ['src' => 'images/about/approach-stair.webp', 'alt' => 'Stone stair with a glass balustrade'],
             ],
         ],
@@ -1035,13 +1035,13 @@ return [
             'body' => 'Explore selected interiors and joinery works where material, craftsmanship, and execution come together to shape the finished environment.',
             'tiles' => [
                 [
-                    'image' => 'images/joinery/context-1.webp',
-                    'project' => 'fidelity-gym-jlt',
-                    'title' => 'Fidelity Gym, JLT',
-                    'category' => 'Fitness & Wellness',
+                    'image' => 'images/projects/emirates-hills-villa/l9.webp',
+                    'project' => 'emirates-hills-villa',
+                    'title' => 'Emirates Hills Villa',
+                    'category' => 'Luxury Residential',
                 ],
                 [
-                    'image' => 'images/joinery/context-2.webp',
+                    'image' => 'images/projects/jumeirah-island-villa/hero-3.webp',
                     'project' => 'jumeirah-island-villa',
                     'title' => 'Jumeirah Island Villa',
                     'category' => 'Luxury Residential',
@@ -1302,15 +1302,20 @@ return [
          * the way through; the rest are on the projects page. Slugs, as on
          * the projects page.
          */
+        /*
+         * Slug => the photograph its card shows, kept in images/featured/:
+         * one file per project, named by its slug, so a card's picture is
+         * changed by replacing that file. Landscape, 16:9 or close to it.
+         */
         'featured' => [
-            'jumeirah-golf-estate-villas',
-            'emirates-hills-villa',
-            'wasl-properties-hq',
-            'benjarong-dusit-thani',
-            'villa-pv39-tilal-al-ghaf',
-            'fidelity-gym-jlt',
-            'boulevard-plaza-office',
-            'pullman',
+            'jumeirah-golf-estate-villas' => 'images/featured/jumeirah-golf-estate-villas.webp',
+            'emirates-hills-villa' => 'images/featured/emirates-hills-villa.webp',
+            'wasl-properties-hq' => 'images/featured/wasl-properties-hq.webp',
+            'benjarong-dusit-thani' => 'images/featured/benjarong-dusit-thani.webp',
+            'villa-pv39-tilal-al-ghaf' => 'images/featured/villa-pv39-tilal-al-ghaf.webp',
+            'fidelity-gym-jlt' => 'images/featured/fidelity-gym-jlt.webp',
+            'boulevard-plaza-office' => 'images/featured/boulevard-plaza-office.webp',
+            'pullman' => 'images/featured/pullman.webp',
         ],
         'items' => [
             [
