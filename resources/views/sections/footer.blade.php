@@ -91,8 +91,10 @@
                 <p class="text-fluid-sm font-medium text-white/60">{{ $footer['columns']['address'] }}</p>
 
                 @if ($contact['address'])
-                    <p class="max-w-[291px] text-fluid-sm leading-[1.6] font-medium">{{ $contact['address'] }}</p>
+                    <a href="{{ $contact['map'] }}" target="_blank" rel="noopener"
+                       class="max-w-[291px] text-fluid-sm leading-[1.6] font-medium transition-opacity hover:opacity-70">{{ $contact['address'] }}</a>
                 @endif
+                <p class="max-w-[291px] text-fluid-sm leading-[1.6] text-white/60">{{ config('site.licence') }}</p>
             </div>
 
             {{-- Socials, in a row. Icons carry no text, so each link needs an

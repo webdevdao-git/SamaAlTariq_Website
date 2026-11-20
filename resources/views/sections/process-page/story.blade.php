@@ -7,7 +7,9 @@
         'phase-2' => 'images/projects/fidelity-gym-jlt/hero-2.webp',
         'phase-3' => 'images/workers/work-19.webp',
         'phase-4' => 'images/projects/villa-b200-tilal-al-ghaf/hero-4.webp',
+        'hse' => 'images/projects/dubai-hills-business-park/hero-3.webp',
     ];
+    $hse = config('site.process_page.hse');
 @endphp
 
 {{--
@@ -35,11 +37,36 @@
                     </li>
                 @endforeach
             </ol>
-            @if ($loop->last)
-                <a href="{{ route('contact') }}" class="pill group reveal mt-[clamp(1rem,1.8vw,26px)]">
-                    Start Your Project <x-icon name="arrow-pill" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
-                </a>
-            @endif
         </section>
     @endforeach
+
+    {{-- Health and safety, from the profile's HSE pages: the commitment, its
+         four pillars, and the aims every site is run to. --}}
+    <x-story-win key="hse" :eyebrow="$hse['label']" :title="$hse['heading']"/>
+
+    <section class="story__card">
+        <div class="story__head">
+            <h3 class="story__big display">{{ $hse['commitment'] }}</h3>
+            <div class="story__head-side">
+                <p class="story__body reveal">{{ $hse['body'] }}</p>
+            </div>
+        </div>
+        <ol class="story__steps">
+            @foreach ($hse['pillars'] as $n => $item)
+                <li class="reveal" style="transition-delay:{{ $n * 80 }}ms">
+                    <span>{{ str_pad($n + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    <h4>{{ $item['title'] }}</h4>
+                    <p>{{ $item['body'] }}</p>
+                </li>
+            @endforeach
+        </ol>
+        <ul class="story__chips story__chips--plain reveal">
+            @foreach ($hse['aims'] as $aim)
+                <li>{{ $aim }}</li>
+            @endforeach
+        </ul>
+        <a href="{{ route('contact') }}" class="pill group reveal mt-[clamp(1rem,1.8vw,26px)]">
+            Start Your Project <x-icon name="arrow-pill" class="transition-transform duration-300 group-hover:translate-x-0.5"/>
+        </a>
+    </section>
 </x-story>

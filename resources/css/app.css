@@ -6445,3 +6445,28 @@
         background: transparent;
     }
 }
+
+/* A long list of chips where no one item leads: the HSE aims. Left out on
+   phones, like the other secondary detail, so the card still fits a screen. */
+@layer components {
+    .story__chips--plain li:first-child {
+        background: none;
+        color: inherit;
+    }
+
+    @media (max-width: 899px) {
+        .story__chips--plain {
+            display: none;
+        }
+    }
+}
+
+/* The workshop grid with its figures above it: on a short laptop screen the
+   tiles go square so the card still fits the screen. */
+@layer components {
+    @media (min-width: 900px) and (max-height: 820px) {
+        .story__crew--6 li {
+            aspect-ratio: 1 / 1;
+        }
+    }
+}

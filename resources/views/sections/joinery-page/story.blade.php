@@ -59,9 +59,17 @@
         <div class="story__head">
             <h3 class="story__big display">Every piece is drawn, cut, finished and fitted by one team.</h3>
             <div class="story__head-side">
-                <p class="story__body reveal">Wardrobes, kitchens, panelling and curved feature walls come out of our own workshop and are installed by the same people who made them.</p>
+                <p class="story__body reveal">{{ $page['workshop']['body'] }}</p>
             </div>
         </div>
+        <dl class="story__stats">
+            @foreach ($page['workshop']['stats'] as $stat)
+                <div class="reveal">
+                    <dd>{{ $stat['value'] }}</dd>
+                    <dt>{{ $stat['label'] }}</dt>
+                </div>
+            @endforeach
+        </dl>
         <ul class="story__crew story__crew--6">
             @foreach ($workshop as $photo)
                 <li class="reveal {{ ($photo['wide'] ?? false) ? 'is-wide' : '' }}" style="transition-delay:{{ ($loop->index % 5) * 70 }}ms">

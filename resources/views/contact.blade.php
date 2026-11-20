@@ -94,6 +94,7 @@
                                         <dd class="text-[clamp(0.8125rem,0.95vw,16px)] font-medium text-ink">
                                             @if ($detail['href'])
                                                 <a href="{{ $detail['href'] }}"
+                                                   @if (str_starts_with($detail['href'], 'http')) target="_blank" rel="noopener" @endif
                                                    class="inline-block py-[11px] -my-[11px] transition-opacity hover:opacity-70">{{ $detail['value'] }}</a>
                                             @else
                                                 {{ $detail['value'] }}

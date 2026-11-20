@@ -12,6 +12,7 @@
 <x-story :bgs="[
     'intro' => 'images/projects/jumeirah-golf-estate-villas/hero-2.webp',
     'vision' => 'images/projects/jumeirah-island-villa/hero.webp',
+    'group' => 'images/projects/w-residence-palm-jumeirah/hero-2.webp',
     'approach' => 'images/projects/boulevard-plaza-office/hero.webp',
 ]">
     <x-story-win key="intro" eyebrow="Who We Are" :title="['One Contractor,', 'Every Interior Trade']"/>
@@ -22,6 +23,7 @@
                 <p class="story__label reveal">{{ $page['intro']['lead'] }}</p>
                 <h3 class="story__heading display reveal mt-2">An interior fit-out company, based in Dubai.</h3>
                 <p class="story__body reveal">{{ $page['intro']['body'] }}</p>
+                <p class="story__body reveal">{{ $page['intro']['result'] }}</p>
             </div>
             <figure class="story__pic">
                 <img src="{{ $img($page['intro']['image']) }}" alt="{{ $page['intro']['alt'] }}" loading="lazy" decoding="async">
@@ -52,6 +54,32 @@
                 </a>
             </div>
         </div>
+        <ol class="story__steps story__steps--3">
+            @foreach ($page['vision']['principles'] as $n => $item)
+                <li class="reveal" style="transition-delay:{{ ($n % 3) * 80 }}ms">
+                    <span>{{ str_pad($n + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    <h4>{{ $item['title'] }}</h4>
+                    <p>{{ $item['body'] }}</p>
+                </li>
+            @endforeach
+        </ol>
+    </section>
+
+    <x-story-win key="group" :eyebrow="$page['group']['label']" :title="$page['group']['heading']"/>
+
+    <section class="story__card">
+        <div class="story__head">
+            <h3 class="story__big display">One group, so the fit-out, the joinery and the MEP answer to one programme.</h3>
+        </div>
+        <ol class="story__steps story__steps--3">
+            @foreach ($page['group']['companies'] as $n => $company)
+                <li class="reveal" style="transition-delay:{{ $n * 80 }}ms">
+                    <span>{{ $company['sub'] }}</span>
+                    <h4>{{ $company['name'] }}</h4>
+                    <p>{{ $company['body'] }}</p>
+                </li>
+            @endforeach
+        </ol>
     </section>
 
     <x-story-win key="approach" :eyebrow="$page['approach']['label']" :title="['Planned Before', 'The First Ceiling']"/>

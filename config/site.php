@@ -13,6 +13,9 @@ return [
 
     'name' => 'Sama Al Tariq',
     'legal_name' => 'Sama Al Tariq Building Contracting L.L.C.',
+
+    // The business profile's Licences & Certifications page.
+    'licence' => 'Fully licensed by the Government of Dubai. Trade Licence No. 1145459',
     'tagline' => 'Building Contracting LLC.',
     'copyright' => '© 2026 Sama Al Tariq Building Contracting L.L.C.',
 
@@ -113,7 +116,7 @@ return [
         'alt' => 'Curved timber-ribbed interior with a sculpted lounge chair',
         'subheading' => ['Shell To Handover,', 'One Team'],
         'body' => [
-            'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 200 of our own people do the work, without subcontracting.',
+            'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 250 of our own people do the work, without subcontracting.',
             'Our joinery is made in our own workshop, Alwan Interiors. After handover, our AMC team keeps the space in the condition we handed it over in.',
         ],
         'stats' => [
@@ -176,7 +179,8 @@ return [
         // set in the semibold cut, as in the design.
         'intro' => [
             'lead' => 'Sama Al Tariq Building Contracting L.L.C.',
-            'body' => 'is a Dubai-based interior fit-out company. Our own teams handle gypsum ceilings and partitions, finishing, joinery and MEP for villas, apartments, hotels, restaurants, offices, gyms and clinics. We cover every stage, from the first drawing and BOQ to handover and maintenance.',
+            'body' => 'is a Dubai-based fit-out group, established in 2023, working across luxury residential, hospitality, corporate, retail, healthcare and government spaces. Gypsum ceilings and partitions, finishes, bespoke joinery and full MEP are coordinated in house and managed by one dedicated project lead per project. Engineers, designers, quantity surveyors and site teams work to a single programme, with material submittals, mock-ups and inspections documented at every stage.',
+            'result' => 'The result is a finished space that performs as well as it looks, handed over on schedule and supported through its defects liability period.',
             'image' => 'images/about/intro-stair.webp',
             'alt' => 'Curved stone staircase in a sunlit hall',
         ],
@@ -185,7 +189,16 @@ return [
         // Its heading is set in the sans, not the display serif.
         'vision' => [
             'heading' => ['One vision,', 'brought together under one roof.'],
-            'body' => 'From the first drawing to the final handover, one team runs the whole interior. You deal with one programme, one project lead and one contract.',
+            'body' => 'To be the UAE\'s most trusted partner for luxury fit-out, bespoke joinery and integrated MEP, building functional, elegant and future-ready spaces across residential, commercial, hospitality and luxury developments throughout the Emirates.',
+            // The six words of the profile's approach, in its order.
+            'principles' => [
+                ['title' => 'Focus', 'body' => 'Listen first, price second. We understand the brief before we quote.'],
+                ['title' => 'Experience', 'body' => 'UAE-tested, code-compliant and value-engineered from day one.'],
+                ['title' => 'Involve', 'body' => 'One team, one PM, tender to DLP.'],
+                ['title' => 'Express', 'body' => 'Drawings that build, fully coordinated and ready for site.'],
+                ['title' => 'Dissect', 'body' => 'BOQ, method statements and ITPs, itemised in full.'],
+                ['title' => 'Execute', 'body' => 'On spec, on programme, handed over with documentation and warranties.'],
+            ],
             'cta' => ['label' => 'See Our process', 'href' => '/process'],
             'image' => 'images/about/vision-lounge.webp',
             'alt' => 'Living room with a red and black artwork spanning the panelled wall',
@@ -193,6 +206,17 @@ return [
 
         // Frame 1386:621. Label and heading, then a three-image collage with
         // the logo mark centred over it, then copy in the right column.
+        // "Three Companies, One Standard", the profile's group structure.
+        'group' => [
+            'label' => 'Group Structure',
+            'heading' => ['Three Companies,', 'One Standard'],
+            'companies' => [
+                ['name' => 'Sama Al Tariq', 'sub' => 'Building Contracting LLC', 'body' => 'Fit-out, interiors and contracting for commercial, office and residential spaces, including full authority and departmental approvals.'],
+                ['name' => 'Al Wan Al Khashb', 'sub' => 'Alwan Interiors · Interior Design & Decoration', 'body' => 'Interiors and joinery. Bespoke design and custom joinery, crafted around how a space is lived in and worked in.'],
+                ['name' => 'Metro Fit', 'sub' => 'Technical Services LLC', 'body' => 'Mechanical, electrical, plumbing and low-current installation, through to commissioning.'],
+            ],
+        ],
+
         'approach' => [
             'label' => 'Our Approach',
             'heading' => 'We believe great interiors are planned long before the first ceiling goes up.',
@@ -441,11 +465,11 @@ return [
                  * tall as any other tile on the page. Empty, it keeps the
                  * photograph at the size the frame draws it.
                  */
-                'name' => 'Fitness & Spa',
+                'name' => 'Fitness & Wellness',
                 'rows' => [
                     ['columns' => [
                         ['fr' => 772, 'tiles' => [
-                            ['image' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Spa', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
+                            ['image' => 'fidelity-gym-jlt', 'ratio' => '772/727', 'title' => 'Fidelity Gym, JLT', 'category' => 'Fitness & Wellness', 'location' => 'Jumeirah Lake Towers, Dubai', 'size' => '25,425 Sq Ft', 'duration' => '6 Months'],
                         ]],
                         ['fr' => 772, 'tiles' => []],
                     ]],
@@ -735,51 +759,79 @@ return [
                  * fitted, finished. The villa-shell photographs that stood
                  * here showed structural work the company does not lead with.
                  */
-                'title' => ['Tender And', 'Cost Estimation'],
+                'title' => ['Tender And', 'Estimation'],
                 'lead' => 'A structured start built on accuracy, clarity and confidence from the first step.',
                 'image' => 'images/process/phase-interior-1.webp', 'ratio' => '1200 / 867',
                 'items' => [
-                    ['title' => 'Accurate Review', 'body' => 'We review RFQs, drawings and specifications in detail to understand the complete scope and requirements.'],
-                    ['title' => 'Site Visit & Survey', 'body' => 'Thorough site assessment to identify risks, constraints and opportunities for successful delivery.'],
-                    ['title' => 'Price Every Item', 'body' => 'Detailed BOQ analysis with transparent pricing for every item and clear cost breakdown.'],
-                    ['title' => 'Submit With Confidence', 'body' => 'Comprehensive and professional submission that builds trust and improves your win rate.'],
+                    ['title' => 'Tender Review & Site Visit', 'body' => 'Review the RFQ, drawings and specifications. Visit the site, cross-check the scope, and identify risks and clarifications.'],
+                    ['title' => 'Quantity Take-Off & BOQ', 'body' => 'Detailed measurement from drawings, an itemised BOQ, specification checks and wastage allowances.'],
+                    ['title' => 'Technical Proposal', 'body' => 'Method statement, programme schedule, material submittals, mock-up plan and HSE plan.'],
+                    ['title' => 'Commercial Offer', 'body' => 'Rates built up from first principles, risk priced in, payment terms and validity, then final submission.'],
                 ],
             ],
             [
                 'label' => 'Phase 02',
-                'title' => ['Planning AND Shop Drawings'],
+                'title' => ['Engineering AND Pre-Construction'],
                 'lead' => 'The foundation for delivery, set through careful planning and procurement.',
                 'image' => 'images/process/phase-interior-2.webp', 'ratio' => '1200 / 867',
                 'items' => [
-                    ['title' => 'Plan With Precision', 'body' => 'We develop detailed plans and strategies to ensure a smooth project journey.'],
-                    ['title' => 'Coordinate & Validate', 'body' => 'Shop drawings, coordination and approvals to eliminate conflicts early.'],
-                    ['title' => 'Procure Smart', 'body' => 'Right materials, right time. Quality suppliers and best value procurement.'],
-                    ['title' => 'Mobilise For Success', 'body' => 'Efficient site setup and mobilisation to start strong and stay ahead.'],
+                    ['title' => 'Contract & Kick-Off', 'body' => 'Contract signing, project kick-off, team allocation, programme baseline and communications protocol.'],
+                    ['title' => 'Shop Drawings & Approvals', 'body' => 'Shop and MEP coordination drawings, material submittals and mock-ups, through to consultant approval.'],
+                    ['title' => 'Procurement & Fabrication', 'body' => 'Material procurement, supplier coordination, fabrication scheduling and quality checks.'],
+                    ['title' => 'Site Mobilisation', 'body' => 'Site set-up, HSE induction, access and storage, and the work sequence confirmed.'],
                 ],
             ],
             [
                 'label' => 'Phase 03',
-                'title' => ['Fit-Out AND Execution'],
-                'lead' => 'Disciplined site delivery, where the drawings become a finished, working interior.',
+                'title' => ['Fit-Out AND Construction'],
+                'lead' => 'Disciplined execution on site, with quality controlled daily.',
                 'image' => 'images/process/phase-interior-3.webp', 'ratio' => '1200 / 867',
                 'items' => [
-                    ['title' => 'Build With Discipline', 'body' => 'Partitions, ceilings and fit-out works executed to drawing, with setting-out and quality checks at every stage.'],
-                    ['title' => 'Install The Systems', 'body' => 'HVAC, electrical and plumbing installed and cleanly coordinated with the finishes.'],
-                    ['title' => 'Finish To Perfection', 'body' => 'Flooring, ceilings, joinery and decorative finishes delivered to specification.'],
-                    ['title' => 'Control The Quality', 'body' => 'Weekly progress, inspection sign-offs and strict HSE keep delivery on track.'],
+                    ['title' => 'Enabling & Civil Works', 'body' => 'Demolition, blockwork, plastering, screeding, waterproofing and builder\'s work openings.'],
+                    ['title' => 'MEP Coordination', 'body' => 'First-fix containment, penetration sealing, service routing and MEP subcontractor coordination.'],
+                    ['title' => 'Fit-Out Installation', 'body' => 'Drywall partitions, gypsum ceilings, joinery and millwork, and the final finishes.'],
+                    ['title' => 'ITPs & Inspection Requests', 'body' => 'Inspection and test plans followed at every stage, with each inspection request raised, witnessed and signed off.'],
                 ],
             ],
             [
                 'label' => 'Phase 04',
                 'title' => ['Handover AND Defects Liability'],
-                'lead' => 'Final inspections, defect resolution and clean handover with full documentation and warranties.',
+                'lead' => 'Final inspections, defects closed and a clean handover, with full documentation and warranties.',
                 'image' => 'images/process/phase-interior-4.webp', 'ratio' => '1200 / 867',
                 'items' => [
                     ['title' => 'Snag & De-Snag', 'body' => 'Internal snag walks and joint inspections close every punch-list item before sign-off.'],
                     ['title' => 'Test & Commission', 'body' => 'System testing, functional checks and authority approvals confirm performance.'],
-                    ['title' => 'As-Builts & O&M', 'body' => 'As-built drawings, O&M manuals and material warranties handed over in full.'],
-                    ['title' => 'Handover & DLP Support', 'body' => 'Taking-over certificate, defects rectification and ongoing support through the DLP.'],
+                    ['title' => 'As-Builts & O&M', 'body' => 'As-built drawings, O&M manuals, material warranties and maintenance instructions.'],
+                    ['title' => 'Handover & DLP Support', 'body' => 'Taking-over certificate, warranty letter, defects rectification and final account.'],
                 ],
+            ],
+        ],
+
+        'hse' => [
+            'label' => 'Health And Safety',
+            'heading' => ['Safety On', 'Every Site'],
+            'body' => 'Health, safety and environment sit at the centre of how we run every site. A qualified in-house HSE team protects our people, our partners and our clients, on site and off, with systems built to internationally recognised, ISO-aligned standards.',
+            'commitment' => 'A safe, healthy and environmentally responsible workplace on every project, with quality controlled from method statement to final handover.',
+            'pillars' => [
+                ['title' => 'Protecting People', 'body' => 'The safety and wellbeing of every worker, visitor and client.'],
+                ['title' => 'Protecting The Environment', 'body' => 'Responsible use of resources and controlled site waste.'],
+                ['title' => 'Protecting Assets', 'body' => 'Safeguarding the property, equipment and works on every site.'],
+                ['title' => 'Protecting Reputation', 'body' => 'A compliance record clients, consultants and main contractors can rely on.'],
+            ],
+            'aims' => [
+                'Risk Assessment & Method Statements (RAMS)',
+                'Permit To Work',
+                'HSE Induction & Training',
+                'Personal Protective Equipment (PPE)',
+                'Working At Heights',
+                'Electrical Safety',
+                'Security & Lighting',
+                'Heat Stress & Midday Break',
+                'Fire & Hot Works',
+                'Emergency Response Planning',
+                'First Aid At Work',
+                'Incident Reporting & Investigation',
+                'Drugs & Alcohol Policy',
             ],
         ],
 
@@ -873,6 +925,16 @@ return [
                 ['src' => 'images/joinery/bespoke-2.webp', 'alt' => 'A hand planing a length of timber'],
                 ['src' => 'images/joinery/bespoke-3.webp', 'alt' => 'A chisel worked along the edge of a board'],
                 ['src' => 'images/joinery/bespoke-4.webp', 'alt' => 'Sawdust thrown up as a board is cut'],
+            ],
+        ],
+
+        'workshop' => [
+            'body' => 'Our dedicated joinery factory lets us deliver bespoke joinery tailored to the requirements of every project. From custom cabinetry and doors to wall panelling, reception counters and bespoke furniture, we bring design concepts to life through skilled craftsmanship and detailed execution.',
+            'stats' => [
+                ['value' => '10k', 'label' => 'Sq ft workshop'],
+                ['value' => '40+', 'label' => 'Machinery & equipment'],
+                ['value' => '250+', 'label' => 'Skilled workforce'],
+                ['value' => '15k+', 'label' => 'Sq ft a month, production capacity'],
             ],
         ],
 
@@ -976,7 +1038,7 @@ return [
                     'image' => 'images/joinery/context-1.webp',
                     'project' => 'fidelity-gym-jlt',
                     'title' => 'Fidelity Gym, JLT',
-                    'category' => 'Fitness & Spa',
+                    'category' => 'Fitness & Wellness',
                 ],
                 [
                     'image' => 'images/joinery/context-2.webp',
@@ -1165,7 +1227,7 @@ return [
         'details' => [
             ['label' => 'Telephone', 'value' => '+971 54 319 0845', 'href' => 'tel:+971543190845'],
             ['label' => 'Email', 'value' => 'info@samaaltariq.org', 'href' => 'mailto:info@samaaltariq.org'],
-            ['label' => 'Office', 'value' => 'Office 804, Sapphire Tower Dubai, United Arab Emirates', 'href' => null],
+            ['label' => 'Office', 'value' => 'Office 804, Sapphire Tower Dubai, United Arab Emirates', 'href' => 'https://www.google.com/maps/place/Sapphire+Tower,+105+Al+Ittihad+Rd+-+Port+Saeed+-+Deira+-+Dubai/@25.2611884,55.3324561,17z/data=!4m6!3m5!1s0x3e5f5cdcf5703e1f:0xe43b3ab2e5acfa1d!8m2!3d25.2611884!4d55.3324561'],
         ],
     ],
 
@@ -1353,26 +1415,26 @@ return [
         'steps' => [
             [
                 'number' => '01',
-                'title' => 'Tender And Cost Estimation',
+                'title' => 'Tender And Estimation',
                 'body' => 'Accurate cost planning and detailed estimates that establish a strong foundation for every successful project.',
                 'image' => 'images/process/interior-1.webp', 'ratio' => '4 / 3',
             ],
             // PLACEHOLDER steps — only step 01 exists in the Figma file.
             [
                 'number' => '02',
-                'title' => 'Design And Engineering',
-                'body' => 'Detailed drawings, material selection, and value engineering that turn an approved budget into a buildable scheme.',
+                'title' => 'Engineering And Pre-Construction',
+                'body' => 'Shop and MEP coordination drawings, material submittals and mock-ups, procurement and site mobilisation.',
                 'image' => 'images/process/interior-2.webp', 'ratio' => '4 / 3',
             ],
             [
                 'number' => '03',
-                'title' => 'Construction And Fit-Out',
+                'title' => 'Fit-Out And Construction',
                 'body' => 'Coordinated site delivery with dedicated supervision, strict QA checkpoints, and transparent weekly progress reporting.',
                 'image' => 'images/process/interior-3.webp', 'ratio' => '4 / 3',
             ],
             [
                 'number' => '04',
-                'title' => 'Handover And Aftercare',
+                'title' => 'Handover And Defects Liability',
                 'body' => 'Snagging, testing and commissioning, full documentation, and a maintenance period that protects the finished asset.',
                 'image' => 'images/process/interior-4.webp', 'ratio' => '4 / 3',
             ],
@@ -1390,9 +1452,9 @@ return [
         'label' => 'By the Numbers',
         'tagline' => 'One contractor. Every part of the interior.',
         'items' => [
-            ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen in-house'],
+            ['value' => '250+', 'label' => 'Engineers, technicians and craftsmen in-house'],
             ['value' => '12+', 'label' => 'Flagship projects delivered'],
-            ['value' => '250k+', 'label' => 'Meter square designed, built and fitted'],
+            ['value' => '250k+', 'label' => 'Square metres designed, built and fitted'],
             ['value' => '95%', 'label' => 'On-programme handovers'],
             ['value' => '100%', 'label' => 'In-house joinery and MEP coordination'],
             ['value' => '06', 'label' => 'Sectors served in total'],
@@ -1402,7 +1464,7 @@ return [
     /*
      * The Team page, and the band on the landing page that leads to it.
      *
-     * Built on the business profile's own figures (200+ in-house, joinery
+     * Built on the business profile's own figures (250+ in-house, joinery
      * and MEP 100% in-house) and its six scopes, which are the departments.
      * Each department's `roles` is the usual ladder of a contracting team and
      * `structure` how a project is staffed — written to the profile's scopes,
@@ -1414,11 +1476,11 @@ return [
     'team_page' => [
         'label' => 'Our Team',
         'heading' => ['One Team,', 'In House'],
-        'lead' => '200+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
+        'lead' => '250+ engineers, technicians and craftsmen — every scope of the interior under one roof.',
         'body' => 'Interior fit-out, joinery, finishing and MEP are delivered by our own people, not subcontracted. One programme, one project lead and one team carry a project from tender to handover.',
         'image' => 'images/workers/work-17.webp',
         'figures' => [
-            ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen'],
+            ['value' => '250+', 'label' => 'Engineers, technicians and craftsmen'],
             ['value' => '06', 'label' => 'In-house departments'],
             ['value' => '100%', 'label' => 'In-house joinery and MEP'],
         ],
@@ -1561,6 +1623,8 @@ return [
         'email' => env('ENQUIRY_TO', 'info@samaaltariq.org'),
         'phone' => '+971 54 319 0845',
         'address' => 'Office 804, Sapphire Tower Dubai, United Arab Emirates',
+        // Opens the office in Google Maps, from the footer and the Contact page.
+        'map' => 'https://www.google.com/maps/place/Sapphire+Tower,+105+Al+Ittihad+Rd+-+Port+Saeed+-+Deira+-+Dubai/@25.2611884,55.3324561,17z/data=!4m6!3m5!1s0x3e5f5cdcf5703e1f:0xe43b3ab2e5acfa1d!8m2!3d25.2611884!4d55.3324561',
     ],
 
     /*
@@ -1622,13 +1686,13 @@ return [
             'eyebrow' => 'Who We Are',
             'title' => ['Interiors,', 'Built In House'],
             'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
-            'body' => 'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 200 of our own people do the work, without subcontracting.',
+            'body' => 'We take an interior from the bare shell to the day you move in: gypsum ceilings and partitions, flooring, stone, paint, joinery and MEP. More than 250 of our own people do the work, without subcontracting.',
             'image' => 'images/about-interior.webp',
             'image_alt' => 'Curved ribbed wall flowing into the ceiling, finished by Sama Al Tariq',
             'trades' => ['Gypsum & Ceilings', 'Interior Fit-Out', 'Finishing Works', 'Bespoke Joinery', 'MEP', 'AMC'],
             'cta' => ['label' => 'More About Us', 'href' => '/about'],
             'stats' => [
-                ['value' => '200+', 'label' => 'In-house team'],
+                ['value' => '250+', 'label' => 'In-house team'],
                 ['value' => '250k+', 'label' => 'm² finished'],
                 ['value' => '95%', 'label' => 'On-programme handovers'],
                 ['value' => '06', 'label' => 'Sectors served'],
@@ -1694,7 +1758,7 @@ return [
             'bg' => 'images/projects/fidelity-gym-jlt/hero-3.webp',
             'eyebrow' => 'Our People On Site',
             'title' => ['Our Own Hands,', 'On Every Site'],
-            'heading' => ['200+ of our own people.', 'No subcontractors.'],
+            'heading' => ['250+ of our own people.', 'No subcontractors.'],
             'body' => 'Gypsum fixers, carpenters, painters, MEP technicians and site engineers, all employed by Sama Al Tariq. The people who quote your project are the people who build it.',
             // Five trades, one photograph each: a row of tall panels, the one
             // under the pointer opening out (sections/story, .crew-panels).
@@ -1717,7 +1781,7 @@ return [
             'body' => 'Wardrobes, kitchens, wall panelling, curved and ribbed feature walls and furniture, drawn, made and fitted by Alwan Interiors, our own workshop.',
             'image' => 'images/workshop/oak-shelving.webp',
             'cta' => ['label' => 'Explore Joinery', 'href' => '/joinery'],
-            'team' => ['value' => '200+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
+            'team' => ['value' => '250+', 'label' => 'Engineers, technicians and craftsmen, all in house.', 'cta' => ['label' => 'Meet The Team', 'href' => '/team']],
         ],
         'faq_heading' => ['Questions', 'We Get Asked'],
     ],

@@ -22,10 +22,12 @@
         'email' => $email,
         'address' => $office ? [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'Office 804, Sapphire Tower',
+            'streetAddress' => 'Office 804, Sapphire Tower, 105 Al Ittihad Rd, Port Saeed, Deira',
             'addressLocality' => 'Dubai',
             'addressCountry' => 'AE',
         ] : null,
+        'geo' => ['@type' => 'GeoCoordinates', 'latitude' => 25.2611884, 'longitude' => 55.3324561],
+        'hasMap' => $site['contact']['map'] ?? null,
         'areaServed' => ['@type' => 'Country', 'name' => 'United Arab Emirates'],
         'sameAs' => collect($site['social'] ?? [])->pluck('href')->values()->all(),
     ]);

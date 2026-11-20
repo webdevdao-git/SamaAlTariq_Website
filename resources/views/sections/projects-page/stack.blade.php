@@ -51,7 +51,7 @@
     </div>
 
     <div class="pstack__bar shell" aria-hidden="true">
-        <button type="button" class="pstack__nav" data-pstack-prev><x-icon name="arrow-right" class="w-5 rotate-180"/></button>
+        <button type="button" class="pstack__nav" data-pstack-prev aria-label="Previous project"><x-icon name="arrow-right" class="w-5 rotate-180"/></button>
         <div class="pstack__caption">
             <p class="pstack__meta"><span data-pstack-category>{{ $stack[0]['category'] ?? '' }}</span> <span data-pstack-location class="text-ink-muted">{{ $stack[0]['location'] ?? '' }}</span></p>
             <p class="pstack__title display"><span data-pstack-title>{{ $stack[0]['title'] ?? '' }}</span></p>
@@ -61,6 +61,6 @@
                 <span>{{ str_pad(count($stack), 2, '0', STR_PAD_LEFT) }}</span>
             </div>
         </div>
-        <button type="button" class="pstack__nav" data-pstack-next><x-icon name="arrow-right" class="w-5"/></button>
+        <button type="button" class="pstack__nav" data-pstack-next aria-label="Next project"><x-icon name="arrow-right" class="w-5"/></button>
     </div>
 </div>
