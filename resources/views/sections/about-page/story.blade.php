@@ -11,8 +11,8 @@
 --}}
 <x-story :bgs="[
     'intro' => 'images/projects/jumeirah-golf-estate-villas/hero-2.webp',
-    'vision' => 'images/projects/jumeirah-island-villa/hero.webp',
-    'group' => 'images/projects/w-residence-palm-jumeirah/hero-2.webp',
+    'vision' => 'images/projects/jumeirah-golf-estate-villas/l9.webp',
+    'group' => 'images/projects/dubai-hills-business-park/hero-4.webp',
     'approach' => 'images/projects/boulevard-plaza-office/hero.webp',
 ]">
     <x-story-win key="intro" eyebrow="Who We Are" :title="['One Contractor,', 'Every Interior Trade']"/>

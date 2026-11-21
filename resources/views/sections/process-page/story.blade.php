@@ -3,11 +3,11 @@
     $img = fn (string $path) => \App\Support\Asset::versioned($path);
     // A photograph per phase, in page order.
     $bgs = [
-        'phase-1' => 'images/projects/wasl-properties-hq/hero-2.webp',
+        'phase-1' => 'images/projects/boulevard-plaza-office/l8.webp',
         'phase-2' => 'images/projects/fidelity-gym-jlt/hero-2.webp',
-        'phase-3' => 'images/workers/work-19.webp',
-        'phase-4' => 'images/projects/villa-b200-tilal-al-ghaf/hero-4.webp',
-        'hse' => 'images/projects/dubai-hills-business-park/hero-3.webp',
+        'phase-3' => 'images/projects/dubai-hills-business-park/hero-3.webp',
+        'phase-4' => 'images/projects/jumeirah-golf-estate-villas/hero-4.webp',
+        'hse' => 'images/projects/fidelity-gym-jlt/hero-4.webp',
     ];
     $hse = config('site.process_page.hse');
 @endphp

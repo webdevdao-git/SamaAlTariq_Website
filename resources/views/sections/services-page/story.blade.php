@@ -12,8 +12,8 @@
 --}}
 <x-story :bgs="[
     'services' => 'images/projects/dubai-hills-business-park/hero-2.webp',
-    'models' => 'images/projects/villa-b200-tilal-al-ghaf/hero-3.webp',
-    'live' => 'images/projects/benjarong-dusit-thani/hero.webp',
+    'models' => 'images/projects/i-rise-tower-office/hero-2.webp',
+    'live' => 'images/projects/fidelity-gym-jlt/hero.webp',
 ]">
     <x-story-win key="services" :eyebrow="$page['intro']['label']" :title="['Every Interior Trade,', 'In House']"/>
 

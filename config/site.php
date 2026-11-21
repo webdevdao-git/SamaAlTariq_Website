@@ -716,7 +716,7 @@ return [
             ],
             'tiles' => 9,
             'hero' => 4,
-            'gallery' => [5, 6, 7, 8, 9, 10, 11, 12, 13],
+            'gallery' => [5, 6, 7, 8, 9, 10],
             'related' => ['benjarong-dusit-thani', 'wasl-properties-hq', 'boulevard-plaza-office', 'jumeirah-golf-estate-villas'],
         ],
     ],
@@ -1687,7 +1687,7 @@ return [
      */
     'story' => [
         'about' => [
-            'bg' => 'images/projects/emirates-hills-villa/hero.webp',
+            'bg' => 'images/projects/jumeirah-golf-estate-villas/hero-3.webp',
             'eyebrow' => 'Who We Are',
             'title' => ['Interiors,', 'Built In House'],
             'heading' => 'Sama Al Tariq is an interior fit-out contractor in Dubai.',
@@ -1736,7 +1736,7 @@ return [
             'pick' => [4, 0, 1, 2, 3, 5, 6, 7],
         ],
         'work' => [
-            'bg' => 'images/projects/pullman/hero.webp',
+            'bg' => 'images/projects/boulevard-plaza-office/hero-2.webp',
             'eyebrow' => 'How We Work',
             'title' => ['One Team,', 'Shell To Handover'],
             'heading' => ['Two Ways', 'To Work With Us'],
@@ -1779,7 +1779,7 @@ return [
             'cta' => ['label' => 'Meet The Team', 'href' => '/team'],
         ],
         'alwan' => [
-            'bg' => 'images/projects/villa-pv39-tilal-al-ghaf/hero-3.webp',
+            'bg' => 'images/projects/jumeirah-golf-estate-villas/l8.webp',
             'eyebrow' => 'Our Joinery Workshop',
             'title' => ['Alwan', 'Interiors'],
             'heading' => 'Joinery made by our own hands.',
